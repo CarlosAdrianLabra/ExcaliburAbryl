@@ -1,12 +1,11 @@
-"""
 
 """
-
+"""
 
 from pathlib import Path
+from unipath import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-from unipath import Path
 BASE_DIR = Path(__file__).ancestor(3)
 
 
@@ -16,7 +15,7 @@ BASE_DIR = Path(__file__).ancestor(3)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '1jv&xpv3a)0g85e4nk%+rq6+j!a*-8hksqu41pnl+a+_q+7v*+'
 
-
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,9 +23,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # apps de terceros
-
+    
     # apps locales
+    'applications.inventarios',
+    
+    # apps terceros
+
 ]
 
 MIDDLEWARE = [
@@ -76,7 +78,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
