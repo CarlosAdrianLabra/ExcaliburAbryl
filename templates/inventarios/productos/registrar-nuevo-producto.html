@@ -1,123 +1,64 @@
-{% extends '../../common/base.html' %}
+{% extends 'common/base.html' %}
 {% load static %}
 
 {% block titulo %}<title>Registrar nuevo producto</title>{% endblock titulo %}
 
-{% block Sidebarcontent %}
-<!-- Sidebar Menu -->
-<nav class="mt-2">
-  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-      <!-- Add icons to the links using the .nav-icon class
-          with font-awesome or any other icon font library -->
-      <li class="nav-item menu-open">
-      <a href="#" class="nav-link active">
-          <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-              Productos
-              <i class="right fas fa-angle-left"></i>
-              </p>
-      </a>
-      <ul class="nav nav-treeview">
-          <li class="nav-item">
-              <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Crear producto</p>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Actualizar producto</p>
-              </a>
-          </li>
-      </ul>
-      </li>
-      <li class="nav-item">
-          <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>Almacenes <span class="right badge badge-danger">Nuevo</span></p>
-          </a>
-      </li>
-  </ul>
-</nav>
-<!-- /.sidebar-menu -->
-{% endblock Sidebarcontent %}
+{% block sidebarlinks %}
+{% include 'inventarios/productos/common/links.html' %}
+{% endblock sidebarlinks %}
 
-{% block MainContent %}
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
 
-
-      <!-- Content Header (Page header) -->
-      <div class="content-header">
-          <div class="container-fluid">
-              <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">INVENTARIO</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                      <li class="breadcrumb-item"><a href="#">Home</a></li>
-                      <li class="breadcrumb-item active">Inventario</li>
-                    </ol>
-                </div><!-- /.col -->
-              </div><!-- /.row -->
-          </div><!-- /.container-fluid -->
-      </div>
-      <!-- /.content-header -->
-
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6"><h1 class="m-0">REGISTRO</h1></div>
+            </div>
+        </div>
+    </div>
+    <!-- /.content-header -->
 
     <!-- Main content -->
     <div class="content">
-      <div class="container-fluid">
+        <div class="container-fluid">
 
+            <!-- Row Content -->
+            <div class="row">
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                  <div class="card-header">
-                      <h5 class="m-0">Registrar nuevo producto</h5>
-                  </div>
-                  <div class="card-body">
-                      <h6 class="card-title">Datos</h6>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header"><h5 class="m-0">Registrar nuevo producto</h5></div>
 
-                      <p class="card-text">
-                          <form method="POST">{% csrf_token %}
-                              <p>Nombre: {{form.nombreP}}</p>
-                              <p>Cantidad: {{form.cantidadP}}</p>
-                              <p>Precio: {{form.precioP}}</p>
-                              <p>Marca: {{form.marcaP}}</p>
+                        <div class="card-body">
+                            <h6 class="card-title">Datos</h6>
 
-                              <button type="submit" class="btn btn-primary">Enviar</button>
-                          </form>
+                            <p class="card-text">
+                                <form method="POST"> {% csrf_token %}
+                                    <p>Nombre: {{form.nombreP}}</p>
+                                    <p>Cantidad: {{form.cantidadP}}</p>
+                                    <p>Precio: {{form.precioP}}</p>
+                                    <p>Marca: {{form.marcaP}}</p>
 
-                          <p class="m-4">
-                            <a href="http://127.0.0.1:8000/admin/inventarios/productos/" target="_blank">Ver inventario Admin</a>
-                          </p>
-                      </p>
-                    
-                  </div>
-                </div>        
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
+                                </form>
+
+                                <p class="m-4"><a href="http://127.0.0.1:8000/admin/inventarios/productos/" target="_blank">Ver inventario Admin</a></p>
+                            </p>
+                            
+                        </div>
+                    </div>        
+                </div>
+
             </div>
-        </div>
-        
+            <!-- ./row content -->
 
-      </div><!-- /.container-fluid -->
+        </div>
     </div>
     <!-- /.content -->
 
-
-  </div>
-  <!-- /.content-wrapper -->
-{% endblock MainContent %}
-
-
-
-
-
-
-
-
-
-
-
+</div>
+<!-- /.content-wrapper -->
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block titulo %}<title>Inventario</title>{% endblock titulo %}
+
+{% block sidebarlinks %}
+{% include 'inventarios/productos/common/links.html' %}
+{% endblock sidebarlinks %}
+
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6"><h1 class="m-0">INVENTARIO</h1></div>
+            </div>
+        </div>
+    </div>
+    <!-- /.content-header -->
+    
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+        
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="m-0">Página Principal</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Página de bienvenida
+                            </p>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+{% endblock content %}

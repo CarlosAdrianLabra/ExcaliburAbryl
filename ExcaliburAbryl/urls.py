@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -25,6 +26,6 @@ urlpatterns = [
     #URLS - APPLICATIONS.INVENTARIOS
     re_path('', include('applications.inventarios.urls')),
 
-    #URLS - APPLICATIONS.INVENTARIOS
+    #URLS - APPLICATIONS.VENTAS
 
 ]

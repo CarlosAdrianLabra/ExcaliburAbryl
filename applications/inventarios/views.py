@@ -1,5 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import (
+    CreateView,
+    TemplateView
+    )
 from django.urls import reverse_lazy
 
 # Import
@@ -12,4 +15,8 @@ class NuevoProducto(CreateView):
     model = Productos
     form_class = NProductos
 
-    success_url = reverse_lazy('inventarios_app:rnp')
+    success_url = reverse_lazy('inventarios:registro_producto')
+
+
+class PaginaPrincipal(TemplateView):
+    template_name = 'inventarios/productos/principal.html'
