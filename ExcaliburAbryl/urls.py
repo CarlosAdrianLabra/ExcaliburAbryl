@@ -16,8 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 
+# Import views
+from . import views
+
 
 urlpatterns = [
+    path('', views.PaginaInicio.as_view(), name='inicio'),
     path('admin/', admin.site.urls),
 
     #URLS - APPLICATIONS.CONTABILIDAD
