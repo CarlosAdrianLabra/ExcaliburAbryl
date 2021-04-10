@@ -15,14 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 # Import views
 from . import views
 
+name_app = 'abryl'
 
 urlpatterns = [
-    path('', views.PaginaInicio.as_view(), name='inicio'),
     path('admin/', admin.site.urls),
+    path('', views.PaginaInicio.as_view(), name='inicio'),
 
     #URLS - APPLICATIONS.CONTABILIDAD
 
@@ -32,4 +35,4 @@ urlpatterns = [
 
     #URLS - APPLICATIONS.VENTAS
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

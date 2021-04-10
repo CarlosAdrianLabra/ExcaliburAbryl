@@ -1,0 +1,11 @@
+
+<ul>
+    <li>Id: {{ productos.id }}</li>
+    <li>Nombre: {{ productos.nombreP }}</li>
+    <li>Cantidad: {{ productos.cantidadP }}</li>
+    <li>Precio: {{ productos.precioP }}</li>
+    <li>Marca: {{ productos.marcaP }}</li>
+    <li>Modelo: {{ productos.modeloP }}</li>
+    <li>Imagen: <img src="http://127.0.0.1:8000/media/{{ productos.imagenP }}"></li>
+</ul>
+<a href="{% url 'inventarios:inventario_productos' %}">Regresar</a>

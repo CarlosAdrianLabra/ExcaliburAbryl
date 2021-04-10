@@ -1,0 +1,76 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block titulo %}<title>Inventario - Registrar Producto</title>{% endblock titulo %}
+
+{% block sidebarlinks %}
+{% include 'inventarios/productos/common/links.html' %}
+{% endblock sidebarlinks %}
+
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6"><h1 class="m-0">REGISTRO</h1></div>
+            </div>
+        </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <!-- Row Content -->
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <div class="card">
+                        
+                        <div class="card-header"><h5 class="m-0">Registrar nuevo producto</h5></div>
+                        <!-- form start -->
+                        <form class="form-horizontal" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <h6 class="col-sm-3">Información de producto:</h6>
+                                    <h6 class="col-sm-3">Información de stock:</h6>
+                                    <h6 class="col-sm-4">Foto de referencia:</h6>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-1 col-form-label">Nombre:</label><div class="col-sm-2">{{form.nombreP}}</div>
+                                    <label class="col-sm-1 col-form-label">Stock:</label><div class="col-sm-2">{{form.cantidadP}}</div>
+                                    <label class="col-sm-1 col-form-label">imagen:</label><div class="col-sm-2">{{form.imagenP}}</div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-1 col-form-label">Marca:</label><div class="col-sm-2">{{form.marcaP}}</div>
+                                    <label class="col-sm-1 col-form-label">Precio:</label><div class="col-sm-2">{{form.precioP}}</div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-1 col-form-label">Modelo:</label><div class="col-sm-2">{{form.modeloP}}</div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="form-group row m-4">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-arrow-right"></i><span style="margin-left: 10px;">Crear</span></button>
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
+
+                    </div>        
+                </div>
+
+            </div>
+            <!-- ./row content -->
+
+        </div>
+    </div>
+    <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+{% endblock content %}

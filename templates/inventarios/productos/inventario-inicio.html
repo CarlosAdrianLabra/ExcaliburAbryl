@@ -1,7 +1,7 @@
 {% extends 'common/base.html' %}
 {% load static %}
 
-{% block titulo %}<title>Inventario</title>{% endblock titulo %}
+{% block titulo %}<title>Inventario - Inicio</title>{% endblock titulo %}
 
 {% block sidebarlinks %}
 {% include 'inventarios/productos/common/links.html' %}
@@ -24,22 +24,25 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-        
+                
+            <!-- Row Content -->
             <div class="row">
+
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h5 class="m-0">Página Principal</h5>
-                        </div>
+                        <div class="card-header"><h5 class="m-0">Página principal</h5></div>
+
                         <div class="card-body">
                             <p class="card-text">
-                                Página de bienvenida
+                                Mensaje de bienvenida
                             </p>
                         </div>
                     </div>        
                 </div>
-            </div>
 
+            </div>
+            <!-- ./row content -->
+                
         </div>
     </div>
     <!-- /.content -->

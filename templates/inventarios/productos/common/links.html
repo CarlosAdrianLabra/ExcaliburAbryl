@@ -25,40 +25,35 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                <li class="nav-item menu">
+                <li class="nav-item menu-open">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i><p>Productos<i class="right fas fa-angle-left"></i></p>
+                        <i class="nav-icon fas fa-tachometer-alt"></i><p>Inventario<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/registrar-nuevo-producto" class="nav-link">
+                            <a href="{% url 'inventarios:registrar_productos' %}" class="nav-link">
                                 <i class="far nav-icon"></i>
-                                <p>Crear producto <span class="right badge badge-danger">Sirve</span></p>
+                                <p>Registrar Producto</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'inventarios:administrar_productos' %}" class="nav-link">
                                 <i class="far nav-icon"></i>
-                                <p>Actualizar producto</p>
+                                <p>Administrar Inventario</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'inventarios:inventario_productos' %}" class="nav-link">
                                 <i class="far nav-icon"></i>
-                                <p>Eliminar producto</p>
+                                <p>Ver Inventario</p>
                             </a>
                         </li>
                     </ul>
                 </li>
                 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i><p>Almacenes</p>
-                    </a>
-                </li>
-                
             </ul>
         </nav>
+        <!-- ./sidebar links -->
     </div>
     <!-- /.sidebar -->
 </aside>
