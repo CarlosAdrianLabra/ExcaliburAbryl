@@ -1,0 +1,36 @@
+{% load widget_tweaks %}
+
+<div class="modal-header">
+    <h3 class="modal-title">{{ productos.nombre }}</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+<div class="modal-body">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">Nombre</th>
+                <th class="text-center" scope="col">Marca</th>
+                <th class="text-center" scope="col">Modelo</th>
+                <th class="text-center" scope="col">Stock</th>
+                <th class="text-center" scope="col">Precio</th>
+                <th class="text-center" scope="col">Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">{{ productos.nombreP }}</td>
+                <td class="text-center">{{ productos.marcaP }}</td>
+                <td class="text-center">{{ productos.modeloP }}</td>
+                <td class="text-center">{{ productos.cantidadP }}</td>
+                <td class="text-center">{{ productos.precioP }}</td>
+                <td class="text-center"><img src="http://127.0.0.1:8000/media/{{ productos.imagenP }}" width="250" height="225"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+</div>

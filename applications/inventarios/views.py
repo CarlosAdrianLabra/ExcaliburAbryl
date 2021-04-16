@@ -1,93 +1,71 @@
-from django.shortcuts import render
-from django.views.generic import (
-    CreateView,
-    ListView,
-    TemplateView,
-    DetailView,
-    UpdateView,
-    DeleteView
-    )
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-
-# Import
+from django.views import generic
+from bootstrap_modal_forms.generic import (
+    BSModalCreateView,
+    BSModalUpdateView,
+    BSModalReadView,
+    BSModalDeleteView
+)
+from .forms import ProductosFormulario
 from .models import Productos
-from .forms import NProductos
 
-# Create your views here.
-class PaginaPrincipal(TemplateView):
-    template_name = 'inventarios/productos/inventario-inicio.html'
-
-
-class RegistrarProductos(CreateView):
-    template_name = "inventarios/productos/accion-registrar-productos.html"
+# Index Productos
+class IndexProductos(generic.ListView):
+    template_name = 'inventarios/productos/index_productos.html'
     model = Productos
-    form_class = NProductos
-    success_url = reverse_lazy('inventarios:inventario_productos')
-
-
-class InventarioProductos(ListView):
-    template_name = 'inventarios/productos/inventario-productos.html'
     paginate_by = 5
-    ordering = 'id'
-    context_object_name = 'listar_productos'
-    #model = Productos
+    context_object_name = 'productos'
 
     def get_queryset(self):
-        filtro = self.request.GET.get("fnombre", '')
+        filtro = self.request.GET.get("filtro_nombre", '')
         lista = Productos.objects.filter(
-            #nombreP=filtro
-            nombreP__icontains=filtro
-        )
-        return lista
-
-
-class VisualizarProductos(DetailView):
-    template_name = 'inventarios/productos/accion-visualizar-productos.html'
-    model = Productos
-    
-    def get_context_data(self, **kwargs):
-        context = super(VisualizarProductos, self).get_context_data(**kwargs)
-        return context
-
-
-class AdministrarProductos(ListView):
-    template_name = 'inventarios/productos/inventario-administrar-productos.html'
-    paginate_by = 5
-    ordering = 'id'
-    context_object_name = 'administrar_productos'
-    #model = Productos
-
-    def get_queryset(self):
-        filtro = self.request.GET.get("fnombre", '')
-        lista = Productos.objects.filter(
-            #nombreP=filtro
             nombreP__icontains=filtro  
         )
         return lista
 
 
-class ActualizarProductos(UpdateView):
-    template_name = 'inventarios/productos/accion-actualizar-productos.html'
+# Crear productos
+class ProductosCrearVista(BSModalCreateView):
+    template_name = 'inventarios/productos/accion_crear_productos.html'
+    form_class = ProductosFormulario
+    success_message = '¡Mensaje: El producto fue creado exitosamente!'
+    success_url = reverse_lazy('index_productos')
+
+
+# Actualizar productos
+class ProductosActualizarVista(BSModalUpdateView):
+    template_name = 'inventarios/productos/accion_actualizar_productos.html'
     model = Productos
-    fields = [
-        'nombreP',
-        'marcaP',
-        'modeloP',
-        'cantidadP',
-        'precioP',
-        'imagenP',
-    ]
-    success_url = reverse_lazy('inventarios:administrar_productos')
+    form_class = ProductosFormulario
+    success_message = '¡Mensaje: El producto fue actualizado exitosamente!'
+    success_url = reverse_lazy('index_productos')
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        return super(ActualizarProductos, self).form_valid(form)
-    
-
-class EliminarProductos(DeleteView):
-    template_name = 'inventarios/productos/accion-eliminar-productos.html'
+# Eliminar productos
+class ProductosEliminarVista(BSModalDeleteView):
+    template_name = 'inventarios/productos/accion_eliminar_productos.html'
     model = Productos
-    success_url = reverse_lazy('inventarios:administrar_productos')
+    success_message = '¡Mensaje: El producto fue eliminado exitosamente!'
+    success_url = reverse_lazy('index_productos')
+
+
+# Leer productos
+class ProductosLeerVista(BSModalReadView):
+    template_name = 'inventarios/productos/accion_leer_productos.html'
+    model = Productos
+
+
+# Funcion para llenar registros de la tabla
+def producto(request):
+    data = dict()
+    if request.method == 'GET':
+        producto = Productos.objects.all()
+        data['table'] = render_to_string(
+            'inventarios/productos/productos_tabla.html',
+            {'producto': producto},
+            request=request
+        )
+        return JsonResponse(data)

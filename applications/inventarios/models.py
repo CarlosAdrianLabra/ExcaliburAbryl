@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Modelo de productos
 class Productos(models.Model):
     nombreP = models.CharField('Nombre de producto', max_length=50)
     modeloP = models.CharField('Modelo', max_length=30, blank=True)

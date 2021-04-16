@@ -1,0 +1,27 @@
+{% load widget_tweaks %}
+
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="modal-header">
+        <h3 class="modal-title">Actualizar producto</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-body">
+        <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+        </div>
+        <div class="form-group">
+                <label>Nombre:</label>{{form.nombreP}}
+                <label>Marca:</label>{{form.marcaP}}
+                <label>Modelo:</label>{{form.modeloP}}
+                <label>Stock:</label>{{form.cantidadP}}
+                <label>Precio:</label>{{form.precioP}}
+                <label class="col-12" style="margin-left: -7px;">Imagen:</label>{{form.imagenP}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+    </div>
+</form>

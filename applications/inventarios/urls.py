@@ -1,18 +1,16 @@
-from django.contrib import admin
 from django.urls import path
-
-# Import views
 from . import views
 
-app_name = "inventarios"
-
 urlpatterns = [
-    path('inventario/', views.PaginaPrincipal.as_view(), name='inventario_inicio'),
-    path('registrar-productos/', views.RegistrarProductos.as_view(), name='registrar_productos'),
-    path('inventario-productos/', views.InventarioProductos.as_view(), name='inventario_productos'),
-    path('visualizar-producto/<pk>/', views.VisualizarProductos.as_view(), name='visualizar_productos'),
-    path('inventario-administrar-productos/', views.AdministrarProductos.as_view(), name='administrar_productos'),
-    path('actualizar-productos/<pk>/', views.ActualizarProductos.as_view(), name='actualizar_productos'),
-    path('eliminar-productos/<pk>/', views.EliminarProductos.as_view(), name='eliminar_productos'),
-    
+    # Index produccion
+    path('inventario/', views.IndexProductos.as_view(), name='index_productos'),
+
+    # URLs para acciones CRUD
+    path('crear_productos/', views.ProductosCrearVista.as_view(), name='crear_productos'),
+    path('actualizar_productos/<int:pk>', views.ProductosActualizarVista.as_view(), name='actualizar_productos'),
+    path('eliminar_productos/<int:pk>', views.ProductosEliminarVista.as_view(), name='eliminar_productos'),
+    path('ver_productos/<int:pk>', views.ProductosLeerVista.as_view(), name='leer_productos'),
+
+    # URL para llamar la FUNCION producto
+    path('producto/', views.producto, name='producto'),
 ]
