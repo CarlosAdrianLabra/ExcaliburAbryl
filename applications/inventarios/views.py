@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
+from django.db.models import Q
 from bootstrap_modal_forms.generic import (
     BSModalCreateView,
     BSModalUpdateView,
@@ -16,13 +17,13 @@ from .models import Productos
 class IndexProductos(generic.ListView):
     template_name = 'inventarios/productos/index_productos.html'
     model = Productos
-    paginate_by = 5
+    paginate_by = 10
     context_object_name = 'productos'
 
     def get_queryset(self):
         filtro = self.request.GET.get("filtro_nombre", '')
         lista = Productos.objects.filter(
-            nombreP__icontains=filtro  
+            Q(nombreP__icontains=filtro) | Q(marcaP__icontains=filtro) | Q(modeloP__icontains=filtro)
         )
         return lista
 
@@ -31,7 +32,7 @@ class IndexProductos(generic.ListView):
 class ProductosCrearVista(BSModalCreateView):
     template_name = 'inventarios/productos/accion_crear_productos.html'
     form_class = ProductosFormulario
-    success_message = '¡Mensaje: El producto fue creado exitosamente!'
+    success_message = '¡El producto fue creado correctamente!'
     success_url = reverse_lazy('index_productos')
 
 
@@ -40,7 +41,7 @@ class ProductosActualizarVista(BSModalUpdateView):
     template_name = 'inventarios/productos/accion_actualizar_productos.html'
     model = Productos
     form_class = ProductosFormulario
-    success_message = '¡Mensaje: El producto fue actualizado exitosamente!'
+    success_message = '¡El producto fue actualizado correctamente!'
     success_url = reverse_lazy('index_productos')
 
 
@@ -48,7 +49,7 @@ class ProductosActualizarVista(BSModalUpdateView):
 class ProductosEliminarVista(BSModalDeleteView):
     template_name = 'inventarios/productos/accion_eliminar_productos.html'
     model = Productos
-    success_message = '¡Mensaje: El producto fue eliminado exitosamente!'
+    success_message = '¡El producto fue eliminado correctamente!'
     success_url = reverse_lazy('index_productos')
 
 

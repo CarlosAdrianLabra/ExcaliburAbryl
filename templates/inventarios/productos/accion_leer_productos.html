@@ -1,12 +1,11 @@
 {% load widget_tweaks %}
 
-<div class="modal-header">
-    <h3 class="modal-title">{{ productos.nombre }}</h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<div class="modal-header bg-gray-dark color-palette">
+    <h3 class="modal-title">{{ productos.nombreP }}</h3>
+    <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
 </div>
 
 <div class="modal-body">
-
     <table class="table">
         <thead>
             <tr>
@@ -31,6 +30,6 @@
     </table>
 </div>
 
-<div class="modal-footer">
+<div class="modal-footer card-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 </div>

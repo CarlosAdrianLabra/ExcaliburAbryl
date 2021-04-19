@@ -13,7 +13,6 @@
             $(".actualizar-productos").each(function () {
                 $(this).modalForm({
                     formURL: $(this).data("form-url"),
-                    modalID: "#modal-lg"
                 });
             });
         }
@@ -25,11 +24,12 @@
                 $(this).modalForm({
                     formURL: $(this).data("form-url"), 
                     isDeleteForm: true,
+                    modalID: "#modal-lg"
                 });
             });
         }
         eliminarProductosModalForm();
-    
+        
         // Ver más producto
         function leerProductosModalForm() {
             $(".leer-productos").each(function () {
@@ -49,7 +49,7 @@
         }
     
         // Mensaje oculto desplegable
-        $(".alert").fadeTo(2000, 1000).slideUp(1000, function () {
+        $(".alert").fadeTo(2800, 1000).slideUp(1000, function () {
             $(".alert").slideUp(500);
         });
     });

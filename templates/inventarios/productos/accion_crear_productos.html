@@ -1,9 +1,9 @@
 {% load widget_tweaks %}
 
-<form method="post" enctype="multipart/form-data">{% csrf_token %}
-    <div class="modal-header">
-        <h3 class="modal-title">Crear Producto</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<form method="post" enctype="multipart/form-data" style="margin-bottom: -2px;">{% csrf_token %}
+    <div class="modal-header bg-gray-dark color-palette">
+        <h3 class="modal-title">DATOS DEL PRODUCTO</h3>
+        <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
     </div>
 
     <div class="modal-body">
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="modal-footer">
+    <div class="modal-footer card-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button type="submit" class="btn btn-primary">Crear</button>
     </div>

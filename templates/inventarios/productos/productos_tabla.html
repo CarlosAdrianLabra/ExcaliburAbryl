@@ -1,9 +1,11 @@
 <table id="productos-tabla" class="table table-striped">
     <thead>
         <tr>
-            <th class="text-center" style="width: 80px;">#</th>
+           
+
+            <th class="text-center" style="width: 60px;">#</th>
             <th class="text-left">Nombre</th>
-            <th class="text-center" style="width: 170px;">Marca</th>
+            <th class="text-center" style="width: 130px;">Marca</th>
             <th class="text-center" style="width: 220px;">Modelo</th>
             <th class="text-center" style="width: 80px;">Stock</th>
             <th class="text-center" style="width: 80px;">Precio</th>
@@ -21,11 +23,11 @@
           <td class="text-center">{{ p.precioP }}</td>
           <td class="text-center">
                 <!-- Botón ver más -->
-                <button type="button" class="leer-productos btn btn-sm btn-primary" data-form-url="{% url 'leer_productos' p.pk %}">
+                <button type="button" class="leer-productos btn btn-sm btn-primary mr-1" data-form-url="{% url 'leer_productos' p.pk %}">
                     <span class="fas fa-eye"></span>
                 </button>
                 <!-- Botón actualizar producto -->
-                <button type="button" class="actualizar-productos btn btn-sm btn-primary" data-form-url="{% url 'actualizar_productos' p.pk %}">
+                <button type="button" class="actualizar-productos btn btn-sm btn-warning mr-1" data-form-url="{% url 'actualizar_productos' p.pk %}">
                     <span class="fas fa-pencil-alt"></span>
                 </button>
                 <!-- Botón eliminar producto -->

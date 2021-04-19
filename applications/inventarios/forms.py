@@ -29,13 +29,13 @@ class ProductosFormulario(BSModalModelForm):
                     'class': 'form-control mb-3'
                 }
             ),
-            'cantidadP': forms.TextInput(
+            'cantidadP': forms.NumberInput(
                 attrs={
                     'placeholder': 'Stock',
                     'class': 'form-control mb-3'
                 }
             ),
-            'precioP': forms.TextInput(
+            'precioP': forms.NumberInput(
                 attrs={
                     'placeholder': 'Precio',
                     'class': 'form-control mb-4'
