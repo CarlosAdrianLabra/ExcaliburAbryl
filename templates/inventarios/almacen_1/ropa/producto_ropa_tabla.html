@@ -1,0 +1,39 @@
+<table id="calzado-tabla" class="table table-striped">
+    <thead>
+        <tr>
+            <th class="text-center" style="width: 80px;">#</th>
+            <th class="text-center" style="width: 220px;">Código de barras</th>
+            <th class="text-left">Nombre</th>
+            <th class="text-center" style="width: 170px;">Marca</th>
+            <th class="text-center" style="width: 80px;">Existencias</th>
+            <th class="text-center" style="width: 80px;">Precio</th>
+            <th class="text-center" style="width: 250px;">Ver más / Actualizar / Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for p in producto_ropa %}
+        <tr>
+            <td class="text-center">{{ forloop.counter }}</td>
+            <td class="text-center">{{ p.barcode }}</td>
+            <td class="text-left">{{ p.nombre }}</td>
+            <td class="text-center">{{ p.marca }}</td>
+            <td class="text-center">{{ p.stock }}</td>
+            <td class="text-center">{{ p.precio_venta }}</td>
+            <td class="text-center">
+                <!-- Botón ver más -->
+                <button type="button" class="leer-ropa btn btn-sm btn-primary" data-form-url="{% url 'leer_ropa' p.pk %}">
+                    <span class="fas fa-eye"></span>
+                </button>
+                <!-- Botón actualizar producto -->
+                <button type="button" class="actualizar-ropa btn btn-sm btn-warning" data-form-url="{% url 'actualizar_ropa' p.pk %}">
+                    <span class="fas fa-pencil-alt"></span>
+                </button>
+                <!-- Botón eliminar producto -->
+                <button type="button" class="eliminar-ropa btn btn-sm btn-danger" data-form-url="{% url 'eliminar_ropa' p.pk %}">
+                    <span class="fas fa-trash"></span>
+                </button>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

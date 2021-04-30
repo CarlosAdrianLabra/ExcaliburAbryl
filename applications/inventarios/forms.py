@@ -1,45 +1,117 @@
 from django import forms
 from bootstrap_modal_forms.forms import BSModalModelForm
-from .models import Productos
+from .models import (
+    Productos,
+    Marca
+)
 
-# Formulario de productos
-class ProductosFormulario(BSModalModelForm):
+""" **************************************** REGISTROS **************************************** """
+
+# Formulario registros
+class MarcaFormulario(BSModalModelForm):
+
+    class Meta:
+        model = Marca
+        fields = ('__all__')
+
+        widgets = {
+            'nombre': forms.TextInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+        }
+
+""" **************************************** ALMACEN 1 **************************************** """
+
+# Formulario calzado
+class CalzadoFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        fields = ['nombreP', 'marcaP', 'modeloP', 'cantidadP', 'precioP', 'imagenP']
+        fields = ['barcode','nombre', 'marca', 'medida', 'stock', 'precio_venta', 'precio_compra', 'almacen', 'tipo', 'proveedor', 'img',]
         exclude = ['timestamp']
 
         widgets = {
-            'nombreP': forms.TextInput(
+            'barcode': forms.NumberInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'nombre': forms.TextInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'marca': forms.Select(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'medida': forms.Select(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'stock': forms.NumberInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'precio_venta': forms.NumberInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'precio_compra': forms.NumberInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'almacen': forms.TextInput(
                 attrs={
-                    'placeholder': 'Nombre',
-                    'class': 'form-control mb-3'
+                    'class': 'form-control mb-3',
+                    'value': '0', # 0 = ALMACEN 1
                 }
             ),
-            'marcaP': forms.TextInput(
+            'tipo': forms.TextInput(
                 attrs={
-                    'placeholder': 'Marca',
-                    'class': 'form-control mb-3'
+                    'class': 'form-control mb-4',
+                    'value': '0', # 0 = CALZADO
                 }
             ),
-            'modeloP': forms.TextInput(
-                attrs={
-                    'placeholder': 'Modelo',
-                    'class': 'form-control mb-3'
-                }
+            'proveedor': forms.Select(
+                attrs={'class': 'form-control mb-3',}
             ),
-            'cantidadP': forms.NumberInput(
-                attrs={
-                    'placeholder': 'Stock',
-                    'class': 'form-control mb-3'
-                }
-            ),
-            'precioP': forms.NumberInput(
-                attrs={
-                    'placeholder': 'Precio',
-                    'class': 'form-control mb-4'
-                }
-            ),
+        }
 
+# Formulario Ropa
+class RopaFormulario(BSModalModelForm):
+
+    class Meta:
+        model = Productos
+        fields = ['barcode','nombre', 'marca', 'talla', 'stock', 'precio_venta', 'precio_compra', 'almacen', 'tipo', 'proveedor', 'img',]
+        exclude = ['timestamp']
+
+        widgets = {
+            'barcode': forms.NumberInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'nombre': forms.TextInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'marca': forms.Select(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'talla': forms.Select(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'stock': forms.NumberInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'precio_venta': forms.NumberInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'precio_compra': forms.NumberInput(
+                attrs={'class': 'form-control mb-3'}
+            ),
+            'almacen': forms.TextInput(
+                attrs={
+                    'class': 'form-control mb-3',
+                    'value': '0', # 0 = ALMACEN 1
+                }
+            ),
+            'tipo': forms.TextInput(
+                attrs={
+                    'class': 'form-control mb-4',
+                    'value': '1', # 1 = ROPA
+                }
+            ),
+            'proveedor': forms.Select(
+                attrs={'class': 'form-control mb-3',}
+            ),
         }

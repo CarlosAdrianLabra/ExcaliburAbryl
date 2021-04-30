@@ -1,0 +1,33 @@
+{% load widget_tweaks %}
+
+<form method="post" action="">{% csrf_token %}
+    <div class="modal-header bg-gray-dark color-palette">
+        <h3 class="modal-title">ELIMINAR - {{ productos.nombre }}</h3>
+        <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
+    </div>
+
+    <div class="modal-body">
+        {% if productos.stock > 0 %}
+            <p>¿Estás seguro que deseas eliminar este producto?</p>
+            <ul class="list-unstyled">
+                <li>Código de barras: {{ productos.barcode }}</li>
+                <li>Nombre: {{ productos.nombre }}</li>
+                <li>Marca: {{ productos.marca }}</li>
+                <li style="color: red; font-weight: bold;">Existencias: {{ productos.stock }}</li>
+            </ul>
+        {% else %}
+            <p>¿Estás seguro que deseas eliminar el siguiente producto?</p>
+            <ul class="list-unstyled">
+                <li>Código de barras: {{ productos.barcode }}</li>
+                <li>Nombre: {{ productos.nombre }}</li>
+                <li>Marca: {{ productos.marca }}</li>
+                <li>Existencias: {{ productos.stock }}</li>
+            </ul>
+        {% endif %}
+    </div>
+    
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" id="delete-btn" class="btn btn-danger">Eliminar</button>
+    </div>
+</form>

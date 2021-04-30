@@ -1,0 +1,96 @@
+{% extends 'inventarios/a_rchivos_base/base_registar.html' %}
+{% load static %}
+
+{% block head %}<title>Proveedores - Registro</title>{% endblock head %}
+
+{% block titulo_pagina %}REGISTRAR PROVEEDORES{% endblock titulo_pagina %}
+
+{% block formulario %}
+<form id="addProveedor" action="">
+    <div class="row">
+        <div class="col-md-10 offset-md-2">
+            <div class="row mt-3">
+
+                <div class="col-md-3">
+                    <div class="form-group text-center">
+                        <label>Nombre de proveedor:</label>
+                        <input class="form-control" type="text" name="nombre" placeholder="Ingresar nombre del proveedor" required>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Dirección:</label>
+                        <input class="form-control" type="text" name="direccion" placeholder="Dirección" required>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Teléfono:</label>
+                        <input class="form-control" type="text" name="telefono" placeholder="Teléfono" required>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Correo:</label>
+                        <input class="form-control" type="text" name="correo" placeholder="correo@empresa.com" required>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center mt-3">
+        <button class="btn btn-primary" style="margin-left: -12px;" type="submit"><i class="fas fa-upload mr-2"></i>Crear proveedor</button>
+    </div>
+</form>
+{% endblock formulario %}
+
+{% block subtitulo_pagina %}PROVEEDORES REGISTRADOS{% endblock subtitulo_pagina %}
+
+{% block tabla %}
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <table id="proveedorTable" class="text-center ml-5">
+                <tr>
+                    <th width="300"></th>
+                    <th width="300"></th>
+                    <th width="180"></th>
+                    <th width="180"></th>
+                    <th width="120"colspan="2"></th>
+                </tr>
+                {% if proveedores %}
+                    {% for proveedor in proveedores %}
+                    <tr id="proveedor-{{proveedor.id}}">
+                        <td class="proveedorNombre proveedorData" name="nombre">{{proveedor.nombre}}</td>
+                        <td class="proveedorDireccion proveedorData" name="direccion">{{proveedor.direccion}}</td>
+                        <td class="proveedorTelefono proveedorData" name="telefono">{{proveedor.telefono}}</td>
+                        <td class="proveedorCorreo proveedorData" name="correo">{{proveedor.correo}}</td>
+                        <td><button class="btn btn-default" onClick="editProveedor('{{proveedor.id}}')" data-toggle="modal" data-target="#myModal"><I class="fas fa-pencil-alt"></I></button></td>
+                        <td><button class="btn btn-default" onClick="deleteProveedor('{{proveedor.id}}')"><I class="fas fa-trash-alt"></I></button></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <div style="text-align: center; margin-left: -260px;" >No hay proveedores registrados</div>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 offset-8">
+            <a href="/proveedor" class="btn btn-primary mt-5" style="margin-left: 0px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Actualizar</a>
+        </div>
+    </div>
+
+{% endblock tabla %}
+
+{% block modal %}
+{% include 'inventarios/registros/proveedores/modal_proveedores.html' %}
+{% endblock modal %}
+
+{% block extra_scripts %}
+{% include 'inventarios/registros/proveedores/funciones_ajax_proveedores.html' %}
+{% endblock extra_scripts %}

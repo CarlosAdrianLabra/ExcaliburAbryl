@@ -1,0 +1,35 @@
+{% extends 'inventarios/a_rchivos_base/base_almacen.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Inventario - Calzado</title>
+{% endblock head %}
+
+{% block titulo_pagina %}ALMACEN 1 - INVENTARIO CALZADO{% endblock titulo_pagina %}
+
+{% block buscador %}
+    <!--
+    <form class="card-tools" method="GET">
+        <div class="input-group input-group-sm mt-2" style="width: 700px;">
+            <input type="text" id="filtro" name="filtro" class="form-control float-right" placeholder="Ingresar código de barras, nombre o marca del calzado">
+            <div class="input-group-append mr-2">
+                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i> Buscar</button>
+            </div>
+        </div>
+    </form>
+    -->
+{% endblock buscador %}
+
+{% block tabla %}
+{% include "inventarios/almacen_1/calzado/producto_calzado_tabla.html" %}
+{% endblock tabla %}
+
+{% block botones %}
+    <button id="crear-calzado" class="btn btn-primary" style="margin-left: 25px;" type="button" name="button"><I class="fa fa-plus mr-2"></I>Crear Producto</button>
+    <a href="/almacen_1/productos/calzado" class="btn btn-primary" style="margin-left: 10px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Refrescar</a>
+{% endblock botones %}
+
+{% block extra_scripts %}
+{% include 'inventarios/almacen_1/calzado/modales_calzado_js.html' %}
+{% endblock extra_scripts %}

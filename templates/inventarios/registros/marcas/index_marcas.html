@@ -1,0 +1,63 @@
+{% extends 'inventarios/a_rchivos_base/base_registar.html' %}
+{% load static %}
+
+{% block head %}<title>Marcas - Registro</title>{% endblock head %}
+
+{% block titulo_pagina %}REGISTRAR MARCAS{% endblock titulo_pagina %}
+
+{% block formulario %}
+    <form id="addMarca" action="">
+        <div class="row justify-content-md-center">
+            <div class="col-6 mt-3">
+                <div class="form-group text-center">
+                    <label>Nombre de marca:</label>
+                    <input class="form-control" type="text" name="nombre" placeholder="Ingresar nombre de marca" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center mt-3">
+            <button class="btn btn-primary" style="margin-left: -12px;" type="submit"><i class="fas fa-upload mr-2"></i>Crear marca</button>
+        </div>
+    </form>
+{% endblock formulario %}
+
+{% block subtitulo_pagina %}MARCAS REGISTRADAS{% endblock subtitulo_pagina %}
+
+{% block tabla %}
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <table id="marcaTable" class="offset-md-3 text-center">
+                <tr>
+                    <th width="390"></th>
+                    <th width="100"colspan="2"></th>
+                </tr>
+                {% if marcas %}
+                    {% for marca in marcas %}
+                    <tr id="marca-{{marca.id}}">
+                        <td class="marcaNombre marcaData" name="nombre">{{marca.nombre}}</td>
+                        <td><button class="btn btn-default" onClick="editMarca('{{marca.id}}')" data-toggle="modal" data-target="#myModal"><I class="fas fa-pencil-alt"></I></button></td>
+                        <td><button class="btn btn-default" onClick="deleteMarca('{{marca.id}}')"><I class="fas fa-trash-alt"></I></button></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <div style="text-align: center;" >No hay marcas registradas</div>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 offset-8">
+            <a href="/marca" class="btn btn-primary mt-5" style="margin-left: 0px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Actualizar</a>
+        </div>
+    </div>
+
+{% endblock tabla %}
+
+{% block modal %}
+{% include 'inventarios/registros/marcas/modal_marcas.html' %}
+{% endblock modal %}
+
+{% block extra_scripts %}
+{% include 'inventarios/registros/marcas/funciones_ajax_marcas.html' %}
+{% endblock extra_scripts %}

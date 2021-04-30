@@ -1,0 +1,129 @@
+<script>
+    // Create Django Ajax Call
+    $("form#addProveedor").submit(function() {
+        var nombreInput = $('input[name="nombre"]').val().trim();
+        var correoInput = $('input[name="correo"]').val().trim();
+        var telefonoInput = $('input[name="telefono"]').val().trim();
+        var direccionInput = $('input[name="direccion"]').val().trim();
+        
+        if (nombreInput && correoInput && telefonoInput && direccionInput) {
+            // Create Ajax Call
+            $.ajax({
+                url: '{% url "crear_proveedor" %}',
+                data: {
+                    'nombre': nombreInput,
+                    'correo': correoInput,
+                    'telefono': telefonoInput,
+                    'direccion': direccionInput
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.proveedor) {
+                      appendToUsrTable(data.proveedor);
+                    }
+                }
+            });
+        } else {
+            alert("Todos los campos deben llenarse.");
+        }
+        $('form#addProveedor').trigger("reset");
+        return false;
+    });
+
+    function appendToUsrTable(proveedor) {
+      $("#proveedorTable > tbody:last-child").append(`
+            <tr id="proveedor-${proveedor.id}">
+                <td class="proveedorNombre" name="nombre">${proveedor.nombre}</td>
+                '<td class="proveedorCorreo" name="correo">${proveedor.correo}</td>
+                '<td class="proveedorTelefono" name="telefono">${proveedor.telefono}</td>
+                '<td class="proveedorDireccion" name="direccion">${proveedor.direccion}</td>
+                '<td><button class="btn btn-default" onClick="editProveedor(${proveedor.id})" data-toggle="modal" data-target="#myModal"><I class="fas fa-pencil-alt"></I></button></td>
+                '<td><button class="btn btn-default" onClick="deleteProveedor(${proveedor.id})"><I class="fas fa-trash-alt"></I></button></td>
+            </tr>
+        `);
+    }
+
+    // Update Django Ajax Call
+    $("form#updateProveedor").submit(function() {
+        var idInput = $('input[name="formId"]').val().trim();
+        var nombreInput = $('input[name="formNombre"]').val().trim();
+        var correoInput = $('input[name="formCorreo"]').val().trim();
+        var telefonoInput = $('input[name="formTelefono"]').val().trim();
+        var direccionInput = $('input[name="formDireccion"]').val().trim();
+
+        if (nombreInput && correoInput && telefonoInput && direccionInput) {
+            // Update Ajax Call
+            $.ajax({
+                url: '{% url "actualizar_proveedor" %}',
+                data: {
+                    'id': idInput,
+                    'nombre': nombreInput,
+                    'correo': correoInput,
+                    'telefono': telefonoInput,
+                    'direccion': direccionInput
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.proveedor) {
+                    updateToUserTable(data.proveedor);
+                    }
+                }
+            });
+        } else {
+            alert("Todos los campos deben llenarse.");
+        }
+        $('form#updateProveedor').trigger("reset");
+        $('#myModal').modal('hide');
+        return false;
+    });
+
+    // Update Django Ajax Call
+    function editProveedor(id) {
+        if (id) {
+            tr_id = "#proveedor-" + id;
+            nombre = $(tr_id).find(".proveedorNombre").text();
+            correo = $(tr_id).find(".proveedorCorreo").text();
+            telefono = $(tr_id).find(".proveedorTelefono").text();
+            direccion = $(tr_id).find(".proveedorDireccion").text();
+            $('#form-id').val(id);
+            $('#form-nombre').val(nombre);
+            $('#form-correo').val(correo);
+            $('#form-telefono').val(telefono);
+            $('#form-direccion').val(direccion);
+        }
+    }
+
+    function updateToUserTable(proveedor){
+        $("#proveedorTable #proveedor-" + proveedor.id).children(".proveedorData").each(function() {
+            var attr = $(this).attr("nombre");
+            if (attr == "nombre") {
+                $(this).text(proveedor.nombre);
+            } else if (attr == "correo") {
+                $(this).text(proveedor.correo);
+            } else if (attr == "telefono") {
+                $(this).text(proveedor.telefono);
+            } else {
+                $(this).text(proveedor.direccion);
+            }
+        });
+    }
+
+    // Delete Django Ajax Call
+    function deleteProveedor(id) {
+        var action = confirm("¿Estás seguro que deseas eliminar este proveedor?");
+        if (action != false) {
+            $.ajax({
+                url: '{% url "eliminar_proveedor" %}',
+                data: {
+                    'id': id,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.deleted) {
+                    $("#proveedorTable #proveedor-" + id).remove();
+                    }
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,104 @@
+{% load static %}
+
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="http://127.0.0.1:8000/admin" class="brand-link">
+        <img src="{% static 'img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">Panel de Control</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{% static 'img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="http://127.0.0.1:8000/admin" class="d-block">Administrador</a>
+            </div>
+        </div>
+
+        <!-- Sidebar links -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-registered"></i><p>REGISTRAR<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="/marca" class="nav-link">
+                                <i class="fas fa-copyright nav-icon ml-4"></i>
+                                <p>Marcas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/proveedor" class="nav-link">
+                                <i class="fas fa-truck-moving nav-icon ml-4"></i>
+                                <p>Proveedores</p>
+                            </a>
+                        </li>                   
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-warehouse"></i><p>ALMACENES<i class="fas fa-angle-left right"></i></p>
+                    </a>
+
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-warehouse"></i><p>ALMACEN - 1<i class="fas fa-angle-left right"></i></p>
+                            </a>
+
+                            <ul class="nav nav-treeview" style="display: none;">
+                                <li class="nav-item">
+                                    <a href="/almacen_1/productos/calzado/" class="nav-link">
+                                        <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                                        <p>Calzado</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/almacen_1/productos/ropa" class="nav-link">
+                                        <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                                        <p>Ropa</p>
+                                    </a>
+                                </li>                   
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-warehouse"></i><p>ALMACEN - 2<i class="fas fa-angle-left right"></i></p>
+                            </a>
+                            
+                            <ul class="nav nav-treeview" style="display: none;">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                                        <p>Calzado</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                                        <p>Ropa</p>
+                                    </a>
+                                </li>                   
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="far fas fa-indent nav-icon"></i>Reportes</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- ./sidebar links -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

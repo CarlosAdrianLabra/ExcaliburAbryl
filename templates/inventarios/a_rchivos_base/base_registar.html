@@ -1,0 +1,49 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block head %}{% endblock head %}
+
+{% block sidebarlinks %}
+{% include 'inventarios/a_rchivos_base/enlaces.html' %}
+{% endblock sidebarlinks %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Formulario -->
+        <section class="content">
+            <div class="container-fluid">
+                <h2 class="text-center display-5 mt-3">{% block titulo_pagina %}{% endblock titulo_pagina %}</h2>
+
+                {% block formulario %}{% endblock formulario %}
+
+            </div>
+        </section>
+        <!-- ./formulario -->
+
+        <!-- Sección Tabla -->
+        <section class="content mt-5">
+
+            <!-- Containder-fluid -->
+            <div class="container-fluid">
+                
+                <h5 class="mt-3 mb-5 text-center">{% block subtitulo_pagina %}{% endblock subtitulo_pagina %}</h5>
+                
+                {% block tabla %}{% endblock tabla %}
+                
+                <p class="text-center" style="color: gray;">Para ver los cambios realizados, actualizar la página</p>
+            </div>
+            <!-- ./containder-fluid -->
+
+            <!-- Modal -->
+            {% block modal %}{% endblock modal %}
+                
+        </section>
+        <!-- ./sección Tabla -->
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block extra_scripts %}{% endblock extra_scripts %}

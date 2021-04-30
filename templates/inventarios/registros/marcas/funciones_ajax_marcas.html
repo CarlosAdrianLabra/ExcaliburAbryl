@@ -1,0 +1,112 @@
+<script>
+    // Create Django Ajax Call
+    $("form#addMarca").submit(function() {
+        var nombreInput = $('input[name="nombre"]').val().trim();
+        //var urlInput = $('input[name="url"]').val().trim();
+        
+        if (nombreInput){
+            // && urlInput) {
+            // Create Ajax Call
+            $.ajax({
+                url: '{% url "crear_marca" %}',
+                data: {
+                    'nombre': nombreInput
+                    //'url': urlInput
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.marca) {
+                      appendToUsrTable(data.marca);
+                    }
+                }
+            });
+        } else {
+            alert("Todos los campos deben llenarse.");
+        }
+        $('form#addMarca').trigger("reset");
+        return false;
+    });
+
+    function appendToUsrTable(marca) {
+      $("#marcaTable > tbody:last-child").append(`
+            <tr id="marca-${marca.id}">
+                <td class="marcaNombre" name="nombre">${marca.nombre}</td>
+                '<td><button class="btn btn-default" onClick="editMarca(${marca.id})" data-toggle="modal" data-target="#myModal"><I class="fas fa-pencil-alt"></I></button></td>
+                '<td><button class="btn btn-default" onClick="deleteMarca(${marca.id})"><I class="fas fa-trash-alt"></I></button></td>
+            </tr>
+        `);
+    }
+
+    // Update Django Ajax Call
+    $("form#updateMarca").submit(function() {
+        var idInput = $('input[name="formId"]').val().trim();
+        var nombreInput = $('input[name="formNombre"]').val().trim();
+        //var urlInput = $('input[name="formUrl"]').val().trim();
+        if (nombreInput){
+            // && urlInput) {
+            // Update Ajax Call
+            $.ajax({
+                url: '{% url "actualizar_marca" %}',
+                data: {
+                    'id': idInput,
+                    'nombre': nombreInput
+                    //'url': urlInput
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.marca) {
+                    updateToUserTable(data.marca);
+                    }
+                }
+            });
+        } else {
+            alert("Todos los campos deben llenarse.");
+        }
+        $('form#updateMarca').trigger("reset");
+        $('#myModal').modal('hide');
+        return false;
+    });
+
+    // Update Django Ajax Call
+    function editMarca(id) {
+        if (id) {
+            tr_id = "#marca-" + id;
+            nombre = $(tr_id).find(".marcaNombre").text();
+            //url = $(tr_id).find(".marcaUrl").text();
+            $('#form-id').val(id);
+            $('#form-nombre').val(nombre);
+            //$('#form-url').val(url);
+        }
+    }
+
+    function updateToUserTable(marca){
+        $("#marcaTable #marca-" + marca.id).children(".marcaData").each(function() {
+            var attr = $(this).attr("nombre");
+            if (attr == "nombre") {
+                $(this).text(marca.nombre);
+            }
+            // else {
+            //    $(this).text(marca.url);
+            //}
+        });
+    }
+
+    // Delete Django Ajax Call
+    function deleteMarca(id) {
+        var action = confirm("¿Estás seguro que deseas eliminar esta marca?");
+        if (action != false) {
+            $.ajax({
+                url: '{% url "eliminar_marca" %}',
+                data: {
+                    'id': id,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.deleted) {
+                    $("#marcaTable #marca-" + id).remove();
+                    }
+                }
+            });
+        }
+    }
+</script>
