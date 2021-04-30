@@ -34,5 +34,8 @@ urlpatterns = [
     re_path('', include('applications.inventarios.urls')),
 
     #URLS - APPLICATIONS.VENTAS
+    re_path('', include('applications.ventas.urls')),
+    # caja app
+    re_path('', include('applications.caja.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

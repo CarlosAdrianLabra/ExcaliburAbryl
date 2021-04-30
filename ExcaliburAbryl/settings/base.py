@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     # apps locales
     'applications.inventarios',
     'widget_tweaks',
+    'applications.ventas',
+    'applications.caja',
     
     # apps terceros
 
