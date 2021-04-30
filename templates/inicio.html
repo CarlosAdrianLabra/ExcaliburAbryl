@@ -1,20 +1,67 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-</head>
-<body>
-    <h3>Página de Inicio</h3>
-    <ul>
-        <li><a href="/">Inicio</a></li>
-        <li>Contabilidad</li>
-        <li><a href="/almacen_1/productos/calzado/">Inventario</a></li>
-        <li><a href="/Base-caja">Caja</a></li>
-        <li><a href="/Base-ventas">Punto de tu culo</a></li>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>Abryl - Inicio</title>
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+            rel="stylesheet">
+
+        <!-- Vendor CSS Files -->
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/pagina_inicio/icofont/icofont.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/pagina_inicio/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
         
-    </ul>
-</body>
+        <!-- Template Main CSS File -->
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    </head>
+
+    <body>
+        <!-- ======= Header ======= -->
+        <header id="header">
+            <div class="d-flex flex-column">
+
+                <!-- Logo -->
+                <div style="padding: 40px 0 0 100px;">
+                    <img src="{% static 'img/pagina_inicio/logo_abryl.png' %}" with="100" height="150">
+                    
+                </div>
+                <!-- ./logo -->
+                
+                <!-- Nav-menu -->
+                <nav class="nav-menu">
+                    <ul>
+                        <li class="active"><a href="http://127.0.0.1:8000/"><i class="bx bx-home"></i> Inicio</a></li>
+                        <li><a href="/almacen_1/productos/calzado"><i class='bx bxs-book'></i> Inventario</a></li>
+                        <li><a href="/Base-caja"><i class='bx bx-task'></i> Caja</a></li>
+                        <li><a href="/Base-ventas"><i class='bx bx-cart'></i> Punto de venta</a></li>
+                        <li><a href="/admin"><i class="bx bx-door-open"></i> Iniciar sesión</a></li>
+                    </ul>
+                </nav>
+                <!-- .nav-menu -->
+                <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+
+            </div>
+        </header>
+        <!-- End Header -->
+
+        <!-- ======= Hero Section ======= -->
+        <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+            <div class="hero-container">
+                <h1>Tienda de Ropa y Calzado</h1>
+                <p>Somos <span class="typed" data-typed-items="Elegancia, Calidad, Estilo, Abryl"></span></p>
+            </div>
+        </section>
+        <!-- End Hero -->
+
+        <!-- Vendor JS Files -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/typed.min.js' %}"></script>
+        <!-- Template Main JS File -->
+        <script src="{% static 'js/pagina_inicio_main.js' %}"></script>
+    </body>
 </html>
