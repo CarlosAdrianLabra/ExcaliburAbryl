@@ -1,28 +1,51 @@
 {% load widget_tweaks %}
 
 <form method="post" enctype="multipart/form-data">{% csrf_token %}
-    <div class="modal-header bg-gray-dark color-palette">
-        <h3 class="modal-title">DATOS DE LA ROPA</h3>
+    <div class="modal-header" style="background-color: #1D2535; color: #fff;">
+        <h3 class="modal-title">REGISTRAR ROPA</h3>
         <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
     </div>
 
     <div class="modal-body">
-        <div class="form-group">
-            <label>Código de barras:</label>{{ form.barcode }}
-            <label>Nombre:</label>{{ form.nombre }}
-            <label>Marca:</label>{{ form.marca }}
-            <label>Proveedor:</label>{{ form.proveedor }}
-            <label>Talla:</label>{{ form.talla }}
-            <label>Existencias:</label>{{ form.stock }}
-            <label>Precio de compra:</label>{{ form.precio_compra }}
-            <label>Precio de venta:</label>{{ form.precio_venta }}
-            <span style="display: none;">{{ form.tipo }}</span>
-            <span style="display: none;">{{ form.almacen }}</span>
+        <div class="row">
+            <div class="col-3 mb-1">
+                <h5><b>INFORMACIÓN</b></h5>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col-3 ml-5">
+                <label><span style="color: red; font-size: small; ">* </span>Código de barras:</label>{{ form.barcode }}
+                <div class="{% if form.errors %}invalid{% endif %}"></div>
+                {% for error in form.errors %}
+                    <p style="color: red; font-size: small; ">¡Ya existe un producto con este código de barras!</p>
+                {% endfor %}
+                <label><span style="color: red; font-size: small; ">* </span>Nombre:</label>{{ form.nombre }}
+                <label>Modelo:</label>{{ form.modelo }}
+                <label class="col-12" style="margin-left: -7px;">Imagen:</label>{{ form.img }}
+            </div>
+
+            <div class="col-3 offset-1">
+                <label><span style="color: red; font-size: small; ">* </span>Proveedor:</label>{{ form.proveedor }}
+                <label><span style="color: red; font-size: small; ">* </span>Marca:</label>{{ form.marca }}
+                <label><span style="color: red; font-size: small; ">* </span>Color:</label>{{ form.color }}
+                <label><span style="color: red; font-size: small; ">* </span>Talla:</label>{{ form.talla }}
+                <label><span style="color: red; font-size: small; ">* </span>Linea:</label>{{ form.linea }}
+            </div>
+
+            <div class="col-3 offset-1">
+                <label>Existencias:</label>{{ form.stock }}
+                <label>Precio de compra:</label>{{ form.precio_compra }}
+                <label>Precio de venta:</label>{{ form.precio_venta }}
+            </div>
+        </div>
+
+        <span style="display: none;">{{ form.tipo }}</span>
+        <span style="display: none;">{{ form.almacen }}</span>
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Crear</button>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-plus mr-2"></i>Registrar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
     </div>
 </form>

@@ -4,6 +4,7 @@
         function crearProductoModalForm() {
             $("#crear-calzado").modalForm({
                 formURL: "{% url 'crear_calzado' %}",
+                modalID: "#modal-lg"
             });
         }
         crearProductoModalForm();
@@ -13,6 +14,7 @@
             $(".actualizar-calzado").each(function () {
                 $(this).modalForm({
                     formURL: $(this).data("form-url"),
+                    modalID: "#modal-lg"
                 });
             });
         }
@@ -24,7 +26,7 @@
                 $(this).modalForm({
                     formURL: $(this).data("form-url"), 
                     isDeleteForm: true,
-                    //modalID: "#modal-lg"
+                    modalID: "#modal-nl"
                 });
             });
         }

@@ -11,6 +11,7 @@ from bootstrap_modal_forms.generic import (
     BSModalDeleteView
 )
 from django.views.generic import (
+    TemplateView,
     ListView,
     View
 )
@@ -35,21 +36,18 @@ from .models import (
 
 class IndexMarca(ListView):
     template_name = 'inventarios/registros/marcas/index_marcas.html'
-    
     model = Marca
     context_object_name = 'marcas'
 
 class CrearMarcaVista(View):
     def  get(self, request):
         nombre1 = request.GET.get('nombre', None)
-        #url1 = request.GET.get('url', None)
 
         obj = Marca.objects.create(
             nombre = nombre1
-            #url = url1
         )
 
-        marca = {'id':obj.id,'nombre':obj.nombre}#,'url':obj.url}
+        marca = {'id':obj.id,'nombre':obj.nombre}
 
         data = {
             'marca': marca
@@ -60,14 +58,12 @@ class ActualizarMarcaVista(View):
     def  get(self, request):
         id1 = request.GET.get('id', None)
         nombre1 = request.GET.get('nombre', None)
-        #url1 = request.GET.get('url', None)
 
         obj = Marca.objects.get(id=id1)
         obj.nombre = nombre1
-        #obj.url = url1
         obj.save()
 
-        marca = {'id':obj.id,'nombre':obj.nombre}#,'url':obj.url}
+        marca = {'id':obj.id,'nombre':obj.nombre}
 
         data = {
             'marca': marca
@@ -91,7 +87,6 @@ class EliminarMarcaVista(View):
 
 class IndexProveedor(ListView):
     template_name = 'inventarios/registros/proveedores/index_proveedores.html'
-    
     model = Proveedor
     context_object_name = 'proveedores'
 
@@ -101,15 +96,24 @@ class CrearProveedorVista(View):
         correo1 = request.GET.get('correo', None)
         telefono1 = request.GET.get('telefono', None)
         direccion1 = request.GET.get('direccion', None)
+        nombre_benefactor1 = request.GET.get('nombre_benefactor', None)
+        nombre_banco1 = request.GET.get('nombre_banco', None)
+        clabe1 = request.GET.get('clabe', None)
 
         obj = Proveedor.objects.create(
             nombre = nombre1,
             correo = correo1,
             telefono = telefono1,
-            direccion = direccion1
+            direccion = direccion1,
+            nombre_benefactor = nombre_benefactor1,
+            nombre_banco = nombre_banco1,
+            clabe = clabe1
         )
 
-        proveedor = {'id':obj.id,'nombre':obj.nombre,'correo':obj.correo,'telefono':obj.telefono,'direccion':obj.direccion}
+        proveedor = {
+            'id':obj.id,'nombre':obj.nombre,'correo':obj.correo,'telefono':obj.telefono,'direccion':obj.direccion,
+            'nombre_benefactor':obj.nombre_benefactor,'nombre_banco':obj.nombre_banco,'clabe':obj.clabe
+        }
 
         data = {
             'proveedor': proveedor
@@ -123,15 +127,24 @@ class ActualizarProveedorVista(View):
         correo1 = request.GET.get('correo', None)
         telefono1 = request.GET.get('telefono', None)
         direccion1 = request.GET.get('direccion', None)
+        nombre_benefactor1 = request.GET.get('nombre_benefactor', None)
+        nombre_banco1 = request.GET.get('nombre_banco', None)
+        clabe1 = request.GET.get('clabe', None)
 
         obj = Proveedor.objects.get(id=id1)
         obj.nombre = nombre1
         obj.correo = correo1
         obj.telefono = telefono1
         obj.direccion = direccion1
+        obj.nombre_benefactor = nombre_benefactor1
+        obj.nombre_banco = nombre_banco1
+        obj.clabe = clabe1
         obj.save()
 
-        proveedor = {'id':obj.id,'nombre':obj.nombre,'correo':obj.correo,'telefono':obj.telefono,'direccion':obj.direccion}
+        proveedor = {
+            'id':obj.id,'nombre':obj.nombre,'correo':obj.correo,'telefono':obj.telefono,'direccion':obj.direccion,
+            'nombre_benefactor':obj.nombre_benefactor,'nombre_banco':obj.nombre_banco,'clabe':obj.clabe
+        }
 
         data = {
             'proveedor': proveedor
@@ -147,6 +160,17 @@ class EliminarProveedorVista(View):
         }
         return JsonResponse(data)
 
+""" **************************************** INVENTARIO **************************************** """
+
+# Index inventario
+class IndexInventario(TemplateView):
+    template_name = 'inventarios/a_rchivos_base/a_index_inventarios.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["stock_por_terminar"] = Productos.objects.productos_en_inventario().count()
+        return context
+
 """ **************************************** ALMACEN 1 **************************************** """
 
 """
@@ -158,17 +182,12 @@ class EliminarProveedorVista(View):
 # Index calzado
 class IndexCalzado(generic.ListView):
     template_name = 'inventarios/almacen_1/calzado/index_calzado.html'
-    
-    paginate_by = 5
+    paginate_by = 20
     context_object_name = 'producto_calzado'
 
     def get_queryset(self):
-
-        return Productos.objects.filter(
-            tipo='0' # 0 - CALZADO
-        ).filter(
-            almacen='0' # 0 - ALMACEN 1
-        )
+        qs = self.request.GET.get("filtro", '')
+        return Productos.objects.almacen_tipo_calzado(qs)
 
 # Crear producto de calzado
 class CrearCalzadoVista(BSModalCreateView):
@@ -219,17 +238,12 @@ def producto_calzado(request):
 # Index ropa
 class IndexRopa(generic.ListView):
     template_name = 'inventarios/almacen_1/ropa/index_ropa.html'
-    
-    paginate_by = 5
+    paginate_by = 20
     context_object_name = 'producto_ropa'
 
     def get_queryset(self):
-
-        return Productos.objects.filter(
-            tipo='1' # 1 - ROPA
-        ).filter(
-            almacen='0' # 0 - ALMACEN 1
-        )
+        qs = self.request.GET.get("filtro", '')
+        return Productos.objects.almacen_tipo_ropa(qs)
 
 # Crear producto de ropa
 class CrearRopaVista(BSModalCreateView):

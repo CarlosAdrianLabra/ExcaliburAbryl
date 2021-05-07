@@ -11,6 +11,9 @@ class ProveedorAdmin(admin.ModelAdmin):
         'direccion',
         'correo',
         'telefono',
+        'nombre_benefactor',
+        'nombre_banco',
+        'clabe'
     )
 admin.site.register(Proveedor, ProveedorAdmin)
 

@@ -3,17 +3,31 @@
 
 {% block head %}<title>Proveedores - Registro</title>{% endblock head %}
 
+{% block enlace_marcas %}
+<a href="/marca" class="nav-link">
+    <i class="fas fa-copyright nav-icon ml-4"></i>
+    <p>Marcas</p>
+</a>
+{% endblock enlace_marcas %}
+{% block enlace_proveedores %}
+<a href="/proveedor" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-truck-moving nav-icon ml-4"></i>
+    <p>Proveedores</p>
+</a>
+{% endblock enlace_proveedores %}
+
 {% block titulo_pagina %}REGISTRAR PROVEEDORES{% endblock titulo_pagina %}
 
 {% block formulario %}
 <form id="addProveedor" action="">
     <div class="row">
-        <div class="col-md-10 offset-md-2">
-            <div class="row mt-3">
+        <div class="col-md-10 offset-md-2 mt-3"><h4>Información del proveedor</h4></div>
 
+        <div class="col-md-10 offset-md-2">
+            <div class="row mt-1">
                 <div class="col-md-3">
-                    <div class="form-group text-center">
-                        <label>Nombre de proveedor:</label>
+                    <div class="form-group">
+                        <label><span style="color: red;">*</span> Nombre de proveedor:</label>
                         <input class="form-control" type="text" name="nombre" placeholder="Ingresar nombre del proveedor" required>
                     </div>
                 </div>
@@ -21,24 +35,52 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Dirección:</label>
-                        <input class="form-control" type="text" name="direccion" placeholder="Dirección" required>
+                        <input class="form-control" type="text" name="direccion" placeholder="Dirección">
                     </div>
                 </div>
 
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>Teléfono:</label>
-                        <input class="form-control" type="text" name="telefono" placeholder="Teléfono" required>
+                        <input class="form-control" type="text" name="telefono" placeholder="Teléfono">
                     </div>
                 </div>
 
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>Correo:</label>
-                        <input class="form-control" type="text" name="correo" placeholder="correo@empresa.com" required>
+                        <input class="form-control" type="text" name="correo" placeholder="correo@empresa.com">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-2 mt-3"><h4>Información del banco</h4></div>
+
+        <div class="col-md-10 offset-md-2">
+            <div class="row mt-1">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Nombre de beneficiario:</label>
+                        <input class="form-control" type="text" name="nombre_benefactor" placeholder="Ingresar nombre del beneficiario">
                     </div>
                 </div>
 
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Nombre de banco:</label>
+                        <input class="form-control" type="text" name="nombre_banco" placeholder="Ingresar nombre del banco">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Clabe interbancaria:</label>
+                        <input class="form-control" type="text" name="clabe" placeholder="Clabe 18 digitos">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -53,14 +95,17 @@
 
 {% block tabla %}
     <div class="row">
-        <div class="col-md-10 offset-md-1">
-            <table id="proveedorTable" class="text-center ml-5">
+        <div class="col-md-11" style="margin: auto;">
+            <table id="proveedorTable" class="table table-striped text-center">
                 <tr>
-                    <th width="300"></th>
-                    <th width="300"></th>
-                    <th width="180"></th>
-                    <th width="180"></th>
-                    <th width="120"colspan="2"></th>
+                    <th width="240">Nombre de proveedor</th>
+                    <th width="230">Dirección</th>
+                    <th width="90">Teléfono</th>
+                    <th width="200">Email</th>
+                    <th width="240">Nombre de beneficiario</th>
+                    <th width="110">Banco</th>
+                    <th width="150">Clabe</th>
+                    <th width="100">Acciones</th>
                 </tr>
                 {% if proveedores %}
                     {% for proveedor in proveedores %}
@@ -69,19 +114,25 @@
                         <td class="proveedorDireccion proveedorData" name="direccion">{{proveedor.direccion}}</td>
                         <td class="proveedorTelefono proveedorData" name="telefono">{{proveedor.telefono}}</td>
                         <td class="proveedorCorreo proveedorData" name="correo">{{proveedor.correo}}</td>
-                        <td><button class="btn btn-default" onClick="editProveedor('{{proveedor.id}}')" data-toggle="modal" data-target="#myModal"><I class="fas fa-pencil-alt"></I></button></td>
-                        <td><button class="btn btn-default" onClick="deleteProveedor('{{proveedor.id}}')"><I class="fas fa-trash-alt"></I></button></td>
+                        <td class="proveedorNombre_benefactor proveedorData" name="nombre_benefactor">{{proveedor.nombre_benefactor}}</td>
+                        <td class="proveedorNombre_banco proveedorData" name="nombre_banco">{{proveedor.nombre_banco}}</td>
+                        <td class="proveedorClabe proveedorData" name="clabe">{{proveedor.clabe}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info mr-1" onClick="editProveedor('{{proveedor.id}}')" data-toggle="modal" data-target="#myModalProveedor"><I class="fas fa-pencil-alt"></I></button>
+                            <button class="btn btn-sm btn-danger" onClick="deleteProveedor('{{proveedor.id}}')"><I class="fas fa-trash-alt"></I></button>
+                        </td>
                     </tr>
                     {% endfor %}
                 {% else %}
-                    <div style="text-align: center; margin-left: -260px;" >No hay proveedores registrados</div>
+                    <div style="text-align: center;">No hay proveedores registrados</div>
                 {% endif %}
             </table>
         </div>
     </div>
-    <div class="row">
-        <div class="col-3 offset-8">
-            <a href="/proveedor" class="btn btn-primary mt-5" style="margin-left: 0px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Actualizar</a>
+    
+    <div class="row justify-content-center">
+        <div class="col-2 offset-1">
+            <a href="/proveedor" class="btn btn-primary mt-2" style="margin-left: 0px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Actualizar</a>
         </div>
     </div>
 

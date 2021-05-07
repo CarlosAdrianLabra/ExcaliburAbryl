@@ -1,35 +1,90 @@
 {% load widget_tweaks %}
+{% load static %}
 
-<div class="modal-header bg-gray-dark color-palette">
-    <h3 class="modal-title">{{ productos.nombre }}</h3>
+<div class="modal-header" style="background-color: #1D2535; color: #fff;">
+    <h3 class="modal-title">CALZADO</h3>
     <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
 </div>
 
 <div class="modal-body">
-    <table class="table">
-        <thead>
-            <tr>
-                <th class="text-center" scope="col">Código de barras</th>
-                <th class="text-center" scope="col">Nombre</th>
-                <th class="text-center" scope="col">Marca</th>
-                <th class="text-center" scope="col">Existencias</th>
-                <th class="text-center" scope="col">Precio</th>
-                <th class="text-center" scope="col">Imagen</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="text-center">{{ productos.barcode }}</td>
-                <td class="text-center">{{ productos.nombre }}</td>
-                <td class="text-center">{{ productos.marca }}</td>
-                <td class="text-center">{{ productos.stock }}</td>
-                <td class="text-center">{{ productos.precio_venta }}</td>
-                <td class="text-center"><img src="http://127.0.0.1:8000/media/{{ productos.img }}" width="250" height="225"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row">
+        {% if productos.img %}
+            <div class="col-2" style="padding: 20px; text-align: center;">
+                <img src="http://127.0.0.1:8000/media/{{ productos.img }}" width="190" height="155">    
+            </div>
+            <div class="col-10 mt-5">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 142px;">Código de barras</th>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center" style="width: 100px;">Modelo</th>
+                            <th class="text-center" style="width: 140px;">Proveedor</th>
+                            <th class="text-center" style="width: 170px;">Marca</th>
+                            <th class="text-center" style="width: 100px;">Color</th>
+                            <th class="text-center" style="width: 70px;">Talla</th>
+                            <th class="text-center" style="width: 90px;">Linea</th>
+                            <th class="text-center" style="width: 90px;">Existencias</th>
+                            <th class="text-center" style="width: 130px;">Precio venta</th>
+                            <th class="text-center" style="width: 130px;">Precio compra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">{{ productos.barcode }}</td>
+                            <td class="text-center">{{ productos.nombre }}</td>
+                            <td class="text-center">{{ productos.modelo }}</td>
+                            <td class="text-center">{{ productos.proveedor }}</td>
+                            <td class="text-center">{{ productos.marca }}</td>
+                            <td class="text-center">{{ productos.get_color_display }}</td>
+                            <td class="text-center">{{ productos.get_medida_display }}</td>
+                            <td class="text-center">{{ productos.get_linea_display }}</td>
+                            <td class="text-center">{{ productos.stock }}</td>
+                            <td class="text-center">{{ productos.precio_venta }}</td>
+                            <td class="text-center">{{ productos.precio_compra }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 142px;">Código de barras</th>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center" style="width: 100px;">Modelo</th>
+                            <th class="text-center" style="width: 140px;">Proveedor</th>
+                            <th class="text-center" style="width: 170px;">Marca</th>
+                            <th class="text-center" style="width: 100px;">Color</th>
+                            <th class="text-center" style="width: 70px;">Talla</th>
+                            <th class="text-center" style="width: 90px;">Linea</th>
+                            <th class="text-center" style="width: 90px;">Existencias</th>
+                            <th class="text-center" style="width: 130px;">Precio venta</th>
+                            <th class="text-center" style="width: 130px;">Precio compra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">{{ productos.barcode }}</td>
+                            <td class="text-center">{{ productos.nombre }}</td>
+                            <td class="text-center">{{ productos.modelo }}</td>
+                            <td class="text-center">{{ productos.proveedor }}</td>
+                            <td class="text-center">{{ productos.marca }}</td>
+                            <td class="text-center">{{ productos.get_color_display }}</td>
+                            <td class="text-center">{{ productos.get_medida_display }}</td>
+                            <td class="text-center">{{ productos.get_linea_display }}</td>
+                            <td class="text-center">{{ productos.stock }}</td>
+                            <td class="text-center">{{ productos.precio_venta }}</td>
+                            <td class="text-center">{{ productos.precio_compra }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endif %} 
+    </div>
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 </div>

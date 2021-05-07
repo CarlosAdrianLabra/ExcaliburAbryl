@@ -1,31 +1,33 @@
 <table id="calzado-tabla" class="table table-striped">
     <thead>
         <tr>
-            <th class="text-center" style="width: 80px;">#</th>
-            <th class="text-center" style="width: 220px;">Código de barras</th>
-            <th class="text-left">Nombre</th>
-            <th class="text-center" style="width: 170px;">Marca</th>
-            <th class="text-center" style="width: 80px;">Existencias</th>
-            <th class="text-center" style="width: 80px;">Precio</th>
-            <th class="text-center" style="width: 250px;">Ver más / Actualizar / Eliminar</th>
+            <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
+            <th class="text-left">PRODUCTO <span style="font-size: smaller; color: #ccc;">( MARCA - MODELO - LINEA - COLOR )</span></th>
+            <th class="text-center">NOMBRE</th>
+            <th class="text-center" style="width: 170px;">PROVEEDOR</th>
+            <th class="text-center" style="width: 100px;">TALLA</th>
+            <th class="text-center" style="width: 117px;">EXISTENCIAS</th>
+            <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
+            <th class="text-center" style="width: 230px;">VER MÁS / EDITAR / ELIMINAR</th>
         </tr>
     </thead>
     <tbody>
     {% for p in producto_calzado %}
         <tr>
-            <th class="text-center">{{ forloop.counter }}</th>
             <td class="text-center">{{ p.barcode }}</td>
-            <td class="text-left">{{ p.nombre }}</td>
-            <td class="text-center">{{ p.marca }}</td>
+            <td class="text-left">{{ p }}</td>
+            <td class="text-center">{{ p.nombre }}</td>
+            <td class="text-center">{{ p.proveedor }}</td>
+            <td class="text-center">{{ p.get_medida_display }}</td>
             <td class="text-center">{{ p.stock }}</td>
             <td class="text-center">{{ p.precio_venta }}</td>
             <td class="text-center">
                 <!-- Botón ver más -->
-                <button type="button" class="leer-calzado btn btn-sm btn-primary" data-form-url="{% url 'leer_calzado' p.pk %}">
+                <button type="button" class="leer-calzado btn btn-sm btn-info mr-1" data-form-url="{% url 'leer_calzado' p.pk %}">
                     <span class="fas fa-eye"></span>
                 </button>
                 <!-- Botón actualizar producto -->
-                <button type="button" class="actualizar-calzado btn btn-sm btn-warning" data-form-url="{% url 'actualizar_calzado' p.pk %}">
+                <button type="button" class="actualizar-calzado btn btn-sm btn-primary mr-1" data-form-url="{% url 'actualizar_calzado' p.pk %}">
                     <span class="fas fa-pencil-alt"></span>
                 </button>
                 <!-- Botón eliminar producto -->

@@ -1,26 +1,46 @@
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="myModalProveedor" tabindex="-1" role="dialog" aria-labelledby="myModalProveedorLabel">
+    <div class="modal-dialog" style="max-width: 56%;" role="document">
         <div class="modal-content">
             <form id="updateProveedor" action="">
-                <div class="modal-header bg-gray-dark color-palette">
-                    <h5 class="modal-title">ACTUALIZAR</h5>
+                <div class="modal-header" style="background-color: #1D2535; color: #fff;">
+                    <h5 class="modal-title">EDITAR</h5>
                     <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
                 </div>
             
                 <div class="modal-body">
                     <input class="form-control" id="form-id" type="hidden" name="formId"/>
-                    <label for="nombre">Nombre:</label>
-                    <input class="form-control" id="form-nombre" type="text" name="formNombre"/>
-                    <label for="correo">Correo:</label>
-                    <input class="form-control" id="form-correo" type="text" name="formCorreo"/>
-                    <label for="telefono">Telefono:</label>
-                    <input class="form-control" id="form-telefono" type="text" name="formTelefono"/>
-                    <label for="direccion">Direccion:</label>
-                    <input class="form-control" id="form-direccion" type="text" name="formDireccion"/>
+                    <div class="row">
+                        <div class="col-md-6"><h4>Información del proveedor</h4></div>
+                        <div class="col-md-6"><h4>Información del banco</h4></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 offset-1">
+                            <label class="mt-2" for="nombre">Nombre de proveedor:</label>
+                            <input class="form-control" id="form-nombre" type="text" name="formNombre"/>
+                            <label class="mt-2" for="direccion">Direccion:</label>
+                            <input class="form-control" id="form-direccion" type="text" name="formDireccion"/>
+                            <label class="mt-2" for="telefono">Telefono:</label>
+                            <input class="form-control" id="form-telefono" type="text" name="formTelefono"/>
+                            <label class="mt-2" for="correo">Correo:</label>
+                            <input class="form-control" id="form-correo" type="text" name="formCorreo"/>
+                        </div>
+                        
+                        <div class="col-md-5 offset-1">
+                            <label class="mt-2" for="correo">Nombre de beneficiario:</label>
+                            <input class="form-control" id="form-nombre_benefactor" type="text" name="formNombre_benefactor"/>
+                            <label class="mt-2" for="correo">Nombre de banco:</label>
+                            <input class="form-control" id="form-nombre_banco" type="text" name="formNombre_banco"/>
+                            <label class="mt-2" for="correo">Clabe:</label>
+                            <input class="form-control" id="form-clabe" type="text" name="formClabe"/>
+                        </div>
+                    </div>
+                    
+                    
+                    
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" >Guardar</button>
+                    <button type="submit" class="btn btn-primary" ><i class="fas fa-pencil-alt mr-2"></i>Editar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
             </form>

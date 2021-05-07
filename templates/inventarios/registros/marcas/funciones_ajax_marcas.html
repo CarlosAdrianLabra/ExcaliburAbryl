@@ -31,8 +31,8 @@
       $("#marcaTable > tbody:last-child").append(`
             <tr id="marca-${marca.id}">
                 <td class="marcaNombre" name="nombre">${marca.nombre}</td>
-                '<td><button class="btn btn-default" onClick="editMarca(${marca.id})" data-toggle="modal" data-target="#myModal"><I class="fas fa-pencil-alt"></I></button></td>
-                '<td><button class="btn btn-default" onClick="deleteMarca(${marca.id})"><I class="fas fa-trash-alt"></I></button></td>
+                '<td><button class="btn btn-sm btn-info" onClick="editMarca(${marca.id})" data-toggle="modal" data-target="#myModal"><I class="fas fa-pencil-alt"></I></button></td>
+                '<td><button class="btn btn-sm btn-danger" onClick="deleteMarca(${marca.id})"><I class="fas fa-trash-alt"></I></button></td>
             </tr>
         `);
     }

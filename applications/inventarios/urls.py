@@ -16,6 +16,9 @@ urlpatterns = [
     path('actualizar_proveedor/',  views.ActualizarProveedorVista.as_view(), name='actualizar_proveedor'),
     path('eliminar_proveedor/',  views.EliminarProveedorVista.as_view(), name='eliminar_proveedor'),
 
+    # Index inventarios
+    path('inventario/',  views.IndexInventario.as_view(), name='index_inventario'),
+    
     # Index calzado
     path('almacen_1/productos/calzado/', views.IndexCalzado.as_view(), name='index_calzado'),
     # URLs para acciones CRUD

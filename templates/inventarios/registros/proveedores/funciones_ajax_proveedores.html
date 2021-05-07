@@ -5,8 +5,11 @@
         var correoInput = $('input[name="correo"]').val().trim();
         var telefonoInput = $('input[name="telefono"]').val().trim();
         var direccionInput = $('input[name="direccion"]').val().trim();
+        var nombre_benefactorInput = $('input[name="nombre_benefactor"]').val().trim();
+        var nombre_bancoInput = $('input[name="nombre_banco"]').val().trim();
+        var clabeInput = $('input[name="clabe"]').val().trim();
         
-        if (nombreInput && correoInput && telefonoInput && direccionInput) {
+        if (nombreInput || correoInput || telefonoInput || direccionInput || nombre_benefactorInput || nombre_bancoInput || clabeInput) {
             // Create Ajax Call
             $.ajax({
                 url: '{% url "crear_proveedor" %}',
@@ -14,7 +17,10 @@
                     'nombre': nombreInput,
                     'correo': correoInput,
                     'telefono': telefonoInput,
-                    'direccion': direccionInput
+                    'direccion': direccionInput,
+                    'nombre_benefactor': nombre_benefactorInput,
+                    'nombre_banco': nombre_bancoInput,
+                    'clabe': clabeInput
                 },
                 dataType: 'json',
                 success: function (data) {
@@ -24,7 +30,7 @@
                 }
             });
         } else {
-            alert("Todos los campos deben llenarse.");
+            alert("Se necesita al menos un nombre de proveedor.");
         }
         $('form#addProveedor').trigger("reset");
         return false;
@@ -34,11 +40,14 @@
       $("#proveedorTable > tbody:last-child").append(`
             <tr id="proveedor-${proveedor.id}">
                 <td class="proveedorNombre" name="nombre">${proveedor.nombre}</td>
-                '<td class="proveedorCorreo" name="correo">${proveedor.correo}</td>
-                '<td class="proveedorTelefono" name="telefono">${proveedor.telefono}</td>
                 '<td class="proveedorDireccion" name="direccion">${proveedor.direccion}</td>
-                '<td><button class="btn btn-default" onClick="editProveedor(${proveedor.id})" data-toggle="modal" data-target="#myModal"><I class="fas fa-pencil-alt"></I></button></td>
-                '<td><button class="btn btn-default" onClick="deleteProveedor(${proveedor.id})"><I class="fas fa-trash-alt"></I></button></td>
+                '<td class="proveedorTelefono" name="telefono">${proveedor.telefono}</td>
+                '<td class="proveedorCorreo" name="correo">${proveedor.correo}</td>
+                '<td class="proveedorNombre_benefactor" name="nombre_benefactor">${proveedor.nombre_benefactor}</td>
+                '<td class="proveedorNombre_banco" name="nombre_banco">${proveedor.nombre_banco}</td>
+                '<td class="proveedorClabe" name="clabe">${proveedor.clabe}</td>
+                '<td><button class="btn btn-sm btn-info mr-1" onClick="editProveedor(${proveedor.id})" data-toggle="modal" data-target="#myModalProveedor"><I class="fas fa-pencil-alt"></I></button>
+                '<button class="btn btn-sm btn-danger" onClick="deleteProveedor(${proveedor.id})"><I class="fas fa-trash-alt"></I></button></td>
             </tr>
         `);
     }
@@ -50,8 +59,11 @@
         var correoInput = $('input[name="formCorreo"]').val().trim();
         var telefonoInput = $('input[name="formTelefono"]').val().trim();
         var direccionInput = $('input[name="formDireccion"]').val().trim();
+        var nombre_benefactorInput = $('input[name="formNombre_benefactor"]').val().trim();
+        var nombre_bancoInput = $('input[name="formNombre_banco"]').val().trim();
+        var clabeInput = $('input[name="formClabe"]').val().trim();
 
-        if (nombreInput && correoInput && telefonoInput && direccionInput) {
+        if (nombreInput || correoInput || telefonoInput || direccionInput || nombre_benefactorInput || nombre_bancoInput || clabeInput) {
             // Update Ajax Call
             $.ajax({
                 url: '{% url "actualizar_proveedor" %}',
@@ -60,7 +72,10 @@
                     'nombre': nombreInput,
                     'correo': correoInput,
                     'telefono': telefonoInput,
-                    'direccion': direccionInput
+                    'direccion': direccionInput,
+                    'nombre_benefactor': nombre_benefactorInput,
+                    'nombre_banco': nombre_bancoInput,
+                    'clabe': clabeInput
                 },
                 dataType: 'json',
                 success: function (data) {
@@ -70,10 +85,10 @@
                 }
             });
         } else {
-            alert("Todos los campos deben llenarse.");
+            alert("Se necesita al menos un nombre de proveedor.");
         }
         $('form#updateProveedor').trigger("reset");
-        $('#myModal').modal('hide');
+        $('#myModalProveedor').modal('hide');
         return false;
     });
 
@@ -85,11 +100,17 @@
             correo = $(tr_id).find(".proveedorCorreo").text();
             telefono = $(tr_id).find(".proveedorTelefono").text();
             direccion = $(tr_id).find(".proveedorDireccion").text();
+            nombre_benefactor = $(tr_id).find(".proveedorNombre_benefactor").text();
+            nombre_banco = $(tr_id).find(".proveedorNombre_banco").text();
+            clabe = $(tr_id).find(".proveedorClabe").text();
             $('#form-id').val(id);
             $('#form-nombre').val(nombre);
             $('#form-correo').val(correo);
             $('#form-telefono').val(telefono);
             $('#form-direccion').val(direccion);
+            $('#form-nombre_benefactor').val(nombre_benefactor);
+            $('#form-nombre_banco').val(nombre_banco);
+            $('#form-clabe').val(clabe);
         }
     }
 
@@ -102,8 +123,14 @@
                 $(this).text(proveedor.correo);
             } else if (attr == "telefono") {
                 $(this).text(proveedor.telefono);
-            } else {
+            } else if (attr == "direccion") {
                 $(this).text(proveedor.direccion);
+            } else if (attr == "nombre_benefactor") {
+                $(this).text(proveedor.nombre_benefactor);
+            } else if (attr == "nombre_banco") {
+                $(this).text(proveedor.nombre_banco);
+            } else {
+                $(this).text(proveedor.clabe);
             }
         });
     }
