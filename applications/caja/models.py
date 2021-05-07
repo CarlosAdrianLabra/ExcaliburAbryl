@@ -20,3 +20,6 @@ class CerrarCaja(TimeStampedModel):
     class Meta:
         verbose_name = 'Cierre Caja'
         verbose_name_plural = 'Cierres de Caja'
+
+    def __str__(self):
+        return str(self.user) + ' - ' + str(self.date_close)

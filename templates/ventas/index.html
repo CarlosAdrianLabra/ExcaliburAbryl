@@ -1,0 +1,172 @@
+{% extends 'ventas/base_ventas.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <div class="content">
+        <form class="cell small-7 input-group" method="POST">{% csrf_token %}
+            <span class="input-group-label">COD/CAN:</span>
+            {{ form.barcode }}
+            {{ form.count }}
+            <div class="input-group-button">
+              <input type="submit" class="button secondary" value="Agregar">
+            </div>
+          </form>
+        <div class="container-fluid">
+                <h5>Productos en Venta</h5>
+                    <table>
+                        <thead>
+                        <th width="200">COD</th>
+                        <th width="250">Nombres</th>
+                        <th width="120">Precio</th>
+                        <th width="100">Cantidad</th>
+                        <th>Acciones</th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                            {% for producto in productos %}
+                            <tr>
+                            <td>{{ producto.barcode }}</td>
+                            <td>{{ producto.producto.nombre }}</td>
+                            <td>{{ producto.producto.precio_venta }}</td>
+                            <td>{{ producto.count }}</td>
+                            <td>
+                                <form action="{% url 'ventas_app:carshop-update' producto.id %}" method="POST">{% csrf_token %}
+                                <button type="submit" class="button"><i class=""></i>quitar 1</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{% url 'ventas_app:carshop-delete' producto.id %}" method="POST">{% csrf_token %}
+                                <button type="submit" class="button"><i class=""></i>Eliminar</button>
+                                </form>
+                            </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="cell medium-4">
+                        <div class="callout success" style="text-align: center;">
+                          <h5>Total a Cobrar:</h5>
+                          <h2> S/ {{ total_cobrar }} </h2>
+                        </div>
+                    </div>
+                    <div>
+                        <form class="cell" action="{% url 'ventas_app:carshop-delete_all' %}" method="POST">{% csrf_token %}
+                            <button type="submit" class="cell hollow button alert">
+                            <i class="fi-trash"></i>
+                            <span>Limpiar Todo</span>
+                            </button>
+                        </form>
+                    </div>
+                    <div>
+                        <form class="cell small-3" action="{% url 'ventas_app:venta-simple' %}" method="POST">{% csrf_token %}
+                            <button type="submit" class="cell button success">
+                              <i class="fi-shopping-cart"></i>
+                              <span>Pagar Todo</span>
+                            </button>
+                          </form>
+                    </div>
+                        
+                    <div>
+                    
+                    
+                    
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Cobrar e Imprimir
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Detalle del comprobante de pago</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                
+                                    <form action="{% url 'ventas_app:venta-voucher' %}" method="POST" target="_blank">{% csrf_token %}
+                                        <div>
+                                            <label>Tipo de Pago:</label>
+
+                                            <div >
+                                                <span ><i ></i></span>
+                                                {{ form_voucher.type_payment }}
+                                            </div>
+
+                                            {% for error in form.type_payment.errors %}
+                                                <p>
+                                                {{ error|escape }}
+                                                </p>
+                                            {% endfor %}
+
+                                        </div>
+
+                                        <div >
+
+                                            <label>Tipo de Comprobante:</label>
+
+                                            <div>
+
+                                                <span><i></i></span>
+                                                {{ form_voucher.type_invoice }}
+
+                                            </div>
+
+                                            {% for error in form.type_invoice.errors %}
+                                                <p>
+                                                {{ error|escape }}
+                                                </p>
+                                            {% endfor %}
+
+                                        </div>
+                                            <p></p>
+                                        <div  class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Pagar</button>
+                                            <button type="button" onclick="reloadPage();">Terminar Venta</button>
+                                        </div>
+                                        
+
+                                    </form>
+
+                                </div>
+
+                               <!-- <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                
+                                </div>-->
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cell small-2">
+                        <a class="cell hollow button secondary" href="{% url 'ventas_app:venta-list' %}">
+                          <i class="fi-trash"></i>
+                          <span>Ultimas Ventas</span>
+                        </a>
+                      </div>
+        </div>
+    </div>
+
+
+
+
+<script>
+    function reloadPage(){
+        location.reload(true);
+    }
+</script>
+
+
+
+{% endblock content %}
+    

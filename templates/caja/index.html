@@ -1,0 +1,128 @@
+{% extends 'caja/base_caja.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <div class="content">
+        <div class="container-fluid">
+
+
+
+
+            <div class="cell medium-4 callout success" style="text-align: center;">
+                <h5>Total Ventas Hoy</h5>
+                <h3>S/ {{ total_vendido }}</h3>
+              </div>
+              <div class="cell medium-4 callout primary" style="text-align: center;">
+                <h5>Total Anulaciones</h5>
+                <h3>S/ {{ total_anulado }}</h3>
+              </div>
+              <div class="cell medium-4 callout alert" style="text-align: center;">
+                <h5>Total Ventas</h5>
+                <h3>{{ num_ventas_hoy }}</h3>
+              </div>
+
+
+
+
+                            <h4 class="cell">Detalle de las ventas del Dia:</h4>
+                    <div class="cell">
+                        {% for venta in ventas_dia %}
+                        <table>
+                            <thead style="border: 1px solid green;">
+                            <th>N° {{venta.id}}</th>
+                            <th>PAGO: {{venta.get_type_payment_display}}</th>
+                            <th>PAGO: {{ venta.get_type_invoce_display }}</th>
+                            <th>CANTIDAD: {{venta.count}}</th>
+                            <th>TOTAL: S/ {{ venta.amount }}</th>
+                            </thead>
+                        </table>
+                        <table class="hover">
+                            <thead>
+                            <th>Producto</th>
+                            <th>Precio Venta</th>
+                            <th>Cantidad</th>
+                            <th>Sub Total</th>
+                            </thead>
+                            <tbody>
+                            {% for detalle in venta.detail_sale.all %}
+                                <tr>
+                                <td>{{ detalle.producto.nombre }}</td>
+                                <td>S/. {{ detalle.price_sale }}</td>
+                                <td>{{ detalle.count }}</td>
+                                <td>S/ {{ detalle.subtotal }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            </table>
+                        {% endfor %}
+                    </div>
+
+
+
+
+
+                                            <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Cerrar Caja
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">¿Seguro que desea cerrar caja?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+
+
+
+
+                                    
+                                    <br>
+                                    <h3>Monto Total: {{ total_vendido }}</h3>
+                                    
+                                    <br>
+                                    <form action="{% url 'caja_app:caja-cerrar' %}" class="cell" method="post">
+                                      {% csrf_token %}
+                                      <button type="submit">Confirmar</button>
+                                    </form>
+
+
+
+
+
+
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+{% endblock content %}
+    

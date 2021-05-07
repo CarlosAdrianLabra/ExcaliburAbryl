@@ -94,10 +94,10 @@ class SaleDetailManager(models.Manager):
         prods_en_anulados = []
         for venta_detail in self.filter(sale__id=id_venta):
             #actualizmso producot
-            venta_detail.product.count = venta_detail.product.count + venta_detail.count
-            venta_detail.product.num_sale = venta_detail.product.num_sale - venta_detail.count
-            prods_en_anulados.append(venta_detail.product)
-        Product.objects.bulk_update(prods_en_anulados, ['count', 'num_sale'])
+            venta_detail.producto.stock = venta_detail.producto.stock + venta_detail.count
+            venta_detail.producto.num_venta = venta_detail.producto.num_venta - venta_detail.count
+            prods_en_anulados.append(venta_detail.producto)
+        Productos.objects.bulk_update(prods_en_anulados, ['stock', 'num_venta'])
         return True
     
     def resumen_ventas(self):
@@ -171,7 +171,7 @@ class CarShopManager(models.Manager):
         
         consulta = self.aggregate(
             total=Sum(
-                F('count')*F('product__sale_price'),
+                F('count')*F('producto__precio_venta'),
                 output_field=FloatField()
             ),
         )

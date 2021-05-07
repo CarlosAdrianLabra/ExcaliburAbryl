@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Tienda ABRYL</h3>
+    <table>
+        <tr>
+            <td>Numero de venta:</td><td>{{venta.id}}</td>
+            <td>Fecha:</td><td>{{venta.date_sale}}</td>
+        </tr>
+        <tr>
+            <td>Cantidad de Productos:</td><td>{{venta.count}}</td>
+            <td>Monto Pagado:</td><td>{{venta.amount}}</td>
+        </tr>
+        <tr>
+            <td>Tipo de Pago:</td><td>{{venta.get_type_payment_display}}</td>
+        </tr>
+    </table>
+
+    <h4>Poductos comprados:</h4>
+    <ul>
+        {% for producto in detalle_productos %}
+          <li>{{ producto.producto.nombre }} --- {{ producto.count }} --- {{ producto.producto.precio_venta}}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
