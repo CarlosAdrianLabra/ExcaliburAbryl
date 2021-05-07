@@ -15,6 +15,11 @@ urlpatterns = [
         name='carshop-update',
     ),
     path(
+        'carshop/update2/<pk>/', 
+        views.CarShopUpdate2View.as_view(),
+        name='carshop-update2',
+    ),
+    path(
         'carshop/delete/<pk>/', 
         views.CarShopDeleteView.as_view(),
         name='carshop-delete',

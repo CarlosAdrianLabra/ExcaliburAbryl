@@ -66,6 +66,20 @@ class CarShopUpdateView(View):
             )
         )
 
+class CarShopUpdate2View(View):
+    """ agrega en 1 la cantidad en un carshop """
+
+    def post(self, request, *args, **kwargs):
+        car = Carrito.objects.get(id=self.kwargs['pk'])
+        if car.count > 0:
+            car.count = car.count + 1
+            car.save()
+        
+        return HttpResponseRedirect(
+            reverse(
+                'ventas_app:venta-index'
+            )
+        )
 
 class CarShopDeleteView(DeleteView):
     model = Carrito

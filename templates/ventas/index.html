@@ -2,171 +2,208 @@
 
 {% load static %}
 
+{% block head %}
+<title>Ventas</title>
+
+<style>
+    .btr:hover {
+        color: azure;
+        background: #1D2535;
+        border-color: #1D2535;
+    }
+    .btr {
+        color: #1D2535;
+        border-color: #1D2535;
+    }
+</style>
+{% endblock head %}
 
 {% block content %}
+<!-- Main content -->
+<div class="content mb-5">
+    <div class="container-fluid">
+        <!--Row content -->
+        <div class="row">
+            <div class="col-12">
 
-    <div class="content">
-        <form class="cell small-7 input-group" method="POST">{% csrf_token %}
-            <span class="input-group-label">COD/CAN:</span>
-            {{ form.barcode }}
-            {{ form.count }}
-            <div class="input-group-button">
-              <input type="submit" class="button secondary" value="Agregar">
+                <!-- Card content -->
+                <div class="card mt-3">
+                    <div class="card-header" style="color: azure; background: #1D2535;">
+                        <h1 class="card-title mt-3 mb-3 ml-3">PUNTO DE VENTA</h1>
+                    </div>
+
+                    <!-- Card body -->
+                    <div class="container-fluid mt-3 mb-3">
+
+                        <!-- Row codigo de barras -->
+                        <div class="row mt-3 mb-3">
+                            <div class="col-7 offset-md-1">
+                                <form method="POST">{% csrf_token %}
+                                    <div class="input-group">
+                                        <span class="input-group-text"><strong><i class="fas fa-barcode"></i></strong></span>
+                                        {{ form.barcode }}
+                                        {{ form.count }}
+                                        <button type="submit" class="btn btn-default col-3">Agregar producto</button>
+                                    </div>                                    
+                                </form>
+                            </div>
+                        </div>
+                        <!-- ./row codigo de barras -->
+
+                        <!-- Row tabla de compras -->
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-10">
+                                <div class="card-body table-responsive p-0" style="height: 350px;">
+                                    <table class="table table-striped text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 90px;">COD</th>
+                                                <th>NOMBRE</th>
+                                                <th style="text-align: center; width: 200px;">PRECIO / U</th>
+                                                <th style="text-align: center; width: 150px;">NO. PIEZAS</th>
+                                                <th style="text-align: center; width: 150px;">ACCIONES</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for p in productos %}
+                                            <tr>
+                                                <td>{{ p.barcode }}</td>
+                                                <td>{{ p.producto.nombre }}</td>
+                                                <td style="text-align: center;">$ {{ p.producto.precio_venta }}</td>
+                                                <td style="text-align: center;">{{ p.count }}</td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <form class="m-0" action="{% url 'ventas_app:carshop-update' p.id %}" method="POST">{% csrf_token %}
+                                                                <button type="submit" class="btn btn-block btn-xs btn-default"><i class="fas fa-minus"></i></button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <form class="m-0" action="{% url 'ventas_app:carshop-update2' p.id %}" method="POST">{% csrf_token %}
+                                                                <button type="submit" class="btn btn-block btn-xs btn-default"><i class="fas fa-plus"></i></button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <form class="m-0" action="{% url 'ventas_app:carshop-delete' p.id %}" method="POST">{% csrf_token %}
+                                                                <button type="submit" class="btn btn-block btn-xs btn-default"><i class="fas fa-times"></i></button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-3 offset-9 mt-4">
+                                    <div class="row">
+                                        <div class="container" style="text-align: center; background-color: #eee;">
+                                            <p style="font-weight: 900; margin-top: 10px;">TOTAL VENTA</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="container" style="text-align: center;">
+                                            <p style="margin-top: 10px; font-size: 30px;" >${{ total_cobrar }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./row tabla de compras -->
+
+                        <!-- Row acciones de pago -->
+                        <div class="row mb-4">
+                            <div class="col-2 offset-md-1">
+                                <form action="{% url 'ventas_app:carshop-delete_all' %}" class="m-0" method="POST">{% csrf_token %}    
+                                    <button type="submit" class="btn btn-outline-danger col-8"><i class="fas fa-trash mr-2"></i>Limpiar caja</button>
+                                </form>
+                            </div>
+
+                            <div class="col-2 offset-md-4">
+                                <form action="{% url 'ventas_app:venta-simple' %}" style="margin: 0px;" method="POST">{% csrf_token %}
+                                    <button type="submit" class="btn btn-block btr" style="margin-left: -15px;"><i class="fas fa-tag mr-2"></i>Venta simple</button>
+                                </form>
+                            </div>
+
+                            <div class="col-2">
+                                <button type="button" class="btn btn-block btr" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-tag mr-2"></i>Venta con ticket</button>
+                            </div>
+                        </div>
+                        <!-- ./row acciones de pagos -->
+
+                    </div>
+                    <!-- ./card body -->
+                
+                </div>
+                <!-- ./card content -->
+
             </div>
-          </form>
-        <div class="container-fluid">
-                <h5>Productos en Venta</h5>
-                    <table>
-                        <thead>
-                        <th width="200">COD</th>
-                        <th width="250">Nombres</th>
-                        <th width="120">Precio</th>
-                        <th width="100">Cantidad</th>
-                        <th>Acciones</th>
-                        <th></th>
-                        </thead>
-                        <tbody>
-                            {% for producto in productos %}
-                            <tr>
-                            <td>{{ producto.barcode }}</td>
-                            <td>{{ producto.producto.nombre }}</td>
-                            <td>{{ producto.producto.precio_venta }}</td>
-                            <td>{{ producto.count }}</td>
-                            <td>
-                                <form action="{% url 'ventas_app:carshop-update' producto.id %}" method="POST">{% csrf_token %}
-                                <button type="submit" class="button"><i class=""></i>quitar 1</button>
-                                </form>
-                            </td>
-                            <td>
-                                <form action="{% url 'ventas_app:carshop-delete' producto.id %}" method="POST">{% csrf_token %}
-                                <button type="submit" class="button"><i class=""></i>Eliminar</button>
-                                </form>
-                            </td>
-                            </tr>
+        </div>
+        <!-- ./row content -->
+    </div>
+</div>
+<!-- /.main content -->
+
+<!-- Modal comprobante -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #1D2535; color: #fff;">
+                <h3 class="modal-title" id="exampleModalLabel">COMPROBANTE DE PAGO</h3>
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{% url 'ventas_app:venta-voucher' %}" method="POST" class="m-0" target="_blank">{% csrf_token %}
+                    <div class="row">
+                        <label style="margin-left: 5px;">1 - SELECCIONA EL TIPO Y COMPROBANTE DE PAGO </label>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-5 offset-1">
+                            <label>Tipo de pago:</label>
+                        </div>
+
+                        <div class="col-6">
+                            {{ form_voucher.type_payment }}    
+                            {% for error in form.type_payment.errors %}
+                                {{ error|escape }}
                             {% endfor %}
-                        </tbody>
-                    </table>
-
-                    <div class="cell medium-4">
-                        <div class="callout success" style="text-align: center;">
-                          <h5>Total a Cobrar:</h5>
-                          <h2> S/ {{ total_cobrar }} </h2>
                         </div>
-                    </div>
-                    <div>
-                        <form class="cell" action="{% url 'ventas_app:carshop-delete_all' %}" method="POST">{% csrf_token %}
-                            <button type="submit" class="cell hollow button alert">
-                            <i class="fi-trash"></i>
-                            <span>Limpiar Todo</span>
-                            </button>
-                        </form>
-                    </div>
-                    <div>
-                        <form class="cell small-3" action="{% url 'ventas_app:venta-simple' %}" method="POST">{% csrf_token %}
-                            <button type="submit" class="cell button success">
-                              <i class="fi-shopping-cart"></i>
-                              <span>Pagar Todo</span>
-                            </button>
-                          </form>
-                    </div>
-                        
-                    <div>
-                    
-                    
-                    
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Cobrar e Imprimir
-                        </button>
-                        
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Detalle del comprobante de pago</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
 
-                                <div class="modal-body">
-                                
-                                    <form action="{% url 'ventas_app:venta-voucher' %}" method="POST" target="_blank">{% csrf_token %}
-                                        <div>
-                                            <label>Tipo de Pago:</label>
-
-                                            <div >
-                                                <span ><i ></i></span>
-                                                {{ form_voucher.type_payment }}
-                                            </div>
-
-                                            {% for error in form.type_payment.errors %}
-                                                <p>
-                                                {{ error|escape }}
-                                                </p>
-                                            {% endfor %}
-
-                                        </div>
-
-                                        <div >
-
-                                            <label>Tipo de Comprobante:</label>
-
-                                            <div>
-
-                                                <span><i></i></span>
-                                                {{ form_voucher.type_invoice }}
-
-                                            </div>
-
-                                            {% for error in form.type_invoice.errors %}
-                                                <p>
-                                                {{ error|escape }}
-                                                </p>
-                                            {% endfor %}
-
-                                        </div>
-                                            <p></p>
-                                        <div  class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Pagar</button>
-                                            <button type="button" onclick="reloadPage();">Terminar Venta</button>
-                                        </div>
-                                        
-
-                                    </form>
-
-                                </div>
-
-                               <!-- <div class="modal-footer">
-
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                
-                                </div>-->
-                            </div>
-                            </div>
+                        <div class="col-5 offset-1 mt-3">
+                            <label>Tipo de comprobante:</label>                        
                         </div>
+                        
+                        <div class="col-6 mt-3">
+                            {{ form_voucher.type_invoice }}
+                            {% for error in form.type_invoice.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-default col-3 mt-3" style="margin-left: 352px;">Generar venta</button>
                     </div>
-
-                    <div class="cell small-2">
-                        <a class="cell hollow button secondary" href="{% url 'ventas_app:venta-list' %}">
-                          <i class="fi-trash"></i>
-                          <span>Ultimas Ventas</span>
-                        </a>
-                      </div>
+                    <div class="row mt-3 mb-3">
+                        <label class="col-12">2 - TERMINAR VENTA </label>
+                        <button type="button" class="btn btn-sm btn-default col-4 mt-1" style="margin-left: 312px;" onclick="reloadPage();">Terminar venta</button>
+                    </div>
+                </form>
+            </div>
+            <!--
+            <div  class="modal-footer">                        
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+            -->
         </div>
     </div>
+</div>
+<!-- ./modal comprobante -->
+{% endblock content %}
 
-
-
-
+{% block extra_scripts %}
 <script>
     function reloadPage(){
         location.reload(true);
     }
 </script>
-
-
-
-{% endblock content %}
-    
+{% endblock extra_scripts %}

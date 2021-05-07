@@ -6,8 +6,8 @@ class VentaForm(forms.Form):
         required = True,
         widget=forms.TextInput(
             attrs={
-                'placeholder':'Codigo de barras',
-                'class': 'input-group-field',
+                'placeholder':'Código de barras',
+                'class': 'form-control col-4',
             }
         )
     )
@@ -16,7 +16,7 @@ class VentaForm(forms.Form):
         widget=forms.NumberInput(
             attrs= {
                 'value': '1',
-                'class': 'input-group-field',
+                'class': 'form-control text-center col-2',
             }
         )
     )
@@ -36,7 +36,7 @@ class VentaVoucherForm(forms.Form):
         choices=Venta.TIPO_PAYMENT_CHOICES,
         widget=forms.Select(
             attrs = {
-                'class': 'input-group-field',
+                'class': 'form-control',
             }
         )
     )
@@ -45,7 +45,7 @@ class VentaVoucherForm(forms.Form):
         choices=Venta.TIPO_INVOICE_CHOICES,
         widget=forms.Select(
             attrs = {
-                'class': 'input-group-field',
+                'class': 'form-control',
             }
         )
     )

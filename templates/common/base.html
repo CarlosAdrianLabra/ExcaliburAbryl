@@ -1,9 +1,7 @@
 {% load static %}
 
 <html lang="es">
-    <head>
-        {% block head %}{% endblock head %}
-            
+    <head>    
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Google Font: Source Sans Pro -->
@@ -13,6 +11,8 @@
         <!-- Theme style -->
         <link rel="stylesheet" href="{% static 'css/adminlte.css' %}">
 
+        {% block head %}{% endblock head %}
+        
         <style type="text/css">
             .brand-link {
                 padding: 30px 0 20px 30px;
