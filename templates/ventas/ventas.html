@@ -4,38 +4,68 @@
 
 
 {% block content %}
-
-    <div class="content">
+    <!-- Main content -->
+    <div class="content mb-5">
         <div class="container-fluid">
-            <div>
-                <h3>Ultimas Ventas Registradas</h3>
-                <div>
-                    <table>
-                        <thead>
-                            <th>Nomero</th>
-                            <th>Fecha</th>
-                            <th>Cantidad Productos</th>
-                            <th>Monto Total</th>
-                            <th>Anular</th>
-                        </thead>
-                        <tbody>
-                            {% for venta in ventas %}
-                            <tr>
-                            <td>{{venta.id}}</td>
-                            <td>{{venta.date_sale}}</td>
-                            <td>{{venta.count}}</td>
-                            <td>{{venta.amount}}</td>
-                            <td>
-                                <a href="{% url 'ventas_app:venta-delete' venta.id %}"><span>Cancelar venta</span></a>
-                            </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+            <!--Row content -->
+            <div class="row">
+                <div class="col-12" >
+                    <!-- Card content -->
+                    <div class="card mt-3" >
+                        <div class="card-header" style="color: azure; background: #1D2535;">
+                            <h1 class="card-title mt-3 mb-3 ml-3">Ultimas ventas registradas</h1>
+                        </div>
+
+                        <!-- Card body -->
+                        <div class="container-fluid mt-3 mb-3" >
+                            <div class="box">
+                                
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                                      
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                
+                                                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 297px;">Numero</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 361px;">Fecha</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 322px;">Cantidad productos</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 257px;">Monto total</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 190px;">Anular venta</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for venta in ventas %}
+                                                            <tr role="row" class="even">
+                                                            <td>{{venta.id}}</td>
+                                                            <td>{{venta.date_sale}}</td>
+                                                            <td>{{venta.count}}</td>
+                                                            <td>{{venta.amount}}</td>
+                                                            <td>
+                                                                <a href="{% url 'ventas_app:venta-delete' venta.id %}" style="color:red;"><span><i class="far fa-times-circle"></i> Cancelar Venta</span></a>
+                                                                
+                                                            </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 

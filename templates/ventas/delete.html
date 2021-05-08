@@ -4,36 +4,70 @@
 
 
 {% block content %}
-
-    <div class="content">
-        <div class="container-fluid">
-            <h5>¿Desea eliminar esta Venta?</h5>  
-            <form action="{% url 'ventas_app:venta-delete' venta.id %}" method="POST">
-              {% csrf_token %}
-              
-              <div>
-                  <div>
-                      <div>
-                        <h3>Monto: {{ venta.amount }}</h3>
+  <!-- Main content -->
+  <div class="content mb-5">
+    <div class="container-fluid">
+      <!--Row content -->
+        <div class="row">
+          <div class="col-3"></div>
+            <div class="col-6" >
+                <!-- Card content -->
+                  <div class="card mt-3" >
+                      <div class="card-header" style="color: azure; background: #1D2535;">
+                          <h1 class="card-title mt-3 mb-3 ml-3">DESEA ELIMINAR ESTA VENTA?</h1>
                       </div>
-                      <div>
-                        <h4>ID: {{ venta.id }}</h4>
-                        <p>FECHA: {{ venta.date_sale }}</p>
-                        <p>CANTIDAD PRODUCTOS: {{ venta.count }}</p>
-                        <p>TIPO DE COMPROBANTE: {{ venta.get_type_invoice_display }}</p>
-                        <p>TIPO DE PAGO: {{ venta.get_type_payment_display }}</p>
+
+                      <!-- Card body -->
+                      <div class="container-fluid mt-3 mb-3" >
+                          <div class="box">
+                            <form action="{% url 'ventas_app:venta-delete' venta.id %}" method="POST">
+                              {% csrf_token %}
+                              
+                              <div class="row">
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-6">
+                                  <h2>Monto $ {{ venta.amount }}</h2>
+                                  <h3>ID: {{ venta.id }}</h3>
+                                        <h5>FECHA: {{ venta.date_sale }}</h5>
+                                        <h5>CANTIDAD PRODUCTOS: {{ venta.count }}</h5>
+                                        <h5>TIPO DE COMPROBANTE: {{ venta.get_type_invoice_display }}</h5>
+                                        <h5>TIPO DE PAGO: {{ venta.get_type_payment_display }}</h5>
+                                </div>
+                                  
+                                     
+                                  
+                              </div>
+                              <div class="row">
+                                
+                                <div class="col-9">
+                                  
+                                  
+                                </div>
+                                <div class="col-3">
+                                  <button type="submit" class="btn btn-danger">Eliminar</button>
+                                  |
+                                  <a href="{% url 'ventas_app:venta-index' %}">Cancelar</a>
+                                
+                                </div>
+                              </div>
+                              
+                              
+                            </form>
+
+
+
+
+
+
+
+                          </div>
                       </div>
                   </div>
               </div>
-              
-              <div>
-                <button type="submit">Eliminar</button>
-                <a href="{% url 'ventas_app:venta-index' %}">Cancelar</a>
-              </div>
-            </form>
-        </div>
+          </div>
     </div>
-
-
+  </div>
 
 {% endblock content %}

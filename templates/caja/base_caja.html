@@ -6,5 +6,24 @@
 {% endblock head %}
 
 {% block sidebarlinks %}
-
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <li class="nav-item">
+        <a href="/venta/index" class="nav-link">
+            <i class="fas fa-shopping-cart"></i>
+            <p> Punto de Venta</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="/venta/ultimas-ventas" class="nav-link">
+            <i class="nav-icon fas fa-chart-line"></i>
+            <p>Ventas realizadas</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="/cierre-caja/index" class="nav-link">
+            <i class="fas fa-cash-register"></i>
+            <p> Cerrar Caja</p>
+        </a>
+    </li>
+</ul>
 {% endblock sidebarlinks %}

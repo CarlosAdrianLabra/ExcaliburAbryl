@@ -1,128 +1,196 @@
 {% extends 'caja/base_caja.html' %}
 
 {% load static %}
+{% block head %}
+<title>Cierre Caja</title>
 
+<style>
+    .btr:hover {
+        color: azure;
+        background: #1D2535;
+        border-color: #1D2535;
+    }
+    .btr {
+        color: #1D2535;
+        border-color: #1D2535;
+    }
+</style>
+{% endblock head %}
 
 {% block content %}
 
-    <div class="content">
+
+    <!-- Main content -->
+    <div class="content mb-5">
         <div class="container-fluid">
+            <!--Row content -->
+            <div class="row">
+                <div class="col-12" >
 
-
-
-
-            <div class="cell medium-4 callout success" style="text-align: center;">
-                <h5>Total Ventas Hoy</h5>
-                <h3>S/ {{ total_vendido }}</h3>
-              </div>
-              <div class="cell medium-4 callout primary" style="text-align: center;">
-                <h5>Total Anulaciones</h5>
-                <h3>S/ {{ total_anulado }}</h3>
-              </div>
-              <div class="cell medium-4 callout alert" style="text-align: center;">
-                <h5>Total Ventas</h5>
-                <h3>{{ num_ventas_hoy }}</h3>
-              </div>
-
-
-
-
-                            <h4 class="cell">Detalle de las ventas del Dia:</h4>
-                    <div class="cell">
-                        {% for venta in ventas_dia %}
-                        <table>
-                            <thead style="border: 1px solid green;">
-                            <th>N° {{venta.id}}</th>
-                            <th>PAGO: {{venta.get_type_payment_display}}</th>
-                            <th>PAGO: {{ venta.get_type_invoce_display }}</th>
-                            <th>CANTIDAD: {{venta.count}}</th>
-                            <th>TOTAL: S/ {{ venta.amount }}</th>
-                            </thead>
-                        </table>
-                        <table class="hover">
-                            <thead>
-                            <th>Producto</th>
-                            <th>Precio Venta</th>
-                            <th>Cantidad</th>
-                            <th>Sub Total</th>
-                            </thead>
-                            <tbody>
-                            {% for detalle in venta.detail_sale.all %}
-                                <tr>
-                                <td>{{ detalle.producto.nombre }}</td>
-                                <td>S/. {{ detalle.price_sale }}</td>
-                                <td>{{ detalle.count }}</td>
-                                <td>S/ {{ detalle.subtotal }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                            </table>
-                        {% endfor %}
-                    </div>
-
-
-
-
-
-                                            <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Cerrar Caja
-                        </button>
-                        
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">¿Seguro que desea cerrar caja?</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">
-
-
-
-
-                                    
-                                    <br>
-                                    <h3>Monto Total: {{ total_vendido }}</h3>
-                                    
-                                    <br>
-                                    <form action="{% url 'caja_app:caja-cerrar' %}" class="cell" method="post">
-                                      {% csrf_token %}
-                                      <button type="submit">Confirmar</button>
-                                    </form>
-
-
-
-
-
-
-
-
-
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div>
-                            </div>
+                    <!-- Card content -->
+                    <div class="card mt-3" >
+                        <div class="card-header" style="color: azure; background: #1D2535;">
+                            <h1 class="card-title mt-3 mb-3 ml-3">CIERRE DE CAJA</h1>
                         </div>
 
+                        <!-- Card body -->
+                        <div class="container-fluid mt-3 mb-3" >
+                            <div class="row">
+                                <div class="col" >
+                                    
+                                        <!-- small box -->
+                                        <div class="small-box bg-blue">
+                                          <div class="inner">
+                                            <h3>{{ num_ventas_hoy }}</h3>
+                              
+                                            <p>Total Numero de Ventas de hoy</p>
+                                          </div>
+                                          <div class="icon">
+                                            <i class="fa fa-shopping-cart"></i>
+                                          </div>
+                                          <!--<a href="#" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                          </a>-->
+                                        </div>
+                                      
+                                </div>
+                                <div class="col">
+                                    
+                                        <!-- small box -->
+                                        <div class="small-box bg-red">
+                                          <div class="inner">
+                                            <h3>${{ total_anulado }}</h3>
+                              
+                                            <p>Total Pesos Ventas anuladas</p>
+                                          </div>
+                                          <div class="icon">
+                                            <i class="fas fa-window-close"></i>
+                                          </div>
+                                          <!--<a href="#" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                          </a>-->
+                                        </div>
+                                       
+                                </div>
+                                <div class="col">
+                                    
+                                        <!-- small box -->
+                                        <div class="small-box bg-green">
+                                          <div class="inner">
+                                            <h3>${{ total_vendido }}</h3>
+                              
+                                            <p>Total Pesos Ventas de hoy</p>
+                                          </div>
+                                          <div class="icon">
+                                            <i class="fas fa-coins"></i>
+                                          </div>
+                                          <!--<a href="#" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                          </a>-->
+                                        </div>
+                                      
+                                </div>
+                                
+
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    
+
+
+                                    <div class="box">
+                                        <div class="box-header">
+                                          <h3 class="box-title">Detalle de las ventas del Dia</h3>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                                              
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        {% for venta in ventas_dia %}
+                                                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                                                <thead>
+                                                                    <tr role="row">
+                                                                        <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 297px;">N° {{venta.id}}</th>
+                                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 361px;">PAGO: {{venta.get_type_payment_display}}</th>
+                                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 322px;">PAGO: {{ venta.get_type_invoce_display }}</th>
+                                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 257px;">CANTIDAD: {{venta.count}}</th>
+                                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 190px;">TOTAL: $ {{ venta.amount }}</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% for detalle in venta.detail_sale.all %}
+                                                                    <tr role="row" class="even">
+                                                                        <td>{{ detalle.producto.nombre }}</td>
+                                                                        <td>$ {{ detalle.price_sale }}</td>
+                                                                        <td>{{ detalle.count }}</td>
+                                                                        <td>$ {{ detalle.subtotal }}</td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                                </tbody>
+                                                            </table>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
 
 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-outline-dark btn-block btn-lg" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-cash-register"></i> Cerrar caja</button>
+                                </div>
 
+                            </div>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background-color: #1D2535; color: #fff;">
+                                        <h3 class="modal-title" id="exampleModalLabel">¿Seguro que desea cerrar caja?</h3>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <i class="fas fa-times" style="color: white;"></i>
+                                        
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            
+                                                    <br>
+                                                        <h2>Monto Total</h2>
+                                                        <h3 style="color: green;"> $ {{ total_vendido }}</h3>
+                                                    <br>
+                                                
+                                            <form action="{% url 'caja_app:caja-cerrar' %}" class="cell" method="post">
+                                            {% csrf_token %}
+                                            
+                                            <button type="submit" class="btn btn-sm btn-default col-4 mt-1" style="margin-left: 312px;">Confirmar</button>
+                                            
+                                            </form>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-
 {% endblock content %}
     
