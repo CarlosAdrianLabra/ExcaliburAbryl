@@ -1,6 +1,10 @@
 from django.db import models
 from django.db.models.signals import post_save
 from model_utils.models import TimeStampedModel
+import barcode
+from barcode.writer import ImageWriter
+from io import BytesIO
+from django.core.files import File
 from PIL import Image
 from .managers import filtros
 
@@ -108,6 +112,9 @@ class Productos(TimeStampedModel):
 
     # Imagen del producto
     img = models.ImageField('Imagen', upload_to='productos', blank=True, null=True)
+    
+    # Imagen del codigo de barras
+    barcodeimg= models.ImageField('imagenbarras', upload_to='codigodebarras/', blank=True)
 
     # Managers
     objects = filtros()
@@ -120,6 +127,14 @@ class Productos(TimeStampedModel):
 
     def __str__(self):
         return self.marca.nombre + ' - ' + self.modelo + ' - ' + self.get_linea_display() + ' - ' + self.get_color_display()
+
+    def save(self, *args, **kwargs):
+        EAN= barcode.get_barcode_class('ean13')
+        ean = EAN('123456789012', writer=ImageWriter())
+        buffer = BytesIO()
+        ean.write(buffer)
+        self.barcodeimg.save(f"{self.nombre}.png", File(buffer), save=False)
+        return super().save(*args, **kwargs)
 
 # Funcion para optimizar el atributo IMG del modelo Productos
 def optimizar_img(sender, instance, **kwargs):
