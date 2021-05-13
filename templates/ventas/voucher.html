@@ -1,12 +1,112 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
+    <title>Comprobante de pago</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
 </head>
 <body>
-    <h3>Tienda ABRYL</h3>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <p style="text-align: center; font-size: 12px; font-weight: bold;">
+                        Tienda Abryl
+                    </p>
+                    Abryl Ropa y Calzado S.A. DE C.V.<br>
+                    Avenida Tlahuac, 823<br>
+                    Col. San Lorenzo Tezonco, 09900<br>
+                    Del. Iztapalapa, CDMX<br>
+                    RFC. DLAI-931201-M19<br>
+                    <br>
+                    Regimen General de Ley de Personas Morales<br>
+                    -------------------------------------------------------<br>
+                    <p style="text-align: center; font-weight: bold;">
+                        VENTA
+                    </p>
+                    
+                    <table style="text-align: center;">
+                        <thead>
+                            <tr>
+                                <td>TDA</td>
+                                <td>TERM</td>
+                                <td>VTA</td>
+                                <td>VEND</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>001</td>
+                                <td>001</td>
+                                <td>{{venta.id}}</td>
+                                <td>001</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="text-align: center;">Atendio: MARIA DEL ROSARIO GA.</p>
+                    <table>
+                        <tbody>
+                            {% for producto in detalle_productos %}
+                            <tr>
+                                <td width="35">1010101</td>
+                                <td colspan="2">{{ producto.producto.nombre }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    {{ producto.count }} X ${{ producto.producto.precio_venta}}
+                                </td>
+                                <td style="text-align: right;">$ 0.00</td>
+                            </tr>
+                            {% endfor %}
+                            
+                            <tr></tr>
+                            <tr>
+                                <td colspan="2">TOTAL M.N.</td>
+                                <td style="text-align: right;">$ {{venta.amount}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">{{venta.get_type_payment_display}}</td>
+                                <td style="text-align: right;">$ {{venta.amount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    SETECIENTOS TREINTA Y SIETE PESOS 00/100 M.N.
+                    -------------------------------------------------------<br>
+                    <p style="text-align: center; margin: 0px;">
+                        Articulos Vendidos {{venta.count}}
+                    </p>
+                    -------------------------------------------------------<br>
+                    <p style="text-align: center;">
+                        Gracias por su visita!
+                    </p>
+                    <table style="text-align: center;">
+                        <tr>
+                            <td>CLIENTE</td><td>{{venta.date_sale}}</td>
+                        </tr>
+                    </table>
+                    -------------------------------------------------------<br>
+                    <p style="text-align: center;">Visitanos y compra en</p>
+                    <p style="text-align: center; font-weight: bold;">
+                        tiendaabryl.mercadoshops.com.mx/
+                    </p>
+                    -------------------------------------------------------<br>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br><br><br><br><br><br><br>
     <table>
         <tr>
             <td>Numero de venta:</td><td>{{venta.id}}</td>

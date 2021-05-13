@@ -39,39 +39,49 @@
 
                         <!-- Card body -->
                         <div class="container-fluid mt-4 mb-3">
-    
-                            <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                                <div class="col">
-                                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
-                                        <thead class="text-center">
-                                            <tr>
-                                                <th style="width: 297px;">Numero</th>
-                                                <th style="width: 361px;">Fecha</th>
-                                                <th style="width: 322px;">Cantidad productos</th>
-                                                <th style="width: 257px;">Monto total</th>
-                                                <th style="width: 190px;">Cancelar venta</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="text-center">
-                                            {% for venta in ventas %}
-                                            <tr>
-                                                <td>{{venta.id}}</td>
-                                                <td>{{venta.date_sale}}</td>
-                                                <td>{{venta.count}}</td>
-                                                <td>{{venta.amount}}</td>
-                                                <td>
-                                                    <a href="{% url 'ventas_app:venta-delete' venta.id %}" class="red"><span>
-                                                        <i class="fas fa-window-close mr-1"></i>
-                                                        </i>Cancelar venta</span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="col">
 
+                                <table class="table table-bordered table-dark">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th style="width: 297px;">Numero</th>
+                                            <th style="width: 361px;">Fecha</th>
+                                            <th style="width: 322px;">Cantidad productos</th>
+                                            <th style="width: 257px;">Monto total</th>
+                                            <th style="width: 190px;">Cancelar venta</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+
+                                <table class="table table-bordered table-striped" style="margin-top: -39px;">
+                                    <thead class="text-center" style="visibility: hidden;">
+                                        <tr>
+                                            <th style="width: 297px;"></th>
+                                            <th style="width: 361px;"></th>
+                                            <th style="width: 322px;"></th>
+                                            <th style="width: 257px;"></th>
+                                            <th style="width: 190px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        {% for venta in ventas %}
+                                        <tr>
+                                            <td>{{venta.id}}</td>
+                                            <td>{{venta.date_sale}}</td>
+                                            <td>{{venta.count}}</td>
+                                            <td>{{venta.amount}}</td>
+                                            <td>
+                                                <a href="{% url 'ventas_app:venta-delete' venta.id %}" class="red"><span>
+                                                    <i class="fas fa-window-close mr-1"></i>
+                                                    </i>Cancelar venta</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
                         </div>
 
                     </div>
