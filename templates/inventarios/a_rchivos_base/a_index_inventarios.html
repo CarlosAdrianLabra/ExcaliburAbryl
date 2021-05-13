@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block head %}
-<title>Abryl - Inventario</title>
+<title>Inventario</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
 {% block sidebarlinks %}
@@ -75,6 +76,27 @@
                     </li>                   
                 </ul>
             </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-boxes"></i><p>ALMACEN - 3<i class="fas fa-angle-left right"></i></p>
+                </a>
+                
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Calzado</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Ropa</p>
+                        </a>
+                    </li>                   
+                </ul>
+            </li>
         </ul>
     </li>
 </ul>
@@ -90,89 +112,251 @@
         <div class="row justify-content-center mt-3">
             <div class="col-md-3">
                 <div class="card">
-                    <div class="card-header" style="color: azure; background: #1D2535;">
+                    <div class="card-header">
                         ALMACEN 1
                     </div>
-                    <div class="card-body text-center">
-                        <label>Productos con menos de 10 existencias</label>
-                        <p>{{ stock_por_terminar }}</p>
+                    
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3 text-center" style="font-size: 45px;">
+                                <i class="fab fa-accusoft mt-4"></i>
+                                <i class="fab fa-accusoft" style="margin-top: 80px;"></i>
+                            </div>
+                            <div class="col-9">
+                                <label>Calzado por terminarse</label> - {{ calzado_por_terminarse }}
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Menos de 10 existencias</p>
+
+                                <label>Más vendido</label> - {{ calzado_mas_vendido }}
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Más del promedio ( {{ calzado_promedio }} ventas)</p>
+
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+
+                                <label>Ropa por terminarse</label> - {{ ropa_por_terminarse }}
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Menos de 10 existencias</p>
+
+                                <label>Más vendida</label> - {{ ropa_mas_vendida }}
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Más del promedio ( {{ ropa_promedio }} ventas)</p>
+
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
 
             <div class="col-md-3" style="margin-left: 64px;">
                 <div class="card">
-                    <div class="card-header" style="color: azure; background: #1D2535;">
+                    <div class="card-header">
                         ALMACEN 2
                     </div>
-                    <div class="card-body text-center">
-                        <label>INFO</label>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3 text-center" style="font-size: 45px;">
+                                <i class="fab fa-accusoft mt-4"></i>
+                            </div>
+                            <div class="col-9">
+                                <label>Calzado por terminarse</label> - 0
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Menos de 10 existencias</p>
+
+                                <label>Más vendido</label> - 0
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Más del promedio ( 0 ventas)</p>
+
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-3" style="margin-left: 64px;">
                 <div class="card">
-                    <div class="card-header" style="color: azure; background: #1D2535;">
+                    <div class="card-header">
                         ALMACEN 3
                     </div>
-                    <div class="card-body text-center">
-                        <label>INFO</label>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3 text-center" style="font-size: 45px;">
+                                <i class="fab fa-accusoft mt-4"></i>
+                            </div>
+                            <div class="col-9">
+                                <label>Calzado por terminarse</label> - 0
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Menos de 10 existencias</p>
 
-        <div class="row mt-5">
-            <div class="col-md-10 offset-1">
-                <div class="card">
-                    <div class="card-header" style="color: azure; background: #1D2535;">
-                        ALMACEN 1 - PRODUCTOS POR TERMINARSE
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-body text-center">
-                        <label>INFO</label>
-                    </div>
-                </div>
-            </div>
+                                <label>Más vendido</label> - 0
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Más del promedio ( 0 ventas)</p>
 
-            <div class="col-md-10 offset-1">
-                <div class="card">
-                    <div class="card-header" style="color: azure; background: #1D2535;">
-                        ALMACEN 2 - PRODUCTOS POR TERMINARSE
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body text-center">
-                        <label>INFO</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-10 offset-1">
-                <div class="card">
-                    <div class="card-header" style="color: azure; background: #1D2535;">
-                        ALMACEN 3 - PRODUCTOS POR TERMINARSE
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-body text-center">
-                        <label>INFO</label>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row mt-3">
-            <div class="col-3 offset-1">
-                <a href="/inventario" type="button" class="btn btn-default"><I class="fa fa-undo-alt mr-2"></I>Actualizar página</a>
+            <div class="col-md-10 offset-1">
+                <div class="card collapsed-card">
+                    <span class="card-header" data-card-widget="collapse">
+                        ALMACEN 1 - CALZADO
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <!--<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>-->
+                        </div>
+                    </span>
+                    <div class="card-body">
+                        <h5 style="margin-left: 10px; font-weight: bold;">POR TERMINARSE</h5><hr style="width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+
+                        <!-- Tabla por terminarse -->
+                        <div class="table-responsive p-0" style="height: 272px;">
+                            <table class="table table-striped text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
+                                        <th>NOMBRE</th>
+                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
+                                        <th class="text-center red" style="width: 117px;">EXISTENCIAS</th>
+                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
+                                        <th class="text-center" style="width: 160px;">PRECIO DE COMPRA</th>
+                                        <th class="text-center" style="width: 117px;">NO. VENTAS</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in tabla_calzado_por_terminarse %}
+                                    <tr>
+                                        <td class="text-center">{{ p.barcode }}</td>
+                                        <td>{{ p.nombre }}</td>
+                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
+                                        <td class="text-center red">{{ p.stock }}</td>
+                                        <td class="text-center">{{ p.precio_venta }}</td>
+                                        <td class="text-center">{{ p.precio_compra }}</td>
+                                        <td class="text-center">{{ p.num_venta }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- ./tabla por terminarse -->
+
+                        <h5 class="mt-5" style="margin-left: 10px; font-weight: bold;">MÁS VENDIDO</h5><hr style="width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+
+                        <!-- Tabla más vendido -->
+                        <div class="table-responsive p-0" style="height: 272px;">
+                            <table class="table table-striped text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
+                                        <th>NOMBRE</th>
+                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
+                                        <th class="text-center" style="width: 117px;">EXISTENCIAS</th>
+                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
+                                        <th class="text-center" style="width: 160px;">PRECIO DE COMPRA</th>
+                                        <th class="text-center red" style="width: 117px;">NO. VENTAS</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in tabla_calzado_mas_vendido %}
+                                    <tr>
+                                        <td class="text-center">{{ p.barcode }}</td>
+                                        <td>{{ p.nombre }}</td>
+                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
+                                        <td class="text-center">{{ p.stock }}</td>
+                                        <td class="text-center">{{ p.precio_venta }}</td>
+                                        <td class="text-center">{{ p.precio_compra }}</td>
+                                        <td class="text-center red">{{ p.num_venta }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- ./tabla más vendido -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 offset-1">
+                <div class="card collapsed-card">
+                    <span class="card-header" data-card-widget="collapse">
+                        ALMACEN 1 - ROPA
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <!--<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>-->
+                        </div>
+                    </span>
+                    <div class="card-body">
+                        <h5 style="margin-left: 10px; font-weight: bold;">POR TERMINARSE</h5><hr style="width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+
+                        <!-- Tabla por terminarse -->
+                        <div class="table-responsive p-0" style="height: 272px;">
+                            <table class="table table-striped text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
+                                        <th>NOMBRE</th>
+                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
+                                        <th class="text-center red" style="width: 117px;">EXISTENCIAS</th>
+                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
+                                        <th class="text-center" style="width: 160px;">PRECIO DE COMPRA</th>
+                                        <th class="text-center" style="width: 117px;">NO. VENTAS</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in tabla_ropa_por_terminarse %}
+                                    <tr>
+                                        <td class="text-center">{{ p.barcode }}</td>
+                                        <td>{{ p.nombre }}</td>
+                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
+                                        <td class="text-center red">{{ p.stock }}</td>
+                                        <td class="text-center">{{ p.precio_venta }}</td>
+                                        <td class="text-center">{{ p.precio_compra }}</td>
+                                        <td class="text-center">{{ p.num_venta }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- ./tabla por terminarse -->
+
+                        <h5 class="mt-5" style="margin-left: 10px; font-weight: bold;">MÁS VENDIDA</h5><hr style="width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+
+                        <!-- Tabla más vendido -->
+                        <div class="table-responsive p-0" style="height: 272px;">
+                            <table class="table table-striped text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
+                                        <th>NOMBRE</th>
+                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
+                                        <th class="text-center" style="width: 117px;">EXISTENCIAS</th>
+                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
+                                        <th class="text-center" style="width: 160px;">PRECIO DE COMPRA</th>
+                                        <th class="text-center red" style="width: 117px;">NO. VENTAS</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in tabla_ropa_mas_vendida %}
+                                    <tr>
+                                        <td class="text-center">{{ p.barcode }}</td>
+                                        <td>{{ p.nombre }}</td>
+                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
+                                        <td class="text-center">{{ p.stock }}</td>
+                                        <td class="text-center">{{ p.precio_venta }}</td>
+                                        <td class="text-center">{{ p.precio_compra }}</td>
+                                        <td class="text-center red">{{ p.num_venta }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- ./tabla más vendido -->
+                    </div>
+                </div>
             </div>
         </div>
 

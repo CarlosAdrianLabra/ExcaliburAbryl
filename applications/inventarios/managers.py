@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Avg
 
 # Filtro para almacen y tipo
 class filtros(models.Manager):
@@ -27,11 +27,64 @@ class filtros(models.Manager):
         )
 
         return consulta
-    
-    def productos_en_inventario(self):
+
+    # Interface Inventarios Index
+    # Calzado
+    def calzado_por_terminarse(self):
         #
         consulta = self.filter(
            stock__lt=10
+        ).filter(
+            tipo='0' # 0 - CALZADO
         )
         #
         return consulta
+
+    def calzado_mas_vendido(self):
+        #
+        promedio = self.aggregate(Avg('num_venta'))
+        consulta = self.filter(
+            num_venta__gt=promedio['num_venta__avg']
+        ).filter(
+            tipo='0' # 0 - CALZADO
+        )
+        #
+        return consulta
+    
+    def calzado_promedio(self):
+        #
+        promedio = self.filter(
+            tipo='0' # 0 - CALZADO
+        ).aggregate(Avg('num_venta'))
+
+        return round(promedio['num_venta__avg'])
+    
+    # Ropa
+    def ropa_por_terminarse(self):
+        #
+        consulta = self.filter(
+           stock__lt=10
+        ).filter(
+            tipo='1' # 1 - ROPA
+        )
+        #
+        return consulta
+
+    def ropa_mas_vendida(self):
+        #
+        promedio = self.aggregate(Avg('num_venta'))
+        consulta = self.filter(
+            num_venta__gt=promedio['num_venta__avg']
+        ).filter(
+            tipo='1' # 1 - ROPA
+        )
+        #
+        return consulta
+    
+    def ropa_promedio(self):
+        #
+        promedio = self.filter(
+            tipo='1' # 1 - ROPA
+        ).aggregate(Avg('num_venta'))
+
+        return round(promedio['num_venta__avg'])

@@ -1,29 +1,18 @@
 {% extends 'common/base.html' %}
 {% load static %}
 
-{% block head %}
-
-{% endblock head %}
+{% block head %}{% endblock head %}
 
 {% block sidebarlinks %}
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <li class="nav-item">
-        <a href="/venta/index" class="nav-link">
-            <i class="fas fa-shopping-cart"></i>
-            <p> Punto de Venta</p>
-        </a>
+        {% block enlace_punto_de_venta %}{% endblock enlace_punto_de_venta %}
     </li>
     <li class="nav-item">
-        <a href="/venta/ultimas-ventas" class="nav-link">
-            <i class="nav-icon fas fa-chart-line"></i>
-            <p>Ventas realizadas</p>
-        </a>
+        {% block enlace_ultimas_ventas %}{% endblock enlace_ultimas_ventas %}
     </li>
     <li class="nav-item">
-        <a href="/cierre-caja/index" class="nav-link">
-            <i class="fas fa-cash-register"></i>
-            <p> Cerrar Caja</p>
-        </a>
+        {% block enlace_cierre_caja %}{% endblock enlace_cierre_caja %}
     </li>
 </ul>
 {% endblock sidebarlinks %}

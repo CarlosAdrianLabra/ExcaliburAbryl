@@ -168,7 +168,23 @@ class IndexInventario(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["stock_por_terminar"] = Productos.objects.productos_en_inventario().count()
+        # Calzado contadores
+        context["calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse().count()
+        context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido().count()
+        context["calzado_promedio"] = Productos.objects.calzado_promedio()
+        # Calzado tablas
+        context["tabla_calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse()
+        context["tabla_calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido()
+        
+        # Ropa contadores
+        context["ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse().count()
+        context["ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida().count()
+        context["ropa_promedio"] = Productos.objects.ropa_promedio()
+        # Calzado tablas
+        context["tabla_ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse()
+        context["tabla_ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida()
+        
+
         return context
 
 """ **************************************** ALMACEN 1 **************************************** """
@@ -182,7 +198,7 @@ class IndexInventario(TemplateView):
 # Index calzado
 class IndexCalzado(generic.ListView):
     template_name = 'inventarios/almacen_1/calzado/index_calzado.html'
-    paginate_by = 20
+    paginate_by = 10
     context_object_name = 'producto_calzado'
 
     def get_queryset(self):
@@ -238,7 +254,7 @@ def producto_calzado(request):
 # Index ropa
 class IndexRopa(generic.ListView):
     template_name = 'inventarios/almacen_1/ropa/index_ropa.html'
-    paginate_by = 20
+    paginate_by = 10
     context_object_name = 'producto_ropa'
 
     def get_queryset(self):
@@ -283,6 +299,5 @@ def producto_ropa(request):
             request=request
         )
         return JsonResponse(data)
-
 
 """ **************************************** ALMACEN 2 **************************************** """

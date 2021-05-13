@@ -85,7 +85,7 @@ class DetalleVenta(TimeStampedModel):
         verbose_name_plural = 'Productos vendidos'
 
     def __str__(self):
-        return str(self.sale.id) + ' - ' + str(self.product.name)
+        return str(self.sale.id) + ' - ' + str(self.producto.nombre)
 
 
 
@@ -112,4 +112,4 @@ class Carrito(TimeStampedModel):
         ordering = ['-created']
 
     def __str__(self):
-        return str(self.product.name)
+        return str(self.producto.nombre)

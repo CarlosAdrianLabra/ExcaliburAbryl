@@ -1,0 +1,76 @@
+/*--------------------------------------------------------------
+    # Colores
+--------------------------------------------------------------*/
+.red {
+    color: red;
+}
+.white {
+    color: white;
+}
+.green {
+    color: green;
+}
+
+/*--------------------------------------------------------------
+    # Card header
+--------------------------------------------------------------*/
+    .card-header {
+        color: white;
+        background: #1D2535;
+    }
+
+/*--------------------------------------------------------------
+    # Collapsed-card - En página /inventario/
+--------------------------------------------------------------*/
+    span.card-header:hover {
+        cursor: pointer;
+        opacity: 0.9;
+    }
+
+/*--------------------------------------------------------------
+    # Ventanas Modales de bootstrap - /inventario/
+--------------------------------------------------------------*/
+    .modal-dialog.modal-xl {
+        max-width: 80%;
+    }
+    .modal-dialog.modal-lg {
+        max-width: 70%;
+    }
+    .modal-dialog.modal-nl {
+        max-width: 40%;
+    }
+    .modal {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+/*--------------------------------------------------------------
+    # Botones personalizados
+--------------------------------------------------------------*/
+    .btr {
+        color: #1D2535;
+        border-color: #1D2535;
+    }    
+    .btr:hover {
+        color: azure;
+        background: #1D2535;
+        border-color: #1D2535;
+    }
+    
+    .btr2 {
+        color: azure;
+        border-color: #1D2535;
+        background: #1D2535;
+    }    
+    .btr2:hover {
+        color: azure;
+        /*background: #fff;
+        border-color: #1D2535;*/
+        opacity: 0.9;
+    }
+
+/*--------------------------------------------------------------
+    # Enlaces personalizados
+--------------------------------------------------------------*/
+    tr > td > a.red:hover {
+        color: royalblue;
+    }

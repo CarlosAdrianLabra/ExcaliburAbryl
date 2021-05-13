@@ -1,26 +1,33 @@
 {% extends 'ventas/base_ventas.html' %}
-
 {% load static %}
 
 {% block head %}
-<title>Ventas</title>
-
-<style>
-    .btr:hover {
-        color: azure;
-        background: #1D2535;
-        border-color: #1D2535;
-    }
-    .btr {
-        color: #1D2535;
-        border-color: #1D2535;
-    }
-</style>
+<title>Punto de Venta</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
+
+{% block enlace_punto_de_venta %}
+<a href="/venta/index" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-shopping-cart nav-icon"></i>
+    <p>Punto de Venta</p>
+</a>
+{% endblock enlace_punto_de_venta %}
+{% block enlace_ultimas_ventas %}
+<a href="/venta/ultimas-ventas" class="nav-link">
+    <i class="fas fa-chart-line nav-icon"></i>
+    <p>Ventas del dia</p>
+</a>
+{% endblock enlace_ultimas_ventas %}
+{% block enlace_cierre_caja %}
+<a href="/cierre-caja/index" class="nav-link">
+    <i class="fas fa-cash-register nav-icon"></i>
+    <p>Cierre de caja</p>
+</a>
+{% endblock enlace_cierre_caja %}        
 
 {% block content %}
 <!-- Main content -->
-<div class="content mb-5">
+<div class="content">
     <div class="container-fluid">
         <!--Row content -->
         <div class="row">
@@ -28,7 +35,7 @@
 
                 <!-- Card content -->
                 <div class="card mt-3">
-                    <div class="card-header" style="color: azure; background: #1D2535;">
+                    <div class="card-header">
                         <h1 class="card-title mt-3 mb-3 ml-3">PUNTO DE VENTA</h1>
                     </div>
 
@@ -36,7 +43,7 @@
                     <div class="container-fluid mt-3 mb-3">
 
                         <!-- Row codigo de barras -->
-                        <div class="row mt-3 mb-3">
+                        <div class="row mt-2">
                             <div class="col-7 offset-md-1">
                                 <form method="POST">{% csrf_token %}
                                     <div class="input-group">
@@ -96,7 +103,7 @@
                                     </table>
                                 </div>
 
-                                <div class="col-3 offset-9 mt-4">
+                                <div class="col-3 offset-9 mt-3">
                                     <div class="row">
                                         <div class="container" style="text-align: center; background-color: #eee;">
                                             <p style="font-weight: 900; margin-top: 10px;">TOTAL VENTA</p>
@@ -150,7 +157,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #1D2535; color: #fff;">
-                <h3 class="modal-title" id="exampleModalLabel">COMPROBANTE DE PAGO</h3>
+                <h5 class="modal-title" id="exampleModalLabel">COMPROBANTE DE PAGO</h5>
                 <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
             </div>
 
@@ -181,19 +188,19 @@
                                 {{ error|escape }}
                             {% endfor %}
                         </div>
-                        <button type="submit" class="btn btn-sm btn-default col-3 mt-3" style="margin-left: 352px;">Generar venta</button>
+                        <button type="submit" class="btn btr2 col-3 mt-3" style="margin-left: 352px;">Generar ticket</button>
                     </div>
                     <div class="row mt-3 mb-3">
                         <label class="col-12">2 - TERMINAR VENTA </label>
-                        <button type="button" class="btn btn-sm btn-default col-4 mt-1" style="margin-left: 312px;" onclick="reloadPage();">Terminar venta</button>
+                        
                     </div>
                 </form>
             </div>
-            <!--
-            <div  class="modal-footer">                        
+            
+            <div  class="modal-footer">
+                <button type="button" class="btn btr2 mt-1" onclick="reloadPage();">Terminar venta</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
-            -->
         </div>
     </div>
 </div>
