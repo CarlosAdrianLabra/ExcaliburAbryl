@@ -105,13 +105,13 @@
 
                                 <div class="col-3 offset-9 mt-3">
                                     <div class="row">
-                                        <div class="container" style="text-align: center; background-color: #eee;">
+                                        <div class="container bg-navyr white text-center">
                                             <p style="font-weight: 900; margin-top: 10px;">TOTAL VENTA</p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="container" style="text-align: center;">
-                                            <p style="margin-top: 10px; font-size: 30px;" >${{ total_cobrar }}</p>
+                                            <p style="margin-top: 10px; font-size: 30px;" >$ {{ total_cobrar }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -156,9 +156,9 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #1D2535; color: #fff;">
+            <div class="modal-header bg-navyr white">
                 <h5 class="modal-title" id="exampleModalLabel">COMPROBANTE DE PAGO</h5>
-                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times white"></i></button>
             </div>
 
             <div class="modal-body">
@@ -197,7 +197,7 @@
                 </form>
             </div>
             
-            <div  class="modal-footer">
+            <div class="modal-footer">
                 <button type="button" class="btn btr2 mt-1" onclick="reloadPage();">Terminar venta</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
