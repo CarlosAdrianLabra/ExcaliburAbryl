@@ -168,6 +168,7 @@ class IndexInventario(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        """
         # Calzado contadores
         context["calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse().count()
         context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido().count()
@@ -183,7 +184,7 @@ class IndexInventario(TemplateView):
         # Calzado tablas
         context["tabla_ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse()
         context["tabla_ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida()
-        
+        """
 
         return context
 

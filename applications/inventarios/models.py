@@ -50,40 +50,40 @@ class Productos(TimeStampedModel):
     )
 
     OPCIONES_TIPO_PRODUCTO = (
-        ('0', 'CALZADO'),
-        ('1', 'ROPA'),
+        ('00', 'CALZADO'),
+        ('01', 'ROPA'),
     )
 
     OPCIONES_TALLA = (
-        ('0', 'CH'),
-        ('1', 'M'),
-        ('2', 'G'),
+        ('00', 'CH'),
+        ('01', 'M'),
+        ('02', 'G'),
     )
 
     OPCIONES_MEDIDA = (
         ('', '---------'),
-        ('0', '21'),('1', '22'),('2', '23'),('3', '24'),('4', '25'),
-        ('5', '26'),('6', '27'),('7', '28'),('8', '29'),('9', '30'),
+        ('00', '21'),('01', '22'),('02', '23'),('03', '24'),('04', '25'),
+        ('05', '26'),('06', '27'),('07', '28'),('08', '29'),('09', '30'),
         ('', '---------'),
         ('10', '21.5'),('11', '22.5'),('12', '23.5'),('13', '24.5'),('14', '25.5'),
         ('15', '26.5'),('16', '27.5'),('17', '28.5'),('18', '29.5'),
     )
 
     OPCIONES_LINEA = (
-        ('0', 'ADULTO'),
-        ('1', 'NIÑO'),
-        ('2', 'CABALLERO'),
-        ('3', 'DAMA'),
+        ('00', 'ADULTO'),
+        ('01', 'NIÑO'),
+        ('02', 'CABALLERO'),
+        ('03', 'DAMA'),
     )
 
     OPCIONES_COLOR = (
-        ('0', 'ROJO'),
-        ('1', 'AZUL'),
-        ('2', 'AMARILLO'),
-        ('3', 'NEGRO'),
-        ('4', 'MORADO'),
-        ('5', 'VERDE'),
-        ('6', 'BLANCO'),
+        ('00', 'ROJO'),
+        ('01', 'AZUL'),
+        ('02', 'AMARILLO'),
+        ('03', 'NEGRO'),
+        ('04', 'MORADO'),
+        ('05', 'VERDE'),
+        ('06', 'BLANCO'),
     )
 
     # Atributos necesarios
@@ -95,15 +95,15 @@ class Productos(TimeStampedModel):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     
     # Atributos de opciones
-    tipo = models.CharField('Tipo de producto', max_length=1, choices=OPCIONES_TIPO_PRODUCTO)
+    tipo = models.CharField('Tipo de producto', max_length=2, choices=OPCIONES_TIPO_PRODUCTO)
     almacen = models.CharField('Almacén', max_length=1, choices=OPCIONES_ALMACEN)
-    talla = models.CharField('Talla', max_length=1, blank=True, choices=OPCIONES_TALLA)
+    talla = models.CharField('Talla', max_length=2, blank=True, choices=OPCIONES_TALLA)
     medida = models.CharField('Medida', max_length=2, blank=True, choices=OPCIONES_MEDIDA)
-    linea = models.CharField('Departamento', max_length=1, blank=True, choices=OPCIONES_LINEA)
+    linea = models.CharField('Departamento', max_length=2, blank=True, choices=OPCIONES_LINEA)
     color = models.CharField('Color', max_length=2, blank=True, choices=OPCIONES_COLOR)
 
     # Atributos no necesarios
-    modelo = models.CharField('Modelo', max_length=6, blank=True)
+    modelo = models.CharField('Modelo', max_length=3, blank=True)
     stock = models.PositiveIntegerField('Existencias', default=0)
     precio_compra = models.DecimalField('Precio de compra', max_digits=6, decimal_places=2, default=0)
     precio_venta = models.DecimalField('Precio de venta', max_digits=6, decimal_places=2, default=0)
@@ -130,7 +130,7 @@ class Productos(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         EAN= barcode.get_barcode_class('ean13')
-        ean = EAN('123456789012', writer=ImageWriter())
+        ean = EAN(f'{self.almacen}{self.tipo}{self.medida}{self.modelo}{self.linea}{self.color}', writer=ImageWriter())
         buffer = BytesIO()
         ean.write(buffer)
         self.barcodeimg.save(f"{self.nombre}.png", File(buffer), save=False)

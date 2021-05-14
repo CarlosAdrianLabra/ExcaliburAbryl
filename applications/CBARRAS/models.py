@@ -23,7 +23,6 @@ class Codigodebarras(models.Model):
     def save(self, *args, **kwargs):
         EAN= barcode.get_barcode_class('ean13')
         ean = EAN(f'{self.country_id}{self.manufacturer_id}{self.product_id}', writer=ImageWriter())
-        #ean = EAN(f'{self.id_productos.id}', writer=ImageWriter())
         buffer = BytesIO()
         ean.write(buffer)
         self.barcodeimg.save(f"{self.nombre}.png", File(buffer), save=False)

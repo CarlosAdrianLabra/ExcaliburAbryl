@@ -9,7 +9,7 @@ class filtros(models.Manager):
         consulta = self.filter(
             Q(barcode__icontains=filtro) | Q(nombre__icontains=filtro) | Q(marca__nombre__icontains=filtro)| Q(proveedor__nombre__icontains=filtro)
         ).filter(
-            tipo='0' # 0 - CALZADO
+            tipo='00' # 00 - CALZADO
         ).filter(
             almacen='0' # 0 - ALMACEN 1
         )
@@ -21,7 +21,7 @@ class filtros(models.Manager):
         consulta = self.filter(
             Q(barcode__icontains=filtro) | Q(nombre__icontains=filtro) | Q(marca__nombre__icontains=filtro)| Q(proveedor__nombre__icontains=filtro)
         ).filter(
-            tipo='1' # 1 - ROPA
+            tipo='01' # 01 - ROPA
         ).filter(
             almacen='0' # 0 - ALMACEN 1
         )

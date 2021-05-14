@@ -46,7 +46,7 @@ class CalzadoFormulario(BSModalModelForm):
             'tipo': forms.TextInput(
                 attrs={
                     'class': 'form-control mb-4',
-                    'value': '0', # 0 = CALZADO
+                    'value': '00', # 00 = CALZADO
                 }
             ),
             'proveedor': forms.Select(attrs={'class': 'form-control mb-3',}),
@@ -79,7 +79,7 @@ class RopaFormulario(BSModalModelForm):
             'tipo': forms.TextInput(
                 attrs={
                     'class': 'form-control mb-4',
-                    'value': '1', # 1 = ROPA
+                    'value': '01', # 01 = ROPA
                 }
             ),
             'proveedor': forms.Select(attrs={'class': 'form-control mb-3',}),
