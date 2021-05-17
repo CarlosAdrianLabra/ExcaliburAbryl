@@ -45,6 +45,14 @@
                     </tbody>
                 </table>
             </div>
+            {% if productos.barcode %}
+                <div class="col-6 offset-3 text-center">
+                    <label style="margin: 10px 0 0 0;">Código de barras</label>
+                    <div class="code_128_L">{{ productos.barcode }}</div>
+                    <div>{{ productos.barcode }}</div>
+                </div>
+            {% else %}
+            {% endif %}
         {% else %}
             <div class="col-12">
                 <table class="table">
@@ -80,7 +88,15 @@
                     </tbody>
                 </table>
             </div>
-        {% endif %} 
+            {% if productos.barcode %}
+                <div class="col-6 offset-3 text-center">
+                    <label style="margin: 10px 0 0 0;">Código de barras</label>
+                    <div class="code_128_L">{{ productos.barcode }}</div>
+                    <div>{{ productos.barcode }}</div>
+                </div>
+            {% else %}
+            {% endif %}
+        {% endif %}
     </div>
 </div>
 

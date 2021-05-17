@@ -1,0 +1,33 @@
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Código de barras</title>
+</head>
+<body>
+    <table style="text-align: center;">
+        <thead>
+            <tr>
+                <th width="125">Códigos de Barras</th>
+                <th width="170">Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in productos %}
+            <tr>
+                <td>
+                    <p>
+                        <pdf:barcode value="{{ p.barcode }}" type="code128" humanreadable="1" />
+                    </p>
+                </td>
+                <td style="padding: 10px 10px;">
+                    Nombre: {{ p.nombre }}<br>
+                    Precio de venta: {{ p.precio_venta }}<br>
+                    Talla de calzado: {{ p.get_medida_display }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

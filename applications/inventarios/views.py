@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
@@ -8,23 +8,24 @@ from bootstrap_modal_forms.generic import (
     BSModalCreateView,
     BSModalUpdateView,
     BSModalReadView,
-    BSModalDeleteView
+    BSModalDeleteView,
 )
+from applications.utils import render_to_pdf
 from django.views.generic import (
     TemplateView,
     ListView,
     View
 )
 from .forms import (
-    MarcaFormulario,
     CalzadoFormulario,
-    RopaFormulario
+    RopaFormulario,
 )
 from .models import (
     Productos,
     Marca,
     Proveedor
 )
+
 
 """ **************************************** REGISTROS **************************************** """
 
@@ -168,7 +169,7 @@ class IndexInventario(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        """
+        
         # Calzado contadores
         context["calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse().count()
         context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido().count()
@@ -184,9 +185,19 @@ class IndexInventario(TemplateView):
         # Calzado tablas
         context["tabla_ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse()
         context["tabla_ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida()
-        """
 
         return context
+
+# Código de barras a PDF
+class CodigoPdf(View):
+    def get(self, request, *args, **kwargs):
+        productos = Productos.objects.all()
+        data = {
+            'productos': productos
+        }
+        pdf = render_to_pdf('inventarios/a_rchivos_base/barcode.html', data)
+        
+        return HttpResponse(pdf, content_type='application/pdf')
 
 """ **************************************** ALMACEN 1 **************************************** """
 

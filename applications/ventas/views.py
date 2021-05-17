@@ -17,6 +17,7 @@ from applications.utils import render_to_pdf
 from .models import Venta, DetalleVenta, Carrito
 from .forms import VentaForm, VentaVoucherForm
 from .functions import procesar_venta
+from applications.caja.functions import detalle_ventas_no_cerradas
 # Create your views here.
 
 
@@ -150,9 +151,11 @@ class VentaVoucherPdf(View):
     
     def get(self, request, *args, **kwargs):
         venta = Venta.objects.get(id=self.kwargs['pk'])
+        variable = detalle_ventas_no_cerradas()
         data = {
             'venta': venta,
-            'detalle_productos': DetalleVenta.objects.filter(sale__id=self.kwargs['pk'])
+            'detalle_productos': DetalleVenta.objects.filter(sale__id=self.kwargs['pk']),
+            'subtotal': variable.filter(id=self.kwargs['pk'])
         }
         pdf = render_to_pdf('ventas/voucher.html', data)
         return HttpResponse(pdf, content_type='application/pdf')

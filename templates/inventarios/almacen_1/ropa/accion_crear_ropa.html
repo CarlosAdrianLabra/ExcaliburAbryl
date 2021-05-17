@@ -15,22 +15,17 @@
 
         <div class="row">
             <div class="col-3 ml-5">
-                <label><span style="color: red; font-size: small; ">* </span>Código de barras:</label>{{ form.barcode }}
-                <div class="{% if form.errors %}invalid{% endif %}"></div>
-                {% for error in form.errors %}
-                    <p style="color: red; font-size: small; ">¡Ya existe un producto con este código de barras!</p>
-                {% endfor %}
                 <label><span style="color: red; font-size: small; ">* </span>Nombre:</label>{{ form.nombre }}
-                <label>Modelo:</label>{{ form.modelo }}
-                <label class="col-12" style="margin-left: -7px;">Imagen:</label>{{ form.img }}
+                <label><span style="color: red; font-size: small; ">* </span>Modelo:</label>{{ form.modelo }}
+                <label><span style="color: red; font-size: small; ">* </span>Proveedor:</label>{{ form.proveedor }}
+                <label><span style="color: red; font-size: small; ">* </span>Marca:</label>{{ form.marca }}
             </div>
 
             <div class="col-3 offset-1">
-                <label><span style="color: red; font-size: small; ">* </span>Proveedor:</label>{{ form.proveedor }}
-                <label><span style="color: red; font-size: small; ">* </span>Marca:</label>{{ form.marca }}
                 <label><span style="color: red; font-size: small; ">* </span>Color:</label>{{ form.color }}
                 <label><span style="color: red; font-size: small; ">* </span>Talla:</label>{{ form.talla }}
                 <label><span style="color: red; font-size: small; ">* </span>Linea:</label>{{ form.linea }}
+                <label class="col-12" style="margin-left: -7px;">Imagen:</label>{{ form.img }}
             </div>
 
             <div class="col-3 offset-1">

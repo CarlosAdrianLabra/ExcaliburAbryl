@@ -1,11 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
-from model_utils.models import TimeStampedModel
-import barcode
-from barcode.writer import ImageWriter
-from io import BytesIO
-from django.core.files import File
 from PIL import Image
+from model_utils.models import TimeStampedModel
 from .managers import filtros
 
 # Modelo de proveedores
@@ -44,14 +40,14 @@ class Marca(TimeStampedModel):
 class Productos(TimeStampedModel):
 
     OPCIONES_ALMACEN = (
-        ('0', 'ALMACEN 1'),
-        ('1', 'ALMACEN 2'),
-        ('2', 'ALMACEN 3'),
+        ('10', 'ALMACEN 1'),
+        ('20', 'ALMACEN 2'),
+        ('30', 'ALMACEN 3'),
     )
 
     OPCIONES_TIPO_PRODUCTO = (
-        ('00', 'CALZADO'),
-        ('01', 'ROPA'),
+        ('10', 'CALZADO'),
+        ('20', 'ROPA'),
     )
 
     OPCIONES_TALLA = (
@@ -87,7 +83,7 @@ class Productos(TimeStampedModel):
     )
 
     # Atributos necesarios
-    barcode = models.PositiveIntegerField('Código de barras', unique=True)
+    barcode = models.CharField('Código de barras', max_length=13, blank=True, unique=True)
     nombre = models.CharField('Nombre', max_length=40)
 
     # Atributos foreignkey
@@ -96,7 +92,7 @@ class Productos(TimeStampedModel):
     
     # Atributos de opciones
     tipo = models.CharField('Tipo de producto', max_length=2, choices=OPCIONES_TIPO_PRODUCTO)
-    almacen = models.CharField('Almacén', max_length=1, choices=OPCIONES_ALMACEN)
+    almacen = models.CharField('Almacén', max_length=2, choices=OPCIONES_ALMACEN)
     talla = models.CharField('Talla', max_length=2, blank=True, choices=OPCIONES_TALLA)
     medida = models.CharField('Medida', max_length=2, blank=True, choices=OPCIONES_MEDIDA)
     linea = models.CharField('Departamento', max_length=2, blank=True, choices=OPCIONES_LINEA)
@@ -112,12 +108,15 @@ class Productos(TimeStampedModel):
 
     # Imagen del producto
     img = models.ImageField('Imagen', upload_to='productos', blank=True, null=True)
-    
-    # Imagen del codigo de barras
-    barcodeimg= models.ImageField('imagenbarras', upload_to='codigodebarras/', blank=True)
 
     # Managers
     objects = filtros()
+
+    def save(self, *args, **kwargs):
+        
+        self.barcode = self.almacen + self.tipo + self.medida + self.talla + self.modelo + self.linea + self.color
+        
+        super(Productos, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Producto'
@@ -127,14 +126,6 @@ class Productos(TimeStampedModel):
 
     def __str__(self):
         return self.marca.nombre + ' - ' + self.modelo + ' - ' + self.get_linea_display() + ' - ' + self.get_color_display()
-
-    def save(self, *args, **kwargs):
-        EAN= barcode.get_barcode_class('ean13')
-        ean = EAN(f'{self.almacen}{self.tipo}{self.medida}{self.modelo}{self.linea}{self.color}', writer=ImageWriter())
-        buffer = BytesIO()
-        ean.write(buffer)
-        self.barcodeimg.save(f"{self.nombre}.png", File(buffer), save=False)
-        return super().save(*args, **kwargs)
 
 # Funcion para optimizar el atributo IMG del modelo Productos
 def optimizar_img(sender, instance, **kwargs):

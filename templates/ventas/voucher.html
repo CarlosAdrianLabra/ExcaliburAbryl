@@ -20,36 +20,37 @@
         <tbody>
             <tr>
                 <td>
-                    <p style="text-align: center; font-size: 12px; font-weight: bold;">
+                    <div style="font-size: 12px; font-weight: bold; text-align: center; margin: 15px 0px;">
+                        <img src="http://127.0.0.1:8000/static/img/pagina_inicio/logo_abryl.png" width="40" height="35">
                         Tienda Abryl
-                    </p>
+                    </div>
                     Abryl Ropa y Calzado S.A. DE C.V.<br>
                     Avenida Tlahuac, 823<br>
                     Col. San Lorenzo Tezonco, 09900<br>
                     Del. Iztapalapa, CDMX<br>
                     RFC. DLAI-931201-M19<br>
                     <br>
-                    Regimen General de Ley de Personas Morales<br>
+                    Régimen General de Ley de Personas Morales<br>
                     -------------------------------------------------------<br>
                     <p style="text-align: center; font-weight: bold;">
                         VENTA
                     </p>
                     
-                    <table style="text-align: center;">
+                    <table>
                         <thead>
                             <tr>
                                 <td>TDA</td>
-                                <td>TERM</td>
-                                <td>VTA</td>
-                                <td>VEND</td>
+                                <td style="margin-left: 6px;">TERM</td>
+                                <td style="margin-left: 11px;">VTA</td>
+                                <td style="margin-left: 16px;">VEND</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>001</td>
-                                <td>001</td>
-                                <td>{{venta.id}}</td>
-                                <td>001</td>
+                                <td>01</td>
+                                <td style="margin-left: 6px;">01</td>
+                                <td style="margin-left: 11px;">{{venta.id}}</td>
+                                <td style="margin-left: 16px;">01</td>
                             </tr>
                         </tbody>
                     </table>
@@ -57,26 +58,34 @@
                     <table>
                         <tbody>
                             {% for producto in detalle_productos %}
-                            <tr>
-                                <td width="35">1010101</td>
-                                <td colspan="2">{{ producto.producto.nombre }}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    {{ producto.count }} X ${{ producto.producto.precio_venta}}
-                                </td>
-                                <td style="text-align: right;">$ 0.00</td>
-                            </tr>
+                                <tr>
+                                    <td colspan="3">{{ producto.producto.barcode }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">{{ producto.producto.nombre }}</td>
+                                    <td style="text-align: right;">
+                                        {{ producto.count }} X ${{ producto.producto.precio_venta}}
+                                    </td>
+                                </tr>
                             {% endfor %}
-                            
                             <tr></tr>
                             <tr>
-                                <td colspan="2">TOTAL M.N.</td>
+                                <td colspan="2">SUBTOTAL :</td>
+                                <td style="text-align: right;">
+                                    {% for venta in subtotal %}
+                                        {% for detalle in venta.detail_sale.all %}
+                                            $ {{ detalle.subtotal }}<br>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr></tr>
+                            <tr>
+                                <td colspan="2">TOTAL :</td>
                                 <td style="text-align: right;">$ {{venta.amount}}</td>
                             </tr>
                             <tr>
-                                <td colspan="2">{{venta.get_type_payment_display}}</td>
+                                <td colspan="2">{{venta.get_type_payment_display}} :</td>
                                 <td style="text-align: right;">$ {{venta.amount}}</td>
                             </tr>
                         </tbody>
@@ -89,7 +98,7 @@
                     </p>
                     -------------------------------------------------------<br>
                     <p style="text-align: center;">
-                        Gracias por su visita!
+                        ¡Gracias por su visita!
                     </p>
                     <table style="text-align: center;">
                         <tr>
@@ -97,7 +106,7 @@
                         </tr>
                     </table>
                     -------------------------------------------------------<br>
-                    <p style="text-align: center;">Visitanos y compra en</p>
+                    <p style="text-align: center;">Visítanos y compra en</p>
                     <p style="text-align: center; font-weight: bold;">
                         tiendaabryl.mercadoshops.com.mx/
                     </p>
@@ -106,26 +115,5 @@
             </tr>
         </tbody>
     </table>
-    <br><br><br><br><br><br><br>
-    <table>
-        <tr>
-            <td>Numero de venta:</td><td>{{venta.id}}</td>
-            <td>Fecha:</td><td>{{venta.date_sale}}</td>
-        </tr>
-        <tr>
-            <td>Cantidad de Productos:</td><td>{{venta.count}}</td>
-            <td>Monto Pagado:</td><td>{{venta.amount}}</td>
-        </tr>
-        <tr>
-            <td>Tipo de Pago:</td><td>{{venta.get_type_payment_display}}</td>
-        </tr>
-    </table>
-
-    <h4>Poductos comprados:</h4>
-    <ul>
-        {% for producto in detalle_productos %}
-          <li>{{ producto.producto.nombre }} --- {{ producto.count }} --- {{ producto.producto.precio_venta}}</li>
-        {% endfor %}
-    </ul>
 </body>
 </html>

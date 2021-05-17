@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'applications.ventas',
     'applications.caja',
-    'applications.CBARRAS',
     
     # apps terceros
 

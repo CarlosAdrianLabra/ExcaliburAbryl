@@ -27,16 +27,14 @@ class Venta(TimeStampedModel):
     OTRO = '3'
 
     TIPO_INVOICE_CHOICES = [
-        (BOLETA, 'Boleta'),
-        (FACTURA, 'Factura'),
-        (SIN_COMPROBANTE, 'Sin comprobante'),
+        (FACTURA, 'FACTURA'),
+        (SIN_COMPROBANTE, 'SIN COMPROBANTE'),
     ]
 
     TIPO_PAYMENT_CHOICES = [
-        (TARJETA, 'Tarjeta'),
-        (EFECTIVO, 'Efectivo'),
-        (BONO, 'Bono'),
-        (OTRO, 'Otro'),
+        (TARJETA, 'TARJETA'),
+        (EFECTIVO, 'EFECTIVO'),
+        (BONO, 'BONO'),
     ]
 
     date_sale = models.DateTimeField('Fecha de Venta',)

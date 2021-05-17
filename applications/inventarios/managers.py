@@ -7,11 +7,11 @@ class filtros(models.Manager):
     def almacen_tipo_calzado(self, filtro):
 
         consulta = self.filter(
-            Q(barcode__icontains=filtro) | Q(nombre__icontains=filtro) | Q(marca__nombre__icontains=filtro)| Q(proveedor__nombre__icontains=filtro)
+            Q(barcode__icontains=filtro) | Q(nombre__icontains=filtro) | Q(marca__nombre__icontains=filtro) | Q(proveedor__nombre__icontains=filtro) | Q(modelo__icontains=filtro)
         ).filter(
-            tipo='00' # 00 - CALZADO
+            tipo='10' # 10 - CALZADO
         ).filter(
-            almacen='0' # 0 - ALMACEN 1
+            almacen='10' # 10 - ALMACEN 1
         )
 
         return consulta
@@ -19,11 +19,11 @@ class filtros(models.Manager):
     def almacen_tipo_ropa(self, filtro):
 
         consulta = self.filter(
-            Q(barcode__icontains=filtro) | Q(nombre__icontains=filtro) | Q(marca__nombre__icontains=filtro)| Q(proveedor__nombre__icontains=filtro)
+            Q(barcode__icontains=filtro) | Q(nombre__icontains=filtro) | Q(marca__nombre__icontains=filtro) | Q(proveedor__nombre__icontains=filtro) | Q(modelo__icontains=filtro)
         ).filter(
-            tipo='01' # 01 - ROPA
+            tipo='20' # 20 - ROPA
         ).filter(
-            almacen='0' # 0 - ALMACEN 1
+            almacen='10' # 10 - ALMACEN 1
         )
 
         return consulta
@@ -35,7 +35,7 @@ class filtros(models.Manager):
         consulta = self.filter(
            stock__lt=10
         ).filter(
-            tipo='0' # 0 - CALZADO
+            tipo='10' # 10 - CALZADO
         )
         #
         return consulta
@@ -46,7 +46,7 @@ class filtros(models.Manager):
         consulta = self.filter(
             num_venta__gt=promedio['num_venta__avg']
         ).filter(
-            tipo='0' # 0 - CALZADO
+            tipo='10' # 10 - CALZADO
         )
         #
         return consulta
@@ -54,7 +54,7 @@ class filtros(models.Manager):
     def calzado_promedio(self):
         #
         promedio = self.filter(
-            tipo='0' # 0 - CALZADO
+            tipo='10' # 10 - CALZADO
         ).aggregate(Avg('num_venta'))
 
         return round(promedio['num_venta__avg'])
@@ -65,7 +65,7 @@ class filtros(models.Manager):
         consulta = self.filter(
            stock__lt=10
         ).filter(
-            tipo='1' # 1 - ROPA
+            tipo='20' # 20 - ROPA
         )
         #
         return consulta
@@ -76,7 +76,7 @@ class filtros(models.Manager):
         consulta = self.filter(
             num_venta__gt=promedio['num_venta__avg']
         ).filter(
-            tipo='1' # 1 - ROPA
+            tipo='20' # 20 - ROPA
         )
         #
         return consulta
@@ -84,7 +84,7 @@ class filtros(models.Manager):
     def ropa_promedio(self):
         #
         promedio = self.filter(
-            tipo='1' # 1 - ROPA
+            tipo='20' # 20 - ROPA
         ).aggregate(Avg('num_venta'))
 
         return round(promedio['num_venta__avg'])

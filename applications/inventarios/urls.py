@@ -29,6 +29,9 @@ urlpatterns = [
     # URL para FUNCION producto_calzado
     path('producto_calzado/', views.producto_calzado, name='producto_calzado'),
 
+    # URL para PDF de codigo de barras
+    path('barcode_calzado/', views.CodigoPdf.as_view(), name='barcode_calzado'),
+
     # Index ropa
     path('almacen_1/productos/ropa/', views.IndexRopa.as_view(), name='index_ropa'),
     # URLs para acciones CRUD
