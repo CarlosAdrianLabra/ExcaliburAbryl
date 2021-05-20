@@ -54,7 +54,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p style="text-align: center;">Atendio: MARIA DEL ROSARIO GA.</p>
+                        <p style="text-align: center;">Atendio: {{ user }}</p>
                     <table>
                         <tbody>
                             {% for producto in detalle_productos %}
@@ -91,7 +91,7 @@
                         </tbody>
                     </table>
                     <br>
-                    SETECIENTOS TREINTA Y SIETE PESOS 00/100 M.N.
+                    {{ num2word }} PESOS {{decimal}}/100 M.N.
                     -------------------------------------------------------<br>
                     <p style="text-align: center; margin: 0px;">
                         Articulos Vendidos {{venta.count}}

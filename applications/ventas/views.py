@@ -1,4 +1,7 @@
+from decimal import Decimal
+#
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (
@@ -13,6 +16,7 @@ from django.views.generic.edit import (
 )
 #applicaciones locales
 from applications.inventarios.models import Productos
+from applications.inventarios.num2word import word
 from applications.utils import render_to_pdf
 from .models import Venta, DetalleVenta, Carrito
 from .forms import VentaForm, VentaVoucherForm
@@ -152,10 +156,16 @@ class VentaVoucherPdf(View):
     def get(self, request, *args, **kwargs):
         venta = Venta.objects.get(id=self.kwargs['pk'])
         variable = detalle_ventas_no_cerradas()
+        num2word = word(int(venta.amount))
+        decimal = str(Decimal(venta.amount) % 1)[2:]
+        user = str(User.objects.get(id='1')).upper()
         data = {
             'venta': venta,
             'detalle_productos': DetalleVenta.objects.filter(sale__id=self.kwargs['pk']),
-            'subtotal': variable.filter(id=self.kwargs['pk'])
+            'subtotal': variable.filter(id=self.kwargs['pk']),
+            'num2word': num2word,
+            'decimal': decimal,
+            'user': user
         }
         pdf = render_to_pdf('ventas/voucher.html', data)
         return HttpResponse(pdf, content_type='application/pdf')

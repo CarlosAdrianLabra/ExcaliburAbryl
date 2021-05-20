@@ -53,11 +53,19 @@ class filtros(models.Manager):
     
     def calzado_promedio(self):
         #
-        promedio = self.filter(
+        producto = self.all().filter(
             tipo='10' # 10 - CALZADO
-        ).aggregate(Avg('num_venta'))
+        )
+        #
+        if producto:
+            promedio = self.filter(
+                tipo='10' # 10 - CALZADO
+            ).aggregate(Avg('num_venta'))
 
-        return round(promedio['num_venta__avg'])
+            return round(promedio['num_venta__avg'])
+        #
+        else:
+            return 0
     
     # Ropa
     def ropa_por_terminarse(self):
@@ -83,8 +91,16 @@ class filtros(models.Manager):
     
     def ropa_promedio(self):
         #
-        promedio = self.filter(
+        producto = self.all().filter(
             tipo='20' # 20 - ROPA
-        ).aggregate(Avg('num_venta'))
-
-        return round(promedio['num_venta__avg'])
+        )
+        #
+        if producto:
+            promedio = self.filter(
+                tipo='20' # 20 - ROPA
+            ).aggregate(Avg('num_venta'))
+            
+            return round(promedio['num_venta__avg'])
+        #
+        else:
+            return 0

@@ -19,6 +19,13 @@ class Proveedor(TimeStampedModel):
         verbose_name = 'Proveedor'
         verbose_name_plural = 'Proveedores Registrados'
         db_table = 'Proveedor'
+    
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        self.direccion = self.direccion.upper()
+        self.nombre_banco = self.nombre_banco.upper()
+        self.nombre_benefactor = self.nombre_benefactor.upper()
+        return super(Proveedor, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.nombre
@@ -32,6 +39,10 @@ class Marca(TimeStampedModel):
         verbose_name = 'Marca'
         verbose_name_plural = 'Marcas Registradas'
         db_table = 'Marca'
+
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        return super(Marca, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.nombre
@@ -112,17 +123,16 @@ class Productos(TimeStampedModel):
     # Managers
     objects = filtros()
 
-    def save(self, *args, **kwargs):
-        
-        self.barcode = self.almacen + self.tipo + self.medida + self.talla + self.modelo + self.linea + self.color
-        
-        super(Productos, self).save(*args, **kwargs)
-
     class Meta:
         verbose_name = 'Producto'
         verbose_name_plural = 'Inventario de Productos'
         ordering = ['id']
         db_table = 'Productos'
+    
+    def save(self, *args, **kwargs):        
+        self.barcode = self.almacen + self.tipo + self.medida + self.talla + self.modelo + self.linea + self.color
+        self.nombre = self.nombre.upper()
+        super(Productos, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.marca.nombre + ' - ' + self.modelo + ' - ' + self.get_linea_display() + ' - ' + self.get_color_display()

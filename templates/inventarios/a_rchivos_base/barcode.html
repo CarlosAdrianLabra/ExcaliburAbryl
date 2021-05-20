@@ -23,7 +23,16 @@
                 <td style="padding: 10px 10px;">
                     Nombre: {{ p.nombre }}<br>
                     Precio de venta: {{ p.precio_venta }}<br>
-                    Talla de calzado: {{ p.get_medida_display }}
+                    {% if p.medida %}
+                        Talla de calzado: {{ p.get_medida_display }}
+                    {% else %}
+
+                    {% endif %}
+                    {% if p.talla %}
+                        Talla de ropa: {{ p.get_talla_display }}
+                    {% else %}
+                    
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
