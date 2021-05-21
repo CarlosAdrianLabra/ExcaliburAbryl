@@ -1,5 +1,6 @@
 from django import forms
 from .models import Venta
+from applications.inventarios.models import Productos
 
 class VentaForm(forms.Form):
     barcode= forms.CharField(
@@ -27,6 +28,19 @@ class VentaForm(forms.Form):
             raise forms.ValidationError('Ingrese una cantidad mayor a cero')
         
         return count
+    
+    def clean_barcode(self):
+        barcode = self.cleaned_data['barcode']
+        
+        if Productos.objects.filter(barcode = barcode):
+            return barcode
+        else:
+            raise forms.ValidationError('Error XD')
+            
+        
+            
+        
+        
 
 
 class VentaVoucherForm(forms.Form):

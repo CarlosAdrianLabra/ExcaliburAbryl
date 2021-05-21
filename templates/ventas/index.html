@@ -51,7 +51,11 @@
                                         {{ form.barcode }}
                                         {{ form.count }}
                                         <button type="submit" class="btn btn-default col-3">Agregar producto</button>
-                                    </div>                                    
+                                    </div>
+                                    <div class="{% if form.errors %}invalid{% endif %}"></div>
+                                        {% for error in form.errors %}
+                                            <p style="color: red; font-size: small; ">¡No existe el código de barras ingresado!</p>
+                                        {% endfor %}
                                 </form>
                             </div>
                         </div>
