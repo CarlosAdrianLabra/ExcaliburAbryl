@@ -210,41 +210,7 @@
                         </div>
                     </span>
                     <div class="card-body">
-                        <h5 style="margin-left: 10px; font-weight: bold;">POR TERMINARSE</h5><hr style="width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
-
-                        <!-- Tabla por terminarse -->
-                        <div class="table-responsive p-0" style="height: 272px;">
-                            <table class="table table-striped text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
-                                        <th>NOMBRE</th>
-                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
-                                        <th class="text-center red" style="width: 117px;">EXISTENCIAS</th>
-                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
-                                        <th class="text-center" style="width: 160px;">PRECIO DE COMPRA</th>
-                                        <th class="text-center" style="width: 117px;">NO. VENTAS</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for p in tabla_calzado_por_terminarse %}
-                                    <tr>
-                                        <td class="text-center">{{ p.barcode }}</td>
-                                        <td>{{ p.nombre }}</td>
-                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
-                                        <td class="text-center red">{{ p.stock }}</td>
-                                        <td class="text-center">{{ p.precio_venta }}</td>
-                                        <td class="text-center">{{ p.precio_compra }}</td>
-                                        <td class="text-center">{{ p.num_venta }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- ./tabla por terminarse -->
-
-                        <h5 class="mt-5" style="margin-left: 10px; font-weight: bold;">MÁS VENDIDO</h5><hr style="width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+                        <h5 style="margin-left: 10px; font-weight: bold;">MÁS VENDIDO</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
 
                         <!-- Tabla más vendido -->
                         <div class="table-responsive p-0" style="height: 272px;">
@@ -277,23 +243,8 @@
                             </table>
                         </div>
                         <!-- ./tabla más vendido -->
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-10 offset-1">
-                <div class="card collapsed-card">
-                    <span class="card-header" data-card-widget="collapse">
-                        ALMACEN 1 - ROPA
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                            <!--<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>-->
-                        </div>
-                    </span>
-                    <div class="card-body">
-                        <h5 style="margin-left: 10px; font-weight: bold;">POR TERMINARSE</h5><hr style="width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+                        <h5 class="mt-5" style="margin-left: 10px; font-weight: bold;">POR TERMINARSE</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
 
                         <!-- Tabla por terminarse -->
                         <div class="table-responsive p-0" style="height: 272px;">
@@ -311,7 +262,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for p in tabla_ropa_por_terminarse %}
+                                    {% for p in tabla_calzado_por_terminarse %}
                                     <tr>
                                         <td class="text-center">{{ p.barcode }}</td>
                                         <td>{{ p.nombre }}</td>
@@ -326,8 +277,23 @@
                             </table>
                         </div>
                         <!-- ./tabla por terminarse -->
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        <h5 class="mt-5" style="margin-left: 10px; font-weight: bold;">MÁS VENDIDA</h5><hr style="width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+        <div class="row">
+            <div class="col-md-10 offset-1">
+                <div class="card collapsed-card">
+                    <span class="card-header" data-card-widget="collapse">
+                        ALMACEN 1 - ROPA
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <!--<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>-->
+                        </div>
+                    </span>
+                    <div class="card-body">
+                        <h5 style="margin-left: 10px; font-weight: bold;">MÁS VENDIDA</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
 
                         <!-- Tabla más vendido -->
                         <div class="table-responsive p-0" style="height: 272px;">
@@ -360,6 +326,40 @@
                             </table>
                         </div>
                         <!-- ./tabla más vendido -->
+
+                        <h5 class="mt-5" style="margin-left: 10px; font-weight: bold;">POR TERMINARSE</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+
+                        <!-- Tabla por terminarse -->
+                        <div class="table-responsive p-0" style="height: 272px;">
+                            <table class="table table-striped text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
+                                        <th>NOMBRE</th>
+                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
+                                        <th class="text-center red" style="width: 117px;">EXISTENCIAS</th>
+                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
+                                        <th class="text-center" style="width: 160px;">PRECIO DE COMPRA</th>
+                                        <th class="text-center" style="width: 117px;">NO. VENTAS</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in tabla_ropa_por_terminarse %}
+                                    <tr>
+                                        <td class="text-center">{{ p.barcode }}</td>
+                                        <td>{{ p.nombre }}</td>
+                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
+                                        <td class="text-center red">{{ p.stock }}</td>
+                                        <td class="text-center">{{ p.precio_venta }}</td>
+                                        <td class="text-center">{{ p.precio_compra }}</td>
+                                        <td class="text-center">{{ p.num_venta }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- ./tabla por terminarse -->
                     </div>
                 </div>
             </div>
@@ -371,5 +371,5 @@
 {% endblock content %}
 
 {% block scripts %}
-<script src="{% static 'js/select2.full.js' %}"></script>
+<script src="{% static 'js/select2.min.js' %}"></script>
 {% endblock scripts %}

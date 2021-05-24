@@ -62,9 +62,13 @@ class Productos(TimeStampedModel):
     )
 
     OPCIONES_TALLA = (
+        ('', '---------'),
         ('00', 'CH'),
         ('01', 'M'),
         ('02', 'G'),
+        ('', '---------'),
+        ('03', '16'),('04', '18'),('05', '28'),('06', '30'),('07', '32'),('08', '34'),
+        ('09', '36'),('10', '38'),('11', '40'),('12', '42'),('13', '44'),
     )
 
     OPCIONES_MEDIDA = (
@@ -79,8 +83,6 @@ class Productos(TimeStampedModel):
     OPCIONES_LINEA = (
         ('00', 'ADULTO'),
         ('01', 'NIÑO'),
-        ('02', 'CABALLERO'),
-        ('03', 'DAMA'),
     )
 
     OPCIONES_COLOR = (
@@ -126,7 +128,7 @@ class Productos(TimeStampedModel):
     class Meta:
         verbose_name = 'Producto'
         verbose_name_plural = 'Inventario de Productos'
-        ordering = ['id']
+        ordering = ['-id']
         db_table = 'Productos'
     
     def save(self, *args, **kwargs):        

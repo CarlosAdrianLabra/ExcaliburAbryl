@@ -131,28 +131,54 @@
                                 <!-- ./botones -->        
 
                                 <!-- Pagination -->
-                                {% if is_paginated %}
-                                <nav class="float-right">
-                                    <ul class="pagination">
-                                        {% if page_obj.has_previous %}
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Anterior</a>
-                                        </li>
-                                        {% endif %}
-                                        
-                                        {% for pagina in paginator.page_range %}
-                                            {% ifequal pagina page_obj.number  %} 
-                                            <li class="page-item active"><a class="page-link" href="?page={{pagina}}">{{ pagina }}</a></li>        
-                                            {% else %}
-                                            <li class="page-item"><a class="page-link" href="?page={{pagina}}">{{ pagina }}</a></li> 
-                                            {% endifequal %}   
-                                        {% endfor %}
+                                {% if request.path == request.get_full_path %}
+                                    {% if is_paginated %}
+                                    <nav class="float-right">
+                                        <ul class="pagination">
+                                            {% if page_obj.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="{{request.get_full_path}}?page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Anterior</a>
+                                            </li>
+                                            {% endif %}
                                             
-                                        {% if page_obj.has_next %}
-                                        <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Siguiente</a></li>
-                                        {% endif %}
-                                    </ul>    
-                                </nav>
+                                            {% for pagina in paginator.page_range %}
+                                                {% ifequal pagina page_obj.number  %} 
+                                                <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}?page={{pagina}}">{{ pagina }}</a></li>        
+                                                {% else %}
+                                                <li class="page-item"><a class="page-link" href="{{request.get_full_path}}?page={{pagina}}">{{ pagina }}</a></li> 
+                                                {% endifequal %}   
+                                            {% endfor %}
+                                                
+                                            {% if page_obj.has_next %}
+                                            <li class="page-item"><a class="page-link" href="{{request.get_full_path}}?page={{page_obj.next_page_number}}">Siguiente</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                    {% endif %}
+                                {% else %}
+                                    {% if is_paginated %}
+                                    <nav class="float-right">
+                                        <ul class="pagination">
+                                            {% if page_obj.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="{{request.get_full_path}}&page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Anterior</a>
+                                            </li>
+                                            {% endif %}
+                                            
+                                            {% for pagina in paginator.page_range %}
+                                                {% ifequal pagina page_obj.number  %} 
+                                                <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}&page={{pagina}}">{{ pagina }}</a></li>        
+                                                {% else %}
+                                                <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{pagina}}">{{ pagina }}</a></li> 
+                                                {% endifequal %}   
+                                            {% endfor %}
+                                                
+                                            {% if page_obj.has_next %}
+                                            <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{page_obj.next_page_number}}">Siguiente</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                    {% endif %}
                                 {% endif %}
                                 <!-- ./pagination -->
                             </div>

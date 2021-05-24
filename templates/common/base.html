@@ -4,12 +4,14 @@
     <head>    
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Favicon Abryl -->
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/pagina_inicio/favicon.ico' %}"/>
         <!-- Google Font: Source Sans Pro -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <link rel="stylesheet" href="{% static 'css/google-font.css' %}">
         <!-- Font Awesome Icons -->
         <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
         <!-- Theme style -->
-        <link rel="stylesheet" href="{% static 'css/adminlte.css' %}">
+        <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
 
         {% block head %}{% endblock head %}
         
@@ -49,7 +51,6 @@
             .brand-link3 a:hover {
                 opacity: 0.7;
             }
-
         </style>
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">

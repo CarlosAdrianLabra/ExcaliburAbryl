@@ -9,14 +9,10 @@
 <div class="modal-body">
     <div class="row">
         {% if productos.img %}
-            <div class="col-2" style="padding: 20px; text-align: center;">
-                <img src="http://127.0.0.1:8000/media/{{ productos.img }}" width="190" height="155">    
-            </div>
-            <div class="col-10 mt-5">
+            <div class="col-12">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 142px;">Código de barras</th>
                             <th class="text-center">Nombre</th>
                             <th class="text-center" style="width: 100px;">Modelo</th>
                             <th class="text-center" style="width: 140px;">Proveedor</th>
@@ -31,7 +27,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="text-center">{{ productos.barcode }}</td>
                             <td class="text-center">{{ productos.nombre }}</td>
                             <td class="text-center">{{ productos.modelo }}</td>
                             <td class="text-center">{{ productos.proveedor }}</td>
@@ -46,20 +41,46 @@
                     </tbody>
                 </table>
             </div>
-            {% if productos.barcode %}
-                <div class="col-6 offset-3 text-center">
-                    <label style="margin: 10px 0 0 0;">Código de barras</label>
-                    <div class="code_128_L">{{ productos.barcode }}</div>
-                    <div>{{ productos.barcode }}</div>
+            <div class="container-fluid mt-5">
+                <div class="row">
+                    <div class="col-3" style="padding: 0px 0px; text-align: center;">
+                        <img src="http://127.0.0.1:8000/media/{{ productos.img }}" width="250" height="225">    
+                    </div>
+                    <div class="col-5 text-center">
+                        <label>VENTAS EN LOS ULTIMOS 30 DÍAS</label>
+                        <div class="table-responsive p-0" style="height: 197px;">
+                            <table class="table text-center text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha de venta</th>
+                                        <th>Nombre</th>
+                                        <th>Ventas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for v in ventas_del_mes %}
+                                    <tr>
+                                        <td>{{ v.sale__date_sale__date }}</td>
+                                        <td>{{ v.producto__nombre }}</td>
+                                        <td>{{ v.cantidad_vendida }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-3 text-center ml-5">
+                        <label>CÓDIGO DE BARRAS</label>
+                        <div class="code_128_L mb-0">{{ productos.barcode }}</div>
+                        <div>{{ productos.barcode }}</div>
+                    </div>
                 </div>
-            {% else %}
-            {% endif %}
+            </div>
         {% else %}
             <div class="col-12">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 142px;">Código de barras</th>
                             <th class="text-center">Nombre</th>
                             <th class="text-center" style="width: 100px;">Modelo</th>
                             <th class="text-center" style="width: 140px;">Proveedor</th>
@@ -74,7 +95,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="text-center">{{ productos.barcode }}</td>
                             <td class="text-center">{{ productos.nombre }}</td>
                             <td class="text-center">{{ productos.modelo }}</td>
                             <td class="text-center">{{ productos.proveedor }}</td>
@@ -89,15 +109,38 @@
                     </tbody>
                 </table>
             </div>
-            {% if productos.barcode %}
-                <div class="col-6 offset-3 text-center">
-                    <label style="margin: 10px 0 0 0;">Código de barras</label>
-                    <div class="code_128_L">{{ productos.barcode }}</div>
-                    <div>{{ productos.barcode }}</div>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-5 offset-1 text-center">
+                        <label>VENTAS EN LOS ULTIMOS 30 DÍAS</label>
+                        <div class="table-responsive p-0" style="height: 197px;">
+                            <table class="table text-center text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha de venta</th>
+                                        <th>Nombre</th>
+                                        <th>Ventas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for v in ventas_del_mes %}
+                                    <tr>
+                                        <td>{{ v.sale__date_sale__date }}</td>
+                                        <td>{{ v.producto__nombre }}</td>
+                                        <td>{{ v.cantidad_vendida }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-4 offset-1 text-center">
+                        <label>CÓDIGO DE BARRAS</label>
+                        <div class="code_128_L mb-0">{{ productos.barcode }}</div>
+                        <div>{{ productos.barcode }}</div>
+                    </div>
                 </div>
-            {% else %}
-            {% endif %}
-            
+            </div>
         {% endif %}
     </div>
 </div>

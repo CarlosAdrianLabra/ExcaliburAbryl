@@ -4,10 +4,10 @@ from django.db.models import Q, Avg
 # Filtro para almacen y tipo
 class filtros(models.Manager):
 
-    def almacen_tipo_calzado(self, filtro):
+    def filtros_calzado(self, **filters):
 
         consulta = self.filter(
-            Q(barcode__icontains=filtro) | Q(nombre__icontains=filtro) | Q(marca__nombre__icontains=filtro) | Q(proveedor__nombre__icontains=filtro) | Q(modelo__icontains=filtro)
+            Q(barcode__icontains=filters['filtro']) | Q(nombre__icontains=filters['filtro']) | Q(marca__nombre__icontains=filters['filtro']) | Q(proveedor__nombre__icontains=filters['filtro']) | Q(modelo__icontains=filters['filtro'])
         ).filter(
             tipo='10' # 10 - CALZADO
         ).filter(
@@ -16,10 +16,10 @@ class filtros(models.Manager):
 
         return consulta
     
-    def almacen_tipo_ropa(self, filtro):
+    def filtros_ropa(self, **filters):
 
         consulta = self.filter(
-            Q(barcode__icontains=filtro) | Q(nombre__icontains=filtro) | Q(marca__nombre__icontains=filtro) | Q(proveedor__nombre__icontains=filtro) | Q(modelo__icontains=filtro)
+            Q(barcode__icontains=filters['filtro']) | Q(nombre__icontains=filters['filtro']) | Q(marca__nombre__icontains=filters['filtro']) | Q(proveedor__nombre__icontains=filters['filtro']) | Q(modelo__icontains=filters['filtro'])
         ).filter(
             tipo='20' # 20 - ROPA
         ).filter(

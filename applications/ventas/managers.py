@@ -84,8 +84,8 @@ class SaleDetailManager(models.Manager):
         consulta = self.filter(
             sale__anulate=False,
             created__range=(start_date, end_date),
-            product__pk=id_prod,
-        ).values('sale__date_sale__date', 'product__name').annotate(
+            producto__pk=id_prod,
+        ).values('sale__date_sale__date', 'producto__nombre').annotate(
             cantidad_vendida=Sum('count'),
         )
         return consulta

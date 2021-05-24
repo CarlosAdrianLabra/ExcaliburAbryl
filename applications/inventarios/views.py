@@ -1,3 +1,4 @@
+from applications.ventas.managers import SaleDetailManager
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from django.contrib.messages.views import SuccessMessageMixin
@@ -11,6 +12,7 @@ from bootstrap_modal_forms.generic import (
     BSModalDeleteView,
 )
 from applications.utils import render_to_pdf
+from applications.ventas.models import DetalleVenta
 from django.views.generic import (
     TemplateView,
     ListView,
@@ -91,7 +93,7 @@ class IndexProveedor(ListView):
     context_object_name = 'proveedores'
 
 class CrearProveedorVista(View):
-    def  get(self, request):
+    def get(self, request):
         nombre1 = request.GET.get('nombre', None)
         correo1 = request.GET.get('correo', None)
         telefono1 = request.GET.get('telefono', None)
@@ -121,7 +123,7 @@ class CrearProveedorVista(View):
         return JsonResponse(data)
 
 class ActualizarProveedorVista(View):
-    def  get(self, request):
+    def get(self, request):
         id1 = request.GET.get('id', None)
         nombre1 = request.GET.get('nombre', None)
         correo1 = request.GET.get('correo', None)
@@ -152,7 +154,7 @@ class ActualizarProveedorVista(View):
         return JsonResponse(data)
 
 class EliminarProveedorVista(View):
-    def  get(self, request):
+    def get(self, request):
         id1 = request.GET.get('id', None)
         Proveedor.objects.get(id=id1).delete()
         data = {
@@ -168,23 +170,29 @@ class IndexInventario(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        # Calzado contadores
+        calzado = Productos.objects.filter(tipo='10')
+        ropa = Productos.objects.filter(tipo='20')
+        # Calzado
         context["calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse().count()
-        context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido().count()
-        context["calzado_promedio"] = Productos.objects.calzado_promedio()
-        # Calzado tablas
-        context["tabla_calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse()
-        context["tabla_calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido()
-        
-        # Ropa contadores
-        context["ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse().count()
-        context["ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida().count()
-        context["ropa_promedio"] = Productos.objects.ropa_promedio()
-        # Calzado tablas
-        context["tabla_ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse()
-        context["tabla_ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida()
+        if calzado:
+            context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido().count()
+            context["tabla_calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido()
+        else:
+            context["calzado_mas_vendido"] = 0
 
+        context["calzado_promedio"] = Productos.objects.calzado_promedio()
+        context["tabla_calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse()
+        # Ropa
+        context["ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse().count()
+        if ropa:
+            context["ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida().count()
+            context["tabla_ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida()
+        else:
+            context["ropa_mas_vendida"] = 0
+
+        context["ropa_promedio"] = Productos.objects.ropa_promedio()
+        context["tabla_ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse()
+        #
         return context
 
 # Código de barras a PDF
@@ -213,8 +221,11 @@ class IndexCalzado(generic.ListView):
     context_object_name = 'producto_calzado'
 
     def get_queryset(self):
-        qs = self.request.GET.get("filtro", '')
-        return Productos.objects.almacen_tipo_calzado(qs)
+
+        queryset = Productos.objects.filtros_calzado(
+            filtro = self.request.GET.get("filtro", ''),
+        )
+        return queryset
 
 # Crear producto de calzado
 class CrearCalzadoVista(BSModalCreateView):
@@ -243,6 +254,13 @@ class LeerCalzadoVista(BSModalReadView):
     template_name = 'inventarios/almacen_1/calzado/accion_leer_calzado.html'
     model = Productos
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ventas_del_mes'] = DetalleVenta.objects.ventas_mes_producto(
+            self.kwargs['pk']
+        )
+        return context
+
 # Funcion para llenar registros de la tabla de calzado
 def producto_calzado(request):
     data = dict()
@@ -269,8 +287,11 @@ class IndexRopa(generic.ListView):
     context_object_name = 'producto_ropa'
 
     def get_queryset(self):
-        qs = self.request.GET.get("filtro", '')
-        return Productos.objects.almacen_tipo_ropa(qs)
+
+        queryset = Productos.objects.filtros_ropa(
+            filtro = self.request.GET.get("filtro", ''),
+        )
+        return queryset
 
 # Crear producto de ropa
 class CrearRopaVista(BSModalCreateView):
@@ -298,6 +319,13 @@ class EliminarRopaVista(BSModalDeleteView):
 class LeerRopaVista(BSModalReadView):
     template_name = 'inventarios/almacen_1/ropa/accion_leer_ropa.html'
     model = Productos
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ventas_del_mes'] = DetalleVenta.objects.ventas_mes_producto(
+            self.kwargs['pk']
+        )
+        return context
 
 # Funcion para llenar registros de la tabla de ropa
 def producto_ropa(request):
