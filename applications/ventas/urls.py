@@ -54,4 +54,14 @@ urlpatterns = [
         views.SaleDeleteView.as_view(),
         name='venta-delete',
     ),
+    path(
+        'efectivo/', 
+        views.EfectivoView.as_view(),
+        name='efectivo',
+    ),
+    path(
+        'efectivo/delete-all',
+        views.EfectivoDeleteAll.as_view(),
+        name='efectivo-delete_all',
+    ),
 ]

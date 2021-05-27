@@ -6,11 +6,9 @@ from model_utils.models import TimeStampedModel
 
 #applicaciones locales
 from applications.inventarios.models import Productos
-
 from .managers import SaleManager, SaleDetailManager, CarShopManager
 
 # Create your models here.
-
 class Venta(TimeStampedModel):
     """
     Modelo que representa la venta Global
@@ -55,14 +53,6 @@ class Venta(TimeStampedModel):
         return 'Num# [' + str(self.id) + '] - ' + str(self.date_sale)
 
 
-
-
-
-
-
-
-
-
 class DetalleVenta(TimeStampedModel):
     """
     Modelo que representa a una venta en detalle
@@ -85,14 +75,6 @@ class DetalleVenta(TimeStampedModel):
         return str(self.sale.id) + ' - ' + str(self.producto.nombre)
 
 
-
-
-
-
-
-
-
-
 class Carrito(TimeStampedModel):
     """
     Modelo que representa el carrito de compras
@@ -110,3 +92,16 @@ class Carrito(TimeStampedModel):
 
     def __str__(self):
         return str(self.producto.nombre)
+
+
+class Efectivo(TimeStampedModel):
+    cash = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    change = models.DecimalField(max_digits=7, decimal_places=2, blank=True)
+
+    class Meta:
+        verbose_name = 'Cambio de efectivo'
+        verbose_name_plural = 'Cambio de efectivo'
+        ordering = ['-created']
+
+    def __str__(self):
+        return str(self.change)

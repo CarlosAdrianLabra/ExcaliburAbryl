@@ -1,5 +1,3 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,110 +5,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
+<body style="font-size: 8px;">
     <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
+        <thead><tr><th width="138"></th></tr></thead>
         <tbody>
             <tr>
                 <td>
                     <div style="font-size: 12px; font-weight: bold; text-align: center; margin: 15px 0px;">
-                        <img src="http://127.0.0.1:8000/static/img/pagina_inicio/logo_abryl.png" width="40" height="35">
-                        Tienda Abryl
+                        <img src="http://127.0.0.1:8000/static/img/pagina_inicio/logo_abryl.png" width="40" height="35">&nbsp;&nbsp;&nbsp;TIENDA ABRYl
                     </div>
-                    Abryl Ropa y Calzado S.A. DE C.V.<br>
-                    Avenida Tlahuac, 823<br>
-                    Col. San Lorenzo Tezonco, 09900<br>
-                    Del. Iztapalapa, CDMX<br>
-                    RFC. DLAI-931201-M19<br>
-                    <br>
-                    Régimen General de Ley de Personas Morales<br>
-                    -------------------------------------------------------<br>
-                    <p style="text-align: center; font-weight: bold;">
-                        VENTA
-                    </p>
-                    
+                    <div style="text-align: center;">
+                        ABRYL ROPA Y CALZADO<br>
+                        AVENIDA TLAHUAC 823,<br>
+                        SAN LORENZO TEZONCO<br>
+                        IZTAPALAPA, CDMX CP 09900<br>
+                        RFC. DLAI-931201-M19<br>
+                        RÉGIMEN DE INCORPORACIÓN FISCAL<br>
+                        <br>
+                        LUGAR DE EXPEDICIÓN:<br>
+                        IZTAPALAPA, CIUDAD DE MÉXICO<br>
+                        FECHA DE EXPEDICIÓN:<br>
+                        {{venta.date_sale}}<br>
+                        <br>
+                        Caja: *NOTA DE VENTA: {{ venta.id }}<br>
+                        Cajero: {{ user }}<br>
+
+                        CLIENTE DISTINGUIDO<br>
+                    </div>
+                    ---------------------------------------------------------------------<br>
+                    <table>
+                        <thead style="text-align: center;">
+                            <tr>
+                                <th width="20">Cant</th>
+                                <th width="40" style="text-align: left;">Producto</th>
+                                <th>Descripción</th>
+                                <th width="34">Total</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    ---------------------------------------------------------------------<br>
                     <table>
                         <thead>
                             <tr>
-                                <td>TDA</td>
-                                <td style="margin-left: 6px;">TERM</td>
-                                <td style="margin-left: 11px;">VTA</td>
-                                <td style="margin-left: 16px;">VEND</td>
+                                <th width="20"></th>
+                                <th width="40"></th>
+                                <th></th>
+                                <th width="34"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>01</td>
-                                <td style="margin-left: 6px;">01</td>
-                                <td style="margin-left: 11px;">{{venta.id}}</td>
-                                <td style="margin-left: 16px;">01</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                        <p style="text-align: center;">Atendio: {{ user }}</p>
-                    <table>
-                        <tbody>
                             {% for producto in detalle_productos %}
-                                <tr>
-                                    <td colspan="3">{{ producto.producto.barcode }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">{{ producto.producto.nombre }}</td>
-                                    <td style="text-align: right;">
-                                        {{ producto.count }} X ${{ producto.producto.precio_venta}}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            <tr></tr>
                             <tr>
-                                <td colspan="2">SUBTOTAL :</td>
-                                <td style="text-align: right;">
-                                    {% for venta in subtotal %}
-                                        {% for detalle in venta.detail_sale.all %}
-                                            $ {{ detalle.subtotal }}<br>
-                                        {% endfor %}
-                                    {% endfor %}
+                                <td style="text-align: center;">{{ producto.count }}</td>
+                                <td colspan="2">{{ producto.producto.nombre }}</td>
+                                <td style="text-align: right;">${{ producto.producto.precio_venta}}</td>
+                            </tr>
+                            <tr style="padding-top: -3px;">
+                                <td></td>
+                                <td colspan="2">
+                                    {{ producto.producto.marca }} {{ producto.producto.modelo }} {{ producto.producto.get_color_display }}
                                 </td>
                             </tr>
-                            <tr></tr>
-                            <tr>
-                                <td colspan="2">TOTAL :</td>
-                                <td style="text-align: right;">$ {{venta.amount}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">{{venta.get_type_payment_display}} :</td>
-                                <td style="text-align: right;">$ {{venta.amount}}</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
-                    <br>
-                    {{ num2word }} PESOS {{decimal}}/100 M.N.
-                    -------------------------------------------------------<br>
-                    <p style="text-align: center; margin: 0px;">
-                        Articulos Vendidos {{venta.count}}
-                    </p>
-                    -------------------------------------------------------<br>
-                    <p style="text-align: center;">
-                        ¡Gracias por su visita!
-                    </p>
-                    <table style="text-align: center;">
-                        <tr>
-                            <td>CLIENTE</td><td>{{venta.date_sale}}</td>
-                        </tr>
+                    ---------------------------------------------------------------------<br>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td colspan="2">Venta Total</td>
+                                <td style="text-align: right;">${{venta.amount}}</td>
+                            </tr>
+                            {% for e in efectivo %}
+                                <tr style="padding-top: -3px;">
+                                    <td></td>
+                                    <td colspan="2">Su Pago, Gracias</td>
+                                    <td style="text-align: right;">${{e.cash}}</td>
+                                </tr>
+                                <tr style="padding-top: -3px;">
+                                    <td></td>
+                                    <td colspan="2">Su Cambio</td>
+                                    <td style="text-align: right;">${{e.change}}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="2">{{venta.get_type_payment_display}}&nbsp;&nbsp;&nbsp; ${{e.cash}}</td>
+                                </tr>
+                            {% endfor %}
+                            {% if venta.get_type_payment_display == 'Tarjeta' %}
+                                <tr>
+                                    <td></td>
+                                    <td colspan="2">{{venta.get_type_payment_display}}&nbsp;&nbsp;&nbsp; ${{venta.amount}}</td>
+                                </tr>
+                            {% endif %}
+                            
+                        </tbody>
                     </table>
-                    -------------------------------------------------------<br>
-                    <p style="text-align: center;">Visítanos y compra en</p>
-                    <p style="text-align: center; font-weight: bold;">
-                        tiendaabryl.mercadoshops.com.mx/
-                    </p>
-                    -------------------------------------------------------<br>
+                    <div style="text-align: center; margin-top: 0px;">
+                        <!-- Esta Nota le generó un Cupón por:<br>
+                        $0.00 pesos. Favor de solicitarle al<br>
+                        Cajero le haga entrega de este cupón.<br>
+                        <br> -->
+                        Es indispensable presentar su ticket.<br>
+                        Después de 8 días no se admiten cambios.<br>
+                        No se aceptan DEVOLUCIONES
+                    </div>
+                    ---------------------------------------------------------------------<br>
+                    <p style="text-align: center; font-weight: bold;">tiendaabryl.mercadoshops.com.mx/</p>
+                    <p style="text-align: center;"> {{ num2word }} PESOS {{decimal}}/100 M.N.</p>
+                    <p style="text-align: center; margin: 0px;">Articulos Vendidos ( {{venta.count}} )</p>
                 </td>
             </tr>
         </tbody>

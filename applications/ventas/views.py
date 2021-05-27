@@ -18,14 +18,12 @@ from django.views.generic.edit import (
 from applications.inventarios.models import Productos
 from applications.inventarios.num2word import word
 from applications.utils import render_to_pdf
-from .models import Venta, DetalleVenta, Carrito
-from .forms import VentaForm, VentaVoucherForm
+from .models import Venta, DetalleVenta, Carrito, Efectivo
+from .forms import VentaForm, VentaVoucherForm, EfectivoForm
 from .functions import procesar_venta
 from applications.caja.functions import detalle_ventas_no_cerradas
+
 # Create your views here.
-
-
-
 class AddCarView(FormView):
     template_name = "ventas/index.html"
     form_class = VentaForm
@@ -35,8 +33,10 @@ class AddCarView(FormView):
         context = super().get_context_data(**kwargs)
         context["productos"] = Carrito.objects.all()
         context["total_cobrar"] = Carrito.objects.total_cobrar()
+        context["cambio"] = Efectivo.objects.all()
         # formulario para venta con voucher
         context['form_voucher'] = VentaVoucherForm
+        context['form_efectivo'] = EfectivoForm
         return context
     
     def form_valid(self, form):
@@ -71,6 +71,7 @@ class CarShopUpdateView(View):
             )
         )
 
+
 class CarShopUpdate2View(View):
     """ agrega en 1 la cantidad en un carshop """
 
@@ -86,15 +87,18 @@ class CarShopUpdate2View(View):
             )
         )
 
+
 class CarShopDeleteView(DeleteView):
     model = Carrito
     success_url = reverse_lazy('ventas_app:venta-index')
+
 
 class CarShopDeleteAll(View):
     
     def post(self, request, *args, **kwargs):
         #
         Carrito.objects.all().delete()
+        Efectivo.objects.all().delete()
         #
         return HttpResponseRedirect(
             reverse(
@@ -151,6 +155,7 @@ class ProcesoVentaVoucherView(FormView):
                 )
             )
 
+
 class VentaVoucherPdf(View):
     
     def get(self, request, *args, **kwargs):
@@ -159,17 +164,18 @@ class VentaVoucherPdf(View):
         num2word = word(int(venta.amount))
         decimal = str(Decimal(venta.amount) % 1)[2:]
         user = str(User.objects.get(id='1')).upper()
+        efectivo = Efectivo.objects.all()
         data = {
             'venta': venta,
             'detalle_productos': DetalleVenta.objects.filter(sale__id=self.kwargs['pk']),
             'subtotal': variable.filter(id=self.kwargs['pk']),
             'num2word': num2word,
             'decimal': decimal,
-            'user': user
+            'user': user,
+            'efectivo': efectivo
         }
         pdf = render_to_pdf('ventas/voucher.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
-
 
 
 class SaleListView(ListView):
@@ -194,3 +200,45 @@ class SaleDeleteView(DeleteView):
         success_url = self.get_success_url()
 
         return HttpResponseRedirect(success_url)
+
+
+class EfectivoView(FormView):
+    form_class = EfectivoForm
+    success_url = '/venta/index'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total"] = Carrito.objects.total_cobrar()
+        context["cambio"] = Efectivo.objects.all()
+        return context
+
+    def form_valid(self, form):
+        cash = form.cleaned_data['cash']
+        monto = Carrito.objects.total_cobrar()
+
+        obj, created = Efectivo.objects.get_or_create(
+            defaults={
+               'cash': cash,
+               'change': round(float(cash) - monto,2)
+            }
+        )
+
+        if not created:
+            obj.cash = cash
+            obj.change = float(cash) - monto
+            obj.save()
+
+        return super(EfectivoView, self).form_valid(form)
+
+
+class EfectivoDeleteAll(View):
+    
+    def post(self, request, *args, **kwargs):
+        #
+        Efectivo.objects.all().delete()
+        #
+        return HttpResponseRedirect(
+            reverse(
+                'ventas_app:venta-index'
+            )
+        )

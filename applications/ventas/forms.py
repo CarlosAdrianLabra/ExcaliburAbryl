@@ -35,12 +35,7 @@ class VentaForm(forms.Form):
         if Productos.objects.filter(barcode = barcode):
             return barcode
         else:
-            raise forms.ValidationError('Error XD')
-            
-        
-            
-        
-        
+            raise forms.ValidationError('Error XD')            
 
 
 class VentaVoucherForm(forms.Form):
@@ -60,6 +55,26 @@ class VentaVoucherForm(forms.Form):
         widget=forms.Select(
             attrs = {
                 'class': 'form-control',
+            }
+        )
+    )
+
+
+class EfectivoForm(forms.Form):
+    cash = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control col-12 text-right',
+                'value': '0'
+            }
+        )
+    )
+    change = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control col-12 text-right',
+                'style': 'display:None;',
+                'value': '0'
             }
         )
     )
