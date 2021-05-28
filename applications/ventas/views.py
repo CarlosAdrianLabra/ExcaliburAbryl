@@ -18,8 +18,8 @@ from django.views.generic.edit import (
 from applications.inventarios.models import Productos
 from applications.inventarios.num2word import word
 from applications.utils import render_to_pdf
-from .models import Venta, DetalleVenta, Carrito, Efectivo
-from .forms import VentaForm, VentaVoucherForm, EfectivoForm
+from .models import Efectivo, Venta, DetalleVenta, Carrito
+from .forms import EfectivoForm, VentaForm, VentaVoucherForm
 from .functions import procesar_venta
 from applications.caja.functions import detalle_ventas_no_cerradas
 
@@ -55,7 +55,6 @@ class AddCarView(FormView):
             obj.save()
         return super(AddCarView, self).form_valid(form)
 
-
 class CarShopUpdateView(View):
     """ quita en 1 la cantidad en un carshop """
 
@@ -70,7 +69,6 @@ class CarShopUpdateView(View):
                 'ventas_app:venta-index'
             )
         )
-
 
 class CarShopUpdate2View(View):
     """ agrega en 1 la cantidad en un carshop """
@@ -87,11 +85,9 @@ class CarShopUpdate2View(View):
             )
         )
 
-
 class CarShopDeleteView(DeleteView):
     model = Carrito
     success_url = reverse_lazy('ventas_app:venta-index')
-
 
 class CarShopDeleteAll(View):
     
@@ -105,7 +101,6 @@ class CarShopDeleteAll(View):
                 'ventas_app:venta-index'
             )
         )
-
 
 class ProcesoVentaSimpleView(View):
     """ Procesa una venta simple """
@@ -124,7 +119,6 @@ class ProcesoVentaSimpleView(View):
                 'ventas_app:venta-index'
             )
         )
-
 
 class ProcesoVentaVoucherView(FormView):
     form_class = VentaVoucherForm
@@ -155,7 +149,6 @@ class ProcesoVentaVoucherView(FormView):
                 )
             )
 
-
 class VentaVoucherPdf(View):
     
     def get(self, request, *args, **kwargs):
@@ -177,14 +170,12 @@ class VentaVoucherPdf(View):
         pdf = render_to_pdf('ventas/voucher.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
 
-
 class SaleListView(ListView):
     template_name = 'ventas/ventas.html'
     context_object_name = "ventas" 
 
     def get_queryset(self):
         return Venta.objects.ventas_no_cerradas()
-
 
 class SaleDeleteView(DeleteView):
     template_name = "ventas/delete.html"
@@ -200,7 +191,6 @@ class SaleDeleteView(DeleteView):
         success_url = self.get_success_url()
 
         return HttpResponseRedirect(success_url)
-
 
 class EfectivoView(FormView):
     form_class = EfectivoForm
@@ -229,7 +219,6 @@ class EfectivoView(FormView):
             obj.save()
 
         return super(EfectivoView, self).form_valid(form)
-
 
 class EfectivoDeleteAll(View):
     

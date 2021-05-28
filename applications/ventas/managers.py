@@ -178,4 +178,4 @@ class CarShopManager(models.Manager):
         if consulta['total']:
             return consulta['total']
         else:
-            return 0            
+            return 0  

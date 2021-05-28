@@ -3,7 +3,7 @@ from django.db.models import Prefetch
 
 from applications.inventarios.models import Productos
 
-from .models import Venta, DetalleVenta, Carrito
+from .models import Venta, DetalleVenta, Carrito, Efectivo
 
 
 def procesar_venta(self, **params_venta):

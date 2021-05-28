@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Venta, DetalleVenta
+from .models import Venta, DetalleVenta,Efectivo
 # Register your models here.
 
 class VentaAdmin(admin.ModelAdmin):

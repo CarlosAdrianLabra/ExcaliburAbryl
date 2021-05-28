@@ -35,9 +35,8 @@ class VentaForm(forms.Form):
         if Productos.objects.filter(barcode = barcode):
             return barcode
         else:
-            raise forms.ValidationError('Error XD')            
-
-
+            raise forms.ValidationError('Error XD')
+            
 class VentaVoucherForm(forms.Form):
 
     type_payment = forms.ChoiceField(
@@ -58,7 +57,6 @@ class VentaVoucherForm(forms.Form):
             }
         )
     )
-
 
 class EfectivoForm(forms.Form):
     cash = forms.CharField(

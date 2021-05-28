@@ -29,12 +29,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'applications.ventas',
     'applications.caja',
-<<<<<<< HEAD
-    'applications.users',
-    'applications.codigobarras',
-=======
     
->>>>>>> parent of 523df08 (impresion individual de barcode)
     # apps terceros
 
 ]
@@ -89,8 +84,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
-
-AUTH_USER_MODEL='users.USER'
 
 LANGUAGE_CODE = 'es-mx'
 

@@ -35,13 +35,6 @@ urlpatterns = [
 
     #URLS - APPLICATIONS.VENTAS
     re_path('', include('applications.ventas.urls')),
-<<<<<<< HEAD
-
-    #URLS - APPLICATIONS.USERS
-    re_path('', include('applications.users.urls')),
-
-=======
->>>>>>> parent of 523df08 (impresion individual de barcode)
     # caja app
     re_path('', include('applications.caja.urls')),
 
