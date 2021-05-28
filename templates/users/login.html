@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="login">
+        <div class="heading">
+          <h2>Sign in</h2>
+          <form method="POST">{% csrf_token %}
+      
+            <div class="input-group input-group-lg">
+              {{form.username}}
+                </div>
+      
+              <div class="input-group input-group-lg">
+                {{form.password}}
+              </div>
+      
+              <button type="submit" class="float">Login</button>
+             </form>
+               </div>
+       </div>
+</body>
+</html>

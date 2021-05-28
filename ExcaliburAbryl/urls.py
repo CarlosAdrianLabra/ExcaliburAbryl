@@ -35,7 +35,11 @@ urlpatterns = [
 
     #URLS - APPLICATIONS.VENTAS
     re_path('', include('applications.ventas.urls')),
-    #URLS - APPLICATIONS.CAJA
+
+    #URLS - APPLICATIONS.USERS
+    re_path('', include('applications.users.urls')),
+
+    # caja app
     re_path('', include('applications.caja.urls')),
     #URLS - APPLICATIONS.CODIGOBARRAS
     re_path('', include('applications.codigobarras.urls')),

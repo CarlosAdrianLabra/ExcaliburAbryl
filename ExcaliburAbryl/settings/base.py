@@ -29,8 +29,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'applications.ventas',
     'applications.caja',
+    'applications.users',
     'applications.codigobarras',
-    
     # apps terceros
 
 ]
@@ -85,6 +85,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
+
+AUTH_USER_MODEL='users.USER'
 
 LANGUAGE_CODE = 'es-mx'
 
