@@ -35,13 +35,14 @@ urlpatterns = [
 
     #URLS - APPLICATIONS.VENTAS
     re_path('', include('applications.ventas.urls')),
+<<<<<<< HEAD
 
     #URLS - APPLICATIONS.USERS
     re_path('', include('applications.users.urls')),
 
+=======
+>>>>>>> parent of 523df08 (impresion individual de barcode)
     # caja app
     re_path('', include('applications.caja.urls')),
-    #URLS - APPLICATIONS.CODIGOBARRAS
-    re_path('', include('applications.codigobarras.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

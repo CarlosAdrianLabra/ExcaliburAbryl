@@ -29,8 +29,12 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'applications.ventas',
     'applications.caja',
+<<<<<<< HEAD
     'applications.users',
     'applications.codigobarras',
+=======
+    
+>>>>>>> parent of 523df08 (impresion individual de barcode)
     # apps terceros
 
 ]
