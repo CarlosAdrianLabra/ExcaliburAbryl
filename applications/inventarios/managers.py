@@ -104,3 +104,11 @@ class filtros(models.Manager):
         #
         else:
             return 0
+    
+    def filtros_barras(self, **filters):
+
+        consulta = self.filter(
+            Q(barcode__icontains=filters['filtro']))
+
+
+        return consulta

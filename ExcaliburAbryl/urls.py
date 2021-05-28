@@ -35,7 +35,9 @@ urlpatterns = [
 
     #URLS - APPLICATIONS.VENTAS
     re_path('', include('applications.ventas.urls')),
-    # caja app
+    #URLS - APPLICATIONS.CAJA
     re_path('', include('applications.caja.urls')),
+    #URLS - APPLICATIONS.CODIGOBARRAS
+    re_path('', include('applications.codigobarras.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
