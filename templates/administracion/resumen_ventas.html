@@ -1,0 +1,90 @@
+{% extends 'administracion/administracion_base.html' %}
+
+{% load static %}
+
+{% block head %}
+<title>administracion</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+    
+<div class="content">
+    <div class="container-fluid">
+        <!--Row content -->
+        <div class="row">
+            <div class="col-12">
+            
+
+
+                <!-- Card content -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h1 class="card-title mt-3 mb-3 ml-3">Ventas por fecha especifica</h1>
+                    </div>
+
+                    <!-- Card body -->
+                    <div class="container-fluid mt-3 mb-3">
+                        
+                            
+                                <form method="GET">
+                                    <div class="row justify-content-md-center">
+                                        <div class="col-4">
+                                            <label>Fecha inicial:</label>
+                                            {{form.date_start}}
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Fecha final:</label>
+                                            {{form.date_end}}
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-md-center" style="padding-top: 20px;">
+                                        <div class="col-4">
+                                        <button type="submit" class="btn btn-block btr">Buscar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            
+                        
+
+
+
+                          {% for venta in resumen_ventas %}
+                            <table class="table table-dark">
+                            <thead>
+                                <th style="width: 297px;">N° {{venta.id}}</th>
+                                <th style="width: 361px;">Fecha: {{venta.date_sale|date:'m/d/Y P' }}</th>
+                                <th style="width: 322px;">Pago: {{venta.get_type_payment_display}}/{{ venta.get_type_invoice_display }}</th>
+                                <th style="width: 257px;">Cantidad: {{venta.count}}</th>
+                                <th style="width: 190px; color: lime;">Total: $ {{ venta.amount }}</th>
+                            </thead>
+                            </table>
+                            <table class="table table-striped" style="margin-top: -15px; margin-bottom: 50px;">
+                            <thead>
+                                <th style="width: 297px;">Producto</th>
+                                <th style="width: 361px;">Precio Venta</th>
+                                <th style="width: 322px;">Cantidad de cada producto</th>
+                                <th style="width: 447px;">Sub total</th>
+                            </thead>
+                            <tbody>
+                                {% for detalle in venta.detail_sale.all %}
+                                <tr>
+                                    <td>{{ detalle.producto.nombre }}</td>
+                                    <td>$ {{ detalle.price_sale }}</td>
+                                    <td>{{ detalle.count }}</td>
+                                    <td>$ {{ detalle.subtotal }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

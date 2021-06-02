@@ -1,0 +1,108 @@
+{% extends 'administracion/administracion_base.html' %}
+
+{% load static %}
+
+{% block head %}
+<title>administracion</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+    
+<div class="content">
+    <div class="container-fluid">
+        <!--Row content -->
+        <div class="row">
+            <div class="col-12">
+            
+
+
+                <!-- Card content -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h1 class="card-title mt-3 mb-3 ml-3">Liquidacion proveedores</h1>
+                    </div>
+
+                    <!-- Card body -->
+                    <div class="container-fluid mt-3 mb-3">
+                    <div class="row">
+                        
+                            <div class="col-6">
+                                <form method="GET">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label>Proveedor:</label>
+                                            {{form.proveedor}}
+                                        </div>
+                                    </div>
+                                    <div class="row"  style="padding-top: 15px;">
+                                        <div class="col-12">
+                                            <label>Fecha inicial:</label>
+                                            {{form.date_start}}
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row"  style="padding-top: 15px;">
+                                        <div class="col-12">
+                                            <label>Fecha final:</label>
+                                            {{form.date_end}}
+                                        </div>
+
+                                    </div>
+                                
+                                    
+                                    <div class="row">
+                                        <div class="col-12" style="padding-top: 15px;">
+                                            <button type="submit" class="btn btn-block btr">Buscar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-6 align-self-center" style="padding-left: 250px; padding-right: 250px;">
+                                <div class="info-box">
+                                <span class="info-box-icon bg-primary"><i class="far fa-handshake"></i></span>
+                    
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total a Pagar</span>
+                                    <span class="info-box-number">$ {{ total_ventas }}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                        
+                    </div>
+                            
+                                
+                            
+                        
+                        
+
+                            <table class="table table-striped text-nowrap">
+                            <thead>
+                                <th>Fecha</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio Compra</th>
+                                <th>Total</th>
+                            </thead>
+                            <tbody>
+                                {% for venta in ventas_liquidacion %}
+                                <tr>
+                                    <td>{{ venta.sale.date_sale }}</td>
+                                    <td>{{ venta.producto.nombre }}</td>
+                                    <td>{{ venta.count }}</td>
+                                    <td>{{ venta.price_purchase }}</td>
+                                    <td>{{ venta.sub_total }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

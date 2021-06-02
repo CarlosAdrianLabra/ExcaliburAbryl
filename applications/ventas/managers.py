@@ -134,14 +134,14 @@ class SaleDetailManager(models.Manager):
         # devuelve lista de ventas en rango de fechas de un proveedor
         # y, devuelve el total de ventas en rango de fechas y de proveedor
 
-        if filters['date_start'] and filters['date_end'] and filters['provider']:
+        if filters['date_start'] and filters['date_end'] and filters['proveedor']:
             consulta = self.filter(
                 anulate=False,
                 sale__date_sale__range = (
                     filters['date_start'],
                     filters['date_end'],
                 ),
-                product__provider__pk=filters['provider'],
+                producto__proveedor__pk=filters['proveedor'],
             )
             
             lista_ventas = consulta.annotate(

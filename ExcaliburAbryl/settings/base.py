@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'applications.caja',
     'applications.users',
     'applications.codigobarras',
+    'applications.administracion',
     # apps terceros
 
 ]

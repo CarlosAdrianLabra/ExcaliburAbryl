@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic import CreateView, View, UpdateView
+from django.views.generic import CreateView, View, UpdateView, ListView
 from django.views.generic.edit import FormView
 from .forms import UserRegisterForm, LoginForm, UpdatePasswordForm
 from django.urls import reverse_lazy,reverse
@@ -76,3 +76,16 @@ class UserUpdateView(UpdateView):
     template_name = "users/updateuser.html"
     fields = ['username','email','nombres','apellidos','role','is_staff','is_active']
     success_url='/'
+
+
+class UserListView(ListView):
+    template_name = "users/lista.html"
+    context_object_name = 'usuarios'
+
+    def get_queryset(self):
+        return User.objects.usuarios_sistema()
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["usuarios"] = User.objects.usuarios_sistema()
+    #     return context

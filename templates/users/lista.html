@@ -1,0 +1,69 @@
+{% extends 'administracion/administracion_base.html' %}
+
+{% load static %}
+
+{% block head %}
+<title>administracion</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+    
+<div class="content">
+    <div class="container-fluid">
+        <!--Row content -->
+        <div class="row">
+            <div class="col-12">
+            
+
+
+                <!-- Card content -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h1 class="card-title mt-3 mb-3 ml-3">Usuarios del Sistema</h1>
+                    </div>
+
+                    <!-- Card body -->
+                    <div class="container-fluid mt-3 mb-3">
+
+
+                        <table class="table table-striped text-nowrap">
+                            <thead>
+                                <th>Email</th>
+                                <th>Nombres</th>
+                                <th>Ultima Conexion</th>
+                                <th>Permisos</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </thead>
+                            <tbody>
+                              {% for usuario in usuarios %}
+                                <tr>
+                                  <td>{{ usuario.email }}</td>
+                                  <td>{{ usuario.nombres }} {{ usuario.apellidos }}</td>
+                                  <td>{{ usuario.last_login }}</td>
+                                  <td>{{ usuario.get_role_display }}</td>
+                                  <td>
+                                    {% if usuario.is_active %}
+                                      <span class="label success">Activo</span>
+                                    {% else %}
+                                      <span class="label alert">De Baja</span>
+                                    {% endif %}
+                                  </td>
+                                  <td>
+                                  <a href="{% url 'users_app:user-data-update' usuario.pk %}" class="button">update</a>
+                                  </td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock content %}
+    

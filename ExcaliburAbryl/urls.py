@@ -41,5 +41,7 @@ urlpatterns = [
     re_path('', include('applications.codigobarras.urls')),
     #URLS - APPLICATIONS.USERS
     re_path('', include('applications.users.urls')),
+    #URLS - APPLICATIONS.ADMINISTRACION
+    re_path('', include('applications.administracion.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

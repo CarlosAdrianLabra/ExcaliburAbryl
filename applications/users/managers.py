@@ -23,3 +23,9 @@ class UserManager(BaseUserManager, models.Manager):
 
     def create_superuser(self, username, email, password=None, **extra_fields):
         return self._create_user(username, email, password, True, True, True, **extra_fields)
+
+
+    def usuarios_sistema(self):
+        return self.filter(
+            is_superuser=False
+        ).order_by('-last_login')

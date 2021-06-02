@@ -1,0 +1,134 @@
+{% extends 'administracion/administracion_base.html' %}
+
+{% load static %}
+
+{% block head %}
+<title>administracion</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+    
+<div class="content">
+    <div class="container-fluid">
+        <!--Row content -->
+        <div class="row">
+            <div class="col-12">
+              <div class="row" style="padding-top: 20px;">
+                <div class="col" >
+                    
+                        <!-- small box -->
+                        <div class="small-box bg-green">
+                          <div class="inner">
+                            <h3>$ {{ total_ventas }}</h3>
+              
+                            <p>Total Ventas Hoy</p>
+                          </div>
+                          <div class="icon">
+                            <i class="fa fa-coins"></i>
+                          </div>
+                          <!--<a href="#" class="small-box-footer">
+                            More info <i class="fa fa-arrow-circle-right"></i>
+                          </a>-->
+                        </div>
+                      
+                </div>
+                <div class="col">
+                    
+                        <!-- small box -->
+                        <div class="small-box bg-red">
+                          <div class="inner">
+                            <h3>${{ total_anulaciones }}</h3>
+              
+                            <p>Total Anulaciones</p>
+                          </div>
+                          <div class="icon">
+                            <i class="fas fa-window-close"></i>
+                          </div>
+                          <!--<a href="#" class="small-box-footer">
+                            More info <i class="fa fa-arrow-circle-right"></i>
+                          </a>-->
+                        </div>
+                       
+                </div>
+                <div class="col">
+                    
+                        <!-- small box -->
+                        <div class="small-box bg-yellow">
+                          <div class="inner">
+                            <h3>{{ stok_cero }}</h3>
+              
+                            <p>Productos en 0</p>
+                          </div>
+                          <div class="icon">
+                            <i class="fas fa-box-open"></i>
+                          </div>
+                          <!--<a href="#" class="small-box-footer">
+                            More info <i class="fa fa-arrow-circle-right"></i>
+                          </a>-->
+                        </div>
+                      
+                </div>
+                
+
+            </div>
+              
+                <!-- <h5>Total Ventas Hoy</h5>
+                <h3>S/ {{ total_ventas }}</h3>
+                <h5>Total Anulaciones</h5>
+                <h3>S/ {{ total_anulaciones }}</h3>
+                <h5>Productos en 0</h5>
+                <h3>{{ stok_cero }}</h3> -->
+
+
+                <!-- Card content -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h1 class="card-title mt-3 mb-3 ml-3">Informe de ingresos en la semana</h1>
+                    </div>
+
+                    <!-- Card body -->
+                    <div class="container-fluid mt-3 mb-3">
+                        <table class="table table-striped text-nowrap">
+                            <thead>
+                              <th>Fecha</th>
+                              <th>Numero Ventas</th>
+                              <th>Total Vendido</th>
+                              <th>Total Ganancias</th>
+                            </thead>
+                            <tbody>
+                              {% for venta in resumen_semana %}
+                                <tr>
+                                  <td>{{ venta.sale__date_sale__date }}</td>
+                                  <td>{{ venta.num_ventas }}</td>
+                                  <td>{{ venta.total_vendido }}</td>
+                                  <td>{{ venta.total_ganancias }}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

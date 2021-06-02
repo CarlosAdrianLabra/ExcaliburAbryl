@@ -1,0 +1,30 @@
+{% extends 'administracion/administracion_base.html' %}
+
+{% load static %}
+
+{% block head %}
+<title>administracion</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+
+    
+
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <!--Row content -->
+        <div class="row">
+            <div class="col-12">
+
+                <h2>Bienvenido al Sistema: {{user}}</h2>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+    
