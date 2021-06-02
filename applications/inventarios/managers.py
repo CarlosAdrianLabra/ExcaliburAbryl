@@ -105,6 +105,16 @@ class filtros(models.Manager):
         else:
             return 0
 
+    def productos_por_terminarse(self):
+        #
+        consulta = self.filter(
+           stock__lt=10
+        )
+        if consulta:
+            return consulta
+        else:
+            return 0
+
     def filtros_barras(self, **filters):
 
         consulta = self.filter(

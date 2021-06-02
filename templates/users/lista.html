@@ -1,5 +1,4 @@
 {% extends 'administracion/administracion_base.html' %}
-
 {% load static %}
 
 {% block head %}
@@ -7,9 +6,53 @@
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
+{% block enlace_info_general %}
+<a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
+    <i class="fas fa-money-bill-wave nav-icon"></i>
+    <p>Informacion general</p>
+</a>
+{% endblock enlace_info_general %}
+{% block menu_desplegable %}
+<li class="nav-item">
+  <a href="#" class="nav-link">
+      <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
+  </a>
+  <ul class="nav nav-treeview">
+      <li class="nav-item">
+        {% block enlace_ventas_mes %}
+        <a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
+            <i class="fas fa-chart-bar nav-icon ml-4"></i>
+            <p>Ventas por mes</p>
+        </a>
+        {% endblock enlace_ventas_mes %}
+      </li>
+      <li class="nav-item">
+        {% block enlace_liquidacion %}
+        <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
+            <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+            <p>Liquidacion</p>
+        </a>
+        {% endblock enlace_liquidacion %}
+      </li>
+      <li class="nav-item">
+        {% block enlace_ventas_por_fecha %}
+        <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
+            <i class="fas fa-calendar-day nav-icon ml-4"></i>
+            <p>Ventas por fecha</p>
+        </a>
+        {% endblock enlace_ventas_por_fecha %}
+      </li>
+  </ul>
+</li>
+{% endblock menu_desplegable %}
+{% block enlace_usuarios %}
+<a href="{% url 'users_app:user-lista' %}" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-users nav-icon"></i>
+    <p>Usuarios</p>
+</a>
+{% endblock enlace_usuarios %}
 
 {% block content %}
-    
 <div class="content">
     <div class="container-fluid">
         <!--Row content -->
@@ -21,7 +64,7 @@
                 <!-- Card content -->
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h1 class="card-title mt-3 mb-3 ml-3">Usuarios del Sistema</h1>
+                        <h1 class="card-title mt-3 mb-3 ml-3">USUARIOS DEL SISTEMA</h1>
                     </div>
 
                     <!-- Card body -->

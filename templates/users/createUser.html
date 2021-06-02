@@ -1,13 +1,65 @@
-<html>
-    
-<form method="post" >{% csrf_token %}
-    <h1>Crear usuario</h1>
-    {{form.as_p}}
+{% load static %}
 
-    <button type="submit">Crear</button>
-    
-</form>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Abryl - Registrar cuenta</title>
+        <!-- Favicon Abryl -->
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/pagina_inicio/favicon.ico' %}"/>
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet" href="{% static 'css/google-font.css' %}">
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
+    </head>
+    <body class="hold-transition login-page">
+        <div class="register-box">
+            <div class="card card-outline card-primary">
+                <div class="card-header text-center mt-3">
+                    <img src="{% static 'img/pagina_inicio/logo_abryl.png' %}" height="140"><br>
+                    <!-- <span class="h1"><b>Admin</b>LTE</span> -->
+                </div>
+                <div class="card-body">
+                    <p class="login-box-msg">REGISTRAR CUENTA</p>
 
+                    <form method="POST" class="col-12">{% csrf_token %}
+                        <div class="input-group mb-3">
+                            {{ form.username }}
+                            <div class="input-group-append"><div class="input-group-text"><i class="fas fa-user"></i></div></div>
+                        </div>
+                        <!-- <div class="input-group mb-3">
+                            {{ form.nombres }}
+                            <div class="input-group-append"><div class="input-group-text"><i class="fas fa-user"></i></div></div>
+                        </div>
+                        <div class="input-group mb-3">
+                            {{ form.apellidos }}
+                            <div class="input-group-append"><div class="input-group-text"><i class="fas fa-user"></i></div></div>
+                        </div> -->
+                        <div class="input-group mb-3">
+                            {{ form.email }}
+                            <div class="input-group-append"><div class="input-group-text"><i class="fas fa-envelope-square"></i></div></div>
+                        </div>
+                        <div class="input-group mb-3">
+                            {{ form.password1 }}
+                            <div class="input-group-append"><div class="input-group-text"><i class="fas fa-lock"></i></div></div>
+                        </div>
+                        <div class="input-group mb-3">
+                            {{ form.password2 }}
+                            <div class="input-group-append"><div class="input-group-text"><i class="fas fa-lock"></i></div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 offset-8">
+                                <button type="submit" class="btn btn-primary btn-block mt-3 mb-3">Registrar</button>
+                            </div>
+                        </div>
+                    </form>
 
-
+                    <div class="text-center"><a href="/">Ya tengo una cuenta</a></div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

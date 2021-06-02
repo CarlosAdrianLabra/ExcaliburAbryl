@@ -4,6 +4,16 @@
 {% block head %}{% endblock head %}
 
 {% block sidebarlinks %}
+<!-- Sidebar links -->
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <li class="nav-item">
+        {% block enlace_perfil %}{% endblock enlace_perfil %}
+    </li>
+    <li class="nav-item">
+        {% block enlace_contrasena %}{% endblock enlace_contrasena %}
+    </li>
+</ul>
+<!-- ./sidebar links -->
 {% endblock sidebarlinks %}
 
 {% block extra_scripts %}{% endblock extra_scripts %}

@@ -1,60 +1,21 @@
 {% extends 'common/base.html' %}
 {% load static %}
 
-{% block head %}
-
-{% endblock head %}
+{% block head %}{% endblock head %}
 
 {% block sidebarlinks %}
-
-
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <li class="nav-item">
-        <a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
-            <i class="fas fa-money-bill-wave nav-icon"></i>
-            <p>Informacion general</p>
-        </a>
+        {% block enlace_info_general %}{% endblock enlace_info_general %}
     </li>
 
+    {% block menu_desplegable %}{% endblock menu_desplegable %}
+
     <li class="nav-item">
-        <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
-        </a>
-        <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
-                    <i class="fas fa-chart-bar nav-icon ml-4"></i>
-                    <p>Ventas por mes</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
-                    <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
-                    <p>Liquidacion</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
-                    <i class="fas fa-calendar-day nav-icon ml-4"></i>
-                    <p>Ventas por fecha</p>
-                </a>
-            </li>
-        </ul>
-    </li>
-    <li class="nav-item">
-        <a href="{% url 'users_app:user-lista' %}" class="nav-link">
-            <i class="fas fa-users nav-icon"></i>
-            <p>Usuarios</p>
-        </a>
+        {% block enlace_usuarios %}{% endblock enlace_usuarios %}
     </li>
 </ul>
 <i class="fas fa-money-bill-wave"></i>
-
-
-    
-
-
-
 {% endblock sidebarlinks %}
 
 {% block extra_scripts %}{% endblock extra_scripts %}

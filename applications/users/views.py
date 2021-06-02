@@ -31,7 +31,7 @@ class LoginUser(FormView):
     """LoginUser definition."""
     template_name = 'users/login.html'
     form_class=LoginForm
-    success_url='/'
+    success_url='/panel_de_control'
 
     def form_valid(self, form):
         user=authenticate(
@@ -77,7 +77,6 @@ class UserUpdateView(UpdateView):
     fields = ['username','email','nombres','apellidos','role','is_staff','is_active']
     success_url='/'
 
-
 class UserListView(ListView):
     template_name = "users/lista.html"
     context_object_name = 'usuarios'
@@ -89,3 +88,12 @@ class UserListView(ListView):
     #     context = super().get_context_data(**kwargs)
     #     context["usuarios"] = User.objects.usuarios_sistema()
     #     return context
+
+class PerfilView(ListView):
+    template_name = "users/perfil.html"
+    model = User
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = User.objects.all()
+        return context

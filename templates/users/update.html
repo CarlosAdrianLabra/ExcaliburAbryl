@@ -1,22 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Cambiar Contraseña</h1>
+{% extends 'users/base_users.html' %}
+{% load static %}
 
-    <form method="post"> {% csrf_token %}
+{% block head %}
+<title>Usuario - Contraseña</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
 
+{% block enlace_perfil %}
+<a href="{% url 'users_app:perfil' %}" class="nav-link">
+    <i class="nav-icon fas fa-user"></i><p>Perfil</p>
+</a>
+{% endblock enlace_perfil %}
+{% block enlace_contrasena %}
+<a href="{% url 'users_app:user-update' %}" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="nav-icon fas fa-key"></i><p>Contraseña</p>
+</a>
+{% endblock enlace_contrasena %}
 
-        {{form.as_p}}
+{% block content %}
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <h2 class="text-center display-0 mt-3">CONTRASEÑA</h2>
 
-        <button type="submit">Actualizar datos</button>
+        <!-- Row -->
+        <div class="row mt-3">
+            <div class="col-md-4 offset-md-4">
+                <form method="POST">{% csrf_token %}
+                    <div class="card mt-3">
+                        <div class="card-header">Cambiar contraseña</div>
+                    
+                        <div class="card-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td width="40%"><label class="ml-3 pt-2">Contraseña actual:</label></td>
+                                        <td width="50%">
+                                            <div class="input-group">
+                                                {{ form.password1 }}<div class="input-group-append"><div class="input-group-text"><i class="fas fa-key"></i></div></div>
+                                            </div>
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td><label class="ml-3 pt-2">Contraseña nueva:</label></td>
+                                        <td>
+                                            <div class="input-group">
+                                                {{ form.password2 }}<div class="input-group-append"><div class="input-group-text"><i class="fas fa-key"></i></div></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-
-    </form>
-</body>
-</html>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btr2 float-right mr-2"><i class="fas fa-key mr-2"></i>Actualizar contraseña</button>
+                        </div>
+                    </div>
+                </form>
+            </div>            
+        </div>
+        <!-- ./row -->
+    </div>
+</section>
+<!-- /.main content -->
+{% endblock content %}

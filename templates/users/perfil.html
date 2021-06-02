@@ -1,0 +1,88 @@
+{% extends 'users/base_users.html' %}
+{% load static %}
+
+{% block head %}
+<title>Usuario - Perfil</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block enlace_perfil %}
+<a href="{% url 'users_app:perfil' %}" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="nav-icon fas fa-user"></i><p>Perfil</p>
+</a>
+{% endblock enlace_perfil %}
+{% block enlace_contrasena %}
+<a href="{% url 'users_app:user-update' %}" class="nav-link">
+    <i class="nav-icon fas fa-key"></i><p>Contraseña</p>
+</a>
+{% endblock enlace_contrasena %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <h2 class="text-center display-0 mt-3">PERFIL</h2>
+
+        <!-- Row -->
+        <div class="row mt-3">
+            <div class="col-md-10 offset-md-1">
+                <!-- Card perfil -->
+                <div class="card mt-3">
+                    <div class="card-header">Información de perfil</div>
+                
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td width="30%">Nombre completo</td>
+                                    {% if request.user.nombres %}
+                                    <td>{{ request.user.nombres }} {{ request.user.apellidos }}</td>
+                                    {% else %}
+                                    <td>Sin información</td>    
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td width="30%">Direccción de correo electrónico</td>
+                                    <td>{{ request.user.email }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- ./card perfil -->
+
+                <!-- Card cuenta -->
+                <div class="card mt-3">
+                    <div class="card-header">Información de la cuenta</div>
+                
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td width="30%">Nombre de usuario</td>
+                                    <td>{{ request.user.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td width="30%">Puesto</td>
+                                    {% if request.user.role %}
+                                    <td>{{ request.user.get_role_display }}</td>
+                                    {% else %}
+                                    <td>Sin información</td>    
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td width="30%">Último ingreso</td>
+                                    <td>{{ request.user.last_login }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- ./card cuenta -->
+            </div>            
+        </div>
+        <!-- ./row -->
+    </div>
+</section>
+<!-- /.main content -->
+{% endblock content %}

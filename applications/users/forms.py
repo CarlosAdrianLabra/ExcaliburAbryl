@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 
+from bootstrap_modal_forms.forms import BSModalModelForm
 from .models import User
 
 class UserRegisterForm(forms.ModelForm):
@@ -11,7 +12,7 @@ class UserRegisterForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder':'Contraseña',
-                'class': 'form-control mb-3',
+                'class': 'form-control',
             }
         )
     )
@@ -22,7 +23,7 @@ class UserRegisterForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder':'Repetir Contraseña',
-                'class': 'form-control mb-3',
+                'class': 'form-control',
             }
         )
     )
@@ -33,27 +34,31 @@ class UserRegisterForm(forms.ModelForm):
         widgets={
             'username':forms.TextInput(
                 attrs={
-                    'class': 'form-control mb-3',
+                    'class': 'form-control',
+                    'placeholder': 'Usuario'
                 }
             ),
             'email':forms.EmailInput(
                 attrs={
-                    'class': 'form-control mb-3',
+                    'class': 'form-control',
+                    'placeholder': 'Email'
                 }
             ),
             'nombres':forms.TextInput(
                 attrs={
-                    'class': 'form-control mb-3',
+                    'class': 'form-control',
+                    'placeholder': 'Nombres'
                 }
             ),
             'apellidos':forms.TextInput(
                 attrs={
-                    'class': 'form-control mb-3',
+                    'class': 'form-control',
+                    'placeholder': 'Apellidos'
                 }
             ),
             'role':forms.Select(
                 attrs={
-                    'class': 'form-control mb-3',
+                    'class': 'form-control',
                 }
             )
         }
@@ -73,7 +78,8 @@ class LoginForm(forms.Form):
         required=True,
         widget=forms.TextInput(
             attrs={
-                'placeholder':'username'
+                'placeholder':'Usuario',
+                'class': 'form-control'
             }
         )
     )
@@ -82,7 +88,8 @@ class LoginForm(forms.Form):
         required=True,
         widget=forms.PasswordInput(
             attrs={
-                'placeholder':'Contraseña'
+                'placeholder':'Contraseña',
+                'class': 'form-control'
             }
         )
     )
@@ -103,7 +110,8 @@ class UpdatePasswordForm(forms.Form):
         required=True,
         widget=forms.PasswordInput(
             attrs={
-                'placeholder':'Contraseña Actual'
+                'class': 'form-control',
+                #'placeholder':'Contraseña actual'
             }
         )
     )
@@ -113,7 +121,8 @@ class UpdatePasswordForm(forms.Form):
         required=True,
         widget=forms.PasswordInput(
             attrs={
-                'placeholder':'Contraseña Nueva'
+                'class': 'form-control',
+                #'placeholder':'Contraseña nueva'
             }
         )
     )

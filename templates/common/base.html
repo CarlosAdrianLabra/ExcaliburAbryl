@@ -51,6 +51,14 @@
             .brand-link3 a:hover {
                 opacity: 0.7;
             }
+            .navr {
+                background: #1D2535;
+                color: white;
+            }
+            .navr:hover {
+                background: tomato;
+                color: white;
+            }
         </style>
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
@@ -61,7 +69,7 @@
             {% include 'common/navbar.html' %}
             
             <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #1D2535;">
+            <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: #1D2535;">
                 <!-- Logo -->
                 <span class="brand-link">
                     <img src="{% static 'img/pagina_inicio/logo_abryl.png' %}" with="100" height="150">
@@ -94,7 +102,7 @@
             </aside>
             
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper" style="height: auto; padding-top: 57px; padding-bottom: 72px;">
+            <div class="content-wrapper" style="height: auto; padding-top: 57px; padding-bottom: 67px;">
                 {% block content %}{% endblock content %}
             </div>
             <!-- /.content-wrapper -->

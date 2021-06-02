@@ -66,7 +66,33 @@ class SaleManager(models.Manager):
             date_sale__range=(date_start, date_end),
         ).order_by('-date_sale')
 
-
+    def total_ventas_no_cerradas(self):
+        #
+        consulta = self.filter(
+            anulate=False
+        ).count()
+        #
+        return consulta
+    
+    def v_mayo_2021(self):
+        #
+        consulta = self.filter(
+            anulate=False
+        ).filter(
+            date_sale__range=["2021-05-01", "2021-05-31"]
+        ).count()
+        #
+        return consulta
+    
+    def v_junio_2021(self):
+        #
+        consulta = self.filter(
+            anulate=False
+        ).filter(
+            date_sale__range=["2021-06-01", "2021-06-30"]
+        ).count()
+        #
+        return consulta
 
 class SaleDetailManager(models.Manager):
     """ procedimiento modelo product """

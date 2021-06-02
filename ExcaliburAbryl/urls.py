@@ -25,14 +25,10 @@ name_app = 'abryl'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.PaginaInicio.as_view(), name='inicio'),
-
-    #URLS - APPLICATIONS.CONTABILIDAD
-
+    path('panel_de_control/', views.PanelControlInicio.as_view(), name='panel_de_control'),
 
     #URLS - APPLICATIONS.INVENTARIOS
     re_path('', include('applications.inventarios.urls')),
-
     #URLS - APPLICATIONS.VENTAS
     re_path('', include('applications.ventas.urls')),
     #URLS - APPLICATIONS.CAJA
@@ -41,7 +37,7 @@ urlpatterns = [
     re_path('', include('applications.codigobarras.urls')),
     #URLS - APPLICATIONS.USERS
     re_path('', include('applications.users.urls')),
-    #URLS - APPLICATIONS.ADMINISTRACION
+    #URLS - APPLICATIONS.ADMINISTRACIÓN
     re_path('', include('applications.administracion.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,7 +1,6 @@
 from decimal import Decimal
 #
 from django.shortcuts import render
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (
@@ -16,6 +15,7 @@ from django.views.generic.edit import (
 )
 #applicaciones locales
 from applications.inventarios.models import Productos
+from applications.users.models import User
 from applications.inventarios.num2word import word
 from applications.utils import render_to_pdf
 from .models import Efectivo, Venta, DetalleVenta, Carrito

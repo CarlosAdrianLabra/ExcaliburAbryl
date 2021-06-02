@@ -1,22 +1,49 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-<body>
-    <div class="login">
-        <div class="heading">
-          <h2>Sign in</h2>
-          <form method="POST">{% csrf_token %}
-      
-            <div class="input-group input-group-lg">
-              {{form.username}}
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Abryl - Inicio de sesión</title>
+        <!-- Favicon Abryl -->
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/pagina_inicio/favicon.ico' %}"/>
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet" href="{% static 'css/google-font.css' %}">
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
+    </head>
+    <body class="hold-transition login-page">
+        <div class="login-box">
+            <div class="card card-outline card-primary">
+                <div class="card-header text-center mt-3">
+                    <img src="{% static 'img/pagina_inicio/logo_abryl.png' %}" height="140"><br>
                 </div>
-      
-              <div class="input-group input-group-lg">
-                {{form.password}}
-              </div>
-      
-              <button type="submit" class="float">Login</button>
-             </form>
-               </div>
-       </div>
-</body>
+
+                <div class="card-body">
+                    <p class="login-box-msg">INICIAR SESIÓN</p>
+
+                    <form method="post">{% csrf_token %}
+                        <div class="input-group mb-3">
+                            {{form.username}}<div class="input-group-append"><div class="input-group-text"><i class="fas fa-user"></i></div></div>
+                        </div>
+                        <div class="input-group mb-3">
+                            {{form.password}}<div class="input-group-append"><div class="input-group-text"><i class="fas fa-lock"></i></div></div>
+                        </div>
+                        <div class="{% if form.errors %}invalid{% endif %}"></div>
+                        {% for error in form.errors %}
+                            <p style="color: red;">¡El usuario o contraseña son incorrectos!</p>
+                        {% endfor %}
+                        <div class="row">
+                            <div class="col-6 offset-3">
+                                <button type="submit" class="btn btn-primary btn-block mt-3 mb-3">Iniciar sesión</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
