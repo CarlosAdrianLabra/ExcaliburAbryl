@@ -1,13 +1,116 @@
-<html>
+{% extends 'administracion/administracion_base.html' %}
+{% load static %}
+
+{% block head %}
+<title>administracion</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <!--Row content -->
+        <div class="row">
+            <div class="col-12">
+            
+
+
+                <!-- Card content -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h1 class="card-title mt-3 mb-3 ml-3">Actualizar usuario</h1>
+                    </div>
+
+                    <!-- Card body -->
+                    <div class="container-fluid mt-3 mb-3">
+                        <div class="col-12">
+                            <form method="post" >{% csrf_token %}
+                                <div class="row justify-content-md-center">
+                                    <div class="col-3">
+                                            <div>
+                                            <label>Nombre de usuario:</label>
+                                            </div>
+                                            <div>
+                                            {{form.username}}
+                                            </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div>
+                                        <label>Rol:</label>
+                                        </div>
+                                        <div>
+                                        {{form.role}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-md-center"  style="padding-top: 15px;">
+                                    <div class="col-3">
+                                        <div>
+                                        <label>Email:</label>
+                                    </div>
+                                    <div>
+                                        {{form.email}}
+                                    </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label>Esta activo:</label>
+                                        {{form.is_active}}
+                                    </div>
+                                    
+                                </div>
+                                <div class="row justify-content-md-center"  style="padding-top: 15px;">
+                                    <div class="col-3">
+                                        <div><label>Nombre:</label></div>
+                                        <div>{{form.nombres}}</div>
+                                    </div>
+                                    <div class="col-3">
+                                        
+                                    </div>
+
+                                </div>
+
+                                <div class="row justify-content-md-center"  style="padding-top: 15px;">
+                                    <div class="col-6">
+                                        <div><label>Apellidos:</label></div>
+                                        <div>{{form.apellidos}}</div>
+                                    </div>
+
+                                </div>
+                            
+                                
+                                <div class="row justify-content-md-center">
+                                    <div class="col-3" style="padding-top: 15px;">
+                                        <button type="submit" class="btn btn-block btr">Actualizar</button>
+                                    </div>
+                                    <div class="col-3" style="padding-top: 15px;">
+                                        <a class="btn btn-block btr" href="{% url 'users_app:user-lista' %}">Regresar</a>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                            
+                        </div>
     
-<form method="post" >{% csrf_token %}
-    <h1>Actualizar usuario</h1>
-    {{form.as_p}}
 
-    <button type="submit">Crear</button>
+
+
+    </div>
+    <!-- {{form.as_p}}
+    {{form.username}}
+    {{form.email}}
+    {{form.nombres}}
+    {{form.apellidos}}
+    {{form.role}}
+    {{form.is_staff}}
+    {{form.is_active}} -->
     
-</form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-
-</html>
+{% endblock content %}

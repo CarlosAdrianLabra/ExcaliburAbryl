@@ -53,13 +53,16 @@
 {% endblock enlace_usuarios %}
 
 {% block content %}
-<div class="content">
-    <div class="container-fluid">
+<div class="content" style="padding: 70px 0; text-align: center;">
+    <div class="container-fluid" style="padding: 70px 0; text-align: center;">
         <!--Row content -->
-        <div class="row">
-            <div class="col-12">
-
-                <h2>Bienvenido al Sistema: {{user}}</h2>
+        <div class="row" style="padding: 70px 0; text-align: center;">
+            <div class="col-12" style="padding: 70px 0; text-align: center;">
+                <div class="callout bg-navy color-palette">
+                <h2>Bienvenido al Sistema:</h2>
+                <h1>{{user}}</h1>
+                </div>
+                
 
             </div>
         </div>

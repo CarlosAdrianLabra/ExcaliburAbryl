@@ -75,7 +75,7 @@ class UserUpdateView(UpdateView):
     model = User
     template_name = "users/updateuser.html"
     fields = ['username','email','nombres','apellidos','role','is_staff','is_active']
-    success_url='/'
+    success_url='/users/lista'
 
 class UserListView(ListView):
     template_name = "users/lista.html"
