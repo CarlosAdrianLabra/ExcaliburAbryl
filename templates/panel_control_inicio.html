@@ -25,7 +25,10 @@
                     <div class="info-box mb-3 bg-navyr white">
                         <span class="info-box-icon bg-info elevation-1"><i class="fas fa-chart-line"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text ml-2">Ventas del día de hoy</span>
+                            <span class="info-box-text ml-2">
+                                Número de ventas
+                                <span class="ml-auto d-flex flex-column float-right text-muted">HOY</span>
+                            </span>
                             <span class="info-box-number ml-2">{{ num_ventas }}</span>
                         </div>
                     </div>
@@ -34,7 +37,10 @@
                     <div class="info-box mb-3 bg-navyr white">
                         <span class="info-box-icon bg-success elevation-1"><i class="fas fa-dollar-sign"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text ml-2">Monto de ventas del día de hoy</span>
+                            <span class="info-box-text ml-2">
+                                Monto de ventas
+                                <span class="ml-auto d-flex flex-column float-right text-muted">HOY</span>
+                            </span>
                             <span class="info-box-number ml-2">$ {{ monto_ventas }}</span>
                         </div>
                     </div>
@@ -43,8 +49,15 @@
                     <div class="info-box mb-3 bg-navyr white">
                         <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-file-invoice-dollar"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text ml-2">Monto de ventas del mes</span>
+                            <span class="info-box-text ml-2">
+                                Monto de ventas
+                                <span class="ml-auto d-flex flex-column float-right text-muted">MES ACTUAL</span>
+                            </span>
+                            {% if monto_ventas_mes %}
+                            <span class="info-box-number ml-2">$ {{ monto_ventas_mes }}</span>
+                            {% else %}
                             <span class="info-box-number ml-2">$ 0</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -52,7 +65,10 @@
                     <div class="info-box mb-3 bg-navyr white">
                         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-coins"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text ml-2">Monto de ventas anuladas</span>
+                            <span class="info-box-text ml-2">
+                                Monto de ventas anuladas
+                                <span class="ml-auto d-flex flex-column float-right text-muted">HOY</span>
+                            </span>
                             <span class="info-box-number ml-2">$ {{ monto_ventas_anuladas }}</span>
                         </div>
                     </div>
@@ -62,6 +78,85 @@
 
             <!--Row content 2 -->
             <div class="row mt-1">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title">Monto Total de Ventas</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <p class="d-flex flex-column">
+                                    {% if monto_total_ventas > 0 %}
+                                    <span class="text-bold text-lg">${{ monto_total_ventas }}</span>    
+                                    {% else %}
+                                    <span class="text-bold text-lg">$0</span>
+                                    {% endif %}
+                                    <span>Monto total vendido</span>
+                                </p>
+                                
+                                <!-- <p class="ml-auto d-flex flex-column text-right">
+                                    <span class="text-success"><i class="fas fa-arrow-up"></i> 33.1%</span>
+                                    <span class="text-muted">Desde el cierre de caja de anterior</span>
+                                </p> -->
+                            </div>
+                            <div class="position-relative mb-4">
+                                <canvas id="ventas-chart" height="200" style="display: block; width: 735px; height: 200px;" width="735" class="chartjs-render-monitor"></canvas>
+                            </div>
+    
+                            <div class="d-flex flex-row justify-content-end">
+                                <span class="mr-2"><i class="fas fa-square navyr mr-2"></i>Ventas 2021</span>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-4 col-6">
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i></span>
+                                        {% if monto_total_ventas > 0 %}
+                                        <h5 class="description-header">${{ monto_total_ventas }}</h5>
+                                        {% else %}
+                                        <h5 class="description-header">$0</h5>
+                                        {% endif %}
+                                        <span class="description-text">INGRESO TOTAL DE PRODUCTOS VENDIDOS</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-4 col-6">
+                                    <div class="description-block border-right">
+                                        <span class="description-percentage text-warning"><i class="fas fa-caret-down"></i></span>
+                                        <h5 class="description-header">${{ costo_total }}</h5>
+                                        <span class="description-text">COSTO TOTAL DE PRODUCTOS VENDIDOS</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-4 col-6">
+                                    <div class="description-block">
+                                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i></span>
+                                        <h5 class="description-header">${{ ganancias_totales }}</h5>
+                                        <span class="description-text">GANANCIAS TOTALES EN VENTAS</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <!-- <div class="col-sm-3 col-6">
+                                    <div class="description-block">
+                                        <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                                        <h5 class="description-header">1200</h5>
+                                        <span class="description-text">GOAL COMPLETIONS</span>
+                                    </div>
+                                    <-- /.description-block --
+                                </div> -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header border-0">
@@ -88,126 +183,35 @@
                                 <span class="mr-2"><i class="fas fa-square text-primary mr-2"></i>Ventas 2021</span>
                             </div>
                         </div>
-
-                        <div class="card-footer">
-                            <div class="row">
-                                <div class="col-sm-3 col-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
-                                        <h5 class="description-header">$35,210.43</h5>
-                                        <span class="description-text">TOTAL REVENUE</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
-                                        <h5 class="description-header">$10,390.90</h5>
-                                        <span class="description-text">TOTAL COST</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
-                                        <h5 class="description-header">$24,813.53</h5>
-                                        <span class="description-text">TOTAL PROFIT</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-6">
-                                    <div class="description-block">
-                                        <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
-                                        <h5 class="description-header">1200</h5>
-                                        <span class="description-text">GOAL COMPLETIONS</span>
-                                    </div>
-                                    <!-- /.description-block -->
+                    </div>
+                    <!--Row content 3 -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="info-box mb-3 bg-info white">
+                                <span class="info-box-icon"><i class="fas fa-boxes"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Productos en Inventario</span>
+                                    <span class="info-box-number">{{ num_productos }}</span>
                                 </div>
                             </div>
-                            <!-- /.row -->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box mb-3 bg-danger">
+                                <span class="info-box-icon"><i class="fas fa-sort-amount-down-alt"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Productos por terminarse</span>
+                                    <span class="info-box-number">{{ productos_por_terminarse }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Monto Total de Ventas</h3>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <p class="d-flex flex-column">
-                                    <span class="text-bold text-lg">${{ monto_total_ventas }}</span>
-                                    <span>Monto total vendido</span>
-    
-                                </p>
-                                
-                                <!-- <p class="ml-auto d-flex flex-column text-right">
-                                    <span class="text-success"><i class="fas fa-arrow-up"></i> 33.1%</span>
-                                    <span class="text-muted">Desde el cierre de caja de anterior</span>
-                                </p> -->
-                            </div>
-                            <div class="position-relative mb-4">
-                                <canvas id="ventas-chart" height="200" style="display: block; width: 735px; height: 200px;" width="735" class="chartjs-render-monitor"></canvas>
-                            </div>
-    
-                            <div class="d-flex flex-row justify-content-end">
-                                <span class="mr-2"><i class="fas fa-square navyr mr-2"></i>Ventas 2021</span>
-                            </div>
-                        </div>
-
-                        <div class="card-footer">
-                            <div class="row">
-                                <div class="col-sm-3 col-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
-                                        <h5 class="description-header">$35,210.43</h5>
-                                        <span class="description-text">TOTAL REVENUE</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
-                                        <h5 class="description-header">$10,390.90</h5>
-                                        <span class="description-text">TOTAL COST</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
-                                        <h5 class="description-header">$24,813.53</h5>
-                                        <span class="description-text">TOTAL PROFIT</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-6">
-                                    <div class="description-block">
-                                        <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
-                                        <h5 class="description-header">1200</h5>
-                                        <span class="description-text">GOAL COMPLETIONS</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                    </div>
+                    <!--./row content 3 -->
                 </div>
             </div>
             <!--./row content 2 -->
 
             <!--Row content 3 -->
-            <div class="row mt-1">
+            <!-- <div class="row mt-1">
                 <div class="col-md-3">
                     <div class="info-box mb-3 bg-info white">
                         <span class="info-box-icon"><i class="fas fa-boxes"></i></span>
@@ -226,7 +230,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!--./row content 3 -->
             
         </div>
@@ -236,7 +240,6 @@
 
 {% block scripts %}
 <script src="{% static 'js/Chart.min.js' %}"></script>
-<!--<script src="inventarios/a_rchivos_base/grafica.js"></script>-->
 {% endblock scripts %}
 
 {% block extra_scripts %}
@@ -262,7 +265,8 @@
                     {
                     backgroundColor: '#007bff',
                     borderColor: '#007bff',
-                    data: ['{{ventas_mayo}}', '{{ventas_junio}}', 0, 0, 0, 0, 0, 0]
+                    data: ['{{ventas_mayo}}', '{{ventas_junio}}', '{{ventas_julio}}', '{{ventas_agosto}}', '{{ventas_septiembre}}',
+                            '{{ventas_octubre}}', '{{ventas_noviembre}}', '{{ventas_diciembre}}']
                     },
                     
                 ]
@@ -294,17 +298,23 @@
     
                             // Include a dollar sign in the ticks
                             callback: function (value) {
-                                if (value >= '{{ num_ventas_total }}') {
-                                    value /= '{{ num_ventas_total }}'
-                                    if (value >=0 && value <=99){
-                                        value += '0'
-                                    } else if (value >=100 && value <=999){
-                                        value += '00'
-                                    } else {
-                                        value += '000'
+                                if ('{{ num_ventas_total }}' > 0) {
+                                    if (value >= '{{ num_ventas_total }}') {
+                                        value /= '{{ num_ventas_total }}'
+                                        if (value >=0 && value <=99){
+                                            value += '0'
+                                        } else if (value >=100 && value <=999){
+                                            value += '00'
+                                        } else if (value >=1000 && value <=9999){
+                                            value += '000'
+                                        } else {
+                                            value += '0000'
+                                        }
                                     }
+                                    return '' + value
+                                } else {
+                                    return 0
                                 }
-                                return '' + value
                             }
                         }, ticksStyle)
                     }],
@@ -339,12 +349,13 @@
         var ventasChart = new Chart($ventasChart, {
             type: 'bar',
             data: {
-                labels: ['JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'],
+                labels: ['MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'],
                 datasets: [
                     {
                     backgroundColor: '#1D2535',
                     borderColor: '#1D2535',
-                    data: [2, 5, 8, 9, 7, 1, 8]
+                    data: ['{{ventas_mayo2}}', '{{ventas_junio2}}', '{{ventas_julio2}}', '{{ventas_agosto2}}', '{{ventas_septiembre2}}',
+                            '{{ventas_octubre2}}', '{{ventas_noviembre2}}', '{{ventas_diciembre2}}']
                     },
                     
                 ]
@@ -376,17 +387,23 @@
     
                             // Include a dollar sign in the ticks
                             callback: function (value) {
-                                if (value >= 8) {
-                                    value /= 8
-                                    if (value >=0 && value <=99){
-                                        value += '0'
-                                    } else if (value >=100 && value <=999){
-                                        value += '00'
-                                    } else {
-                                        value += '000'
+                                if ('{{ monto_total_ventas }}' > 0) {
+                                    if (value >= '{{ monto_total_ventas }}') {
+                                        value /= '{{ monto_total_ventas }}'
+                                        if (value >=0 && value <=99){
+                                            value += '0'
+                                        } else if (value >=100 && value <=999){
+                                            value += '00'
+                                        } else if (value >=1000 && value <=9999){
+                                            value += '000'
+                                        } else {
+                                            value += '0000'
+                                        }
                                     }
+                                    return '$' + value
+                                } else {
+                                    return 0
                                 }
-                                return '' + value
                             }
                         }, ticksStyle)
                     }],

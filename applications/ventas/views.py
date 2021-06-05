@@ -180,7 +180,7 @@ class SaleListView(ListView):
 class SaleDeleteView(DeleteView):
     template_name = "ventas/delete.html"
     model = Venta
-    success_url = reverse_lazy('ventas_app:venta-index')
+    success_url = reverse_lazy('ventas_app:venta-list')
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

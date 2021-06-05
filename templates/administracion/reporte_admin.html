@@ -66,29 +66,25 @@
                 <!-- Card content -->
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h1 class="card-title mt-3 mb-3 ml-3">RESUMEN DE VENTAS POR MES</h1>
+                        <h1 class="card-title mt-3 mb-3 ml-3">REPORTE DE VENTAS POR MES</h1>
                     </div>
 
                     <!-- Card body -->
-                    <div class="container-fluid mt-3 mb-3">
-                      <div class="col-md-3 col-sm-6 col-xs-12">
-                    
-
-
-                      <div class="info-box">
-                        <span class="info-box-icon bg-green"><i class="fas fa-money-bill-wave"></i></span>
-            
-                        <div class="info-box-content">
-                          <span class="info-box-text">Tus Ventas hasta hoy</span>
-                          <span class="info-box-number">$ {{ total_ventas }}</span>
+                    <div class="card-body">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                          <div class="info-box bg-navyr white">
+                            <span class="info-box-icon bg-green"><i class="fas fa-money-bill-wave"></i></span>
+                
+                            <div class="info-box-content text-center">
+                              <span class="info-box-text">Total de ventas hasta hoy</span>
+                              <span class="info-box-number">$ {{ total_ventas }}</span>
+                            </div>
+                          </div>
                         </div>
-                        <!-- /.info-box-content -->
-                      </div>
-                    </div>
                     
                    
-                        <table class="table table-striped text-nowrap">
-                            <thead>
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="bg-navyr white">
                               <th>Mes</th>
                               <th>Num Ventas</th>
                               <th>Venta Total</th>
@@ -104,11 +100,10 @@
                               </tr>
                               {% endfor %}
                             </tbody>
-                          </table>
-
-
-
+                        </table>
                     </div>
+
+
                 </div>
             </div>
         </div>

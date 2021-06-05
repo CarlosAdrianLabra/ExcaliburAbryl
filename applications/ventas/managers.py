@@ -1,7 +1,7 @@
-from datetime import timedelta
-
+from datetime import datetime, timedelta
 from django.utils import timezone
 from django.db import models
+from django.views.generic import detail
 
 from applications.inventarios.models import Productos
 
@@ -9,6 +9,9 @@ from django.db.models import Q, Sum, F, FloatField, ExpressionWrapper
 
 class SaleManager(models.Manager):
     """ procedimiento para modelo venta """
+    fecha_hoy = datetime.now()
+    mes_actual = fecha_hoy.month
+    ano_actual = fecha_hoy.year
     
     def ventas_no_cerradas(self):
         # creamos rango de fecha
@@ -32,7 +35,8 @@ class SaleManager(models.Manager):
     def total_ventas_anuladas_dia(self):
         consulta = self.filter(
             close=False,
-            anulate=True
+            anulate=True,
+            
         ).aggregate(
             total=Sum('amount')
         )
@@ -66,6 +70,16 @@ class SaleManager(models.Manager):
             date_sale__range=(date_start, date_end),
         ).order_by('-date_sale')
 
+    def monto_total_ventas(self):
+        #
+        consulta = self.filter(
+            anulate=False,
+        ).aggregate(
+            total=Sum('amount')
+        )
+        #
+        return consulta['total']
+
     def total_ventas_no_cerradas(self):
         #
         consulta = self.filter(
@@ -73,26 +87,146 @@ class SaleManager(models.Manager):
         ).count()
         #
         return consulta
-    
-    def v_mayo_2021(self):
+
+    def costo_total(self):
         #
         consulta = self.filter(
             anulate=False
-        ).filter(
-            date_sale__range=["2021-05-01", "2021-05-31"]
-        ).count()
-        #
-        return consulta
+        ).aggregate(
+            #total=Sum('detail_sale__producto__precio_compra')
+            total=Sum('detail_sale__price_purchase')
+        )
+        return round(consulta['total'], 2)
+
     
-    def v_junio_2021(self):
-        #
-        consulta = self.filter(
-            anulate=False
-        ).filter(
-            date_sale__range=["2021-06-01", "2021-06-30"]
-        ).count()
-        #
+    def ganancias_totales(self):
+        ingreso = self.filter(anulate=False,).aggregate(total=Sum('amount'))
+        costo = self.filter(anulate=False).aggregate(total=Sum('detail_sale__price_purchase'))
+        consulta = ingreso['total'] - costo['total']
+        return round(consulta, 2)
+
+
+    def monto_ventas_mes(self):
+        if str(self.mes_actual) == '1':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-01-01 00:00:00.100000-0500", str(self.ano_actual)+"-01-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '2':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-02-01 00:00:00.100000-0500", str(self.ano_actual)+"-02-28 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '3':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-03-01 00:00:00.100000-0500", str(self.ano_actual)+"-03-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '4':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-04-01 00:00:00.100000-0500", str(self.ano_actual)+"-04-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '5':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-05-01 00:00:00.100000-0500", str(self.ano_actual)+"-05-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '6':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-06-01 00:00:00.100000-0500", str(self.ano_actual)+"-06-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '7':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-07-01 00:00:00.100000-0500", str(self.ano_actual)+"-07-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '8':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-08-01 00:00:00.100000-0500", str(self.ano_actual)+"-08-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '9':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-09-01 00:00:00.100000-0500", str(self.ano_actual)+"-09-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '10':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-10-01 00:00:00.100000-0500", str(self.ano_actual)+"-10-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '11':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-11-01 00:00:00.100000-0500", str(self.ano_actual)+"-11-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+        if str(self.mes_actual) == '12':
+            consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-12-01 00:00:00.100000-0500", str(self.ano_actual)+"-12-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+            return consulta['total']
+
+    def v_enero(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-01-01 00:00:00.100000-0500", str(self.ano_actual)+"-01-31 23:59:59.100000-0500"]).count()
         return consulta
+    def m_enero(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-01-01 00:00:00.100000-0500", str(self.ano_actual)+"-01-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_febrero(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-02-01 00:00:00.100000-0500", str(self.ano_actual)+"-02-28 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_febrero(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-02-01 00:00:00.100000-0500", str(self.ano_actual)+"-02-28 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_marzo(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-03-01 00:00:00.100000-0500", str(self.ano_actual)+"-03-31 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_marzo(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-03-01 00:00:00.100000-0500", str(self.ano_actual)+"-03-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_abril(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-04-01 00:00:00.100000-0500", str(self.ano_actual)+"-04-30 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_abril(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-04-01 00:00:00.100000-0500", str(self.ano_actual)+"-04-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_mayo(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-05-01 00:00:00.100000-0500", str(self.ano_actual)+"-05-31 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_mayo(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-05-01 00:00:00.100000-0500", str(self.ano_actual)+"-05-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_junio(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-06-01 00:00:00.100000-0500", str(self.ano_actual)+"-06-30 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_junio(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-06-01 00:00:00.100000-0500", str(self.ano_actual)+"-06-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_julio(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-07-01 00:00:00.100000-0500", str(self.ano_actual)+"-07-31 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_julio(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-07-01 00:00:00.100000-0500", str(self.ano_actual)+"-07-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_agosto(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-08-01 00:00:00.100000-0500", str(self.ano_actual)+"-08-31 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_agosto(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-08-01 00:00:00.100000-0500", str(self.ano_actual)+"-08-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_septiembre(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-09-01 00:00:00.100000-0500", str(self.ano_actual)+"-09-30 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_septiembre(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-09-01 00:00:00.100000-0500", str(self.ano_actual)+"-09-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_octubre(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-10-01 00:00:00.100000-0500", str(self.ano_actual)+"-10-31 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_octubre(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-10-01 00:00:00.100000-0500", str(self.ano_actual)+"-10-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_noviembre(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-11-01 00:00:00.100000-0500", str(self.ano_actual)+"-11-30 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_noviembre(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-11-01 00:00:00.100000-0500", str(self.ano_actual)+"-11-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
+    
+    def v_diciembre(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-12-01 00:00:00.100000-0500", str(self.ano_actual)+"-12-31 23:59:59.100000-0500"]).count()
+        return consulta
+    def m_diciembre(self):
+        consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-12-01 00:00:00.100000-0500", str(self.ano_actual)+"-12-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
+        return consulta['total']
 
 class SaleDetailManager(models.Manager):
     """ procedimiento modelo product """
@@ -187,7 +321,6 @@ class SaleDetailManager(models.Manager):
             return lista_ventas, total_ventas
         else:
             return [], 0
-
 
 
 class CarShopManager(models.Manager):

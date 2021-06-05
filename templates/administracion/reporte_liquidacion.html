@@ -14,35 +14,35 @@
 {% endblock enlace_info_general %}
 {% block menu_desplegable %}
 <li class="nav-item menu-open">
-  <a href="#" class="nav-link">
-      <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
-  </a>
-  <ul class="nav nav-treeview">
-      <li class="nav-item">
-        {% block enlace_ventas_mes %}
-        <a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
-            <i class="fas fa-chart-bar nav-icon ml-4"></i>
-            <p>Ventas por mes</p>
-        </a>
-        {% endblock enlace_ventas_mes %}
-      </li>
-      <li class="nav-item">
-        {% block enlace_liquidacion %}
-        <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link active" style="color: azure; background: tomato;">
-            <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
-            <p>Liquidacion</p>
-        </a>
-        {% endblock enlace_liquidacion %}
-      </li>
-      <li class="nav-item">
-        {% block enlace_ventas_por_fecha %}
-        <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
-            <i class="fas fa-calendar-day nav-icon ml-4"></i>
-            <p>Ventas por fecha</p>
-        </a>
-        {% endblock enlace_ventas_por_fecha %}
-      </li>
-  </ul>
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            {% block enlace_ventas_mes %}
+            <a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
+                <i class="fas fa-chart-bar nav-icon ml-4"></i>
+                <p>Ventas por mes</p>
+            </a>
+            {% endblock enlace_ventas_mes %}
+        </li>
+        <li class="nav-item">
+            {% block enlace_liquidacion %}
+            <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link active" style="color: azure; background: tomato;">
+                <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+                <p>Liquidacion</p>
+            </a>
+            {% endblock enlace_liquidacion %}
+        </li>
+        <li class="nav-item">
+            {% block enlace_ventas_por_fecha %}
+            <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
+                <i class="fas fa-calendar-day nav-icon ml-4"></i>
+                <p>Ventas por fecha</p>
+            </a>
+            {% endblock enlace_ventas_por_fecha %}
+        </li>
+    </ul>
 </li>
 {% endblock menu_desplegable %}
 {% block enlace_usuarios %}
@@ -58,90 +58,79 @@
         <!--Row content -->
         <div class="row">
             <div class="col-12">
-            
-
 
                 <!-- Card content -->
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h1 class="card-title mt-3 mb-3 ml-3">LIQUIDACIÓN DE PROVEEDORES</h1>
+                        <h1 class="card-title mt-3 mb-3 ml-3">REPORTE DE LIQUIDACIÓN DE PROVEEDORES</h1>
                     </div>
 
                     <!-- Card body -->
-                    <div class="container-fluid mt-3 mb-3">
-                    <div class="row">
-                        
-                            <div class="col-6">
+                    <div class="card-body">
+                        <div class="row">
+                            
+                            <div class="col-6 offset-1">
                                 <form method="GET">
                                     <div class="row">
-                                        <div class="col-12">
+                                        <div class="col-4">
                                             <label>Proveedor:</label>
                                             {{form.proveedor}}
                                         </div>
-                                    </div>
-                                    <div class="row"  style="padding-top: 15px;">
-                                        <div class="col-12">
+                                        <div class="col-4">
                                             <label>Fecha inicial:</label>
                                             {{form.date_start}}
                                         </div>
                                         
-                                    </div>
-                                    <div class="row"  style="padding-top: 15px;">
-                                        <div class="col-12">
+                                        <div class="col-4">
                                             <label>Fecha final:</label>
                                             {{form.date_end}}
                                         </div>
-
                                     </div>
-                                
-                                    
+
                                     <div class="row">
-                                        <div class="col-12" style="padding-top: 15px;">
-                                            <button type="submit" class="btn btn-block btr">Buscar</button>
+                                        <div class="col-4 offset-8" style="padding-top: 15px;">
+                                            <button type="submit" class="btn btn-block btr"><i class="fas fa-search mr-2"></i>Buscar</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-6 align-self-center" style="padding-left: 250px; padding-right: 250px;">
-                                <div class="info-box">
-                                <span class="info-box-icon bg-primary"><i class="far fa-handshake"></i></span>
-                    
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total a Pagar</span>
-                                    <span class="info-box-number">$ {{ total_ventas }}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                        
-                    </div>
-                            
-                                
-                            
-                        
-                        
 
-                            <table class="table table-striped text-nowrap">
-                            <thead>
-                                <th>Fecha</th>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Precio Compra</th>
-                                <th>Total</th>
-                            </thead>
-                            <tbody>
-                                {% for venta in ventas_liquidacion %}
-                                <tr>
-                                    <td>{{ venta.sale.date_sale }}</td>
-                                    <td>{{ venta.producto.nombre }}</td>
-                                    <td>{{ venta.count }}</td>
-                                    <td>{{ venta.price_purchase }}</td>
-                                    <td>{{ venta.sub_total }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
+                            <div class="col-3 offset-1 align-self-center">
+                                <div class="info-box bg-navyr white">
+                                    <span class="info-box-icon bg-primary ml-1"><i class="far fa-handshake"></i></span>
+                        
+                                    <div class="info-box-content ml-1">
+                                        <span class="info-box-text">Total a Pagar</span>
+                                        <span class="info-box-number">$ {{ total_ventas }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <table class="table table-bordered table-striped text-center">
+                                <thead class="bg-navyr white">
+                                    <th>Fecha</th>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Venta</th>
+                                    <th>Precio Compra</th>
+                                    <th>Total</th>
+                                </thead>
+                                <tbody>
+                                    {% for venta in ventas_liquidacion %}
+                                    <tr>
+                                        <td>{{ venta.sale.date_sale }}</td>
+                                        <td>{{ venta.producto.nombre }}</td>
+                                        <td>{{ venta.count }}</td>
+                                        <td>{{ venta.price_sale }}</td>
+                                        <td>{{ venta.price_purchase }}</td>
+                                        <td>{{ venta.sub_total }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
                             </table>
+                        </div>
                     </div>
                 </div>
             </div>
