@@ -7,7 +7,7 @@ class CalzadoFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'talla', 'anular']
+        exclude = ['num_venta', 'talla', 'anular', 'linea_r']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
@@ -25,24 +25,26 @@ class CalzadoFormulario(BSModalModelForm):
             'almacen': forms.TextInput(
                 attrs={
                     'class': 'form-control mb-3',
-                    'value': '10', # 10 = ALMACEN 1
+                    'value': '1000', # 1000 = ALMACEN 1
                 }
             ),
             'tipo': forms.TextInput(
                 attrs={
                     'class': 'form-control mb-4',
-                    'value': '10', # 10 = CALZADO
+                    'value': '100', # 100 = CALZADO
                 }
             ),
             'proveedor': forms.Select(attrs={'class': 'form-control mb-3',}),
-            'linea': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'linea_c': forms.Select(attrs={'class': 'form-control mb-3',}),
             'color': forms.Select(attrs={'class': 'form-control mb-3',}),
             'modelo': forms.TextInput(
                 attrs={
                     'class': 'form-control mb-3',
-                    'placeholder': '3 DIGITOS'
+                    'placeholder': '15 DIGITOS'
                 }
             ),
+            'genero': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'promocion': forms.Select(attrs={'class': 'form-control mb-3',}),
         }
 
 # Formulario Ropa
@@ -50,7 +52,7 @@ class RopaFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'medida', 'anular']
+        exclude = ['num_venta', 'medida', 'anular', 'linea_c']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
@@ -67,22 +69,68 @@ class RopaFormulario(BSModalModelForm):
             'almacen': forms.TextInput(
                 attrs={
                     'class': 'form-control mb-3',
-                    'value': '10', # 10 = ALMACEN 1
+                    'value': '1000', # 1000 = ALMACEN 1
                 }
             ),
             'tipo': forms.TextInput(
                 attrs={
                     'class': 'form-control mb-4',
-                    'value': '20', # 20 = ROPA
+                    'value': '200', # 200 = ROPA
                 }
             ),
             'proveedor': forms.Select(attrs={'class': 'form-control mb-3',}),
-            'linea': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'linea_r': forms.Select(attrs={'class': 'form-control mb-3',}),
             'color': forms.Select(attrs={'class': 'form-control mb-3',}),
             'modelo': forms.TextInput(
                 attrs={
                     'class': 'form-control mb-3',
-                    'placeholder': '3 DIGITOS'
+                    'placeholder': '15 DIGITOS'
                 }
             ),
+            'genero': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'promocion': forms.Select(attrs={'class': 'form-control mb-3',}),
+        }
+
+# Formulario Accesorios
+class AccesoriosFormulario(BSModalModelForm):
+
+    class Meta:
+        model = Productos
+        exclude = ['num_venta', 'medida', 'anular', 'linea_c']
+
+        widgets = {
+            'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
+            'nombre': forms.TextInput(attrs={
+                'class': 'form-control mb-3',
+                'placeholder': 'PLAYERA, PANTALON ESCOLAR'
+                }
+            ),
+            'marca': forms.Select(attrs={'class': 'form-control mb-3'}),
+            'talla': forms.Select(attrs={'class': 'form-control mb-3'}),
+            'stock': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
+            'precio_venta': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
+            'precio_compra': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
+            'almacen': forms.TextInput(
+                attrs={
+                    'class': 'form-control mb-3',
+                    'value': '1000', # 1000 = ALMACEN 1
+                }
+            ),
+            'tipo': forms.TextInput(
+                attrs={
+                    'class': 'form-control mb-4',
+                    'value': '300', # 300 = ACCESORIOS
+                }
+            ),
+            'proveedor': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'linea_r': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'color': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'modelo': forms.TextInput(
+                attrs={
+                    'class': 'form-control mb-3',
+                    'placeholder': '15 DIGITOS'
+                }
+            ),
+            'genero': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'promocion': forms.Select(attrs={'class': 'form-control mb-3',}),
         }

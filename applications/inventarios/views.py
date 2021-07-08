@@ -21,6 +21,7 @@ from django.views.generic import (
 from .forms import (
     CalzadoFormulario,
     RopaFormulario,
+    AccesoriosFormulario
 )
 from .models import (
     Productos,
@@ -170,8 +171,10 @@ class IndexInventario(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        calzado = Productos.objects.filter(tipo='10')
-        ropa = Productos.objects.filter(tipo='20')
+        calzado = Productos.objects.filter(tipo='100')
+        ropa = Productos.objects.filter(tipo='200')
+        accesorios = Productos.objects.filter(tipo='300')
+
         # Calzado
         context["calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse().count()
         if calzado:
@@ -192,6 +195,16 @@ class IndexInventario(TemplateView):
 
         context["ropa_promedio"] = Productos.objects.ropa_promedio()
         context["tabla_ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse()
+        # Accesorios
+        context["accesorios_por_terminarse"] = Productos.objects.accesorios_por_terminarse().count()
+        if ropa:
+            context["accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos().count()
+            context["tabla_accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos()
+        else:
+            context["accesorios_mas_vendida"] = 0
+
+        context["accesorios_promedio"] = Productos.objects.accesorios_promedio()
+        context["tabla_accesorios_por_terminarse"] = Productos.objects.accesorios_por_terminarse()
         #
         return context
 
@@ -335,6 +348,72 @@ def producto_ropa(request):
         data['table'] = render_to_string(
             'inventarios/almacen_1/ropa/producto_ropa_tabla.html',
             {'producto_ropa': producto_ropa},
+            request=request
+        )
+        return JsonResponse(data)
+
+"""
+    ********************          ********************
+                        ACCESORIOS
+    ********************          ********************
+
+"""
+
+# Index accesorios
+class IndexAccesorios(generic.ListView):
+    template_name = 'inventarios/almacen_1/accesorios/index_accesorios.html'
+    paginate_by = 10
+    context_object_name = 'producto_accesorios'
+
+    def get_queryset(self):
+
+        queryset = Productos.objects.filtros_accesorios(
+            filtro = self.request.GET.get("filtro", ''),
+        )
+        return queryset
+
+# Crear producto de accesorios
+class CrearAccesoriosVista(BSModalCreateView):
+    template_name = 'inventarios/almacen_1/accesorios/accion_crear_accesorios.html'
+    form_class = AccesoriosFormulario
+    success_message = '¡Mensaje: El producto fue creado exitosamente!'
+    success_url = reverse_lazy('index_accesorios')
+
+# Actualizar producto de accesorios
+class ActualizarAccesoriosVista(BSModalUpdateView):
+    template_name = 'inventarios/almacen_1/accesorios/accion_actualizar_accesorios.html'
+    model = Productos
+    form_class = AccesoriosFormulario
+    success_message = '¡Mensaje: El producto fue actualizado exitosamente!'
+    success_url = reverse_lazy('index_accesorios')
+
+# Eliminar producto de accesorios
+class EliminarAccesoriosVista(BSModalDeleteView):
+    template_name = 'inventarios/almacen_1/accesorios/accion_eliminar_accesorios.html'
+    model = Productos
+    success_message = '¡Mensaje: El producto fue eliminado exitosamente!'
+    success_url = reverse_lazy('index_accesorios')
+
+# Ver registro completo del producto accesorios
+class LeerAccesoriosVista(BSModalReadView):
+    template_name = 'inventarios/almacen_1/accesorios/accion_leer_accesorios.html'
+    model = Productos
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ventas_del_mes'] = DetalleVenta.objects.ventas_mes_producto(
+            self.kwargs['pk']
+        )
+        return context
+
+# Funcion para llenar registros de la tabla de accesorios
+def producto_accesorios(request):
+    data = dict()
+    if request.method == 'GET':
+        producto_accesorios = Productos.objects.all()
+        data['table'] = render_to_string(
+            'inventarios/almacen_1/accesorios/producto_accesorios_tabla.html',
+            {'producto_accesorios': producto_accesorios},
             request=request
         )
         return JsonResponse(data)

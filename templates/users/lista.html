@@ -55,11 +55,9 @@
 {% block content %}
 <div class="content">
     <div class="container-fluid">
-        <!--Row content -->
+        <!-- Row content -->
         <div class="row">
             <div class="col-12">
-            
-
 
                 <!-- Card content -->
                 <div class="card mt-3">
@@ -68,9 +66,8 @@
                     </div>
 
                     <!-- Card body -->
-                    <div class="container-fluid mt-3 mb-3">
-
-                        <table class="table table-striped text-nowrap">
+                    <div class="card-body">
+                        <table class="table table-striped text-center">
                             <thead>
                                 <th>Email</th>
                                 <th>Nombres</th>
@@ -80,32 +77,37 @@
                                 <th>Editar usuario</th>
                             </thead>
                             <tbody>
-                              {% for usuario in usuarios %}
+                                {% for usuario in usuarios %}
                                 <tr>
-                                  <td>{{ usuario.email }}</td>
-                                  <td>{{ usuario.nombres }} {{ usuario.apellidos }}</td>
-                                  <td>{{ usuario.last_login }}</td>
-                                  <td>{{ usuario.get_role_display }}</td>
-                                  <td>
-                                    {% if usuario.is_active %}
-                                      <span class="badge bg-green">Activo</span>
-                                    {% else %}
-                                      <span class="badge bg-red">De Baja</span>
-                                    {% endif %}
-                                  </td>
-                                  <td>
-                                  <a href="{% url 'users_app:user-data-update' usuario.pk %}" class="btn btn-social-icon btn-outline-warning"><i class="fas fa-user-edit"></i></a>
-                                  </td>
+                                    <td>{{ usuario.email }}</td>
+                                    <td>{{ usuario.nombres }} {{ usuario.apellidos }}</td>
+                                    <td>{{ usuario.last_login }}</td>
+                                    <td>{{ usuario.get_role_display }}</td>
+                                    <td>
+                                        {% if usuario.is_active %}
+                                          <span class="badge bg-green">Activo</span>
+                                        {% else %}
+                                          <span class="badge bg-red">De Baja</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'users_app:user-data-update' usuario.pk %}" class="btn btn-sm btn-social-icon btn-outline-warning">
+                                          <i class="fas fa-user-edit"></i>
+                                        </a>
+                                    </td>
                                 </tr>
-                              {% endfor %}
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
+                    <!-- ./card body -->
                 </div>
+                <!-- ./card content -->
             </div>
+
         </div>
+        <!-- ./row content -->
     </div>
 </div>
-    
+
 {% endblock content %}
-    

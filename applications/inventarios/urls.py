@@ -41,4 +41,14 @@ urlpatterns = [
     path('ver_ropa/<int:pk>', views.LeerRopaVista.as_view(), name='leer_ropa'),
     # URL para FUNCION producto_calzado
     path('producto_ropa/', views.producto_ropa, name='producto_ropa'),
+
+    # Index accesorios
+    path('almacen_1/productos/accesorios/', views.IndexAccesorios.as_view(), name='index_accesorios'),
+    # URLs para acciones CRUD
+    path('crear_accesorios/', views.CrearAccesoriosVista.as_view(), name='crear_accesorios'),
+    path('actualizar_accesorios/<int:pk>', views.ActualizarAccesoriosVista.as_view(), name='actualizar_accesorios'),
+    path('eliminar_accesorios/<int:pk>', views.EliminarAccesoriosVista.as_view(), name='eliminar_accesorios'),
+    path('ver_accesorios/<int:pk>', views.LeerAccesoriosVista.as_view(), name='leer_accesorios'),
+    # URL para FUNCION producto_accesorios
+    path('producto_accesorios/', views.producto_accesorios, name='producto_accesorios'),
 ]

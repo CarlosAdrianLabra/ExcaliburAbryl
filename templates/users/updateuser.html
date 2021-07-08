@@ -1,116 +1,89 @@
 {% extends 'administracion/administracion_base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
-<title>administracion</title>
+<title>Administracion</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
 {% block content %}
 <div class="content">
     <div class="container-fluid">
-        <!--Row content -->
+        <!-- Row content -->
         <div class="row">
             <div class="col-12">
-            
-
-
-                <!-- Card content -->
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h1 class="card-title mt-3 mb-3 ml-3">Actualizar usuario</h1>
-                    </div>
-
-                    <!-- Card body -->
-                    <div class="container-fluid mt-3 mb-3">
-                        <div class="col-12">
-                            <form method="post" >{% csrf_token %}
-                                <div class="row justify-content-md-center">
-                                    <div class="col-3">
-                                            <div>
-                                            <label>Nombre de usuario:</label>
-                                            </div>
-                                            <div>
-                                            {{form.username}}
-                                            </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div>
-                                        <label>Rol:</label>
-                                        </div>
-                                        <div>
-                                        {{form.role}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row justify-content-md-center"  style="padding-top: 15px;">
-                                    <div class="col-3">
-                                        <div>
-                                        <label>Email:</label>
-                                    </div>
-                                    <div>
-                                        {{form.email}}
-                                    </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <label>Esta activo:</label>
-                                        {{form.is_active}}
-                                    </div>
-                                    
-                                </div>
-                                <div class="row justify-content-md-center"  style="padding-top: 15px;">
-                                    <div class="col-3">
-                                        <div><label>Nombre:</label></div>
-                                        <div>{{form.nombres}}</div>
-                                    </div>
-                                    <div class="col-3">
-                                        
-                                    </div>
-
-                                </div>
-
-                                <div class="row justify-content-md-center"  style="padding-top: 15px;">
-                                    <div class="col-6">
-                                        <div><label>Apellidos:</label></div>
-                                        <div>{{form.apellidos}}</div>
-                                    </div>
-
-                                </div>
-                            
-                                
-                                <div class="row justify-content-md-center">
-                                    <div class="col-3" style="padding-top: 15px;">
-                                        <button type="submit" class="btn btn-block btr">Actualizar</button>
-                                    </div>
-                                    <div class="col-3" style="padding-top: 15px;">
-                                        <a class="btn btn-block btr" href="{% url 'users_app:user-lista' %}">Regresar</a>
-                                    </div>
-                                    
-                                </div>
-                            </form>
-                            
+                <form method="post" class="m-0">{% csrf_token %}
+                    <!-- Card content -->
+                    <div class="card mt-3">
+                        
+                        <div class="card-header">
+                            <h1 class="card-title mt-3 mb-3 ml-3">ACTUALIZAR USUARIO</h1>
                         </div>
-    
 
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col ml-5">
+                                    <h5 class="ml-5">Información de la cuenta</h5>
+                                </div>    
+                            </div>
 
+                            <div class="row justify-content-center">
+                                <div class="col-3">
+                                    <label>Nombre de usuario:</label>
+                                    {{ form.username|add_class:"form-control col-10 mb-3" }}
+                                </div>
+                                <div class="col-3 ml-5">
+                                    <label>Email:</label>
+                                    {{ form.email|add_class:"form-control col-10 mb-3" }}
+                                </div>
+                                <div class="col-3 ml-5">
+                                    <label>Rol:</label>
+                                    {{ form.role|add_class:"form-control col-10 mb-3" }}
+                                </div>
+                            </div>
 
-    </div>
-    <!-- {{form.as_p}}
-    {{form.username}}
-    {{form.email}}
-    {{form.nombres}}
-    {{form.apellidos}}
-    {{form.role}}
-    {{form.is_staff}}
-    {{form.is_active}} -->
-    
-
+                            <div class="row mt-3 mb-3">
+                                <div class="col ml-5">
+                                    <h5 class="ml-5">Información de perfil</h5>
+                                </div>    
+                            </div>
+                            <div class="row justify-content-center mb-3">
+                                <div class="col-3">
+                                    <label>Nombre:</label>
+                                    {{ form.nombres|add_class:"form-control col-10 mb-3" }}
+                                    
+                                </div>
+                                <div class="col-3 ml-5">
+                                    <label>Apellidos:</label>
+                                    {{ form.apellidos|add_class:"form-control col-10 mb-3" }}
+                                </div>
+                                <div class="col-3 ml-5">
+                                    <label>Esta activo:</label>
+                                    {{ form.is_active|add_class:"form-check-input ml-5 mb-3" }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./card body -->
+                        
+                        <div class="card-footer">
+                            <div class="row justify-content-center mt-3 mb-3">
+                                <div class="col-3">
+                                    <button type="submit" class="btn col-8 btr"><i class="fas fa-pen mr-2"></i>Actualizar</button>
+                                </div>
+                                <div class="col-3">
+                                    <a class="btn col-8 btr" href="{% url 'users_app:user-lista' %}"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                                </div>
+                            </div>
+                        </div>
+                            
                     </div>
-                </div>
+                    <!-- ./card content -->
+                </form>
             </div>
         </div>
+        <!-- ./row content -->
     </div>
 </div>
-
-
 {% endblock content %}

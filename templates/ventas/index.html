@@ -70,8 +70,10 @@
                                             <tr>
                                                 <th style="width: 150px;">COD</th>
                                                 <th>NOMBRE</th>
-                                                <th style="text-align: center; width: 200px;">PRECIO / U</th>
-                                                <th style="text-align: center; width: 150px;">NO. PIEZAS</th>
+                                                <th style="text-align: center; width: 130px;">PROMOCION</th>
+                                                <th style="text-align: center; width: 100px;">PRECIO / U</th>
+                                                <th style="text-align: center; width: 100px;">NO. PIEZAS</th>
+                                                <th style="text-align: center; width: 100px;">SUBTOTAL</th>
                                                 <th style="text-align: center; width: 150px;">ACCIONES</th>
                                             </tr>
                                         </thead>
@@ -80,8 +82,12 @@
                                             <tr>
                                                 <td>{{ p.barcode }}</td>
                                                 <td>{{ p.producto.nombre }}</td>
+                                                {% if p.producto.promocion %}
+                                                <td style="text-align: center;" class="bg-navyr white">{{ p.producto.get_promocion_display }}</td>
+                                                {% endif %}
                                                 <td style="text-align: center;">$ {{ p.producto.precio_venta }}</td>
                                                 <td style="text-align: center;">{{ p.count }}</td>
+                                                <td style="text-align: center;">$ {{ p.subtotal | floatformat:2 }}</td>
                                                 <td>
                                                     <div class="row">
                                                         <div class="col-4">
@@ -115,7 +121,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="container" style="text-align: center;">
-                                            <p style="margin-top: 10px; font-size: 30px;" >$ {{ total_cobrar }}</p>
+                                            <p style="margin-top: 10px; font-size: 30px;" >$ {{ total_cobrar | floatformat:2 }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -130,7 +136,7 @@
                                 <form action="{% url 'ventas_app:efectivo' %}" method="POST">{% csrf_token %}
                                     <div class="row">
                                         <div class="col-6 mt-3"><label>Total Venta:</label></div>
-                                        <div class="col-6 mt-3"><input type="text" class="form-control text-right" value='{{total_cobrar}}' disabled></div>
+                                        <div class="col-6 mt-3"><input type="text" class="form-control text-right" value='{{total_cobrar | floatformat:2}}' disabled></div>
     
                                         <div class="col-6 mt-3"><label>Efectivo recibido:</label></div>
                                         <div class="col-6 mt-3">{{form_efectivo.cash}}</div>
@@ -182,7 +188,7 @@
 <!-- /.main content -->
 
 <!-- Modal comprobante -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-navyr white">

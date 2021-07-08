@@ -98,13 +98,11 @@ class SaleManager(models.Manager):
         )
         return round(consulta['total'], 2)
 
-    
     def ganancias_totales(self):
         ingreso = self.filter(anulate=False,).aggregate(total=Sum('amount'))
         costo = self.filter(anulate=False).aggregate(total=Sum('detail_sale__price_purchase'))
         consulta = ingreso['total'] - costo['total']
         return round(consulta, 2)
-
 
     def monto_ventas_mes(self):
         if str(self.mes_actual) == '1':
@@ -322,19 +320,24 @@ class SaleDetailManager(models.Manager):
         else:
             return [], 0
 
-
 class CarShopManager(models.Manager):
     """ procedimiento modelo Carrito de compras """
     
     def total_cobrar(self):
         
-        consulta = self.aggregate(
-            total=Sum(
-                F('count')*F('producto__precio_venta'),
-                output_field=FloatField()
-            ),
-        )
-        if consulta['total']:
-            return consulta['total']
-        else:
-            return 0  
+        # consulta = self.aggregate(
+        #     total=Sum(
+        #         F('count')*F('producto__precio_venta'),
+        #         output_field=FloatField()
+        #     ),
+        # )
+        # if consulta['total']:
+        #     return consulta['total']
+        # else:
+        #     return 0
+        total = 0
+
+        for productos in self.all():
+            total += float(productos.subtotal())
+
+        return total

@@ -95,8 +95,8 @@
                               <tr>
                                 <td>{{ venta.sale__date_sale__date__month }} / {{venta.sale__date_sale__date__year}}</td>
                                 <td>{{ venta.cantidad_ventas }}</td>
-                                <td>{{ venta.total_ventas }} </td>
-                                <td>{{ venta.ganancia_total }} </td>
+                                <td>{{ venta.total_ventas | floatformat:2 }} </td>
+                                <td>{{ venta.ganancia_total | floatformat:2 }} </td>
                               </tr>
                               {% endfor %}
                             </tbody>

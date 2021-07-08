@@ -17,7 +17,7 @@ class PanelControlInicio(TemplateView):
             context['productos_por_terminarse'] = Productos.objects.productos_por_terminarse().count()
         else:
             context['productos_por_terminarse'] = 0
-        if venta:
+        if venta and Venta.objects.filter(anulate=False):
             # Inventario
             context['num_productos'] = Productos.objects.all().count()
             # Ventas

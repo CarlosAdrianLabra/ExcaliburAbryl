@@ -76,3 +76,23 @@ class EfectivoForm(forms.Form):
             }
         )
     )
+
+class Promocionesform(forms.Form):
+    linea = forms.ChoiceField(
+        required=False,
+        choices=Productos.OPCIONES_LINEA_CALZADO,
+        widget=forms.Select(
+            attrs = {
+                'class': 'form-control col-10 ml-5',
+            }
+        )
+    )
+    promocion = forms.ChoiceField(
+        required=False,
+        choices=Productos.OPCION_PROMOCIONES,
+        widget=forms.Select(
+            attrs = {
+                'class': 'form-control col-10 ml-5',
+            }
+        )
+    )

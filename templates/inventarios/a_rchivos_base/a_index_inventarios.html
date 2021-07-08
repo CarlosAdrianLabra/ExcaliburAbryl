@@ -42,6 +42,12 @@
     
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
+                        <a href="/almacen_1/productos/accesorios/" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Accesorios</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/almacen_1/productos/calzado/" class="nav-link">
                             <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
                             <p>Calzado</p>
@@ -65,6 +71,12 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Accesorios</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
                             <p>Calzado</p>
                         </a>
                     </li>
@@ -83,6 +95,12 @@
                 </a>
                 
                 <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Accesorios</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
@@ -126,8 +144,17 @@
                             <div class="col-3 text-center" style="font-size: 45px;">
                                 <i class="fab fa-accusoft mt-4"></i>
                                 <i class="fab fa-accusoft" style="margin-top: 80px;"></i>
+                                <i class="fab fa-accusoft" style="margin-top: 80px;"></i>
                             </div>
                             <div class="col-9">
+                                <label>Accesorios por terminarse</label> - {{ accesorios_por_terminarse }}
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Menos de 10 existencias</p>
+
+                                <label>Más vendidos</label> - {{ ccesorios_mas_vendida }}
+                                <p style="font-size: small; color: #666; margin-top: -10px;">Más del promedio ( {{ accesorios_promedio }} ventas)</p>
+
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+
                                 <label>Calzado por terminarse</label> - {{ calzado_por_terminarse }}
                                 <p style="font-size: small; color: #666; margin-top: -10px;">Menos de 10 existencias</p>
 
@@ -143,6 +170,8 @@
                                 <p style="font-size: small; color: #666; margin-top: -10px;">Más del promedio ( {{ ropa_promedio }} ventas)</p>
 
                                 <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+
+                                
                             </div>
                         </div>
                         
@@ -203,6 +232,100 @@
             <div class="col-md-10 offset-1">
                 <div class="card collapsed-card">
                     <span class="card-header" data-card-widget="collapse">
+                        ALMACEN 1 - ACCESORIOS
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <!--<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>-->
+                        </div>
+                    </span>
+                    <div class="card-body">
+                        <h5 style="margin-left: 10px; font-weight: bold;">MÁS VENDIDOS</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+                        {% if tabla_accesorios_mas_vendidos %}
+                        <!-- Tabla más vendido -->
+                        <div class="table-responsive p-0" style="height: 272px;">
+                            <table class="table table-striped text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
+                                        <th>NOMBRE</th>
+                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
+                                        <th class="text-center" style="width: 117px;">EXISTENCIAS</th>
+                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
+                                        <th class="text-center" style="width: 160px;">PRECIO DE COMPRA</th>
+                                        <th class="text-center red" style="width: 117px;">NO. VENTAS</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in tabla_accesorios_mas_vendidos %}
+                                    <tr>
+                                        <td class="text-center">{{ p.barcode }}</td>
+                                        <td>{{ p.nombre }}</td>
+                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
+                                        <td class="text-center">{{ p.stock }}</td>
+                                        <td class="text-center">{{ p.precio_venta }}</td>
+                                        <td class="text-center">{{ p.precio_compra }}</td>
+                                        <td class="text-center red">{{ p.num_venta }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- ./tabla más vendido -->
+                        {% else %}
+                        <div class="text-center">
+                            Sin resultados
+                        </div>
+                        {% endif %}
+                            
+                        
+                        <h5 class="mt-5" style="margin-left: 10px; font-weight: bold;">POR TERMINARSE</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
+                        {% if tabla_accesorios_por_terminarse %}
+                        <!-- Tabla por terminarse -->
+                        <div class="table-responsive p-0" style="height: 272px;">
+                            <table class="table table-striped text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
+                                        <th>NOMBRE</th>
+                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
+                                        <th class="text-center red" style="width: 117px;">EXISTENCIAS</th>
+                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
+                                        <th class="text-center" style="width: 160px;">PRECIO DE COMPRA</th>
+                                        <th class="text-center" style="width: 117px;">NO. VENTAS</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in tabla_accesorios_por_terminarse %}
+                                    <tr>
+                                        <td class="text-center">{{ p.barcode }}</td>
+                                        <td>{{ p.nombre }}</td>
+                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
+                                        <td class="text-center red">{{ p.stock }}</td>
+                                        <td class="text-center">{{ p.precio_venta }}</td>
+                                        <td class="text-center">{{ p.precio_compra }}</td>
+                                        <td class="text-center">{{ p.num_venta }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- ./tabla por terminarse -->
+                        {% else %}
+                        <div class="text-center">
+                            Sin resultados
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 offset-1">
+                <div class="card collapsed-card">
+                    <span class="card-header" data-card-widget="collapse">
                         ALMACEN 1 - CALZADO
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -211,7 +334,7 @@
                     </span>
                     <div class="card-body">
                         <h5 style="margin-left: 10px; font-weight: bold;">MÁS VENDIDO</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
-
+                        {% if tabla_calzado_mas_vendido %}
                         <!-- Tabla más vendido -->
                         <div class="table-responsive p-0" style="height: 272px;">
                             <table class="table table-striped text-nowrap">
@@ -243,9 +366,15 @@
                             </table>
                         </div>
                         <!-- ./tabla más vendido -->
+                        {% else %}
+                        <div class="text-center">
+                            Sin resultados
+                        </div>
+                        {% endif %}
+                        
 
                         <h5 class="mt-5" style="margin-left: 10px; font-weight: bold;">POR TERMINARSE</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
-
+                        {% if tabla_calzado_por_terminarse %}
                         <!-- Tabla por terminarse -->
                         <div class="table-responsive p-0" style="height: 272px;">
                             <table class="table table-striped text-nowrap">
@@ -277,6 +406,11 @@
                             </table>
                         </div>
                         <!-- ./tabla por terminarse -->
+                        {% else %}
+                        <div class="text-center">
+                            Sin resultados
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -294,7 +428,7 @@
                     </span>
                     <div class="card-body">
                         <h5 style="margin-left: 10px; font-weight: bold;">MÁS VENDIDA</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
-
+                        {% if tabla_ropa_mas_vendida %}
                         <!-- Tabla más vendido -->
                         <div class="table-responsive p-0" style="height: 272px;">
                             <table class="table table-striped text-nowrap">
@@ -326,9 +460,15 @@
                             </table>
                         </div>
                         <!-- ./tabla más vendido -->
-
+                        {% else %}
+                        <div class="text-center">
+                            Sin resultados
+                        </div>
+                        {% endif %}
+                            
+                        
                         <h5 class="mt-5" style="margin-left: 10px; font-weight: bold;">POR TERMINARSE</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
-
+                        {% if tabla_ropa_por_terminarse %}
                         <!-- Tabla por terminarse -->
                         <div class="table-responsive p-0" style="height: 272px;">
                             <table class="table table-striped text-nowrap">
@@ -360,11 +500,15 @@
                             </table>
                         </div>
                         <!-- ./tabla por terminarse -->
+                        {% else %}
+                        <div class="text-center">
+                            Sin resultados
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 <!-- /.main content -->

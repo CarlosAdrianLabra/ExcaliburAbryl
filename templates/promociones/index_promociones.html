@@ -1,0 +1,39 @@
+{% extends 'promociones/base_promociones.html' %}
+{% load static %}
+
+{% block head %}
+<title>Promociones</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block content %}
+<div class="content">
+    <h2 class="text-center mt-5">PROMOCIONES</h2>
+    <form method="POST" class="m-0">{% csrf_token %}
+        <div class="row mt-5">
+            <div class="col-11 offset-1 mb-3">
+                <label>Aplicar pormoción por:</label>
+            </div>
+            <div class="col-3 offset-1">
+                <p class="ml-5">Línea</p>
+                {{form.linea}}
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-11 offset-1 mb-3">
+                <label>Promociones disponibles:</label>
+            </div>
+            <div class="col-3 offset-1">
+                {{form.promocion}}
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-3 offset-1">
+                <button class="btn btr2 ml-5">Aplicar promoción</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock content %}

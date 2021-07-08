@@ -19,7 +19,7 @@ from applications.users.models import User
 from applications.inventarios.num2word import word
 from applications.utils import render_to_pdf
 from .models import Efectivo, Venta, DetalleVenta, Carrito
-from .forms import EfectivoForm, VentaForm, VentaVoucherForm
+from .forms import EfectivoForm, VentaForm, VentaVoucherForm, Promocionesform
 from .functions import procesar_venta
 from applications.caja.functions import detalle_ventas_no_cerradas
 
@@ -231,3 +231,18 @@ class EfectivoDeleteAll(View):
                 'ventas_app:venta-index'
             )
         )
+
+class Promociones(FormView):
+    template_name = 'promociones/index_promociones.html'
+    form_class = Promocionesform
+    success_url = '.'
+
+    def form_valid(self, form):
+        linea = form.cleaned_data['linea']
+        promocion = form.cleaned_data['promocion']
+
+        Productos.objects.filter(linea_c=linea).update(
+            promocion=promocion
+        )
+        
+        return super(Promociones, self).form_valid(form)

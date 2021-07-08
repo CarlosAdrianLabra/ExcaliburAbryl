@@ -128,7 +128,12 @@
                                 <div class="col-sm-4 col-6">
                                     <div class="description-block border-right">
                                         <span class="description-percentage text-warning"><i class="fas fa-caret-down"></i></span>
+                                        
+                                        {% if costo_total %}
                                         <h5 class="description-header">${{ costo_total }}</h5>
+                                        {% else %}
+                                        <h5 class="description-header">$0</h5>
+                                        {% endif %}
                                         <span class="description-text">COSTO TOTAL DE PRODUCTOS VENDIDOS</span>
                                     </div>
                                     <!-- /.description-block -->

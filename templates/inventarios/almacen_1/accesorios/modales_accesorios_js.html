@@ -1,0 +1,58 @@
+<script type="text/javascript">
+    $(function () {
+        // Crear producto
+        function crearProductoModalForm() {
+            $("#crear-accesorios").modalForm({
+                formURL: "{% url 'crear_accesorios' %}",
+                modalID: "#modal-lg"
+            });
+        }
+        crearProductoModalForm();
+
+        // Actualizar producto
+        function actualizarProductoModalForm() {
+            $(".actualizar-accesorios").each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data("form-url"),
+                    modalID: "#modal-lg"
+                });
+            });
+        }
+        actualizarProductoModalForm();
+
+        // Eliminar producto
+        function eliminarProductoModalForm() {
+            $(".eliminar-accesorios").each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data("form-url"), 
+                    isDeleteForm: true,
+                    modalID: "#modal-nl"
+                });
+            });
+        }
+        eliminarProductoModalForm();
+
+        // Ver más producto
+        function leerProductoModalForm() {
+            $(".leer-accesorios").each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data("form-url"),
+                    modalID: "#modal-xl"
+                });
+            });
+        }
+        leerProductoModalForm();
+
+        // Reinstanciar funciones
+        function reinstantiateModalForms() {
+            actualizarProductoModalForm();
+            eliminarProductoModalForm();
+            leerProductoModalForm();
+        }
+
+        // Mensaje oculto desplegable
+        $(".alert").fadeTo(2800, 1000).slideUp(1000, function () {
+            $(".alert").slideUp(500);
+        });
+    });
+</script>

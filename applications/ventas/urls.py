@@ -64,4 +64,9 @@ urlpatterns = [
         views.EfectivoDeleteAll.as_view(),
         name='efectivo-delete_all',
     ),
+    path(
+        'promociones/',
+        views.Promociones.as_view(),
+        name='promociones',
+        ),
 ]

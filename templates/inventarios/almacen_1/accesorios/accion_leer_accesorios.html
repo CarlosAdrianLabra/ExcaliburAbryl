@@ -1,0 +1,157 @@
+{% load widget_tweaks %}
+
+<div class="modal-header" style="background: #1D2535; color: #fff;">
+    <h5 class="modal-title">ACCESORIO - {{ productos.nombre }}</h5>
+    <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        {% if productos.img %}
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center" style="width: 90px;">Modelo</th>
+                            <th class="text-center" style="width: 140px;">Proveedor</th>
+                            <th class="text-center" style="width: 170px;">Marca</th>
+                            <th class="text-center" style="width: 100px;">Color</th>
+                            <th class="text-center" style="width: 110px;">Género</th>
+                            <th class="text-center" style="width: 70px;">Talla</th>
+                            <th class="text-center" style="width: 90px;">Línea</th>
+                            <th class="text-center" style="width: 90px;">Promoción</th>
+                            <th class="text-center" style="width: 90px;">Existencias</th>
+                            <th class="text-center" style="width: 130px;">Precio venta</th>
+                            <th class="text-center" style="width: 130px;">Precio costo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">{{ productos.nombre }}</td>
+                            <td class="text-center">{{ productos.modelo }}</td>
+                            <td class="text-center">{{ productos.proveedor }}</td>
+                            <td class="text-center">{{ productos.marca }}</td>
+                            <td class="text-center">{{ productos.get_color_display }}</td>
+                            <td class="text-center">{{ productos.get_genero_display }}</td>
+                            <td class="text-center">{{ productos.get_talla_display }}</td>
+                            <td class="text-center">{{ productos.get_linea_r_display }}</td>
+                            <td class="text-center">{{ productos.get_promocion_display }}</td>
+                            <td class="text-center">{{ productos.stock }}</td>
+                            <td class="text-center">{{ productos.precio_venta }}</td>
+                            <td class="text-center">{{ productos.precio_compra }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container-fluid mt-5">
+                <div class="row">
+                    <div class="col-3" style="padding: 0px 0px; text-align: center;">
+                        <img src="http://127.0.0.1:8000/media/{{ productos.img }}" width="250" height="225">    
+                    </div>
+                    <div class="col-5 text-center">
+                        <label>VENTAS EN LOS ULTIMOS 30 DÍAS</label>
+                        <div class="table-responsive p-0" style="height: 197px;">
+                            <table class="table text-center text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha de venta</th>
+                                        <th>Nombre</th>
+                                        <th>Ventas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for v in ventas_del_mes %}
+                                    <tr>
+                                        <td>{{ v.sale__date_sale__date }}</td>
+                                        <td>{{ v.producto__nombre }}</td>
+                                        <td>{{ v.cantidad_vendida }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-3 text-center ml-5">
+                        <label>CÓDIGO DE BARRAS</label>
+                        <div class="code_128_L mb-0">{{ productos.barcode }}</div>
+                        <div>{{ productos.barcode }}</div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center" style="width: 90px;">Modelo</th>
+                            <th class="text-center" style="width: 140px;">Proveedor</th>
+                            <th class="text-center" style="width: 170px;">Marca</th>
+                            <th class="text-center" style="width: 100px;">Color</th>
+                            <th class="text-center" style="width: 110px;">Género</th>
+                            <th class="text-center" style="width: 70px;">Talla</th>
+                            <th class="text-center" style="width: 90px;">Línea</th>
+                            <th class="text-center" style="width: 90px;">Promoción</th>
+                            <th class="text-center" style="width: 90px;">Existencias</th>
+                            <th class="text-center" style="width: 130px;">Precio venta</th>
+                            <th class="text-center" style="width: 130px;">Precio costo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">{{ productos.nombre }}</td>
+                            <td class="text-center">{{ productos.modelo }}</td>
+                            <td class="text-center">{{ productos.proveedor }}</td>
+                            <td class="text-center">{{ productos.marca }}</td>
+                            <td class="text-center">{{ productos.get_color_display }}</td>
+                            <td class="text-center">{{ productos.get_genero_display }}</td>
+                            <td class="text-center">{{ productos.get_talla_display }}</td>
+                            <td class="text-center">{{ productos.get_linea_r_display }}</td>
+                            <td class="text-center">{{ productos.get_promocion_display }}</td>
+                            <td class="text-center">{{ productos.stock }}</td>
+                            <td class="text-center">{{ productos.precio_venta }}</td>
+                            <td class="text-center">{{ productos.precio_compra }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-5 offset-1 text-center">
+                        <label>VENTAS EN LOS ULTIMOS 30 DÍAS</label>
+                        <div class="table-responsive p-0" style="height: 197px;">
+                            <table class="table text-center text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha de venta</th>
+                                        <th>Nombre</th>
+                                        <th>Ventas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for v in ventas_del_mes %}
+                                    <tr>
+                                        <td>{{ v.sale__date_sale__date }}</td>
+                                        <td>{{ v.producto__nombre }}</td>
+                                        <td>{{ v.cantidad_vendida }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-4 offset-1 text-center">
+                        <label>CÓDIGO DE BARRAS</label>
+                        <div class="code_128_L mb-0">{{ productos.barcode }}</div>
+                        <div>{{ productos.barcode }}</div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+</div>

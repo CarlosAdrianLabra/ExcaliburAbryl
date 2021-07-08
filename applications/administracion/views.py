@@ -25,7 +25,7 @@ class PanelAdminView(AdminPermisoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["total_ventas"] = Venta.objects.total_ventas_dia()
         context["total_anulaciones"] = Venta.objects.total_ventas_anuladas_dia()
-        context["stok_cero"] = Productos.objects.calzado_por_terminarse().count()
+        context["stok_cero"] = Productos.objects.productos_por_terminarse().count()
         context["resumen_semana"] = DetalleVenta.objects.resumen_ventas()[:7]
         return context
     

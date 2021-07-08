@@ -7,6 +7,12 @@
 <link rel="stylesheet" href="{% static 'css/code128_all.css' %}">
 {% endblock head %}
 
+{% block enlace_accesorios %}
+<a href="/almacen_1/productos/accesorios" class="nav-link">
+    <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+    <p>Accesorios</p>
+</a>
+{% endblock enlace_accesorios %}
 {% block enlace_calzado %}
 <a href="/almacen_1/productos/calzado/" class="nav-link active" style="color: azure; background: tomato;">
     <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
@@ -25,7 +31,7 @@
 {% block buscador %}
 <form class="card-tools" method="GET">
     <div class="input-group input-group-sm mt-2" style="width: 700px;">
-        <input type="text" id="filtro" name="filtro" class="form-control float-right" placeholder="Ingresar código de barras, nombre, marca, proveedor o modelo del calzado">
+        <input type="text" id="filtro" name="filtro" class="form-control float-right" placeholder="Ingresar código de barras, nombre, marca o proveedor del calzado">
         <div class="input-group-append mr-2">
             <button type="submit" class="btn btn-default"><i class="fas fa-search mr-1"></i>Buscar</button>
         </div>

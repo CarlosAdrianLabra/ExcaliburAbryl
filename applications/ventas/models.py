@@ -93,6 +93,47 @@ class Carrito(TimeStampedModel):
     def __str__(self):
         return str(self.producto.nombre)
 
+    def subtotal(self):
+        if self.producto.promocion == '0':
+            subtotal = self.count * self.producto.precio_venta
+            return subtotal
+
+        if self.producto.promocion == '1':
+            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.10)
+            return subtotal
+
+        if self.producto.promocion == '2':
+            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.20)
+            return subtotal
+        
+        if self.producto.promocion == '3':
+            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.30)
+            return subtotal
+        
+        if self.producto.promocion == '4' and self.count == 2:
+            subtotal = self.count * self.producto.precio_venta - self.producto.precio_venta
+            return subtotal
+        elif self.producto.promocion == '4':
+            subtotal = self.count * self.producto.precio_venta
+            return subtotal
+        
+        if self.producto.promocion == '5' and self.count == 3:
+            subtotal = self.count * self.producto.precio_venta - self.producto.precio_venta
+            return subtotal
+        elif self.producto.promocion == '5':
+            subtotal = self.count * self.producto.precio_venta
+            return subtotal
+
+        if self.producto.promocion == '6' and self.count == 1:
+            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.10)
+            return subtotal
+        elif self.producto.promocion == '6' and self.count == 2:
+            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.20)
+            return subtotal
+        elif self.producto.promocion == '6':
+            subtotal = self.count * self.producto.precio_venta
+            return subtotal
+
 
 class Efectivo(TimeStampedModel):
     cash = models.DecimalField(max_digits=7, decimal_places=2, default=0)

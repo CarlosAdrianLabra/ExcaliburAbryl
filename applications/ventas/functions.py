@@ -9,6 +9,7 @@ from .models import Venta, DetalleVenta, Carrito, Efectivo
 def procesar_venta(self, **params_venta):
     # recupera la lista de productos en carrtio
     productos_en_car = Carrito.objects.all()
+    total_de_venta = Carrito.objects.total_cobrar()
     if productos_en_car.count() > 0:
         
         # crea el objeto venta
@@ -41,7 +42,8 @@ def procesar_venta(self, **params_venta):
             productos_en_venta.append(producto)
             #
             venta.count = venta.count + producto_car.count
-            venta.amount = venta.amount + producto_car.count*producto_car.producto.precio_venta
+            #venta.amount = venta.amount + producto_car.count*producto_car.producto.precio_venta
+            venta.amount = total_de_venta
 
         venta.save()
         DetalleVenta.objects.bulk_create(ventas_detalle)

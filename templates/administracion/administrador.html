@@ -66,7 +66,7 @@
                           <div class="inner">
                             <h3>$ {{ total_ventas }}</h3>
               
-                            <p>Total Ventas Hoy</p>
+                            <p>Total ventas hoy</p>
                           </div>
                           <div class="icon">
                             <i class="fa fa-coins"></i>
@@ -84,7 +84,7 @@
                           <div class="inner">
                             <h3>${{ total_anulaciones }}</h3>
               
-                            <p>Total Anulaciones</p>
+                            <p>Total anulaciones</p>
                           </div>
                           <div class="icon">
                             <i class="fas fa-window-close"></i>
@@ -102,7 +102,7 @@
                           <div class="inner">
                             <h3>{{ stok_cero }}</h3>
               
-                            <p>Productos en 0</p>
+                            <p>Productos por terminarse (menos de 10 existencias)</p>
                           </div>
                           <div class="icon">
                             <i class="fas fa-box-open"></i>
@@ -145,8 +145,8 @@
                                 <tr>
                                   <td>{{ venta.sale__date_sale__date }}</td>
                                   <td>{{ venta.num_ventas }}</td>
-                                  <td>{{ venta.total_vendido }}</td>
-                                  <td>{{ venta.total_ganancias }}</td>
+                                  <td>{{ venta.total_vendido | floatformat:2 }}</td>
+                                  <td>{{ venta.total_ganancias | floatformat:2 }}</td>
                                 </tr>
                               {% endfor %}
                             </tbody>
