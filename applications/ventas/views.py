@@ -19,7 +19,7 @@ from applications.users.models import User
 from applications.inventarios.num2word import word
 from applications.utils import render_to_pdf
 from .models import Efectivo, Venta, DetalleVenta, Carrito
-from .forms import EfectivoForm, VentaForm, VentaVoucherForm, Promocionesform
+from .forms import EfectivoForm, VentaForm, VentaVoucherForm, PromocionesForm
 from .functions import procesar_venta
 from applications.caja.functions import detalle_ventas_no_cerradas
 
@@ -234,15 +234,32 @@ class EfectivoDeleteAll(View):
 
 class Promociones(FormView):
     template_name = 'promociones/index_promociones.html'
-    form_class = Promocionesform
+    form_class = PromocionesForm
     success_url = '.'
 
     def form_valid(self, form):
-        linea = form.cleaned_data['linea']
+        marca = form.cleaned_data['marca']
+        linea_a = form.cleaned_data['linea_a']
+        linea_c = form.cleaned_data['linea_c']
+        linea_r = form.cleaned_data['linea_r']
+        barcode = form.cleaned_data['barcode']
         promocion = form.cleaned_data['promocion']
 
-        Productos.objects.filter(linea_c=linea).update(
-            promocion=promocion
-        )
+        if linea_a != '':
+            Productos.objects.filter(linea_a=linea_a).update(
+                promocion=promocion
+            )
+        if linea_c != '':
+            Productos.objects.filter(linea_c=linea_c).update(
+                promocion=promocion
+            )
+        if linea_r != '':
+            Productos.objects.filter(linea_r=linea_r).update(
+                promocion=promocion
+            )
+        if barcode != '':
+            Productos.objects.filter(barcode=barcode).update(
+                promocion=promocion
+            )
         
         return super(Promociones, self).form_valid(form)

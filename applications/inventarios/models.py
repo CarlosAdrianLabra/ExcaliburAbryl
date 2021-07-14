@@ -70,11 +70,11 @@ class Productos(TimeStampedModel):
         ('03', 'G'),
         ('04', 'XG'),
         ('', '---------'),
-        ('', 'DAMA'),
-        ('05', '0'),('06', '3'),('07', '5'),('08', '7'),('09', '11'),('10', '13'),('11', '15'),
-        ('', '---------'),
         ('', 'CABALLERO'),
         ('12', '28'),('13', '30'),('14', '32'),('15', '34'),('16', '36'),('17', '38'),('18', '40'),
+        ('', '---------'),
+        ('', 'DAMA'),
+        ('05', '0'),('06', '3'),('07', '5'),('08', '7'),('09', '11'),('10', '13'),('11', '15'),
         ('', '---------'),
         ('', 'NIÑO/A'),
         ('', 'Pendiente ...'),
@@ -116,6 +116,12 @@ class Productos(TimeStampedModel):
         ('01', 'PANTALON'),
     )
 
+    OPCIONES_LINEA_ACCESORIOS = (
+        ('', '---------'),
+        ('00', 'LIMPIEZA'),
+        ('01', 'MOCHILA'),
+    )
+
     OPCIONES_GENERO = (
         ('', '---------'),
         ('1', 'CABALLERO'),
@@ -146,6 +152,8 @@ class Productos(TimeStampedModel):
         ('5', '3 x 2'),
         ('', ''),
         ('6', '1=10%, 2=20%'),
+        ('', ''),
+        ('7', '2 Adidas y obtén 10%'),
     )
 
     # Atributos necesarios
@@ -161,6 +169,7 @@ class Productos(TimeStampedModel):
     almacen = models.CharField('Almacén', max_length=4, choices=OPCIONES_ALMACEN)
     talla = models.CharField('Talla', max_length=2, blank=True, choices=OPCIONES_TALLA)
     medida = models.CharField('Medida', max_length=2, blank=True, choices=OPCIONES_MEDIDA)
+    linea_a = models.CharField('Línea de accesorios', max_length=2, blank=True, choices=OPCIONES_LINEA_ACCESORIOS)
     linea_c = models.CharField('Línea de calzado', max_length=2, blank=True, choices=OPCIONES_LINEA_CALZADO)
     linea_r = models.CharField('Línea de ropa', max_length=2, blank=True, choices=OPCIONES_LINEA_ROPA)
     color = models.CharField('Color', max_length=2, blank=True, choices=OPCIONES_COLOR)
@@ -188,7 +197,7 @@ class Productos(TimeStampedModel):
         db_table = 'Productos'
     
     def save(self, *args, **kwargs):        
-        self.barcode = self.almacen + self.tipo + self.medida + self.talla + self.linea_c + self.linea_r + self.color
+        self.barcode = self.almacen + self.tipo + self.medida + self.talla + self.linea_c + self.linea_r + self.linea_a + self.color
         self.nombre = self.nombre.upper()
         super(Productos, self).save(*args, **kwargs)
 

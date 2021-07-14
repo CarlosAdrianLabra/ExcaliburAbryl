@@ -251,7 +251,7 @@ class SaleDetailManager(models.Manager):
     def restablecer_stok_num_ventas(self, id_venta):
         prods_en_anulados = []
         for venta_detail in self.filter(sale__id=id_venta):
-            #actualizmso producot
+            #actualizmos producto
             venta_detail.producto.stock = venta_detail.producto.stock + venta_detail.count
             venta_detail.producto.num_venta = venta_detail.producto.num_venta - venta_detail.count
             prods_en_anulados.append(venta_detail.producto)
@@ -264,11 +264,13 @@ class SaleDetailManager(models.Manager):
             sale__close=True,
         ).values('sale__date_sale__date').annotate(
             total_vendido=Sum(
-                F('price_sale')*F('count'),
+                F('price_subtotal'),
+                # F('price_sale')*F('count'),
                 output_field=FloatField()
             ),
             total_ganancias=Sum(
-                F('price_sale')*F('count') - F('price_purchase')*F('count'),
+                F('price_subtotal') - F('price_purchase')*F('count'),
+                # F('price_sale')*F('count') - F('price_purchase')*F('count'),
                 output_field=FloatField()
             ),
             num_ventas=Sum('count'),
@@ -280,10 +282,11 @@ class SaleDetailManager(models.Manager):
             sale__anulate=False
         ).values('sale__date_sale__date__month', 'sale__date_sale__date__year').annotate(
             cantidad_ventas=Sum('count'),
-            total_ventas=Sum(F('price_sale')*F('count'), output_field=FloatField()),
+            total_ventas=Sum(F('price_subtotal'), output_field=FloatField()),
+            # total_ventas=Sum(F('price_sale')*F('count'), output_field=FloatField()),
             ganancia_total=Sum(
-                F('price_sale')*F('count') - F('price_purchase')*F('count'),
-                output_field=FloatField()
+                F('price_subtotal') - F('price_purchase')*F('count'),output_field=FloatField()
+                # F('price_sale')*F('count') - F('price_purchase')*F('count'),output_field=FloatField()
             )
         ).order_by('-sale__date_sale__date__month')
     
@@ -295,6 +298,7 @@ class SaleDetailManager(models.Manager):
         if filters['date_start'] and filters['date_end'] and filters['proveedor']:
             consulta = self.filter(
                 anulate=False,
+                sale__close=True,
                 sale__date_sale__range = (
                     filters['date_start'],
                     filters['date_end'],
@@ -304,14 +308,20 @@ class SaleDetailManager(models.Manager):
             
             lista_ventas = consulta.annotate(
                 sub_total=ExpressionWrapper(
-                    F('price_purchase')*F('count'),
+                    F('price_subtotal'),
+                    # F('price_purchase')*F('count'),
+                    output_field=FloatField()
+                ),
+                total_pagar=ExpressionWrapper(
+                    F('price_subtotal') - F('price_purchase'),
                     output_field=FloatField()
                 )
             ).order_by('sale__date_sale')
 
             total_ventas = consulta.aggregate(
                 total_venta=Sum(
-                    F('price_purchase')*F('count'),
+                    F('price_subtotal') - F('price_purchase'),
+                    # F('price_purchase')*F('count'),
                     output_field=FloatField()
                 )
             )['total_venta']
@@ -325,6 +335,25 @@ class CarShopManager(models.Manager):
     
     def total_cobrar(self):
         
+        total = 0
+        promo_10 = 0
+        if self.filter(producto__promocion='7'):
+            np = self.filter(producto__promocion='7').count()
+        else:
+            np = 0
+
+        if np >= 2 and self.filter(producto__promocion='7'):
+            for productos in self.filter(producto__promocion='7'):
+                promo_10 += (float(productos.subtotal()) * 0.10)
+        if self.filter(producto__promocion='7'):
+            for productos in self.all():
+                total += float(productos.subtotal())
+        else:
+            for productos in self.all():
+                total += float(productos.subtotal())
+
+        return total - promo_10
+
         # consulta = self.aggregate(
         #     total=Sum(
         #         F('count')*F('producto__precio_venta'),
@@ -335,9 +364,3 @@ class CarShopManager(models.Manager):
         #     return consulta['total']
         # else:
         #     return 0
-        total = 0
-
-        for productos in self.all():
-            total += float(productos.subtotal())
-
-        return total

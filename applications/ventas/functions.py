@@ -24,26 +24,47 @@ def procesar_venta(self, **params_venta):
         #
         ventas_detalle = []
         productos_en_venta = []
-        for producto_car in productos_en_car:
+        for p_c in productos_en_car:
             venta_detalle = DetalleVenta(
-                producto=producto_car.producto,
+                producto=p_c.producto,
                 sale=venta,
-                count=producto_car.count,
-                price_purchase=producto_car.producto.precio_compra,
-                price_sale=producto_car.producto.precio_venta,
+                count=p_c.count,
+                price_purchase=p_c.producto.precio_compra,
+                price_sale=p_c.producto.precio_venta,
+                price_subtotal=p_c.subtotal(),
                 tax=0.16,
             )
             # actualizmos stok de producto en iteracion
-            producto = producto_car.producto
-            producto.stock = producto.stock - producto_car.count
-            producto.num_venta = producto.num_venta + producto_car.count
+            producto = p_c.producto
+            producto.stock = producto.stock - p_c.count
+            producto.num_venta = producto.num_venta + p_c.count
             #
             ventas_detalle.append(venta_detalle)
             productos_en_venta.append(producto)
             #
-            venta.count = venta.count + producto_car.count
-            #venta.amount = venta.amount + producto_car.count*producto_car.producto.precio_venta
+            venta.count = venta.count + p_c.count
             venta.amount = total_de_venta
+
+        # for p_c in productos_en_car:
+        #     venta_detalle = DetalleVenta(
+        #         producto=p_c.producto,
+        #         sale=venta,
+        #         count=p_c.count,
+        #         price_purchase=p_c.producto.precio_compra,
+        #         price_sale=p_c.producto.precio_venta,
+        #         tax=0.16,
+        #     )
+        #     # actualizmos stok de producto en iteracion
+        #     producto = p_c.producto
+        #     producto.stock = producto.stock - p_c.count
+        #     producto.num_venta = producto.num_venta + p_c.count
+        #     #
+        #     ventas_detalle.append(venta_detalle)
+        #     productos_en_venta.append(producto)
+        #     #
+        #     venta.count = venta.count + p_c.count
+        #     #venta.amount = venta.amount + p_c.count*p_c.producto.precio_venta
+        #     venta.amount = total_de_venta
 
         venta.save()
         DetalleVenta.objects.bulk_create(ventas_detalle)

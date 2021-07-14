@@ -9,7 +9,7 @@ class VentaAdmin(admin.ModelAdmin):
         'amount',
         'user',
         'close',
-        'anulate',
+        'anulate'
     )
     list_filter = ('type_invoice', 'type_payment', 'anulate', 'user', )
 

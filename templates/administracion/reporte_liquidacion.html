@@ -121,9 +121,9 @@
                                         <td>{{ venta.sale.date_sale }}</td>
                                         <td>{{ venta.producto.nombre }}</td>
                                         <td>{{ venta.count }}</td>
-                                        <td>{{ venta.price_sale }}</td>
+                                        <td>{{ venta.sub_total}}</td>
                                         <td>{{ venta.price_purchase | floatformat:2 }}</td>
-                                        <td>{{ venta.sub_total | floatformat:2 }}</td>
+                                        <td>{{ venta.total_pagar | floatformat:2 }}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

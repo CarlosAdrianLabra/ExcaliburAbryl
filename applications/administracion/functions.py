@@ -13,12 +13,13 @@ def detalle_resumen_ventas(date_start, date_end):
         consulta = ventas.prefetch_related(
             Prefetch(
                 'detail_sale', 
-                queryset=DetalleVenta.objects.filter(sale__id__in=ventas).annotate(
-                    subtotal=ExpressionWrapper(
-                        F('price_sale')*F('count'),
-                        output_field=FloatField()
-                    )
-                )
+                queryset=DetalleVenta.objects.filter(sale__id__in=ventas)
+                # .annotate(
+                #     subtotal=ExpressionWrapper(
+                #         F('price_sale')*F('count'),
+                #         output_field=FloatField()
+                #     )
+                # )
             )
         )
 

@@ -60,8 +60,9 @@ class DetalleVenta(TimeStampedModel):
     producto = models.ForeignKey(Productos, on_delete=models.CASCADE, verbose_name='producto', related_name='product_sale')
     sale = models.ForeignKey(Venta, on_delete=models.CASCADE, verbose_name='Codigo de Venta', related_name='detail_sale')
     count = models.PositiveIntegerField('Cantidad')
-    price_purchase = models.DecimalField('Precio Compra', max_digits=10, decimal_places=3)
+    price_purchase = models.DecimalField('Precio Compra', max_digits=10, decimal_places=2)
     price_sale = models.DecimalField('Precio Venta', max_digits=10, decimal_places=2)
+    price_subtotal = models.DecimalField('Precio Subtotal', max_digits=10, decimal_places=2, default=0)
     tax = models.DecimalField('Impuesto', max_digits=5, decimal_places=2)
     anulate = models.BooleanField(default=False)
 
@@ -94,45 +95,40 @@ class Carrito(TimeStampedModel):
         return str(self.producto.nombre)
 
     def subtotal(self):
-        if self.producto.promocion == '0':
-            subtotal = self.count * self.producto.precio_venta
-            return subtotal
-
-        if self.producto.promocion == '1':
-            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.10)
-            return subtotal
-
-        if self.producto.promocion == '2':
-            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.20)
-            return subtotal
+        # cantidad = float(self.count)
+        promocion = self.producto.promocion
+        p_venta = float(self.producto.precio_venta)
+        cant_x_venta =  float(self.count * self.producto.precio_venta)
         
-        if self.producto.promocion == '3':
-            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.30)
-            return subtotal
-        
-        if self.producto.promocion == '4' and self.count == 2:
-            subtotal = self.count * self.producto.precio_venta - self.producto.precio_venta
-            return subtotal
-        elif self.producto.promocion == '4':
-            subtotal = self.count * self.producto.precio_venta
-            return subtotal
-        
-        if self.producto.promocion == '5' and self.count == 3:
-            subtotal = self.count * self.producto.precio_venta - self.producto.precio_venta
-            return subtotal
-        elif self.producto.promocion == '5':
-            subtotal = self.count * self.producto.precio_venta
-            return subtotal
 
-        if self.producto.promocion == '6' and self.count == 1:
-            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.10)
-            return subtotal
-        elif self.producto.promocion == '6' and self.count == 2:
-            subtotal = float(self.count * self.producto.precio_venta) - (float(self.count * self.producto.precio_venta) * 0.20)
-            return subtotal
-        elif self.producto.promocion == '6':
-            subtotal = self.count * self.producto.precio_venta
-            return subtotal
+        if promocion == '0' or promocion == '7':
+            return cant_x_venta
+
+        if promocion == '1':
+            return cant_x_venta - (cant_x_venta * 0.10)
+
+        if promocion == '2':
+            return cant_x_venta - (cant_x_venta * 0.20)
+        
+        if promocion == '3':
+            return cant_x_venta - (cant_x_venta * 0.30)
+        
+        if promocion == '4' and self.count == 2:
+            return cant_x_venta - p_venta
+        elif promocion == '4':
+            return cant_x_venta
+        
+        if promocion == '5' and self.count == 3:
+            return cant_x_venta - p_venta
+        elif promocion == '5':
+            return cant_x_venta
+
+        if promocion == '6' and self.count == 1:
+            return cant_x_venta - (cant_x_venta * 0.10)
+        elif promocion == '6' and self.count == 2:
+            return cant_x_venta - (cant_x_venta * 0.20)
+        elif promocion == '6':
+            return cant_x_venta
 
 
 class Efectivo(TimeStampedModel):

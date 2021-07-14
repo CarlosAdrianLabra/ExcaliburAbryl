@@ -12,24 +12,37 @@
     <form method="POST" class="m-0">{% csrf_token %}
         <div class="row mt-5">
             <div class="col-11 offset-1 mb-3">
-                <label>Aplicar pormoción por:</label>
+                <label>Aplicar promoción por:</label>
             </div>
-            <div class="col-3 offset-1">
-                <p class="ml-5">Línea</p>
-                {{form.linea}}
+            <div class="col-2 offset-1">
+                <label class="ml-1">Código de Barras</label>
+                {{form.barcode}}
+            </div>
+            <div class="col-2 ml-1">
+                <label class="ml-1">Marca</label>
+                {{form.marca}}
+                <label class="ml-1">Línea Accesorios</label>
+                {{form.linea_a}}
+                <label class="ml-1">Línea Calzado</label>
+                {{form.linea_c}}
+                <label class="ml-1">Línea Ropa</label>
+                {{form.linea_r}}
+            </div>
+            <div class="col-2 ml-1">
+                
             </div>
         </div>
-        <div class="row mt-5">
+        <div class="row mt-3">
             <div class="col-11 offset-1 mb-3">
                 <label>Promociones disponibles:</label>
             </div>
-            <div class="col-3 offset-1">
+            <div class="col-2 offset-1">
                 {{form.promocion}}
             </div>
         </div>
-        <div class="row mt-5">
+        <div class="row mt-3">
             <div class="col-3 offset-1">
-                <button class="btn btr2 ml-5">Aplicar promoción</button>
+                <button class="btn btr2 ml-1">Aplicar promoción</button>
             </div>
         </div>
     </form>

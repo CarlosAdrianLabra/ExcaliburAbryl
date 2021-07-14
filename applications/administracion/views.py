@@ -12,8 +12,6 @@ from .forms import LiquidacionProviderForm, ResumenVentasForm
 from .functions import detalle_resumen_ventas
 
 
-
-
 class PanelHomeView(TemplateView):
     template_name = "administracion/index.html"
 
@@ -22,10 +20,14 @@ class PanelAdminView(AdminPermisoMixin, TemplateView):
     template_name = "administracion/administrador.html"
 
     def get_context_data(self, **kwargs):
+        menos = Productos.objects.filter(stock__lt=10)
         context = super().get_context_data(**kwargs)
         context["total_ventas"] = Venta.objects.total_ventas_dia()
         context["total_anulaciones"] = Venta.objects.total_ventas_anuladas_dia()
-        context["stok_cero"] = Productos.objects.productos_por_terminarse().count()
+        if menos:
+            context["stok_cero"] = Productos.objects.productos_por_terminarse().count()
+        else:
+            context["stok_cero"] = 0
         context["resumen_semana"] = DetalleVenta.objects.resumen_ventas()[:7]
         return context
     
@@ -41,6 +43,7 @@ class ReporteAdmin(ListView):
     
     def get_queryset(self):
         return DetalleVenta.objects.resumen_ventas_mes()
+
 
 class ReporteLiquidacion(ListView):
     template_name = "administracion/reporte_liquidacion.html"

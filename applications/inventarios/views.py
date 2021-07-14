@@ -201,7 +201,7 @@ class IndexInventario(TemplateView):
             context["accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos().count()
             context["tabla_accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos()
         else:
-            context["accesorios_mas_vendida"] = 0
+            context["accesorios_mas_vendidos"] = 0
 
         context["accesorios_promedio"] = Productos.objects.accesorios_promedio()
         context["tabla_accesorios_por_terminarse"] = Productos.objects.accesorios_por_terminarse()

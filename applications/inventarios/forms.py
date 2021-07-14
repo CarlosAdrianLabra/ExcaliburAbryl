@@ -7,7 +7,7 @@ class CalzadoFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'talla', 'anular', 'linea_r']
+        exclude = ['num_venta', 'talla', 'anular', 'linea_r', 'linea_a']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
@@ -52,7 +52,7 @@ class RopaFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'medida', 'anular', 'linea_c']
+        exclude = ['num_venta', 'medida', 'anular', 'linea_c', 'linea_a']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
@@ -96,13 +96,13 @@ class AccesoriosFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'medida', 'anular', 'linea_c']
+        exclude = ['num_venta', 'medida', 'anular', 'linea_c', 'linea_r']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
             'nombre': forms.TextInput(attrs={
                 'class': 'form-control mb-3',
-                'placeholder': 'PLAYERA, PANTALON ESCOLAR'
+                'placeholder': 'MOCHILA, ARTÍCULO DE LIMPIEZA'
                 }
             ),
             'marca': forms.Select(attrs={'class': 'form-control mb-3'}),
@@ -123,7 +123,7 @@ class AccesoriosFormulario(BSModalModelForm):
                 }
             ),
             'proveedor': forms.Select(attrs={'class': 'form-control mb-3',}),
-            'linea_r': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'linea_a': forms.Select(attrs={'class': 'form-control mb-3',}),
             'color': forms.Select(attrs={'class': 'form-control mb-3',}),
             'modelo': forms.TextInput(
                 attrs={

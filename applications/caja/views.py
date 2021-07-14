@@ -17,8 +17,11 @@ class ReporteCierreCajaView(TemplateView):
     template_name = 'caja/index.html'
 
     def get_context_data(self, **kwargs):
+        ventas = Venta.objects.ventas_no_cerradas()
+
         context = super().get_context_data(**kwargs)
         context["ventas_dia"] = detalle_ventas_no_cerradas()
+        context['detalle'] = DetalleVenta.objects.filter(sale__id__in=ventas)
         context["total_vendido"] = Venta.objects.total_ventas_dia()
         context["total_anulado"] = Venta.objects.total_ventas_anuladas_dia()
         context["num_ventas_hoy"] = Venta.objects.ventas_no_cerradas().count()

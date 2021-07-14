@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
-            <th class="text-left">PRODUCTO <span style="font-size: smaller; color: #ccc;">( MARCA - MODELO - LINEA - COLOR )</span></th>
+            <th class="text-left">PRODUCTO <span style="font-size: smaller; color: #ccc;">( MARCA - MODELO - COLOR - LÍNEA )</span></th>
             <th class="text-center">NOMBRE</th>
             <th class="text-center" style="width: 170px;">PROVEEDOR</th>
             <th class="text-center" style="width: 100px;">TALLA</th>
@@ -15,7 +15,7 @@
     {% for p in producto_calzado %}
         <tr>
             <td class="text-center">{{ p.barcode }}</td>
-            <td class="text-left">{{ p }}</td>
+            <td class="text-left">{{ p }} - {{ p.get_linea_c_display }}</td>
             <td class="text-center">{{ p.nombre }}</td>
             <td class="text-center">{{ p.proveedor }}</td>
             <td class="text-center">{{ p.get_medida_display }}</td>

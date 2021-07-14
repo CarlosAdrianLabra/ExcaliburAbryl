@@ -1,4 +1,5 @@
 from django import forms
+from applications.inventarios.models import Marca
 from .models import Venta
 from applications.inventarios.models import Productos
 
@@ -77,13 +78,52 @@ class EfectivoForm(forms.Form):
         )
     )
 
-class Promocionesform(forms.Form):
-    linea = forms.ChoiceField(
+class PromocionesForm(forms.Form):
+    OPCIONES_MARCA = (
+        ('', '---------'),
+        ('ADIDAS', 'ADIDAS'),
+    )
+    linea_a = forms.ChoiceField(
+        required=False,
+        choices=Productos.OPCIONES_LINEA_ACCESORIOS,
+        widget=forms.Select(
+            attrs = {
+                'class': 'form-control col-10 ml-1 mb-3',
+            }
+        )
+    )
+    linea_c = forms.ChoiceField(
         required=False,
         choices=Productos.OPCIONES_LINEA_CALZADO,
         widget=forms.Select(
             attrs = {
-                'class': 'form-control col-10 ml-5',
+                'class': 'form-control col-10 ml-1 mb-3',
+            }
+        )
+    )
+    linea_r = forms.ChoiceField(
+        required=False,
+        choices=Productos.OPCIONES_LINEA_ROPA,
+        widget=forms.Select(
+            attrs = {
+                'class': 'form-control col-10 ml-1 mb-3',
+            }
+        )
+    )
+    marca = forms.ChoiceField(
+        required=False,
+        choices=OPCIONES_MARCA,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control col-10 ml-1 mb-3',
+            }
+        )
+    )
+    barcode = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control col-10 ml-1 mb-3',
             }
         )
     )
@@ -92,7 +132,7 @@ class Promocionesform(forms.Form):
         choices=Productos.OPCION_PROMOCIONES,
         widget=forms.Select(
             attrs = {
-                'class': 'form-control col-10 ml-5',
+                'class': 'form-control col-10 ml-1 mb-3',
             }
         )
     )

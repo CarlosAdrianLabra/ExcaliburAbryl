@@ -5,171 +5,117 @@
 <title>administracion</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
-
 {% block enlace_info_general %}
 <a href="{% url 'administracion_app:index-admin' %}" class="nav-link active" style="color: azure; background: tomato;">
-    <i class="fas fa-money-bill-wave nav-icon"></i>
-    <p>Informacion general</p>
+	<i class="fas fa-money-bill-wave nav-icon"></i>
+	<p>Informacion general</p>
 </a>
 {% endblock enlace_info_general %}
 {% block menu_desplegable %}
 <li class="nav-item">
-  <a href="#" class="nav-link">
-      <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
-  </a>
-  <ul class="nav nav-treeview">
-      <li class="nav-item">
-        {% block enlace_ventas_mes %}
-        <a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
-            <i class="fas fa-chart-bar nav-icon ml-4"></i>
-            <p>Ventas por mes</p>
-        </a>
-        {% endblock enlace_ventas_mes %}
-      </li>
-      <li class="nav-item">
-        {% block enlace_liquidacion %}
-        <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
-            <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
-            <p>Liquidacion</p>
-        </a>
-        {% endblock enlace_liquidacion %}
-      </li>
-      <li class="nav-item">
-        {% block enlace_ventas_por_fecha %}
-        <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
-            <i class="fas fa-calendar-day nav-icon ml-4"></i>
-            <p>Ventas por fecha</p>
-        </a>
-        {% endblock enlace_ventas_por_fecha %}
-      </li>
-  </ul>
+	<a href="#" class="nav-link">
+		<i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
+	</a>
+	<ul class="nav nav-treeview">
+		<li class="nav-item">
+			{% block enlace_ventas_mes %}
+			<a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
+				<i class="fas fa-chart-bar nav-icon ml-4"></i>
+				<p>Ventas por mes</p>
+			</a>
+			{% endblock enlace_ventas_mes %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_liquidacion %}
+			<a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
+				<i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+				<p>Liquidacion</p>
+			</a>
+			{% endblock enlace_liquidacion %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_ventas_por_fecha %}
+			<a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Ventas por fecha</p>
+			</a>
+			{% endblock enlace_ventas_por_fecha %}
+		</li>
+	</ul>
 </li>
 {% endblock menu_desplegable %}
 {% block enlace_usuarios %}
 <a href="{% url 'users_app:user-lista' %}" class="nav-link">
-    <i class="fas fa-users nav-icon"></i>
-    <p>Usuarios</p>
+	<i class="fas fa-users nav-icon"></i>
+	<p>Usuarios</p>
 </a>
 {% endblock enlace_usuarios %}
 
 {% block content %}
 <div class="content">
-    <div class="container-fluid">
-        <!--Row content -->
-        <div class="row">
-            <div class="col-12">
-              <div class="row" style="padding-top: 20px;">
-                <div class="col" >
-                    
-                        <!-- small box -->
-                        <div class="small-box bg-green">
-                          <div class="inner">
-                            <h3>$ {{ total_ventas }}</h3>
-              
-                            <p>Total ventas hoy</p>
-                          </div>
-                          <div class="icon">
-                            <i class="fa fa-coins"></i>
-                          </div>
-                          <!--<a href="#" class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
-                          </a>-->
-                        </div>
-                      
-                </div>
-                <div class="col">
-                    
-                        <!-- small box -->
-                        <div class="small-box bg-red">
-                          <div class="inner">
-                            <h3>${{ total_anulaciones }}</h3>
-              
-                            <p>Total anulaciones</p>
-                          </div>
-                          <div class="icon">
-                            <i class="fas fa-window-close"></i>
-                          </div>
-                          <!--<a href="#" class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
-                          </a>-->
-                        </div>
-                       
-                </div>
-                <div class="col">
-                    
-                        <!-- small box -->
-                        <div class="small-box bg-yellow">
-                          <div class="inner">
-                            <h3>{{ stok_cero }}</h3>
-              
-                            <p>Productos por terminarse (menos de 10 existencias)</p>
-                          </div>
-                          <div class="icon">
-                            <i class="fas fa-box-open"></i>
-                          </div>
-                          <!--<a href="#" class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
-                          </a>-->
-                        </div>
-                      
-                </div>
-                
+	<div class="container-fluid">
+		<!-- Row content -->
+		<div class="row">
+			<div class="col-12">
+				<div class="row" style="padding-top: 20px;">
+					<div class="col" >
+						<div class="small-box bg-green">
+							<div class="inner">
+								<h3>$ {{ total_ventas }}</h3>
+								<p>Total ventas hoy</p>
+							</div>
+							<div class="icon"><i class="fa fa-coins"></i></div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="small-box bg-red">
+							<div class="inner">
+								<h3>${{ total_anulaciones }}</h3>
+								<p>Total anulaciones</p>
+							</div>
+							<div class="icon"><i class="fas fa-window-close"></i></div>
+						</div>
+					</div>
+				<div class="col">
+					<div class="small-box bg-yellow">
+						<div class="inner">
+							<h3>{{ stok_cero }}</h3>
+							<p>Productos por terminarse (menos de 10 existencias)</p>
+						</div>
+						<div class="icon"><i class="fas fa-box-open"></i></div>
+						</div>
+					</div>
+				</div>
+				<!-- Card content -->
+				<div class="card mt-3">
+					<div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">INFORME DE INGRESOS EN LA SEMANA</h1></div>
+					<!-- Card body -->
+					<div class="card-body">
+						<table class="table table-bordered table-striped text-center">
+							<thead class="bg-navyr white">
+								<th>Fecha</th>
+								<th>Numero Ventas</th>
+								<th>Total Vendido</th>
+								<th>Total Ganancias</th>
+							</thead>
+							<tbody>
+                            {% for venta in resumen_semana %}
+                            <tr>
+                                <td>{{ venta.sale__date_sale__date }}</td>
+                                <td>{{ venta.num_ventas }}</td>
+                                <td>{{ venta.total_vendido | floatformat:2 }}</td>
+                                <td>{{ venta.total_ganancias | floatformat:2 }}</td>
+                            </tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
 
-            </div>
-              
-                <!-- <h5>Total Ventas Hoy</h5>
-                <h3>S/ {{ total_ventas }}</h3>
-                <h5>Total Anulaciones</h5>
-                <h3>S/ {{ total_anulaciones }}</h3>
-                <h5>Productos en 0</h5>
-                <h3>{{ stok_cero }}</h3> -->
-
-
-                <!-- Card content -->
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h1 class="card-title mt-3 mb-3 ml-3">INFORME DE INGRESOS EN LA SEMANA</h1>
-                    </div>
-
-                    <!-- Card body -->
-                    <div class="card-body">
-                        <table class="table table-bordered table-striped text-center">
-                            <thead class="bg-navyr white">
-                              <th>Fecha</th>
-                              <th>Numero Ventas</th>
-                              <th>Total Vendido</th>
-                              <th>Total Ganancias</th>
-                            </thead>
-                            <tbody>
-                              {% for venta in resumen_semana %}
-                                <tr>
-                                  <td>{{ venta.sale__date_sale__date }}</td>
-                                  <td>{{ venta.num_ventas }}</td>
-                                  <td>{{ venta.total_vendido | floatformat:2 }}</td>
-                                  <td>{{ venta.total_ganancias | floatformat:2 }}</td>
-                                </tr>
-                              {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+				<!-- ./card content -->
+			</div>
+		</div>
+		<!-- ./row content -->
+	</div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% endblock content %}

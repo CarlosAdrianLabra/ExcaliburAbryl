@@ -43,61 +43,32 @@
                         <div class="container-fluid mt-3 mb-3" >
                             <div class="row">
                                 <div class="col" >
-                                    
-                                        <!-- small box -->
-                                        <div class="small-box bg-blue">
-                                          <div class="inner">
+                                    <div class="small-box bg-blue">
+                                        <div class="inner">
                                             <h3>{{ num_ventas_hoy }}</h3>
-                              
                                             <p>Total Numero de Ventas de hoy</p>
-                                          </div>
-                                          <div class="icon">
-                                            <i class="fa fa-shopping-cart"></i>
-                                          </div>
-                                          <!--<a href="#" class="small-box-footer">
-                                            More info <i class="fa fa-arrow-circle-right"></i>
-                                          </a>-->
                                         </div>
-                                      
+                                        <div class="icon"><i class="fa fa-shopping-cart"></i></div>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    
-                                        <!-- small box -->
-                                        <div class="small-box bg-red">
-                                          <div class="inner">
+                                    <div class="small-box bg-red">
+                                        <div class="inner">
                                             <h3>${{ total_anulado }}</h3>
-                              
                                             <p>Total Pesos Ventas anuladas</p>
-                                          </div>
-                                          <div class="icon">
-                                            <i class="fas fa-window-close"></i>
-                                          </div>
-                                          <!--<a href="#" class="small-box-footer">
-                                            More info <i class="fa fa-arrow-circle-right"></i>
-                                          </a>-->
                                         </div>
-                                       
+                                        <div class="icon"><i class="fas fa-window-close"></i></div>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    
-                                        <!-- small box -->
-                                        <div class="small-box bg-green">
-                                          <div class="inner">
+                                    <div class="small-box bg-green">
+                                        <div class="inner">
                                             <h3>${{ total_vendido }}</h3>
-                              
                                             <p>Total Pesos Ventas de hoy</p>
-                                          </div>
-                                          <div class="icon">
-                                            <i class="fas fa-coins"></i>
-                                          </div>
-                                          <!--<a href="#" class="small-box-footer">
-                                            More info <i class="fa fa-arrow-circle-right"></i>
-                                          </a>-->
                                         </div>
-                                      
+                                        <div class="icon"><i class="fas fa-coins"></i></div>
+                                    </div>
                                 </div>
-                                
-
                             </div>
 
                             <div class="row">
@@ -131,7 +102,7 @@
                                                 <td>{{ detalle.producto.nombre }}</td>
                                                 <td>$ {{ detalle.price_sale }}</td>
                                                 <td>{{ detalle.count }}</td>
-                                                <td>$ {{ detalle.subtotal }}</td>
+                                                <td>$ {{ detalle.price_subtotal }}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
@@ -139,7 +110,6 @@
                                     {% endfor %}
                                 </div>
                                 <!-- ./tabla -->
-   
                             </div>
                             <div class="row">
                                 <div class="col-4 offset-4 mb-3">
