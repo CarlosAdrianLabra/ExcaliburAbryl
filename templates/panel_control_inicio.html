@@ -128,9 +128,8 @@
                                 <div class="col-sm-4 col-6">
                                     <div class="description-block border-right">
                                         <span class="description-percentage text-warning"><i class="fas fa-caret-down"></i></span>
-                                        
                                         {% if costo_total %}
-                                        <h5 class="description-header">${{ costo_total }}</h5>
+                                        <h5 class="description-header">${{ costo_total | floatformat:2 }}</h5>
                                         {% else %}
                                         <h5 class="description-header">$0</h5>
                                         {% endif %}
@@ -142,7 +141,11 @@
                                 <div class="col-sm-4 col-6">
                                     <div class="description-block">
                                         <span class="description-percentage text-success"><i class="fas fa-caret-up"></i></span>
-                                        <h5 class="description-header">${{ ganancias_totales }}</h5>
+                                        {% if ganancias_totales %}
+                                        <h5 class="description-header">${{ ganancias_totales | floatformat:2 }}</h5>
+                                        {% else %}
+                                        <h5 class="description-header">$0</h5>
+                                        {% endif %}
                                         <span class="description-text">GANANCIAS TOTALES EN VENTAS</span>
                                     </div>
                                     <!-- /.description-block -->

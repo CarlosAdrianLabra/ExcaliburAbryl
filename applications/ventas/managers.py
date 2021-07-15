@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta
+from decimal import Decimal
+from django.db.models.fields import DecimalField
 from django.utils import timezone
 from django.db import models
 from django.views.generic import detail
@@ -94,15 +96,9 @@ class SaleManager(models.Manager):
             anulate=False
         ).aggregate(
             #total=Sum('detail_sale__producto__precio_compra')
-            total=Sum('detail_sale__price_purchase')
+            total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
         )
-        return round(consulta['total'], 2)
-
-    def ganancias_totales(self):
-        ingreso = self.filter(anulate=False,).aggregate(total=Sum('amount'))
-        costo = self.filter(anulate=False).aggregate(total=Sum('detail_sale__price_purchase'))
-        consulta = ingreso['total'] - costo['total']
-        return round(consulta, 2)
+        return consulta['total']
 
     def monto_ventas_mes(self):
         if str(self.mes_actual) == '1':
@@ -329,6 +325,15 @@ class SaleDetailManager(models.Manager):
             return lista_ventas, total_ventas
         else:
             return [], 0
+    
+    def ganancias_totales(self):
+        costo = self.filter(anulate=False, sale__close=True).aggregate(
+            total=Sum(
+                F('price_subtotal') - F('count')*F('price_purchase'),
+                output_field=FloatField()
+            )
+        )
+        return costo['total']
 
 class CarShopManager(models.Manager):
     """ procedimiento modelo Carrito de compras """

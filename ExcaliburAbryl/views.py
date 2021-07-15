@@ -23,7 +23,7 @@ class PanelControlInicio(TemplateView):
             # Ventas
             context["num_ventas_total"] = Venta.objects.total_ventas_no_cerradas()
             context["monto_total_ventas"] = Venta.objects.monto_total_ventas()
-            context["ganancias_totales"] = Venta.objects.ganancias_totales()
+            context["ganancias_totales"] = DetalleVenta.objects.ganancias_totales()
             # Ventas titulo
             context["num_ventas"] = Venta.objects.ventas_no_cerradas().count()
             context["monto_ventas"] = Venta.objects.total_ventas_dia()

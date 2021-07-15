@@ -94,17 +94,17 @@
 						<table class="table table-bordered table-striped text-center">
 							<thead class="bg-navyr white">
 								<th>Fecha</th>
-								<th>Numero Ventas</th>
-								<th>Total Vendido</th>
-								<th>Total Ganancias</th>
+								<th>Productos vendidos</th>
+								<th>Monto total vendido</th>
+								<th>Total de ganancias</th>
 							</thead>
 							<tbody>
                             {% for venta in resumen_semana %}
                             <tr>
                                 <td>{{ venta.sale__date_sale__date }}</td>
                                 <td>{{ venta.num_ventas }}</td>
-                                <td>{{ venta.total_vendido | floatformat:2 }}</td>
-                                <td>{{ venta.total_ganancias | floatformat:2 }}</td>
+                                <td>$ {{ venta.total_vendido | floatformat:2 }}</td>
+                                <td>$ {{ venta.total_ganancias | floatformat:2 }}</td>
                             </tr>
 							{% endfor %}
 							</tbody>

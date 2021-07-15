@@ -63,6 +63,7 @@ class DetalleVenta(TimeStampedModel):
     price_purchase = models.DecimalField('Precio Compra', max_digits=10, decimal_places=2)
     price_sale = models.DecimalField('Precio Venta', max_digits=10, decimal_places=2)
     price_subtotal = models.DecimalField('Precio Subtotal', max_digits=10, decimal_places=2, default=0)
+    promocion = models.CharField('Promoción de la venta', max_length=2, blank=True)
     tax = models.DecimalField('Impuesto', max_digits=5, decimal_places=2)
     anulate = models.BooleanField(default=False)
 
