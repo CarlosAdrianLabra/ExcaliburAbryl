@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
-from decimal import Decimal
-from django.db.models.fields import DecimalField
+#from decimal import Decimal
+#from django.db.models.fields import DecimalField
 from django.utils import timezone
 from django.db import models
-from django.views.generic import detail
+#from django.views.generic import detail
 
 from applications.inventarios.models import Productos
 

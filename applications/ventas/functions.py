@@ -10,7 +10,7 @@ def procesar_venta(self, **params_venta):
     # recupera la lista de productos en carrtio
     productos_en_car = Carrito.objects.all()
     total_de_venta = Carrito.objects.total_cobrar()
-    if productos_en_car.count() > 0:
+    if productos_en_car.count() > 0 and Carrito.objects.filter(producto__stock__gt=0):
         
         # crea el objeto venta
         venta = Venta.objects.create(
@@ -25,6 +25,10 @@ def procesar_venta(self, **params_venta):
         ventas_detalle = []
         productos_en_venta = []
         for p_c in productos_en_car:
+            #
+            subtotal = ""
+            subtotal = str(p_c.subtotal())
+            #
             venta_detalle = DetalleVenta(
                 producto=p_c.producto,
                 sale=venta,
@@ -33,6 +37,7 @@ def procesar_venta(self, **params_venta):
                 price_sale=p_c.producto.precio_venta,
                 price_subtotal=p_c.subtotal(),
                 promocion=p_c.producto.promocion,
+                discount=float(p_c.producto.precio_venta) - float(subtotal),
                 tax=0.16,
             )
             # actualizmos stok de producto en iteracion

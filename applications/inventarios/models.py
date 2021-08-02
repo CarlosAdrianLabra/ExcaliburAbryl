@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from PIL import Image
 from model_utils.models import TimeStampedModel
+from django.utils import timezone
 from .managers import filtros
 
 # Modelo de proveedores
@@ -204,6 +205,19 @@ class Productos(TimeStampedModel):
     def __str__(self):
         return self.marca.nombre + ' - ' + self.modelo + ' - ' + self.get_color_display()
 
+class Movimientos(TimeStampedModel):
+    barcode = models.CharField('Código de barras', max_length=50)
+    stock_nuevo = models.IntegerField('Cantidad de productos ingresados',  default=0)
+
+    class Meta:
+        verbose_name = 'Movimientos'
+        verbose_name_plural = 'Movimientos'
+        ordering = ['-id']
+        db_table = 'Movimientos'
+    
+    def __str__(self):
+        return self.barcode
+
 # Funcion para optimizar el atributo IMG del modelo Productos
 def optimizar_img(sender, instance, **kwargs):
     if instance.img:
@@ -211,3 +225,13 @@ def optimizar_img(sender, instance, **kwargs):
         img.save(instance.img.path, quality=20, optimize=True)
 
 post_save.connect(optimizar_img, sender=Productos)
+
+# Funcion para registrar movimientos de Productos
+def movimientos_productos(sender, instance, **kwargs):
+        mov = Movimientos.objects.create(
+            barcode=instance.barcode,
+            stock_nuevo=instance.stock
+        )
+        mov.save()
+
+post_save.connect(movimientos_productos, sender=Productos)

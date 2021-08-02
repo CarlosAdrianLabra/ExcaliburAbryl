@@ -1,9 +1,12 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 from .models import (
     Proveedor,
     Marca,
-    Productos
+    Productos,
+    Movimientos
 )
+from .resources import ProductosRecursos
 
 class ProveedorAdmin(admin.ModelAdmin):
     list_display = (
@@ -23,7 +26,19 @@ class MarcaAdmin(admin.ModelAdmin):
     )
 admin.site.register(Marca, MarcaAdmin)
 
-class ProductosAdmin(admin.ModelAdmin):
+# class ProductosAdmin(admin.ModelAdmin):
+#     list_display = (
+#         'barcode',
+#         'nombre',
+#         'stock',
+#         'precio_compra',
+#         'precio_venta',
+#         'tipo',
+#         'almacen',
+#     )
+# admin.site.register(Productos, ProductosAdmin)
+
+class ProductosAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = (
         'barcode',
         'nombre',
@@ -33,4 +48,20 @@ class ProductosAdmin(admin.ModelAdmin):
         'tipo',
         'almacen',
     )
+    resource_class = ProductosRecursos
+
 admin.site.register(Productos, ProductosAdmin)
+
+# @admin.register(Productos)
+# class ProductosAdmin2(ImportExportModelAdmin):
+#     list_display = (
+#         'barcode',
+#         'nombre',
+#         'stock',
+#         'precio_compra',
+#         'precio_venta',
+#         'tipo',
+#         'almacen',
+#     )
+
+admin.site.register(Movimientos)
