@@ -1,5 +1,6 @@
+from decimal import Decimal
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from PIL import Image
 from model_utils.models import TimeStampedModel
 from django.utils import timezone
@@ -206,8 +207,10 @@ class Productos(TimeStampedModel):
         return self.marca.nombre + ' - ' + self.modelo + ' - ' + self.get_color_display()
 
 class Movimientos(TimeStampedModel):
-    barcode = models.CharField('Código de barras', max_length=50)
+    barcode = models.CharField('Código de barras', max_length=13)
     stock_nuevo = models.IntegerField('Cantidad de productos ingresados',  default=0)
+    fecha = models.DateTimeField('Fecha y hora de actualización')
+    total_costo = models.DecimalField('Costo total de productos ingresados', max_digits=6, decimal_places=2, default=0)
 
     class Meta:
         verbose_name = 'Movimientos'
@@ -226,12 +229,26 @@ def optimizar_img(sender, instance, **kwargs):
 
 post_save.connect(optimizar_img, sender=Productos)
 
-# Funcion para registrar movimientos de Productos
+# Funcion para registrar los cambios del modelo Productos
 def movimientos_productos(sender, instance, **kwargs):
-        mov = Movimientos.objects.create(
-            barcode=instance.barcode,
-            stock_nuevo=instance.stock
-        )
-        mov.save()
+    stock_anterior = Productos.objects.get(barcode=instance.barcode)
+    stock_anterior.stock = str(stock_anterior.stock)
+    stock_anterior = int(stock_anterior.stock)
+    #
+    stock_nuevo = instance.stock
+    stock_nuevo = int(stock_nuevo)
+    #
+    stock_ingresado = stock_nuevo - stock_anterior
+    #
+    precio_costo = Productos.objects.get(barcode=instance.barcode)
+    costo = Decimal(stock_ingresado) * precio_costo.precio_compra
+    #
+    mov = Movimientos.objects.create(
+        barcode=instance.barcode,
+        stock_nuevo=stock_ingresado,
+        fecha=timezone.now(),
+        total_costo=costo
+    )
+    mov.save()
 
-post_save.connect(movimientos_productos, sender=Productos)
+pre_save.connect(movimientos_productos, sender=Productos)
