@@ -1,9 +1,15 @@
 from django.shortcuts import render
 from django.views.generic import (
     TemplateView,
-    ListView
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    View
 )
+from django.urls import reverse_lazy
 from applications.ventas.models import Venta, DetalleVenta
+from applications.administracion.models import Gastos
 from applications.inventarios.models import Productos
 from applications.users.mixins import AdminPermisoMixin
 #
@@ -73,3 +79,148 @@ class ReporteResumenVentas(AdminPermisoMixin, ListView):
             self.request.GET.get("date_end", ''),
         )
         return lista_ventas
+    
+
+class GastosListView(ListView):
+    model = Gastos
+    template_name = "administracion/lista_gastos.html"
+
+    def get_queryset(self):
+        return Gastos.objects.listar_gastos()
+
+class GastosDetailView(DetailView):
+    model = Gastos
+    template_name = "administracion/detalle_gastos.html"
+    context_object_name = "lista_gastos"
+
+
+class GastosCreateView(CreateView):
+    model = Gastos
+    template_name = "administracion/crear_gasto.html"
+    success_url=reverse_lazy('administracion_app:admin-gastos')
+    fields=[
+        'mes',
+        'año',
+        'cargosBancarios',
+        'comisionTarjetaCredito',
+        'otrosBancos',
+        'salariosSueldosWeb',
+        'sueldosOficina',
+        'sueldosCorporativos',
+        'comisionesPagadas',
+        'jubilacion',
+        'utilidades',
+        'costosReclutamiento',
+        'imss',
+        'rollosImpresora',
+        'tapiceria',
+        'remodelacionOficina',
+        'predial',
+        'papeleria',
+        'intercomunicador',
+        'telefonosOficina',
+        'luz',
+        'telefono',
+        'lentes',
+        'fletes',
+        'walmart',
+        'reparacionesManteminiento',
+        'notas',
+        'agua',
+        'policia',
+        'gastosViajes',
+        'amplificadorBocinas',
+        'gastosCheques',
+        'gastosOficina',
+        'fideicomiso',
+        'contador',
+        'cometra',
+        'paletas',
+        'finiquito',
+        'honorariosConsultores',
+        'impuestoCDMX',
+        'chequesAbril',
+        'equipoComputo',
+        'mantenimientoComputo',
+        'viaticos',
+        'comidas',
+        'valoracionInmuebles',
+        'imprenta',
+        'comisionRentaLocal',
+        'impuestos',
+    ]
+
+
+class GastosUpdateView(UpdateView):
+    model = Gastos
+    template_name = "administracion/update_gasto.html"
+    fields=[
+        'mes',
+        'año',
+        'cargosBancarios',
+        'comisionTarjetaCredito',
+        'otrosBancos',
+        'salariosSueldosWeb',
+        'sueldosOficina',
+        'sueldosCorporativos',
+        'comisionesPagadas',
+        'jubilacion',
+        'utilidades',
+        'costosReclutamiento',
+        'imss',
+        'rollosImpresora',
+        'tapiceria',
+        'remodelacionOficina',
+        'predial',
+        'papeleria',
+        'intercomunicador',
+        'telefonosOficina',
+        'luz',
+        'telefono',
+        'lentes',
+        'fletes',
+        'walmart',
+        'reparacionesManteminiento',
+        'notas',
+        'agua',
+        'policia',
+        'gastosViajes',
+        'amplificadorBocinas',
+        'gastosCheques',
+        'gastosOficina',
+        'fideicomiso',
+        'contador',
+        'cometra',
+        'paletas',
+        'finiquito',
+        'honorariosConsultores',
+        'impuestoCDMX',
+        'chequesAbril',
+        'equipoComputo',
+        'mantenimientoComputo',
+        'viaticos',
+        'comidas',
+        'valoracionInmuebles',
+        'imprenta',
+        'comisionRentaLocal',
+        'impuestos',
+    ]
+    success_url=reverse_lazy('administracion_app:admin-gastos')
+    
+
+class Informe8020ListView(ListView):
+    model = DetalleVenta
+    template_name = "administracion/8020.html"
+    context_object_name='informe_8020'
+
+    def get_queryset(self):
+        return DetalleVenta.objects.reporte8020_producto
+
+class ResultadosView(View):
+    template_name="administracion/resultados.html"
+    context_object_name='resultados'
+
+    def get_queryset(self):
+        
+        return queryset
+

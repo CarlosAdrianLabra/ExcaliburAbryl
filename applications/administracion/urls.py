@@ -30,5 +30,30 @@ urlpatterns = [
         views.ReporteResumenVentas.as_view(),
         name='admin-resumen_ventas',
     ),
+    path(
+        'panel/admin-gastos/', 
+        views.GastosListView.as_view(),
+        name='admin-gastos',
+    ),
+    path(
+        'panel/detalle-gastos/<pk>/', 
+        views.GastosDetailView.as_view(),
+        name='detalle-gastos',
+    ),
+    path(
+        'panel/crear-gastos/', 
+        views.GastosCreateView.as_view(),
+        name='crear-gastos',
+    ),
+    path(
+        'panel/modificar-gastos/<pk>', 
+        views.GastosUpdateView.as_view(),
+        name='modificar-gastos',
+    ),
+     path(
+        'panel/8020/', 
+        views.Informe8020ListView.as_view(),
+        name='8020-base',
+    ),
 
 ]

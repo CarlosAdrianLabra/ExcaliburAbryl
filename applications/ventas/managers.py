@@ -8,6 +8,7 @@ from django.db import models
 from applications.inventarios.models import Productos
 
 from django.db.models import Q, Sum, F, FloatField, ExpressionWrapper
+from django.db.models.functions import Upper
 
 class SaleManager(models.Manager):
     """ procedimiento para modelo venta """
@@ -334,6 +335,20 @@ class SaleDetailManager(models.Manager):
             )
         )
         return costo['total']
+
+    def reporte8020_producto(self):
+        resultado=self.filter(
+            anulate=False, sale__close=True
+        ).values(
+            'producto'
+        ).annotate(
+            nombre=Upper('producto__nombre'),
+            modelo=Upper('producto__modelo'),
+            color=Upper('producto__color'),
+            num_ventas=Sum('count'),
+            total_ventas=Sum('price_subtotal')
+        ).order_by('-total_ventas')
+        return resultado
 
 class CarShopManager(models.Manager):
     """ procedimiento modelo Carrito de compras """

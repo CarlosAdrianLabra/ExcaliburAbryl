@@ -188,3 +188,8 @@ class filtros(models.Manager):
 
 
         return consulta
+        
+    def informe_8020_base(self):
+        resultado=self.values().annotate(sum('product_sale__price_subtotal')).groupby('nombre')
+        return self
+

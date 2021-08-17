@@ -231,24 +231,30 @@ post_save.connect(optimizar_img, sender=Productos)
 
 # Funcion para registrar los cambios del modelo Productos
 def movimientos_productos(sender, instance, **kwargs):
-    stock_anterior = Productos.objects.get(barcode=instance.barcode)
-    stock_anterior.stock = str(stock_anterior.stock)
-    stock_anterior = int(stock_anterior.stock)
-    #
-    stock_nuevo = instance.stock
-    stock_nuevo = int(stock_nuevo)
-    #
-    stock_ingresado = stock_nuevo - stock_anterior
-    #
-    precio_costo = Productos.objects.get(barcode=instance.barcode)
-    costo = Decimal(stock_ingresado) * precio_costo.precio_compra
-    #
-    mov = Movimientos.objects.create(
-        barcode=instance.barcode,
-        stock_nuevo=stock_ingresado,
-        fecha=timezone.now(),
-        total_costo=costo
-    )
-    mov.save()
+    try:
+        stock_anterior = Productos.objects.get(barcode=instance.barcode)
+        stock_anterior.stock = str(stock_anterior.stock)
+        stock_anterior = int(stock_anterior.stock)
+        #
+        stock_nuevo = instance.stock
+        stock_nuevo = int(stock_nuevo)
+        #
+        stock_ingresado = stock_nuevo - stock_anterior
+        #
+        precio_costo = Productos.objects.get(barcode=instance.barcode)
+        costo = Decimal(stock_ingresado) * precio_costo.precio_compra
+        #
+        mov = Movimientos.objects.create(
+            barcode=instance.barcode,
+            stock_nuevo=stock_ingresado,
+            fecha=timezone.now(),
+            total_costo=costo
+        )
+        mov.save()
+
+    except Productos.DoesNotExist:
+        pass
+    else:
+        pass
 
 pre_save.connect(movimientos_productos, sender=Productos)
