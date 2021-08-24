@@ -105,6 +105,10 @@ class Gastos(models.Model):
     impuestos=models.FloatField('Impuestos',default=0)
     #total de gastos
     gastosTotales=models.FloatField('Gastos Totales',blank=True,null=True)
+    #sub-totales
+    totales_bancarios=models.FloatField('Gastos bancarios totales',blank=True,null=True)
+    totales_sueldos=models.FloatField('Sueldos totales',blank=True,null=True)
+    totales_generales=models.FloatField('Gastos generales totales',blank=True,null=True)
     
     objects=GastosManager()
 
@@ -132,7 +136,24 @@ class Gastos(models.Model):
                 +self.viaticos+self.comidas+self.valoracionInmuebles+self.imprenta
                 +self.comisionRentaLocal+self.impuestos)
         
+        total_b = self.cargosBancarios+self.comisionTarjetaCredito+self.otrosBancos
+        total_s = (self.salariosSueldosWeb+self.sueldosOficina+self.sueldosCorporativos+self.comisionesPagadas
+                +self.jubilacion+self.utilidades+self.costosReclutamiento+self.imss)
+        total_g = (self.rollosImpresora+self.tapiceria+self.remodelacionOficina+self.predial
+                +self.papeleria+self.intercomunicador+self.telefonosOficina+self.luz
+                +self.telefono+self.lentes+self.fletes+self.walmart+self.reparacionesManteminiento
+                +self.notas+self.agua+self.policia+self.gastosViajes+self.amplificadorBocinas
+                +self.gastosCheques+self.gastosOficina+self.fideicomiso+self.contador
+                +self.cometra+self.paletas+self.finiquito+self.honorariosConsultores
+                +self.impuestoCDMX+self.chequesAbril+self.equipoComputo+self.mantenimientoComputo
+                +self.viaticos+self.comidas+self.valoracionInmuebles+self.imprenta
+                +self.comisionRentaLocal+self.impuestos)
+        
         self.gastosTotales=total
+        #
+        self.totales_bancarios=total_b
+        self.totales_sueldos=total_s
+        self.totales_generales=total_g
 
         super(Gastos, self).save(*args, **kwargs)
 

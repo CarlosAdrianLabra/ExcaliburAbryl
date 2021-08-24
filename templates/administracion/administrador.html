@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<title>administracion</title>
+<title>Administración</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 {% block enlace_info_general %}
@@ -41,9 +41,42 @@
 			</a>
 			{% endblock enlace_ventas_por_fecha %}
 		</li>
+		<li class="nav-item">
+			{% block enlace_8020 %}
+			<a href="{% url 'administracion_app:8020-base' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Informe 80/20</p>
+			</a>
+			{% endblock enlace_8020 %}
+		</li>
 	</ul>
 </li>
 {% endblock menu_desplegable %}
+{% block menu_desplegable_gastos %}
+<li class="nav-item">
+	<a href="#" class="nav-link">
+		<i class="nav-icon fas fa-clipboard"></i><p>Gastos<i class="fas fa-angle-left right"></i></p>
+	</a>
+	<ul class="nav nav-treeview">
+		<li class="nav-item">
+			{% block enlace_crear_gastos %}
+			<a href="{% url 'administracion_app:crear-gastos' %}" class="nav-link">
+				<i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+				<p>Registrar gastos</p>
+			</a>
+			{% endblock enlace_crear_gastos %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_lista_gastos %}
+			<a href="{% url 'administracion_app:admin-gastos' %}" class="nav-link">
+				<i class="fas fa-chart-bar nav-icon ml-4"></i>
+				<p>Ver gastos</p>
+			</a>
+			{% endblock enlace_lista_gastos %}
+		</li>
+	</ul>
+</li>
+{% endblock menu_desplegable_gastos %}
 {% block enlace_usuarios %}
 <a href="{% url 'users_app:user-lista' %}" class="nav-link">
 	<i class="fas fa-users nav-icon"></i>

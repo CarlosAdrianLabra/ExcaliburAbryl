@@ -39,7 +39,7 @@ class Venta(TimeStampedModel):
     amount = models.DecimalField('Monto', max_digits=10, decimal_places=2)
     type_invoice = models.CharField('TIPO', max_length=2, choices=TIPO_INVOICE_CHOICES)
     type_payment = models.CharField('TIPO PAGO', max_length=2, choices=TIPO_PAYMENT_CHOICES)
-    close = models.BooleanField('Venta Anulada', default=False,)
+    close = models.BooleanField('Venta Cerrada en Caja', default=False,)
     anulate = models.BooleanField('Venta Anulada', default=False,)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='cajero', related_name="user_venta")
 

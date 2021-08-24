@@ -14,37 +14,70 @@
 {% endblock enlace_info_general %}
 {% block menu_desplegable %}
 <li class="nav-item">
-  <a href="#" class="nav-link">
-      <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
-  </a>
-  <ul class="nav nav-treeview">
-      <li class="nav-item">
-        {% block enlace_ventas_mes %}
-        <a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
-            <i class="fas fa-chart-bar nav-icon ml-4"></i>
-            <p>Ventas por mes</p>
-        </a>
-        {% endblock enlace_ventas_mes %}
-      </li>
-      <li class="nav-item">
-        {% block enlace_liquidacion %}
-        <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
-            <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
-            <p>Liquidacion</p>
-        </a>
-        {% endblock enlace_liquidacion %}
-      </li>
-      <li class="nav-item">
-        {% block enlace_ventas_por_fecha %}
-        <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
-            <i class="fas fa-calendar-day nav-icon ml-4"></i>
-            <p>Ventas por fecha</p>
-        </a>
-        {% endblock enlace_ventas_por_fecha %}
-      </li>
-  </ul>
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            {% block enlace_ventas_mes %}
+            <a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
+                <i class="fas fa-chart-bar nav-icon ml-4"></i>
+                <p>Ventas por mes</p>
+            </a>
+            {% endblock enlace_ventas_mes %}
+        </li>
+        <li class="nav-item">
+            {% block enlace_liquidacion %}
+            <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
+                <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+                <p>Liquidacion</p>
+            </a>
+            {% endblock enlace_liquidacion %}
+        </li>
+        <li class="nav-item">
+            {% block enlace_ventas_por_fecha %}
+            <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
+                <i class="fas fa-calendar-day nav-icon ml-4"></i>
+                <p>Ventas por fecha</p>
+            </a>
+            {% endblock enlace_ventas_por_fecha %}
+        </li>
+        <li class="nav-item">
+			{% block enlace_8020 %}
+			<a href="{% url 'administracion_app:8020-base' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Informe 80/20</p>
+			</a>
+			{% endblock enlace_8020 %}
+		</li>
+    </ul>
 </li>
 {% endblock menu_desplegable %}
+{% block menu_desplegable_gastos %}
+<li class="nav-item">
+	<a href="#" class="nav-link">
+		<i class="nav-icon fas fa-clipboard"></i><p>Gastos<i class="fas fa-angle-left right"></i></p>
+	</a>
+	<ul class="nav nav-treeview">
+		<li class="nav-item">
+			{% block enlace_crear_gastos %}
+			<a href="{% url 'administracion_app:crear-gastos' %}" class="nav-link">
+				<i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+				<p>Registrar gastos</p>
+			</a>
+			{% endblock enlace_crear_gastos %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_lista_gastos %}
+			<a href="{% url 'administracion_app:admin-gastos' %}" class="nav-link">
+				<i class="fas fa-chart-bar nav-icon ml-4"></i>
+				<p>Ver gastos</p>
+			</a>
+			{% endblock enlace_lista_gastos %}
+		</li>
+	</ul>
+</li>
+{% endblock menu_desplegable_gastos %}
 {% block enlace_usuarios %}
 <a href="{% url 'users_app:user-lista' %}" class="nav-link">
     <i class="fas fa-users nav-icon"></i>

@@ -2,17 +2,17 @@
 {% load static %}
 
 {% block head %}
-<title>Gastos</title>
+<title>Administración</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 {% block enlace_info_general %}
-<a href="{% url 'administracion_app:index-admin' %}" class="nav-link active" style="color: azure; background: tomato;">
+<a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
 	<i class="fas fa-money-bill-wave nav-icon"></i>
 	<p>Informacion general</p>
 </a>
 {% endblock enlace_info_general %}
 {% block menu_desplegable %}
-<li class="nav-item">
+<li class="nav-item menu-open">
 	<a href="#" class="nav-link">
 		<i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
 	</a>
@@ -41,9 +41,42 @@
 			</a>
 			{% endblock enlace_ventas_por_fecha %}
 		</li>
+		<li class="nav-item">
+			{% block enlace_8020 %}
+			<a href="{% url 'administracion_app:8020-base' %}" class="nav-link active" style="color: azure; background: tomato;">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Informe 80/20</p>
+			</a>
+			{% endblock enlace_8020 %}
+		</li>
 	</ul>
 </li>
 {% endblock menu_desplegable %}
+{% block menu_desplegable_gastos %}
+<li class="nav-item">
+	<a href="#" class="nav-link">
+		<i class="nav-icon fas fa-clipboard"></i><p>Gastos<i class="fas fa-angle-left right"></i></p>
+	</a>
+	<ul class="nav nav-treeview">
+		<li class="nav-item">
+			{% block enlace_crear_gastos %}
+			<a href="{% url 'administracion_app:crear-gastos' %}" class="nav-link">
+				<i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+				<p>Registrar gastos</p>
+			</a>
+			{% endblock enlace_crear_gastos %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_lista_gastos %}
+			<a href="{% url 'administracion_app:admin-gastos' %}" class="nav-link">
+				<i class="fas fa-chart-bar nav-icon ml-4"></i>
+				<p>Ver gastos</p>
+			</a>
+			{% endblock enlace_lista_gastos %}
+		</li>
+	</ul>
+</li>
+{% endblock menu_desplegable_gastos %}
 {% block enlace_usuarios %}
 <a href="{% url 'users_app:user-lista' %}" class="nav-link">
 	<i class="fas fa-users nav-icon"></i>
@@ -52,7 +85,47 @@
 {% endblock enlace_usuarios %}
 
 {% block content %}   
+<div class="content">
+    <div class="container-fluid">
+        <!-- Row content -->
+        <div class="row">
+            <div class="col-12">
+                <!-- Card content -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h1 class="card-title mt-3 mb-3 ml-3">INFORME 80 / 20</h1>
+                    </div>
 
-{{object_list}}
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="bg-navyr white">
+								<th>Nombre del producto</th>
+								<th>Modelo</th>
+								<th>Color</th>
+								<th>Cantidad de ventas</th>
+								<th>Monto total de ventas</th>
+                            </thead>
+                            <tbody>
+								{% for i_8020 in informe_8020 %}
+								<tr>
+									<td>{{ i_8020.nombre }}</td>
+									<td>{{ i_8020.modelo }}</td>
+									<td>{{ i_8020.color }}</td>
+									<td>{{ i_8020.num_ventas }}</td>
+									<td>$ {{ i_8020.total_ventas | floatformat:2 }}</td>
+								</tr>
+								{% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- ./card body -->
 
+                </div>
+                <!-- ./card content -->
+            </div>
+        </div>
+        <!-- ./row content -->
+    </div>
+</div>
 {% endblock content %}   

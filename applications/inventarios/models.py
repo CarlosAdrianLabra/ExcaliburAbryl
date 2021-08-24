@@ -175,7 +175,7 @@ class Productos(TimeStampedModel):
     linea_c = models.CharField('Línea de calzado', max_length=2, blank=True, choices=OPCIONES_LINEA_CALZADO)
     linea_r = models.CharField('Línea de ropa', max_length=2, blank=True, choices=OPCIONES_LINEA_ROPA)
     color = models.CharField('Color', max_length=2, blank=True, choices=OPCIONES_COLOR)
-    genero = models.CharField('Color', max_length=1, blank=True, choices=OPCIONES_GENERO)
+    genero = models.CharField('Género', max_length=1, blank=True, choices=OPCIONES_GENERO)
     promocion = models.CharField('Promociones', max_length=2, blank=True, choices=OPCION_PROMOCIONES)
 
     # Atributos no necesarios

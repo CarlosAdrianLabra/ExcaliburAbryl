@@ -84,6 +84,7 @@ class ReporteResumenVentas(AdminPermisoMixin, ListView):
 class GastosListView(ListView):
     model = Gastos
     template_name = "administracion/lista_gastos.html"
+    context_object_name = "lista_gastos"
 
     def get_queryset(self):
         return Gastos.objects.listar_gastos()
@@ -91,7 +92,7 @@ class GastosListView(ListView):
 class GastosDetailView(DetailView):
     model = Gastos
     template_name = "administracion/detalle_gastos.html"
-    context_object_name = "lista_gastos"
+    context_object_name = "detalle_gastos"
 
 
 class GastosCreateView(CreateView):
