@@ -1,12 +1,13 @@
 {% extends 'administracion/administracion_base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
 <title>Modificar Gastos</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 {% block enlace_info_general %}
-<a href="{% url 'administracion_app:index-admin' %}" class="nav-link active" style="color: azure; background: tomato;">
+<a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
 	<i class="fas fa-money-bill-wave nav-icon"></i>
 	<p>Informacion general</p>
 </a>
@@ -44,17 +45,288 @@
 	</ul>
 </li>
 {% endblock menu_desplegable %}
+{% block menu_desplegable_gastos %}
+<li class="nav-item menu-open">
+	<a href="#" class="nav-link">
+		<i class="nav-icon fas fa-clipboard"></i><p>Gastos<i class="fas fa-angle-left right"></i></p>
+	</a>
+	<ul class="nav nav-treeview">
+		<li class="nav-item">
+			{% block enlace_crear_gastos %}
+			<a href="{% url 'administracion_app:crear-gastos' %}" class="nav-link">
+				<i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+				<p>Registrar gastos</p>
+			</a>
+			{% endblock enlace_crear_gastos %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_lista_gastos %}
+			<a href="{% url 'administracion_app:admin-gastos' %}" class="nav-link">
+				<i class="fas fa-chart-bar nav-icon ml-4"></i>
+				<p>Ver gastos</p>
+			</a>
+			{% endblock enlace_lista_gastos %}
+		</li>
+	</ul>
+</li>
+{% endblock menu_desplegable_gastos %}
 {% block enlace_usuarios %}
 <a href="{% url 'users_app:user-lista' %}" class="nav-link">
 	<i class="fas fa-users nav-icon"></i>
 	<p>Usuarios</p>
 </a>
 {% endblock enlace_usuarios %}
-
 {% block content %}   
+<div class="content">
+    <div class="container-fluid">
+        <!-- Row content -->
+        <div class="row">
+            <div class="col-12">
+                <!-- Card content -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h1 class="card-title mt-3 mb-3 ml-3">CREAR GASTOS</h1>
+                    </div>
 
-<form method="POST">{% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Actualizar</button>
-</form>
+
+					<div class="card-body">
+
+						<form method="POST">{% csrf_token %}
+							<div class="row">
+								<h5>AÑO {{form.año}}</h5>
+								<h5 class="col-md-6">MES {{form.mes}}</h5>
+							</div>
+							<div class="row">
+								<table class="table table-bordered table-striped col-md-5">
+									<thead class="bg-navyr white">
+										<th colspan="2">Gastos Bancarios</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Cargos bancarios</td>
+											<td class="text-right" width="20%"> {{form.cargosBancarios}} </td>
+										</tr>
+										<tr>
+											<td>Comisión de tarjeta de crédito</td>
+											<td class="text-right" width="20%">{{form.comisionTarjetaCredito}} </td>
+										</tr>
+										<tr>
+											<td>Otros bancos</td>
+											<td class="text-right" width="20%">{{form.otrosBancos}} </td>
+										</tr>
+									</tbody>
+								</table>
+								
+								
+							</div>
+							
+	
+							<div class="row">
+								<table class="table table-bordered table-striped col-md-5">
+									<thead class="bg-navyr white">
+										<th colspan="2">Sueldos</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Salarios y sueldos web</td>
+											<td class="text-right" width="20%">{{form.salariosSueldosWeb}} </td>
+										</tr>
+										<tr>
+											<td>Sueldos oficina</td>
+											<td class="text-right" width="20%">{{form.sueldosOficina}} </td>
+										</tr>
+										<tr>
+											<td>Sueldos corporativos</td>
+											<td class="text-right" width="20%">{{form.sueldosCorporativos}} </td>
+										</tr>
+										<tr>
+											<td>Comisiones pagadas</td>
+											<td class="text-right" width="20%">{{form.comisionesPagadas}} </td>
+										</tr>
+										<tr>
+											<td>Jubilación</td>
+											<td class="text-right" width="20%">{{form.jubilacion}} </td>
+										</tr>
+										<tr>
+											<td>Utilidades</td>
+											<td class="text-right" width="20%">{{form.utilidades}} </td>
+										</tr>
+										<tr>
+											<td>Costos de reclutamiento</td>
+											<td class="text-right" width="20%">{{form.costosReclutamiento}} </td>
+										</tr>
+										<tr>
+											<td>IMSS</td>
+											<td class="text-right" width="20%">{{form.imss}} </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+	
+							<div class="row">
+								<table class="table table-bordered table-striped col-md-5">
+									<thead class="bg-navyr white">
+										<th colspan="2">Gastos Generales</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Rollos de impresora</td>
+											<td class="text-right" width="20%">{{form.rollosImpresora}} </td>
+										</tr>
+										<tr>
+											<td>Tapicería</td>
+											<td class="text-right" width="20%">{{form.tapiceria}} </td>
+										</tr>
+										<tr>
+											<td>Remodelaciones de oficina</td>
+											<td class="text-right" width="20%">{{form.remodelacionOficina}} </td>
+										</tr>
+										<tr>
+											<td>Predial</td>
+											<td class="text-right" width="20%">{{form.predial}} </td>
+										</tr>
+										<tr>
+											<td>Papelería</td>
+											<td class="text-right" width="20%">{{form.papeleria}} </td>
+										</tr>
+										<tr>
+											<td>Intercomunicador</td>
+											<td class="text-right" width="20%">{{form.intercomunicador}} </td>
+										</tr>
+										<tr>
+											<td>Teléfonos de oficina</td>
+											<td class="text-right" width="20%">{{form.telefonosOficina}} </td>
+										</tr>
+										<tr>
+											<td>Luz</td>
+											<td class="text-right" width="20%">{{form.luz}} </td>
+										</tr>
+										<tr>
+											<td>Teléfono</td>
+											<td class="text-right" width="20%">{{form.telefono}} </td>
+										</tr>
+										<tr>
+											<td>Lentes</td>
+											<td class="text-right" width="20%">{{form.lentes}} </td>
+										</tr>
+										<tr>
+											<td>Fletes</td>
+											<td class="text-right" width="20%">{{form.fletes}} </td>
+										</tr>
+										<tr>
+											<td>Walmart</td>
+											<td class="text-right" width="20%">{{form.walmart}} </td>
+										</tr>
+										<tr>
+											<td>Reparaciones y mantenimiento</td>
+											<td class="text-right" width="20%">{{form.reparacionesManteminiento}} </td>
+										</tr>
+										<tr>
+											<td>Notas</td>
+											<td class="text-right" width="20%">{{form.notas}} </td>
+										</tr>
+										<tr>
+											<td>Agua</td>
+											<td class="text-right" width="20%">{{form.agua}} </td>
+										</tr>
+										<tr>
+											<td>Policía</td>
+											<td class="text-right" width="20%">{{form.policia}} </td>
+										</tr>
+										<tr>
+											<td>Gastos de viajes</td>
+											<td class="text-right" width="20%">{{form.gastosViajes}} </td>
+										</tr>
+										<tr>
+											<td>Amplificador y bocinas</td>
+											<td class="text-right" width="20%">{{form.amplificadorBocinas}} </td>
+										</tr>
+										<tr>
+											<td>Gastos cheques</td>
+											<td class="text-right" width="20%">{{form.gastosCheques}} </td>
+										</tr>
+										<tr>
+											<td>Gastos oficina</td>
+											<td class="text-right" width="20%">{{form.gastosOficina}} </td>
+										</tr>
+										<tr>
+											<td>Fideicomiso</td>
+											<td class="text-right" width="20%">{{form.fideicomiso}} </td>
+										</tr>
+										<tr>
+											<td>Contador</td>
+											<td class="text-right" width="20%">{{form.contador}} </td>
+										</tr>
+										<tr>
+											<td>Cometra</td>
+											<td class="text-right" width="20%">{{form.cometra}} </td>
+										</tr>
+										<tr>
+											<td>Paletas</td>
+											<td class="text-right" width="20%">{{form.paletas}} </td>
+										</tr>
+										<tr>
+											<td>Finiquito</td>
+											<td class="text-right" width="20%">{{form.finiquito}} </td>
+										</tr>
+										<tr>
+											<td>Honorarios de consultores</td>
+											<td class="text-right" width="20%">{{form.honorariosConsultores}} </td>
+										</tr>
+										<tr>
+											<td>Impuesto CDMX</td>
+											<td class="text-right" width="20%">{{form.impuestoCDMX}} </td>
+										</tr>
+										<tr>
+											<td>Cheques Abril</td>
+											<td class="text-right" width="20%">{{form.chequesAbril}} </td>
+										</tr>
+										<tr>
+											<td>Equipos de computo</td>
+											<td class="text-right" width="20%">{{form.equipoComputo}} </td>
+										</tr>
+										<tr>
+											<td>Mantenimiento computo</td>
+											<td class="text-right" width="20%">{{form.mantenimientoComputo}} </td>
+										</tr>
+										<tr>
+											<td>Viaticos</td>
+											<td class="text-right" width="20%">{{form.viaticos}} </td>
+										</tr>
+										<tr>
+											<td>Comidas y cenas</td>
+											<td class="text-right" width="20%">{{form.comidas}} </td>
+										</tr>
+										<tr>
+											<td>Valoración de Inmuebles</td>
+											<td class="text-right" width="20%">{{form.valoracionInmuebles}} </td>
+										</tr>
+										<tr>
+											<td>Imprenta</td>
+											<td class="text-right" width="20%">{{form.imprenta}} </td>
+										</tr>
+										<tr>
+											<td>Comisión de renta de local</td>
+											<td class="text-right" width="20%">{{form.comisionRentaLocal}} </td>
+										</tr>
+										<tr>
+											<td>Impuestos</td>
+											<td class="text-right" width="20%">{{form.impuestos}} </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<button type="submit" class="btn btr mr-2">Actualizar</button>
+						</form>
+
+					</div>
+
+				</div>
+			<!-- ./card content -->
+			</div>
+		</div>
+	<!-- ./row content -->
+	</div>
+</div>
 {% endblock content %}   
