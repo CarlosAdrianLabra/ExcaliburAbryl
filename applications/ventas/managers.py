@@ -100,6 +100,176 @@ class SaleManager(models.Manager):
             total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
         )
         return consulta['total']
+    
+    def ventas_calzado(self):
+        if self.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            consulta = self.filter(
+                detail_sale__producto__tipo='100' #100 - Calzado
+            ).filter(
+                close=True, #Venta cerrada
+                anulate=False #Venta anulada
+            ).aggregate(
+                total=Sum('amount')
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+
+    def ventas_ropa(self):
+        if self.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            consulta = self.filter(
+                detail_sale__producto__tipo='200' #200 - Ropa
+            ).filter(
+                close=True, #Venta cerrada
+                anulate=False #Venta anulada
+            ).aggregate(
+                total=Sum('amount')
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def ventas_accesorios(self):
+        if self.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            consulta = self.filter(
+                detail_sale__producto__tipo='300' #300 - Accesorios
+            ).filter(
+                close=True, #Venta cerrada
+                anulate=False #Venta anulada
+            ).aggregate(
+                total=Sum('amount')
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+
+    def total_de_ventas(self):
+        if self.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            consulta_c = self.filter(detail_sale__producto__tipo='100').filter(close=True,anulate=False).aggregate(total=Sum('amount'))['total']
+        else:
+            consulta_c = 0
+        #
+        if self.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            consulta_r = self.filter(detail_sale__producto__tipo='200').filter(close=True,anulate=False).aggregate(total=Sum('amount'))['total']
+        else:
+            consulta_r = 0
+        #
+        if self.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            consulta_a = self.filter(detail_sale__producto__tipo='300').filter(close=True,anulate=False).aggregate(total=Sum('amount'))['total']
+        else:
+            consulta_a = 0
+        #
+        consulta_final = consulta_c + consulta_r + consulta_a
+
+        return consulta_final
+    
+    def descuentos_calzado(self):
+        if self.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            consulta = self.filter(
+                detail_sale__producto__tipo='100' #100 - Calzado
+            ).filter(
+                close=True, #Venta cerrada
+                anulate=False #Venta anulada
+            ).aggregate(
+                total=Sum('detail_sale__discount')
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def descuentos_ropa(self):
+        if self.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            consulta = self.filter(
+                detail_sale__producto__tipo='200' #200 - Ropa
+            ).filter(
+                close=True, #Venta cerrada
+                anulate=False #Venta anulada
+            ).aggregate(
+                total=Sum('detail_sale__discount')
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def descuentos_accesorios(self):
+        if self.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            consulta = self.filter(
+                detail_sale__producto__tipo='300' #300 - Accesorios
+            ).filter(
+                close=True, #Venta cerrada
+                anulate=False #Venta anulada
+            ).aggregate(
+                total=Sum('detail_sale__discount')
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+
+    def total_de_descuentos(self):
+        if self.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            consulta_c = self.filter(detail_sale__producto__tipo='100').filter(close=True,anulate=False).aggregate(total=Sum('detail_sale__discount'))['total']
+        else:
+            consulta_c = 0
+        #
+        if self.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            consulta_r = self.filter(detail_sale__producto__tipo='200').filter(close=True,anulate=False).aggregate(total=Sum('detail_sale__discount'))['total']
+        else:
+            consulta_r = 0
+        #
+        if self.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            consulta_a = self.filter(detail_sale__producto__tipo='300').filter(close=True,anulate=False).aggregate(total=Sum('detail_sale__discount'))['total']
+        else:
+            consulta_a = 0
+        #
+        consulta_final = consulta_c + consulta_r + consulta_a
+
+        return consulta_final
+    
+    def venta_neta_sistema(self):
+        if self.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            consulta_c = self.filter(detail_sale__producto__tipo='100').filter(close=True,anulate=False).aggregate(total=Sum('amount'))['total']
+        else:
+            consulta_c = 0
+        #
+        if self.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            consulta_r = self.filter(detail_sale__producto__tipo='200').filter(close=True,anulate=False).aggregate(total=Sum('amount'))['total']
+        else:
+            consulta_r = 0
+        #
+        if self.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            consulta_a = self.filter(detail_sale__producto__tipo='300').filter(close=True,anulate=False).aggregate(total=Sum('amount'))['total']
+        else:
+            consulta_a = 0
+        #
+        total_de_ventas = consulta_c + consulta_r + consulta_a
+        #
+        #
+        if self.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            consulta_c = self.filter(detail_sale__producto__tipo='100').filter(close=True,anulate=False).aggregate(total=Sum('detail_sale__discount'))['total']
+        else:
+            consulta_c = 0
+        #
+        if self.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            consulta_r = self.filter(detail_sale__producto__tipo='200').filter(close=True,anulate=False).aggregate(total=Sum('detail_sale__discount'))['total']
+        else:
+            consulta_r = 0
+        #
+        if self.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            consulta_a = self.filter(detail_sale__producto__tipo='300').filter(close=True,anulate=False).aggregate(total=Sum('detail_sale__discount'))['total']
+        else:
+            consulta_a = 0
+        #
+        total_de_descuentos = consulta_c + consulta_r + consulta_a
+        #
+        consulta_final = total_de_ventas - total_de_descuentos
+
+        return consulta_final
 
     def monto_ventas_mes(self):
         if str(self.mes_actual) == '1':
@@ -138,6 +308,71 @@ class SaleManager(models.Manager):
         if str(self.mes_actual) == '12':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-12-01 00:00:00.100000-0500", str(self.ano_actual)+"-12-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
             return consulta['total']
+
+    def costo_ventas_calzado(self):
+        if self.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            consulta = self.filter(
+                detail_sale__producto__tipo='100' #100 - Calzado
+            ).filter(
+                close=True, #Venta cerrada
+                anulate=False #Venta anulada
+            ).aggregate(
+                total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def costo_ventas_ropa(self):
+        if self.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            consulta = self.filter(
+                detail_sale__producto__tipo='200' #200 - Ropa
+            ).filter(
+                close=True, #Venta cerrada
+                anulate=False #Venta anulada
+            ).aggregate(
+                total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def costo_ventas_accesorios(self):
+        if self.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            consulta = self.filter(
+                detail_sale__producto__tipo='300' #300 - Accesorios
+            ).filter(
+                close=True, #Venta cerrada
+                anulate=False #Venta anulada
+            ).aggregate(
+                total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def total_de_costo_ventas(self):
+        if self.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            consulta_c = self.filter(detail_sale__producto__tipo='100').filter(close=True,anulate=False).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+        else:
+            consulta_c = 0
+        #
+        if self.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            consulta_r = self.filter(detail_sale__producto__tipo='200').filter(close=True,anulate=False).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+        else:
+            consulta_r = 0
+        #
+        if self.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            consulta_a = self.filter(detail_sale__producto__tipo='300').filter(close=True,anulate=False).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+        else:
+            consulta_a = 0
+        #
+        consulta_final = consulta_c + consulta_r + consulta_a
+
+        return consulta_final
 
     def v_enero(self):
         consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-01-01 00:00:00.100000-0500", str(self.ano_actual)+"-01-31 23:59:59.100000-0500"]).count()

@@ -98,267 +98,380 @@
 
                     <!-- Card body -->
                     <div class="card-body">
-						<div class="row">
-							<table class="table table-bordered table-striped col-md-5">
-								<thead class="bg-navyr white">
-									<th colspan="2">Gastos Bancarios</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Cargos bancarios</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.cargosBancarios | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Comisión de tarjeta de crédito</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.comisionTarjetaCredito | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Otros bancos</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.otrosBancos | floatformat:2 }}</td>
-									</tr>
-								</tbody>
-							</table>
-							
-							<table class="table table-bordered table-striped col-md-5 mx-auto">
-								<tbody>
-									<tr>
-										<td>Total de gastos bancarios</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.totales_bancarios | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Total de sueldos</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.totales_sueldos | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Total de gastos generales</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.totales_generales | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td class="bg-navyr white"><strong>TOTAL DE GASTOS</strong></td>
-										<td class="bg-navyr white text-right" width="20%"><strong>$ {{ detalle_gastos.gastosTotales | floatformat:2 }}</strong></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="row">
-							<table class="table table-bordered table-striped col-md-5">
-								<thead class="bg-navyr white">
-									<th class="text-right">Total</th>
-									<td class="text-right" width="20%">$ {{ detalle_gastos.totales_bancarios | floatformat:2 }}</td>
-								</thead>
-							</table>
+						<!-- Tablas Ingresos  -->
+						<div class="card collapsed-card col-md-6 p-0">
+							<span class="card-header" data-card-widget="collapse">Ingresos
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+								</div>
+							</span>
+							<div class="card-body p-0">
+								<table class="table table-bordered table-striped">
+									<tbody>
+										<tr>
+											<td>Ventas de calzado</td>
+											<td class="text-right" width="20%">$ {{ ventas_calzado | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Ventas de ropa</td>
+											<td class="text-right" width="20%">$ {{ ventas_ropa | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Ventas de accesorios</td>
+											<td class="text-right" width="20%">$ {{ ventas_accesorios | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td class="bg-navyr white text-right">Total</td>
+											<td class="bg-navyr white text-right" width="20%">$ {{ total_de_ventas | floatformat:2 }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 
-						<div class="row">
-							<table class="table table-bordered table-striped col-md-5">
-								<thead class="bg-navyr white">
-									<th colspan="2">Sueldos</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Salarios y sueldos web</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.salariosSueldosWeb | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Sueldos oficina</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.sueldosOficina | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Sueldos corporativos</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.sueldosCorporativos | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Comisiones pagadas</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.comisionesPagadas | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Jubilación</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.jubilacion | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Utilidades</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.utilidades | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Costos de reclutamiento</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.costosReclutamiento | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>IMSS</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.imss | floatformat:2 }}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="row">
-							<table class="table table-bordered table-striped col-md-5">
-								<thead class="bg-navyr white">
-									<th class="text-right">Total</th>
-									<td class="text-right" width="20%">$ {{ detalle_gastos.totales_sueldos | floatformat:2 }}</td>
-								</thead>
-							</table>
+						<!-- Tablas Descuentos  -->
+						<div class="card collapsed-card col-md-6 p-0">
+							<span class="card-header" data-card-widget="collapse">Descuentos
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+								</div>
+							</span>
+							<div class="card-body p-0">
+								<table class="table table-bordered table-striped">
+									<tbody>
+										<tr>
+											<td>Descuentos de calzado</td>
+											<td class="text-right" width="20%">$ {{ descuentos_calzado | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Descuentos de ropa</td>
+											<td class="text-right" width="20%">$ {{ descuentos_ropa | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Descuentos de accesorios</td>
+											<td class="text-right" width="20%">$ {{ descuentos_accesorios | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td class="bg-navyr white text-right">Total</td>
+											<td class="bg-navyr white text-right" width="20%">$ {{ total_de_descuentos | floatformat:2 }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 
+						<!-- Tablas Valores Netos  -->
 						<div class="row">
-							<table class="table table-bordered table-striped col-md-5">
-								<thead class="bg-navyr white">
-									<th colspan="2">Gastos Generales</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Rollos de impresora</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.rollosImpresora | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Tapicería</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.tapiceria | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Remodelaciones de oficina</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.remodelacionOficina | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Predial</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.predial | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Papelería</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.papeleria | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Intercomunicador</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.intercomunicador | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Teléfonos de oficina</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.telefonosOficina | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Luz</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.luz | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Teléfono</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.telefono | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Lentes</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.lentes | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Fletes</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.fletes | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Walmart</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.walmart | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Reparaciones y mantenimiento</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.reparacionesManteminiento | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Notas</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.notas | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Agua</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.agua | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Policía</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.policia | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Gastos de viajes</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.gastosViajes | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Amplificador y bocinas</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.amplificadorBocinas | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Gastos cheques</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.gastosCheques | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Gastos oficina</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.gastosOficina | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Fideicomiso</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.fideicomiso | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Contador</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.contador | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Cometra</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.cometra | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Paletas</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.paletas | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Finiquito</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.finiquito | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Honorarios de consultores</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.honorariosConsultores | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Impuesto CDMX</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.impuestoCDMX | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Cheques Abril</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.chequesAbril | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Equipos de computo</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.equipoComputo | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Mantenimiento computo</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.mantenimientoComputo | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Viaticos</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.viaticos | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Comidas y cenas</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.comidas | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Valoración de Inmuebles</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.valoracionInmuebles | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Imprenta</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.imprenta | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Comisión de renta de local</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.comisionRentaLocal | floatformat:2 }}</td>
-									</tr>
-									<tr>
-										<td>Impuestos</td>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.impuestos | floatformat:2 }}</td>
-									</tr>
-								</tbody>
-							</table>
+							<div class="col-12">
+								<table class="table table-bordered table-striped col-md-6">
+									<thead class="bg-tomato white">
+										<th>Venta neta sistema</th>
+										<td class="text-right" width="20%">$ {{ venta_neta_sistema | floatformat:2 }}</td>
+									</thead>
+								</table>
+							</div>
 						</div>
-						<div class="row">
-							<table class="table table-bordered table-striped col-md-5">
-								<thead class="bg-navyr white">
-									<th class="text-right">Total</th>
-									<td class="text-right" width="20%">$ {{ detalle_gastos.totales_generales | floatformat:2 }}</td>
-								</thead>
-							</table>
+
+						<!-- Tablas Costo ventas  -->
+						<div class="card collapsed-card col-md-6 p-0">
+							<span class="card-header" data-card-widget="collapse">Costo de ventas
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+								</div>
+							</span>
+							<div class="card-body p-0">
+								<table class="table table-bordered table-striped">
+									<tbody>
+										<tr>
+											<td>Costo de calzado</td>
+											<td class="text-right" width="20%">$ {{ costo_ventas_calzado | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Costo de ropa</td>
+											<td class="text-right" width="20%">$ {{ costo_ventas_ropa | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Costo de accesorios</td>
+											<td class="text-right" width="20%">$ {{ costo_ventas_accesorios | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td class="bg-navyr white text-right">Total</td>
+											<td class="bg-navyr white text-right" width="20%">$ {{ total_de_costo_ventas | floatformat:2 }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tablas Gastos bancarios  -->
+						<div class="card collapsed-card col-md-6 p-0 mt-5">
+							<span class="card-header" data-card-widget="collapse">Gastos bancarios
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+								</div>
+							</span>
+							<div class="card-body p-0">
+								<table class="table table-bordered table-striped">
+									<tbody>
+										<tr>
+											<td>Cargos bancarios</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.cargosBancarios | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Comisión de tarjeta de crédito</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.comisionTarjetaCredito | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Otros bancos</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.otrosBancos | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td class="bg-navyr white text-right">Total</td>
+											<td class="bg-navyr white text-right" width="20%">$ {{ detalle_gastos.totales_bancarios | floatformat:2 }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tablas Sueldos  -->
+						<div class="card collapsed-card col-md-6 p-0">
+							<span class="card-header" data-card-widget="collapse">Sueldos
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+								</div>
+							</span>
+							<div class="card-body p-0">
+								<table class="table table-bordered table-striped">
+									<tbody>
+										<tr>
+											<td>Salarios y sueldos web</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.salariosSueldosWeb | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Sueldos oficina</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.sueldosOficina | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Sueldos corporativos</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.sueldosCorporativos | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Comisiones pagadas</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.comisionesPagadas | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Jubilación</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.jubilacion | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Utilidades</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.utilidades | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Costos de reclutamiento</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.costosReclutamiento | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>IMSS</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.imss | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td class="bg-navyr white text-right">Total</td>
+											<td class="bg-navyr white text-right" width="20%">$ {{ detalle_gastos.totales_sueldos | floatformat:2 }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tablas Gastos generales  -->
+						<div class="card collapsed-card col-md-6 p-0">
+							<span class="card-header" data-card-widget="collapse">Gastos generales
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+								</div>
+							</span>
+							<div class="card-body p-0">
+								<table class="table table-bordered table-striped">
+									<tbody>
+										<tr>
+											<td>Rollos de impresora</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.rollosImpresora | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Tapicería</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.tapiceria | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Remodelaciones de oficina</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.remodelacionOficina | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Predial</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.predial | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Papelería</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.papeleria | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Intercomunicador</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.intercomunicador | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Teléfonos de oficina</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.telefonosOficina | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Luz</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.luz | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Teléfono</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.telefono | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Lentes</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.lentes | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Fletes</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.fletes | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Walmart</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.walmart | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Reparaciones y mantenimiento</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.reparacionesManteminiento | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Notas</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.notas | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Agua</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.agua | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Policía</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.policia | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Gastos de viajes</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.gastosViajes | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Amplificador y bocinas</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.amplificadorBocinas | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Gastos cheques</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.gastosCheques | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Gastos oficina</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.gastosOficina | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Fideicomiso</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.fideicomiso | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Contador</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.contador | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Cometra</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.cometra | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Paletas</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.paletas | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Finiquito</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.finiquito | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Honorarios de consultores</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.honorariosConsultores | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Impuesto CDMX</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.impuestoCDMX | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Cheques Abril</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.chequesAbril | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Equipos de computo</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.equipoComputo | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Mantenimiento computo</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.mantenimientoComputo | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Viaticos</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.viaticos | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Comidas y cenas</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.comidas | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Valoración de Inmuebles</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.valoracionInmuebles | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Imprenta</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.imprenta | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Comisión de renta de local</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.comisionRentaLocal | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Impuestos</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.impuestos | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td class="bg-navyr white text-right">Total</td>
+											<td class="bg-navyr white text-right" width="20%">$ {{ detalle_gastos.totales_generales | floatformat:2 }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tablas Total de gastos [bancarios / sueldos / generales]  -->
+						<div class="row mt-3">
+							<div class="col-12">
+								<table class="table table-bordered table-striped col-md-6">
+									<tbody>
+										<tr>
+											<td>Total de gastos bancarios</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.totales_bancarios | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Total de sueldos</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.totales_sueldos | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td>Total de gastos generales</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.totales_generales | floatformat:2 }}</td>
+										</tr>
+										<tr>
+											<td class="bg-tomato white"><strong>Total de gastos</strong></td>
+											<td class="bg-tomato white text-right" width="20%"><strong>$ {{ detalle_gastos.gastosTotales | floatformat:2 }}</strong></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>	
                     </div>
                     <!-- ./card body -->
@@ -376,3 +489,7 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/select2.min.js' %}"></script>
+{% endblock extra_scripts %}
