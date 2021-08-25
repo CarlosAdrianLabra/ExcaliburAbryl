@@ -9,7 +9,7 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy
 from applications.ventas.models import Venta, DetalleVenta
-from applications.administracion.models import Gastos
+from applications.administracion.models import Gastos, Resultado
 from applications.inventarios.models import Productos
 from applications.users.mixins import AdminPermisoMixin
 #
@@ -216,11 +216,12 @@ class Informe8020ListView(ListView):
     def get_queryset(self):
         return DetalleVenta.objects.reporte8020_producto
 
-class ResultadosView(View):
+class ResultadosListView(ListView):
+    model= Resultado
     template_name="administracion/resultados.html"
     context_object_name='resultados'
 
     def get_queryset(self):
-        
-        return queryset
+        return Resultado.objects.listar_resultados
+
 

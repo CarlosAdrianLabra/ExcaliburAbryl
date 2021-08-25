@@ -50,9 +50,14 @@ urlpatterns = [
         views.GastosUpdateView.as_view(),
         name='modificar-gastos',
     ),
-     path(
+    path(
         'panel/8020/', 
         views.Informe8020ListView.as_view(),
+        name='8020-base',
+    ),
+    path(
+        'panel/resultados/', 
+        views.ResultadosListView.as_view(),
         name='8020-base',
     ),
 

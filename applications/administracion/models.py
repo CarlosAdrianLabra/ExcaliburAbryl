@@ -1,7 +1,12 @@
-from datetime import datetime
+
+from applications.ventas.models import DetalleVenta, Venta
+from datetime import datetime,date,timedelta
 from django.db import models
-from django.db.models.fields import CharField, FloatField, IntegerField
-from .managers import GastosManager
+from django.db.models import Sum
+from django.db.models.deletion import CASCADE
+from django.db.models.fields import CharField, DateField, FloatField, IntegerField
+from django.db.models.fields.related import ForeignKey
+from .managers import GastosManager, ResultadoManager
 
 # Create your models here.
 
@@ -119,6 +124,8 @@ class Gastos(models.Model):
         monthdate = datetime.strptime(date,'%Y-%m-%d').date()
         self.fecha = monthdate
 
+        
+
         total=(self.cargosBancarios+self.comisionTarjetaCredito+self.otrosBancos
                 +self.salariosSueldosWeb+self.sueldosOficina+self.sueldosCorporativos+self.comisionesPagadas
                 +self.jubilacion+self.utilidades+self.costosReclutamiento+self.imss
@@ -138,3 +145,97 @@ class Gastos(models.Model):
 
     def __str__(self):
         return 'Gastos ' + str(self.id)+ ' - ' + self.mes + ' ' + self.año + ' = ' + str(self.gastosTotales) 
+
+class Resultado(models.Model):
+
+    #Campos del modelo resultados
+
+    OPCIONES_MES=(
+        ('01','ENERO'),
+        ('02','FEBRERO'),
+        ('03','MARZO'),
+        ('04','ABRIL'),
+        ('05','MAYO'),
+        ('06','JUNIO'),
+        ('07','JULIO'),
+        ('08','AGOSTO'),
+        ('09','SEPTIEMBRE'),
+        ('10','OCTUBRE'),
+        ('11','NOVIEMBRE'),
+        ('12','DICIEMBRE'),
+    )
+
+    OPCIONES_ANO=(
+
+        ('2010','2010'),
+        ('2011','2011'),
+        ('2012','2012'),
+        ('2013','2013'),
+        ('2014','2015'),
+        ('2015','2014'),
+        ('2016','2016'),
+        ('2017','2017'),
+        ('2018','2018'),
+        ('2019','2019'),
+        ('2020','2020'),
+        ('2021','2021'),
+        ('2022','2022'),
+        ('2023','2023'),
+        ('2024','2024'),
+        ('2025','2025'),
+        ('2026','2026'),
+        ('2027','2027'),
+        ('2028','2028'),
+        ('2029','2029'),        
+
+    )
+    #valores fecha
+    mes=models.CharField('Mes',max_length=2,blank=False,choices=OPCIONES_MES)
+    año=models.CharField('Año',max_length=4,blank=False,choices=OPCIONES_ANO)
+
+    #gastos=ForeignKey(Gastos,on_delete=CASCADE,verbose_name='Gasto',related_name='gastos',blank=True)
+    #detalleventas=ForeignKey(DetalleVenta,on_delete=CASCADE,verbose_name='Venta',related_name='ventas')
+    resultado=FloatField('Resultados del mes',default=0,blank=True)
+    fecha=DateField(blank=True,null=True,unique=True)
+    objects=ResultadoManager()
+    gastos_mes=FloatField('Gastos del mes',default=0,blank=True)
+    dias_agregados=IntegerField(default=0)
+    ventas_mes=FloatField('Ventas del mes',default=0,blank=True)
+
+
+    def save(self, *args, **kwargs):
+
+        date=self.año+'-'+self.mes+'-'+'01'
+        monthdate = datetime.strptime(date,'%Y-%m-%d').date()
+        self.fecha = monthdate
+
+        start_date=monthdate
+        d=timedelta(days=self.dias_agregados)
+        end_date=start_date+d
+
+        consulta1=Gastos.objects.filter(
+            fecha__range=(start_date,end_date)
+        ).values(
+            'gastosTotales'
+        ).get()
+
+        self.gastos_mes=consulta1.get('gastosTotales')
+
+        consulta2=DetalleVenta.objects.filter(
+            sale__date_sale__range=(start_date,end_date)
+        ).values(
+            'sale__date_sale__date__month'
+        ).annotate(
+            ventasmes=Sum('price_subtotal',output_field=FloatField())
+        ).get()
+
+        print (consulta2)
+        ventastotal=consulta2.get('ventasmes')
+        print (ventastotal) 
+        self.ventas_mes=consulta2.get('ventasmes')
+        self.resultado=self.ventas_mes-self.gastos_mes
+        super(Resultado, self).save(*args, **kwargs)    
+
+    def __str__(self):
+        return str(self.gastos_mes) # TODO
+
