@@ -37,7 +37,7 @@ def procesar_venta(self, **params_venta):
                 price_sale=p_c.producto.precio_venta,
                 price_subtotal=p_c.subtotal(),
                 promocion=p_c.producto.promocion,
-                discount=float(p_c.producto.precio_venta) - float(subtotal),
+                discount=float(p_c.producto.precio_venta * p_c.count) - float(subtotal),
                 tax=0.16,
             )
             # actualizmos stok de producto en iteracion
