@@ -110,19 +110,19 @@
 									<tbody>
 										<tr>
 											<td>Ventas de calzado</td>
-											<td class="text-right" width="20%">$ {{ ventas_calzado | floatformat:2 }}</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.ventas_calzado | floatformat:2 }}</td>
 										</tr>
 										<tr>
 											<td>Ventas de ropa</td>
-											<td class="text-right" width="20%">$ {{ ventas_ropa | floatformat:2 }}</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.ventas_ropa | floatformat:2 }}</td>
 										</tr>
 										<tr>
 											<td>Ventas de accesorios</td>
-											<td class="text-right" width="20%">$ {{ ventas_accesorios | floatformat:2 }}</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.ventas_accesorios | floatformat:2 }}</td>
 										</tr>
 										<tr>
 											<td class="bg-navyr white text-right">Total</td>
-											<td class="bg-navyr white text-right" width="20%">$ {{ total_de_ventas | floatformat:2 }}</td>
+											<td class="bg-navyr white text-right" width="20%">$ {{ detalle_gastos.total_de_ventas | floatformat:2 }}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -141,19 +141,19 @@
 									<tbody>
 										<tr>
 											<td>Descuentos de calzado</td>
-											<td class="text-right" width="20%">$ {{ descuentos_calzado | floatformat:2 }}</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.descuentos_calzado | floatformat:2 }}</td>
 										</tr>
 										<tr>
 											<td>Descuentos de ropa</td>
-											<td class="text-right" width="20%">$ {{ descuentos_ropa | floatformat:2 }}</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.descuentos_ropa | floatformat:2 }}</td>
 										</tr>
 										<tr>
 											<td>Descuentos de accesorios</td>
-											<td class="text-right" width="20%">$ {{ descuentos_accesorios | floatformat:2 }}</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.descuentos_accesorios | floatformat:2 }}</td>
 										</tr>
 										<tr>
 											<td class="bg-navyr white text-right">Total</td>
-											<td class="bg-navyr white text-right" width="20%">$ {{ total_de_descuentos | floatformat:2 }}</td>
+											<td class="bg-navyr white text-right" width="20%">$ {{ detalle_gastos.total_de_descuentos | floatformat:2 }}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -166,7 +166,7 @@
 								<table class="table table-bordered table-striped col-md-6">
 									<thead class="bg-tomato white">
 										<th>Venta neta sistema</th>
-										<td class="text-right" width="20%">$ {{ venta_neta_sistema | floatformat:2 }}</td>
+										<td class="text-right" width="20%">$ {{ detalle_gastos.venta_neta_sistema | floatformat:2 }}</td>
 									</thead>
 								</table>
 							</div>
@@ -184,19 +184,19 @@
 									<tbody>
 										<tr>
 											<td>Costo de calzado</td>
-											<td class="text-right" width="20%">$ {{ costo_ventas_calzado | floatformat:2 }}</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.costo_ventas_calzado | floatformat:2 }}</td>
 										</tr>
 										<tr>
 											<td>Costo de ropa</td>
-											<td class="text-right" width="20%">$ {{ costo_ventas_ropa | floatformat:2 }}</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.costo_ventas_ropa | floatformat:2 }}</td>
 										</tr>
 										<tr>
 											<td>Costo de accesorios</td>
-											<td class="text-right" width="20%">$ {{ costo_ventas_accesorios | floatformat:2 }}</td>
+											<td class="text-right" width="20%">$ {{ detalle_gastos.costo_ventas_accesorios | floatformat:2 }}</td>
 										</tr>
 										<tr>
 											<td class="bg-navyr white text-right">Total</td>
-											<td class="bg-navyr white text-right" width="20%">$ {{ total_de_costo_ventas | floatformat:2 }}</td>
+											<td class="bg-navyr white text-right" width="20%">$ {{ detalle_gastos.total_de_costo_ventas | floatformat:2 }}</td>
 										</tr>
 									</tbody>
 								</table>

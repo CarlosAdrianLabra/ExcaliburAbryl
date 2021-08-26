@@ -1,7 +1,10 @@
+from applications.inventarios.models import Marca
 from datetime import datetime
 from django.db import models
 from django.db.models.fields import CharField, FloatField, IntegerField
+from django.db.models import Q, Sum, F, FloatField, ExpressionWrapper
 from .managers import GastosManager
+from applications.ventas.models import DetalleVenta, Venta
 
 # Create your models here.
 
@@ -156,6 +159,212 @@ class Gastos(models.Model):
         self.totales_generales=total_g
 
         super(Gastos, self).save(*args, **kwargs)
+
+    def ventas_calzado(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            if self.mes == '01' or self.mes == '03' or self.mes == '05' or self.mes == '07' or self.mes == '08' or self.mes == '10' or self.mes == '12':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='100',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-31 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('amount'))['total']
+            elif self.mes == '02':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='100',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-28 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('amount'))['total']
+            elif self.mes == '04' or self.mes == '06' or self.mes == '09' or self.mes == '11':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='100',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-30 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('amount'))['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def ventas_ropa(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            if self.mes == '01' or self.mes == '03' or self.mes == '05' or self.mes == '07' or self.mes == '08' or self.mes == '10' or self.mes == '12':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='200',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-31 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('amount'))['total']
+            elif self.mes == '02':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='200',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-28 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('amount'))['total']
+            elif self.mes == '04' or self.mes == '06' or self.mes == '09' or self.mes == '11':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='200',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-30 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('amount'))['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def ventas_accesorios(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            if self.mes == '01' or self.mes == '03' or self.mes == '05' or self.mes == '07' or self.mes == '08' or self.mes == '10' or self.mes == '12':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='300',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-31 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('amount'))['total']
+            elif self.mes == '02':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='300',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-28 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('amount'))['total']
+            elif self.mes == '04' or self.mes == '06' or self.mes == '09' or self.mes == '11':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='300',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-30 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('amount'))['total']
+        else:
+            consulta = 0
+
+        return consulta
+
+    def total_de_ventas(self):
+        consulta_c = self.ventas_calzado()
+        consulta_r = self.ventas_ropa()
+        consulta_a = self.ventas_accesorios()
+        #
+        consulta_final = consulta_c + consulta_r + consulta_a
+
+        return consulta_final
+
+    def descuentos_calzado(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            if self.mes == '01' or self.mes == '03' or self.mes == '05' or self.mes == '07' or self.mes == '08' or self.mes == '10' or self.mes == '12':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='100',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-31 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('detail_sale__discount'))['total']
+            elif self.mes == '02':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='100',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-28 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('detail_sale__discount'))['total']
+            elif self.mes == '04' or self.mes == '06' or self.mes == '09' or self.mes == '11':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='100',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-30 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('detail_sale__discount'))['total']
+        else:
+            consulta = 0
+
+        return consulta
+
+    def descuentos_ropa(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            if self.mes == '01' or self.mes == '03' or self.mes == '05' or self.mes == '07' or self.mes == '08' or self.mes == '10' or self.mes == '12':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='200',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-31 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('detail_sale__discount'))['total']
+            elif self.mes == '02':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='200',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-28 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('detail_sale__discount'))['total']
+            elif self.mes == '04' or self.mes == '06' or self.mes == '09' or self.mes == '11':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='200',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-30 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('detail_sale__discount'))['total']
+        else:
+            consulta = 0
+
+        return consulta
+
+    def descuentos_accesorios(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            if self.mes == '01' or self.mes == '03' or self.mes == '05' or self.mes == '07' or self.mes == '08' or self.mes == '10' or self.mes == '12':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='300',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-31 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('detail_sale__discount'))['total']
+            elif self.mes == '02':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='300',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-28 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('detail_sale__discount'))['total']
+            elif self.mes == '04' or self.mes == '06' or self.mes == '09' or self.mes == '11':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='300',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-30 23:59:59.100000-0500'),
+                ).aggregate(total=Sum('detail_sale__discount'))['total']
+        else:
+            consulta = 0
+
+        return consulta
+
+    def total_de_descuentos(self):
+        consulta_c = self.descuentos_calzado()
+        consulta_r = self.descuentos_ropa()
+        consulta_a = self.descuentos_accesorios()
+        #
+        consulta_final = consulta_c + consulta_r + consulta_a
+
+        return consulta_final
+
+    def venta_neta_sistema(self):
+        total_de_ventas = self.total_de_ventas()
+        total_de_descuentos = self.total_de_descuentos()
+        #
+        consulta_final = total_de_ventas - total_de_descuentos
+
+        return consulta_final
+
+    def costo_ventas_calzado(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='100').filter(close=True).exists():
+            if self.mes == '01' or self.mes == '03' or self.mes == '05' or self.mes == '07' or self.mes == '08' or self.mes == '10' or self.mes == '12':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='100',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-31 23:59:59.100000-0500'),
+                ).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+            elif self.mes == '02':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='100',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-28 23:59:59.100000-0500'),
+                ).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+            elif self.mes == '04' or self.mes == '06' or self.mes == '09' or self.mes == '11':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='100',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-30 23:59:59.100000-0500'),
+                ).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def costo_ventas_ropa(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='200').filter(close=True).exists():
+            if self.mes == '01' or self.mes == '03' or self.mes == '05' or self.mes == '07' or self.mes == '08' or self.mes == '10' or self.mes == '12':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='200',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-31 23:59:59.100000-0500'),
+                ).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+            elif self.mes == '02':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='200',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-28 23:59:59.100000-0500'),
+                ).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+            elif self.mes == '04' or self.mes == '06' or self.mes == '09' or self.mes == '11':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='200',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-30 23:59:59.100000-0500'),
+                ).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def costo_ventas_accesorios(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='300').filter(close=True).exists():
+            if self.mes == '01' or self.mes == '03' or self.mes == '05' or self.mes == '07' or self.mes == '08' or self.mes == '10' or self.mes == '12':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='300',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-31 23:59:59.100000-0500'),
+                ).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+            elif self.mes == '02':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='300',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-28 23:59:59.100000-0500'),
+                ).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+            elif self.mes == '04' or self.mes == '06' or self.mes == '09' or self.mes == '11':
+                consulta = Venta.objects.filter(detail_sale__producto__tipo='300',close=True,anulate=False,
+                    date_sale__range=(self.año+'-'+self.mes+'-01 00:00:00.100000-0500', self.año+'-'+self.mes+'-30 23:59:59.100000-0500'),
+                ).aggregate(total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField()))['total']
+        else:
+            consulta = 0
+
+        return consulta
+
+    def total_de_costo_ventas(self):
+        consulta_c = self.costo_ventas_calzado()
+        consulta_r = self.costo_ventas_ropa()
+        consulta_a = self.costo_ventas_accesorios()
+        #
+        consulta_final = consulta_c + consulta_r + consulta_a
+
+        return consulta_final
 
     def __str__(self):
         return 'Gastos ' + str(self.id)+ ' - ' + self.mes + ' ' + self.año + ' = ' + str(self.gastosTotales) 

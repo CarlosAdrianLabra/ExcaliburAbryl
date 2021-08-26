@@ -197,7 +197,7 @@ class IndexInventario(TemplateView):
         context["tabla_ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse()
         # Accesorios
         context["accesorios_por_terminarse"] = Productos.objects.accesorios_por_terminarse().count()
-        if ropa:
+        if accesorios:
             context["accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos().count()
             context["tabla_accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos()
         else:
