@@ -98,6 +98,7 @@
 
                     <!-- Card body -->
                     <div class="card-body">
+						<h5 class="mt-2 mb-4">INFORMACIÓN ACTUALIZADA <span style="color: #999;font-size: 19px;"> - hasta el último cierre de caja del {{ detalle_gastos.mes }} / {{ detalle_gastos.año }}</span></h5>
 						<!-- Tablas Ingresos  -->
 						<div class="card collapsed-card col-md-6 p-0">
 							<span class="card-header" data-card-widget="collapse">Ingresos
@@ -160,13 +161,13 @@
 							</div>
 						</div>
 
-						<!-- Tablas Valores Netos  -->
+						<!-- Tabla Venta neta sistema  -->
 						<div class="row">
 							<div class="col-12">
 								<table class="table table-bordered table-striped col-md-6">
 									<thead class="bg-tomato white">
 										<th>Venta neta sistema</th>
-										<td class="text-right" width="20%">$ {{ detalle_gastos.venta_neta_sistema | floatformat:2 }}</td>
+										<th class="text-right" width="20%">$ {{ detalle_gastos.venta_neta_sistema | floatformat:2 }}</th>
 									</thead>
 								</table>
 							</div>
@@ -199,6 +200,18 @@
 											<td class="bg-navyr white text-right" width="20%">$ {{ detalle_gastos.total_de_costo_ventas | floatformat:2 }}</td>
 										</tr>
 									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tabla Ganancia bruta  -->
+						<div class="row">
+							<div class="col-12">
+								<table class="table table-bordered table-striped col-md-6">
+									<thead class="bg-tomato white">
+										<th>Ganancia bruta</th>
+										<th class="text-right" width="20%">$ {{ detalle_gastos.ganancia_bruta | floatformat:2 }}</th>
+									</thead>
 								</table>
 							</div>
 						</div>
@@ -466,19 +479,93 @@
 											<td class="text-right" width="20%">$ {{ detalle_gastos.totales_generales | floatformat:2 }}</td>
 										</tr>
 										<tr>
-											<td class="bg-tomato white"><strong>Total de gastos</strong></td>
-											<td class="bg-tomato white text-right" width="20%"><strong>$ {{ detalle_gastos.gastosTotales | floatformat:2 }}</strong></td>
+											<td class="bg-tomato white"><b>Total de gastos</b></td>
+											<td class="bg-tomato white text-right" width="20%"><b>$ {{ detalle_gastos.gastosTotales | floatformat:2 }}</b></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
-						</div>	
+						</div>
+
+						<!-- Tabla Mes neto  -->
+						<div class="row mt-5">
+							<div class="col-12">
+								<table class="table table-bordered table-striped col-md-6">
+									<thead class="bg-tomato white">
+										<th>Mes neto (Beneficio / perdida)</th>
+										<th class="text-right" width="20%">$ {{ detalle_gastos.mes_neto | floatformat:2 }}</th>
+									</thead>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tabla Calzado  -->
+						<div class="row">
+							<div class="col-12">
+								<table class="table table-bordered table-striped col-md-6">
+									<tbody class="bg-navyr white">
+										<td>Piezas de calzado vendidas</td>
+										<td class="text-right" width="20%">{{ detalle_gastos.cantidad_calzado }}</td>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tabla Ropa  -->
+						<div class="row">
+							<div class="col-12">
+								<table class="table table-bordered table-striped col-md-6">
+									<tbody class="bg-navyr white">
+										<td>Piezas de ropa vendidas</td>
+										<td class="text-right" width="20%">{{ detalle_gastos.cantidad_ropa }}</td>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tabla Accesorios  -->
+						<div class="row">
+							<div class="col-12">
+								<table class="table table-bordered table-striped col-md-6">
+									<tbody class="bg-navyr white">
+										<td>Piezas de accesorios vendidas</td>
+										<td class="text-right" width="20%">{{ detalle_gastos.cantidad_accesorios }}</td>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tabla Margen comercial  -->
+						<div class="row">
+							<div class="col-12">
+								<table class="table table-bordered table-striped col-md-6">
+									<thead class="bg-tomato white">
+										<th>Margen comercial</th>
+										<th class="text-right" width="20%">{{ detalle_gastos.margen_comercial | floatformat:2 }} %</th>
+									</thead>
+								</table>
+							</div>
+						</div>
+
+						<!-- Tabla Ebit  -->
+						<div class="row">
+							<div class="col-12">
+								<table class="table table-bordered table-striped col-md-6">
+									<thead class="bg-tomato white">
+										<th>Ebit</th>
+										<th class="text-right" width="20%">{{ detalle_gastos.ebit | floatformat:2 }} %</th>
+									</thead>
+								</table>
+							</div>
+						</div>
                     </div>
                     <!-- ./card body -->
 					
 					<!-- Card footer -->
-					<div class="card-footer">
-						<a href="{% url 'administracion_app:admin-gastos' %}" class="btn btn-default mt-3" style="margin-left: 10px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Regresar</a>
+					<div class="card-footer col-12">
+						<div class="col-md-6">
+							<a href="{% url 'administracion_app:admin-gastos' %}" class="btn btn-default float-right mt-3 mb-3" type="button"><I class="fa fa-undo-alt mr-2"></I>Regresar</a>
+						</div>
 					</div>
 					<!-- ./card footer -->
                 </div>

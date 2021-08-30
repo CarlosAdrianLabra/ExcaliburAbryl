@@ -1,4 +1,3 @@
-from applications.inventarios.models import Marca
 from datetime import datetime
 from django.db import models
 from django.db.models.fields import CharField, FloatField, IntegerField
@@ -296,7 +295,7 @@ class Gastos(models.Model):
         total_de_ventas = self.total_de_ventas()
         total_de_descuentos = self.total_de_descuentos()
         #
-        consulta_final = total_de_ventas - total_de_descuentos
+        consulta_final = float(total_de_ventas - total_de_descuentos)
 
         return consulta_final
 
@@ -365,6 +364,74 @@ class Gastos(models.Model):
         consulta_final = consulta_c + consulta_r + consulta_a
 
         return consulta_final
+
+    def ganancia_bruta(self):
+        ventas_netas = self.venta_neta_sistema()
+        costo_ventas = self.total_de_costo_ventas()
+        #
+        consulta_final = ventas_netas - costo_ventas
+
+        return consulta_final
+
+    def mes_neto(self):
+        ganancia_bruta = self.ganancia_bruta()
+        gastos_totales = self.gastosTotales
+        #
+        consulta_final = ganancia_bruta - gastos_totales
+
+        return consulta_final
+    
+    def margen_comercial(self):
+        try:
+            venta_neta = self.venta_neta_sistema()
+            total_costo = self.total_de_costo_ventas()
+            consulta_final = (venta_neta - total_costo) / venta_neta
+
+        except ZeroDivisionError:
+            consulta_final = 0
+        
+        return consulta_final
+
+    def ebit(self):
+        try:
+            mes_neto = self.mes_neto()
+            venta_neta = self.venta_neta_sistema()
+            consulta_final = mes_neto / venta_neta
+            
+        except ZeroDivisionError:
+            consulta_final = 0
+
+        return consulta_final
+
+    def cantidad_calzado(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='100').exists():
+            consulta = Venta.objects.filter(detail_sale__producto__tipo='100').aggregate(
+                total=Sum('detail_sale__count')
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def cantidad_ropa(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='200').exists():
+            consulta = Venta.objects.filter(detail_sale__producto__tipo='200').aggregate(
+                total=Sum('detail_sale__count')
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
+    
+    def cantidad_accesorios(self):
+        if Venta.objects.filter(detail_sale__producto__tipo='300').exists():
+            consulta = Venta.objects.filter(detail_sale__producto__tipo='300').aggregate(
+                total=Sum('detail_sale__count')
+            )['total']
+        else:
+            consulta = 0
+
+        return consulta
 
     def __str__(self):
         return 'Gastos ' + str(self.id)+ ' - ' + self.mes + ' ' + self.año + ' = ' + str(self.gastosTotales) 

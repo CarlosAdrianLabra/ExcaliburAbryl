@@ -94,28 +94,6 @@ class GastosDetailView(DetailView):
     template_name = "administracion/detalle_gastos.html"
     context_object_name = "detalle_gastos"
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     #
-    #     context["ventas_calzado"] = Venta.objects.ventas_calzado()
-    #     context["ventas_ropa"] = Venta.objects.ventas_ropa()
-    #     context["ventas_accesorios"] = Venta.objects.ventas_accesorios()
-    #     context["total_de_ventas"] = Venta.objects.total_de_ventas()
-    #     #
-    #     context["descuentos_calzado"] = Venta.objects.descuentos_calzado()
-    #     context["descuentos_ropa"] = Venta.objects.descuentos_ropa()
-    #     context["descuentos_accesorios"] = Venta.objects.descuentos_accesorios()
-    #     context["total_de_descuentos"] = Venta.objects.total_de_descuentos()
-    #     #
-    #     context["venta_neta_sistema"] = Venta.objects.venta_neta_sistema()
-    #     #
-    #     context["costo_ventas_calzado"] = Venta.objects.costo_ventas_calzado()
-    #     context["costo_ventas_ropa"] = Venta.objects.costo_ventas_ropa()
-    #     context["costo_ventas_accesorios"] = Venta.objects.costo_ventas_accesorios()
-    #     context["total_de_costo_ventas"] = Venta.objects.total_de_costo_ventas()
-    #     #
-    #     return context
-
 
 class GastosCreateView(CreateView):
     model = Gastos

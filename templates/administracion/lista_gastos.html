@@ -102,7 +102,10 @@
                             <thead class="bg-navyr white">
 								<th>#</th>
 								<th>Mes / Año</th>
-								<th>Total de gastos &nbsp;&nbsp;&nbsp;- &nbsp;&nbsp;&nbsp;<span style="font-size: small; color: #ccc;">( bancarios, sueldos, generales )</span></th>
+								<th>Total de gastos</th>
+								<th>Venta neta de sistema</th>
+								<th>Ganancia bruta</th>
+								<th>Mes neto (Beneficio / perdida)</th>
 								<th>Ver detalle / Editar</th>
                             </thead>
                             <tbody>
@@ -111,6 +114,9 @@
 									<td>{{ lg.id }}</td>
 									<td>{{ lg.mes }} / {{ lg.año }}</td>
 									<td>$ {{ lg.gastosTotales | floatformat:2 }}</td>
+									<td>$ {{ lg.venta_neta_sistema }}</td>
+									<td>$ {{ lg.ganancia_bruta }}</td>
+									<td>$ {{ lg.mes_neto }}</td>
 									<td>
 										<a type="button" class="btn btn-sm btn-info mr-2" href="{% url 'administracion_app:detalle-gastos' lg.id %}">
 											<span class="fas fa-eye"></span>

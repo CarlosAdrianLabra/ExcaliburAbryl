@@ -83,28 +83,27 @@
         <div class="row">
             <div class="col-12">
                 <!-- Card content -->
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h1 class="card-title mt-3 mb-3 ml-3">CREAR GASTOS</h1>
-                    </div>
+				<form method="POST" class="m-0 p-0">{% csrf_token %}
+					<div class="card mt-3">
+						<div class="card-header">
+							<h1 class="card-title mt-3 mb-3 ml-3">EDITAR GASTOS</h1>
+						</div>
 
-
-					<div class="card-body">
-
-						<form method="POST">{% csrf_token %}
-							<div class="row">
-								<h5>AÑO {{form.año}}</h5>
-								<h5 class="col-md-6">MES {{form.mes}}</h5>
+						<div class="card-body">
+							<div class="row col-md-12">
+								<h5 class="mt-2 mr-3">AÑO</h5>{{form.año | add_class:"form-control col-md-1"}}
+								<h5 class="mt-2 mr-3 ml-4">MES</h5>{{form.mes | add_class:"form-control col-md-2"}}
 							</div>
-							<div class="row">
-								<table class="table table-bordered table-striped col-md-5">
+							
+							<div class="row col-md-12 mt-3">
+								<table class="table table-bordered table-striped col-md-6">
 									<thead class="bg-navyr white">
 										<th colspan="2">Gastos Bancarios</th>
 									</thead>
 									<tbody>
 										<tr>
 											<td>Cargos bancarios</td>
-											<td class="text-right" width="20%"> {{form.cargosBancarios}} </td>
+											<td class="text-right" width="25%">{{form.cargosBancarios}} </td>
 										</tr>
 										<tr>
 											<td>Comisión de tarjeta de crédito</td>
@@ -116,13 +115,10 @@
 										</tr>
 									</tbody>
 								</table>
-								
-								
 							</div>
 							
-	
-							<div class="row">
-								<table class="table table-bordered table-striped col-md-5">
+							<div class="row col-md-12">
+								<table class="table table-bordered table-striped col-md-6">
 									<thead class="bg-navyr white">
 										<th colspan="2">Sueldos</th>
 									</thead>
@@ -163,167 +159,168 @@
 								</table>
 							</div>
 							
-	
-							<div class="row">
-								<table class="table table-bordered table-striped col-md-5">
+							<div class="row col-md-12">
+								<table class="table table-bordered table-striped col-md-6">
 									<thead class="bg-navyr white">
 										<th colspan="2">Gastos Generales</th>
 									</thead>
 									<tbody>
 										<tr>
 											<td>Rollos de impresora</td>
-											<td class="text-right" width="20%">{{form.rollosImpresora}} </td>
+											<td class="text-right" width="20%">{{form.rollosImpresora}}</td>
 										</tr>
 										<tr>
 											<td>Tapicería</td>
-											<td class="text-right" width="20%">{{form.tapiceria}} </td>
+											<td class="text-right" width="20%">{{form.tapiceria}}</td>
 										</tr>
 										<tr>
 											<td>Remodelaciones de oficina</td>
-											<td class="text-right" width="20%">{{form.remodelacionOficina}} </td>
+											<td class="text-right" width="20%">{{form.remodelacionOficina}}</td>
 										</tr>
 										<tr>
 											<td>Predial</td>
-											<td class="text-right" width="20%">{{form.predial}} </td>
+											<td class="text-right" width="20%">{{form.predial}}</td>
 										</tr>
 										<tr>
 											<td>Papelería</td>
-											<td class="text-right" width="20%">{{form.papeleria}} </td>
+											<td class="text-right" width="20%">{{form.papeleria}}</td>
 										</tr>
 										<tr>
 											<td>Intercomunicador</td>
-											<td class="text-right" width="20%">{{form.intercomunicador}} </td>
+											<td class="text-right" width="20%">{{form.intercomunicador}}</td>
 										</tr>
 										<tr>
 											<td>Teléfonos de oficina</td>
-											<td class="text-right" width="20%">{{form.telefonosOficina}} </td>
+											<td class="text-right" width="20%">{{form.telefonosOficina}}</td>
 										</tr>
 										<tr>
 											<td>Luz</td>
-											<td class="text-right" width="20%">{{form.luz}} </td>
+											<td class="text-right" width="20%">{{form.luz}}</td>
 										</tr>
 										<tr>
 											<td>Teléfono</td>
-											<td class="text-right" width="20%">{{form.telefono}} </td>
+											<td class="text-right" width="20%">{{form.telefono}}</td>
 										</tr>
 										<tr>
 											<td>Lentes</td>
-											<td class="text-right" width="20%">{{form.lentes}} </td>
+											<td class="text-right" width="20%">{{form.lentes}}</td>
 										</tr>
 										<tr>
 											<td>Fletes</td>
-											<td class="text-right" width="20%">{{form.fletes}} </td>
+											<td class="text-right" width="20%">{{form.fletes}}</td>
 										</tr>
 										<tr>
 											<td>Walmart</td>
-											<td class="text-right" width="20%">{{form.walmart}} </td>
+											<td class="text-right" width="20%">{{form.walmart}}</td>
 										</tr>
 										<tr>
 											<td>Reparaciones y mantenimiento</td>
-											<td class="text-right" width="20%">{{form.reparacionesManteminiento}} </td>
+											<td class="text-right" width="20%">{{form.reparacionesManteminiento}}</td>
 										</tr>
 										<tr>
 											<td>Notas</td>
-											<td class="text-right" width="20%">{{form.notas}} </td>
+											<td class="text-right" width="20%">{{form.notas}}</td>
 										</tr>
 										<tr>
 											<td>Agua</td>
-											<td class="text-right" width="20%">{{form.agua}} </td>
+											<td class="text-right" width="20%">{{form.agua}}</td>
 										</tr>
 										<tr>
 											<td>Policía</td>
-											<td class="text-right" width="20%">{{form.policia}} </td>
+											<td class="text-right" width="20%">{{form.policia}}</td>
 										</tr>
 										<tr>
 											<td>Gastos de viajes</td>
-											<td class="text-right" width="20%">{{form.gastosViajes}} </td>
+											<td class="text-right" width="20%">{{form.gastosViajes}}</td>
 										</tr>
 										<tr>
 											<td>Amplificador y bocinas</td>
-											<td class="text-right" width="20%">{{form.amplificadorBocinas}} </td>
+											<td class="text-right" width="20%">{{form.amplificadorBocinas}}</td>
 										</tr>
 										<tr>
 											<td>Gastos cheques</td>
-											<td class="text-right" width="20%">{{form.gastosCheques}} </td>
+											<td class="text-right" width="20%">{{form.gastosCheques}}</td>
 										</tr>
 										<tr>
 											<td>Gastos oficina</td>
-											<td class="text-right" width="20%">{{form.gastosOficina}} </td>
+											<td class="text-right" width="20%">{{form.gastosOficina}}</td>
 										</tr>
 										<tr>
 											<td>Fideicomiso</td>
-											<td class="text-right" width="20%">{{form.fideicomiso}} </td>
+											<td class="text-right" width="20%">{{form.fideicomiso}}</td>
 										</tr>
 										<tr>
 											<td>Contador</td>
-											<td class="text-right" width="20%">{{form.contador}} </td>
+											<td class="text-right" width="20%">{{form.contador}}</td>
 										</tr>
 										<tr>
 											<td>Cometra</td>
-											<td class="text-right" width="20%">{{form.cometra}} </td>
+											<td class="text-right" width="20%">{{form.cometra}}</td>
 										</tr>
 										<tr>
 											<td>Paletas</td>
-											<td class="text-right" width="20%">{{form.paletas}} </td>
+											<td class="text-right" width="20%">{{form.paletas}}</td>
 										</tr>
 										<tr>
 											<td>Finiquito</td>
-											<td class="text-right" width="20%">{{form.finiquito}} </td>
+											<td class="text-right" width="20%">{{form.finiquito}}</td>
 										</tr>
 										<tr>
 											<td>Honorarios de consultores</td>
-											<td class="text-right" width="20%">{{form.honorariosConsultores}} </td>
+											<td class="text-right" width="20%">{{form.honorariosConsultores}}</td>
 										</tr>
 										<tr>
 											<td>Impuesto CDMX</td>
-											<td class="text-right" width="20%">{{form.impuestoCDMX}} </td>
+											<td class="text-right" width="20%">{{form.impuestoCDMX}}</td>
 										</tr>
 										<tr>
 											<td>Cheques Abril</td>
-											<td class="text-right" width="20%">{{form.chequesAbril}} </td>
+											<td class="text-right" width="20%">{{form.chequesAbril}}</td>
 										</tr>
 										<tr>
 											<td>Equipos de computo</td>
-											<td class="text-right" width="20%">{{form.equipoComputo}} </td>
+											<td class="text-right" width="20%">{{form.equipoComputo}}</td>
 										</tr>
 										<tr>
 											<td>Mantenimiento computo</td>
-											<td class="text-right" width="20%">{{form.mantenimientoComputo}} </td>
+											<td class="text-right" width="20%">{{form.mantenimientoComputo}}</td>
 										</tr>
 										<tr>
 											<td>Viaticos</td>
-											<td class="text-right" width="20%">{{form.viaticos}} </td>
+											<td class="text-right" width="20%">{{form.viaticos}}</td>
 										</tr>
 										<tr>
 											<td>Comidas y cenas</td>
-											<td class="text-right" width="20%">{{form.comidas}} </td>
+											<td class="text-right" width="20%">{{form.comidas}}</td>
 										</tr>
 										<tr>
 											<td>Valoración de Inmuebles</td>
-											<td class="text-right" width="20%">{{form.valoracionInmuebles}} </td>
+											<td class="text-right" width="20%">{{form.valoracionInmuebles}}</td>
 										</tr>
 										<tr>
 											<td>Imprenta</td>
-											<td class="text-right" width="20%">{{form.imprenta}} </td>
+											<td class="text-right" width="20%">{{form.imprenta}}</td>
 										</tr>
 										<tr>
 											<td>Comisión de renta de local</td>
-											<td class="text-right" width="20%">{{form.comisionRentaLocal}} </td>
+											<td class="text-right" width="20%">{{form.comisionRentaLocal}}</td>
 										</tr>
 										<tr>
 											<td>Impuestos</td>
-											<td class="text-right" width="20%">{{form.impuestos}} </td>
+											<td class="text-right" width="20%">{{form.impuestos}}</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
-							<button type="submit" class="btn btr mr-2">Actualizar</button>
-						</form>
-
+						</div>
+						<div class="card-footer col-12">
+							<div class="col-md-6">
+								<button type="submit" class="btn btr2 float-right mt-3 mb-3">Editar gastos</button>
+							</div>
+						</div>
 					</div>
-
-				</div>
-			<!-- ./card content -->
+				</form>
+				<!-- ./card content -->
 			</div>
 		</div>
 	<!-- ./row content -->
