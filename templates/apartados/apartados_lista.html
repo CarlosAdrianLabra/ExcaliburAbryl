@@ -1,0 +1,90 @@
+{% extends 'apartados/base_apartados.html' %}
+{% load static %}
+
+{% block head %}
+<title>Apartados - Lista</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block enlace_punto_de_venta %}
+<a href="/venta/index" class="nav-link">
+    <i class="fas fa-shopping-cart nav-icon"></i>
+    <p>Punto de Venta</p>
+</a>
+{% endblock enlace_punto_de_venta %}
+{% block enlace_ultimas_ventas %}
+<a href="/venta/ultimas-ventas" class="nav-link">
+    <i class="fas fa-chart-line nav-icon"></i>
+    <p>Ventas del dia</p>
+</a>
+{% endblock enlace_ultimas_ventas %}
+{% block enlace_cierre_caja %}
+<a href="/cierre-caja/index" class="nav-link">
+    <i class="fas fa-cash-register nav-icon"></i>
+    <p>Cierre de caja</p>
+</a>
+{% endblock enlace_cierre_caja %}
+{% block enlace_crear_apartados %}
+<a href="/apartados/" class="nav-link">
+    <i class="fas fa-truck-loading nav-icon"></i>
+    <p>Crear apartado</p>
+</a>
+{% endblock enlace_crear_apartados %}
+{% block enlace_lista_apartados %}
+<a href="/apartados/lista/" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-truck-loading nav-icon"></i>
+    <p>Lista apartados</p>
+</a>
+{% endblock enlace_lista_apartados %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid mt-3">
+        <!-- Card content -->
+        <div class="card">
+            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">LISTA DE PRODUCTOS APARTADOS</h1></div>
+            <!-- Card-body -->
+            <div class="card-body">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="bg-navyr white">
+                        <th>Número de apartado</th>
+                        <th>Fecha de apartado</th>
+                        <th>Código de barras</th>
+                        <th>Monto pagado por el cliente</th>
+                        <th>Precio a pagar</th>
+                        <th>Pagar | Cancelar</th>
+                    </thead>
+                    <tbody>
+                        {% for p in apartados_lista %}
+                        <tr>
+                            <td>{{ p.id }}</td>
+                            <td>{{ p.fecha }}</td>
+                            <td>{{ p.barcode }}</td>
+                            <td>$ {{ p.monto_pagado | floatformat:2 }}</td>
+                            <td>$ {{ p.precio_producto | floatformat:2 }}</td>
+                            <td>
+                                <a type="button" class="btn btn-sm btr2" href="{% url 'apartados_app:apartados_actualizar' p.id %}">
+                                    <span class="fas fa-file-invoice-dollar mr-2"></span>Pagar
+                                </a> | 
+                                <a type="button" class="btn btn-sm btn-danger" href="#">
+                                    <span class="fas fa-file-invoice-dollar mr-2"></span>Cancelar
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- ./card-body -->
+            <!-- Card-footer -->
+            <div class="card-footer">
+                <a href="/apartados/lista/" class="btn btn-default float-right mt-3 mb-3 mr-5" style="margin-left: 10px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Actualizar página</a>
+            </div>
+            <!-- ./card-footer -->
+        </div>
+        <!-- ./card content -->
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_scripts %}{% endblock extra_scripts %}

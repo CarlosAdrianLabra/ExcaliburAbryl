@@ -1,0 +1,76 @@
+{% extends 'apartados/base_apartados.html' %}
+{% load static %}
+
+{% block head %}
+<title>Apartados - Actualizar</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block enlace_punto_de_venta %}
+<a href="/venta/index" class="nav-link">
+    <i class="fas fa-shopping-cart nav-icon"></i>
+    <p>Punto de Venta</p>
+</a>
+{% endblock enlace_punto_de_venta %}
+{% block enlace_ultimas_ventas %}
+<a href="/venta/ultimas-ventas" class="nav-link">
+    <i class="fas fa-chart-line nav-icon"></i>
+    <p>Ventas del dia</p>
+</a>
+{% endblock enlace_ultimas_ventas %}
+{% block enlace_cierre_caja %}
+<a href="/cierre-caja/index" class="nav-link">
+    <i class="fas fa-cash-register nav-icon"></i>
+    <p>Cierre de caja</p>
+</a>
+{% endblock enlace_cierre_caja %}
+{% block enlace_crear_apartados %}
+<a href="/apartados/" class="nav-link">
+    <i class="fas fa-truck-loading nav-icon"></i>
+    <p>Crear apartado</p>
+</a>
+{% endblock enlace_crear_apartados %}
+{% block enlace_lista_apartados %}
+<a href="/apartados/lista/" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-truck-loading nav-icon"></i>
+    <p>Lista apartados</p>
+</a>
+{% endblock enlace_lista_apartados %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid mt-3">
+        <form method="POST" class="m-0">{% csrf_token %}
+            <!-- Card content -->
+            <div class="card">
+                <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">AGREGAR PAGO</h1></div>
+                <!-- Card-body -->
+                <div class="card-body">
+                    <label class="col-12 mb-3">Ingresa la siguiente información:</label>
+
+                    <label class="col-2 ml-5 float-left pt-2">Codigo de barras:</label>
+                    {{form.barcode}}
+                    <label class="col-2 ml-5 float-left pt-2">Monto pagado:</label>
+                    {{form.monto_pagado}}
+                    <label class="col-2 ml-5 float-left pt-2">Fecha de apartado:</label>
+                    {{form.fecha}}
+                    <label class="col-2 ml-5 float-left pt-2">Total a pagar:</label>
+                    {{form.precio_producto}}
+                    <label class="col-2 ml-5 mt-4 float-left pt-2">Agregar pago:</label>
+                    {{form.monto_actualizar}}
+                </div>
+                <!-- ./card-body -->
+                <!-- Card-footer -->
+                <div class="card-footer">
+                    <a href="/apartados/lista/" class="btn btn-default float-right mt-3 mb-3 mr-5" style="margin-left: 10px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Regresar</a>
+                    <button type="submit" class="btn btr2 float-right mt-3 mb-3 mr-2"><span class="fas fa-dollar-sign mr-2"></span>Agregar pago</button>
+                </div>
+                <!-- ./card-footer -->
+            </div>
+            <!-- ./card content -->
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_scripts %}{% endblock extra_scripts %}

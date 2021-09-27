@@ -1,0 +1,16 @@
+from django.urls import path
+from . import views
+
+app_name = "apartados_app"
+
+urlpatterns = [
+    path(
+        'apartados/',views.CrearApartado.as_view(),name='crear_apartado',
+    ),
+    path(
+        'apartados/lista/',views.ApartadosLista.as_view(),name='apartados_lista',
+    ),
+    path(
+        'apartados/actualizar/<pk>',views.ApartadosUpdateView.as_view(),name='apartados_actualizar',
+    )
+]

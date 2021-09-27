@@ -1,0 +1,100 @@
+{% extends 'apartados/base_apartados.html' %}
+{% load static %}
+
+{% block head %}
+<title>Apartados</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block enlace_punto_de_venta %}
+<a href="/venta/index" class="nav-link">
+    <i class="fas fa-shopping-cart nav-icon"></i>
+    <p>Punto de Venta</p>
+</a>
+{% endblock enlace_punto_de_venta %}
+{% block enlace_ultimas_ventas %}
+<a href="/venta/ultimas-ventas" class="nav-link">
+    <i class="fas fa-chart-line nav-icon"></i>
+    <p>Ventas del dia</p>
+</a>
+{% endblock enlace_ultimas_ventas %}
+{% block enlace_cierre_caja %}
+<a href="/cierre-caja/index" class="nav-link">
+    <i class="fas fa-cash-register nav-icon"></i>
+    <p>Cierre de caja</p>
+</a>
+{% endblock enlace_cierre_caja %}
+{% block enlace_crear_apartados %}
+<a href="/apartados/" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-truck-loading nav-icon"></i>
+    <p>Crear apartado</p>
+</a>
+{% endblock enlace_crear_apartados %}
+{% block enlace_lista_apartados %}
+<a href="/apartados/lista/" class="nav-link">
+    <i class="fas fa-truck-loading nav-icon"></i>
+    <p>Lista apartados</p>
+</a>
+{% endblock enlace_lista_apartados %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid mt-3">
+        <form method="POST" class="m-0">{% csrf_token %}
+            <!-- Card content -->
+            <div class="card">
+                <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">APARTADO DE PRODUCTOS</h1></div>
+                <!-- Card-body -->
+                <div class="card-body">
+                    <div class="row">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="bg-navyr white">
+                                <th>Código de barras</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio venta</th>
+                            </thead>
+                            <tbody>
+                            {% for p in productos_pos %}
+                            <tr>
+                                <td>{{ p.barcode }}</td>
+                                <td>{{ p.producto.nombre }}</td>
+                                <td>{{ p.count }}</td>
+                                <td>$ {{ p.producto.precio_venta | floatformat:2 }}</td>
+                                
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="3" class="bg-navyr white text-right text-bold">Total a pagar</td>
+                                <td class="bg-navyr white text-bold">$ {{ total_cobrar | floatformat:2 }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <p class="col-12">INGRESA LA SIGUIENTE INFORMACIÓN:</p>
+                        <label class="ml-5 pt-2 col-sm-3">Monto pagado por el cliente:</label>
+                        <div class="input-group col ml-5">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                            </div>
+                            {{form.monto_pagado}}
+                        </div>
+                    </div>
+
+                </div>
+                <!-- ./card-body -->
+                <!-- Card-footer -->
+                <div class="card-footer">
+                    <a href="/apartados" class="btn btn-default float-right mt-3 mb-3 mr-5" style="margin-left: 10px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Actualizar página</a>
+                    <button type="submit" class="btn btr2 float-right mt-3 mb-3"><i class="fas fa-truck-loading mr-2"></i>Crear apartado</button>
+                </div>
+                <!-- ./card-footer -->
+            </div>
+            <!-- ./card content -->
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_scripts %}{% endblock extra_scripts %}
