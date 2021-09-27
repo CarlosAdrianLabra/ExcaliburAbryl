@@ -49,6 +49,14 @@
 			</a>
 			{% endblock enlace_8020 %}
 		</li>
+		<li class="nav-item">
+			{% block enlace_compra_vs_vende %}
+			<a href="{% url 'administracion_app:compra_vende' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Compra vs vende</p>
+			</a>
+			{% endblock enlace_compra_vs_vende %}
+		</li>
 	</ul>
 </li>
 {% endblock menu_desplegable %}
@@ -114,9 +122,9 @@
 									<td>{{ lg.id }}</td>
 									<td>{{ lg.mes }} / {{ lg.año }}</td>
 									<td>$ {{ lg.gastosTotales | floatformat:2 }}</td>
-									<td>$ {{ lg.venta_neta_sistema }}</td>
-									<td>$ {{ lg.ganancia_bruta }}</td>
-									<td>$ {{ lg.mes_neto }}</td>
+									<td>$ {{ lg.venta_neta_sistema | floatformat:2 }}</td>
+									<td>$ {{ lg.ganancia_bruta | floatformat:2 }}</td>
+									<td>$ {{ lg.mes_neto | floatformat:2 }}</td>
 									<td>
 										<a type="button" class="btn btn-sm btn-info mr-2" href="{% url 'administracion_app:detalle-gastos' lg.id %}">
 											<span class="fas fa-eye"></span>

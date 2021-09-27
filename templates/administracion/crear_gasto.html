@@ -42,6 +42,22 @@
 			</a>
 			{% endblock enlace_ventas_por_fecha %}
 		</li>
+		<li class="nav-item">
+			{% block enlace_8020 %}
+			<a href="{% url 'administracion_app:8020-base' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Informe 80/20</p>
+			</a>
+			{% endblock enlace_8020 %}
+		</li>
+        <li class="nav-item">
+			{% block enlace_compra_vs_vende %}
+			<a href="{% url 'administracion_app:compra_vende' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Compra vs vende</p>
+			</a>
+			{% endblock enlace_compra_vs_vende %}
+		</li>
 	</ul>
 </li>
 {% endblock menu_desplegable %}
@@ -91,8 +107,9 @@
 						</div>
 						<div class="card-body">
 							<div class="row col-12">
-								<h5 class="mt-2 mr-3">AÑO</h5>{{form.año | add_class:"form-control col-md-1"}}
-								<h5 class="mt-2 mr-3 ml-4">MES</h5>{{form.mes | add_class:"form-control col-md-2"}}
+								<h5 class="mt-2 ml-1 mr-3">Año</h5>{{form.año | add_class:"form-control col-md-1"}}
+								<h5 class="mt-2 mr-3 ml-4">Mes</h5>{{form.mes | add_class:"form-control col-md-2"}}
+								<p class="ml-3 pt-2 red" style="font-size: 15px;">* Nota: Solo se puede crear un reporte por mes.</p>
 							</div>
 
 							<div class="row col-12 mt-3">

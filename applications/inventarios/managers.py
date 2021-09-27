@@ -193,3 +193,11 @@ class filtros(models.Manager):
         resultado=self.values().annotate(sum('product_sale__price_subtotal')).groupby('nombre')
         return self
 
+    #
+    # Promociones
+    #
+
+    def promociones_activas(self):
+        consulta = self.all().exclude(promocion='0').order_by('-created')
+
+        return consulta

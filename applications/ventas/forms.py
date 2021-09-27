@@ -79,16 +79,13 @@ class EfectivoForm(forms.Form):
     )
 
 class PromocionesForm(forms.Form):
-    OPCIONES_MARCA = (
-        ('', '---------'),
-        ('ADIDAS', 'ADIDAS'),
-    )
+    
     linea_a = forms.ChoiceField(
         required=False,
         choices=Productos.OPCIONES_LINEA_ACCESORIOS,
         widget=forms.Select(
             attrs = {
-                'class': 'form-control col-10 ml-1 mb-3',
+                'class': 'form-control col-9 ml-1 mb-3 float-left mt-4',
             }
         )
     )
@@ -97,7 +94,7 @@ class PromocionesForm(forms.Form):
         choices=Productos.OPCIONES_LINEA_CALZADO,
         widget=forms.Select(
             attrs = {
-                'class': 'form-control col-10 ml-1 mb-3',
+                'class': 'form-control col-9 ml-1 mb-3 float-left',
             }
         )
     )
@@ -106,16 +103,34 @@ class PromocionesForm(forms.Form):
         choices=Productos.OPCIONES_LINEA_ROPA,
         widget=forms.Select(
             attrs = {
-                'class': 'form-control col-10 ml-1 mb-3',
+                'class': 'form-control col-9 ml-1 mb-3 float-left',
             }
         )
     )
-    marca = forms.ChoiceField(
+    genero = forms.ChoiceField(
         required=False,
-        choices=OPCIONES_MARCA,
+        choices=Productos.OPCIONES_GENERO,
+        widget=forms.Select(
+            attrs = {
+                'class': 'form-control col-9 ml-1 mb-3 float-left',
+            }
+        )
+    )
+    marca = forms.ModelChoiceField(
+        required=False,
+        queryset=Marca.objects.all(),
         widget=forms.Select(
             attrs={
-                'class': 'form-control col-10 ml-1 mb-3',
+                'class': 'form-control col-9 ml-1 mb-3 float-left',
+            }
+        )
+    )
+    precio_asignado = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control col-9 ml-1 mb-3 float-left text-right',
+                'placeholder': '99.00'
             }
         )
     )
@@ -123,7 +138,17 @@ class PromocionesForm(forms.Form):
         required=False,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control col-10 ml-1 mb-3',
+                'class': 'form-control col-9 ml-1 mb-3 float-left text-right',
+                'placeholder': 'Ingresar código de barras del producto'
+            }
+        )
+    )
+    barcode_solo = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control col-9 ml-1 mb-3 float-left text-right',
+                'placeholder': 'Ingresar código de barras del producto'
             }
         )
     )
@@ -132,7 +157,7 @@ class PromocionesForm(forms.Form):
         choices=Productos.OPCION_PROMOCIONES,
         widget=forms.Select(
             attrs = {
-                'class': 'form-control col-10 ml-1 mb-3',
+                'class': 'form-control col-12 ml-1 mb-3',
             }
         )
     )

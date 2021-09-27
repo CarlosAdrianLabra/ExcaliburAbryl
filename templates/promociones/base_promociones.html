@@ -3,7 +3,16 @@
 
 {% block head %}{% endblock head %}
 
-{% block sidebarlinks %}{% endblock sidebarlinks %}
+{% block sidebarlinks %}
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <li class="nav-item">
+        {% block enlace_asignar_promociones %}{% endblock enlace_asignar_promociones %}
+    </li>
+    <li class="nav-item">
+        {% block enlace_listar_promociones %}{% endblock enlace_listar_promociones %}
+    </li>
+</ul>
+{% endblock sidebarlinks %}
 
 {% block content %}{% endblock content %}
 

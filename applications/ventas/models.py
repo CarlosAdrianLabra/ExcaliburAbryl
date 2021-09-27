@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.base import Model
 from django.db.models.signals import pre_delete, post_save
 
 from model_utils.models import TimeStampedModel
@@ -97,7 +98,8 @@ class Carrito(TimeStampedModel):
         return str(self.producto.nombre)
 
     def subtotal(self):
-        # cantidad = float(self.count)
+        cod = self.barcode
+        cantidad = float(self.count)
         promocion = self.producto.promocion
         p_venta = float(self.producto.precio_venta)
         cant_x_venta = float(self.count * self.producto.precio_venta)
@@ -131,6 +133,22 @@ class Carrito(TimeStampedModel):
             return cant_x_venta - (cant_x_venta * 0.20)
         elif promocion == '6':
             return cant_x_venta
+        
+        if promocion == '8':
+            return cant_x_venta - (cantidad * 89)
+        if promocion == '9':
+            return cant_x_venta - (cantidad * 99)
+        if promocion == '10':
+            return cant_x_venta - (cantidad * 199)
+        if promocion == '11':
+            return cant_x_venta - (cantidad * 299)
+        
+        if promocion == '12':
+            promo = PreciosFijos.objects.get(barcode=cod)
+            promo.precio_fijo = str(promo.precio_fijo)
+            promo.precio_fijo = float(promo.precio_fijo)
+            
+            return cant_x_venta - (cantidad * promo.precio_fijo)
 
 
 class Efectivo(TimeStampedModel):
@@ -144,3 +162,15 @@ class Efectivo(TimeStampedModel):
 
     def __str__(self):
         return str(self.change)
+    
+
+class PreciosFijos(models.Model):
+    barcode = models.CharField('Código de barras', max_length=13, blank=True)
+    precio_fijo = models.DecimalField('Precio fijado por tienda', max_digits=7, decimal_places=2, default=0)
+
+    class Meta:
+        verbose_name = 'Precio Fijo'
+        verbose_name_plural = 'Precios Fijos'
+
+    def __str__(self):
+        return str(self.precio_fijo)

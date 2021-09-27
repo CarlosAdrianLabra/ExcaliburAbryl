@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.db import models
-from applications.inventarios.models import Productos
-from django.db.models import Q, Sum, F, FloatField, ExpressionWrapper
+from applications.inventarios.models import Productos, Movimientos
+from django.db.models import Q, Sum, F, FloatField, ExpressionWrapper, manager
 from django.db.models.functions import Upper
 
 class SaleManager(models.Manager):
@@ -345,6 +345,60 @@ class SaleDetailManager(models.Manager):
         ).order_by('-total_ventas')
         return resultado
 
+    def compra_vs_vende(self, **filters):
+        if filters['fecha_inicio'] and filters['fecha_fin'] and filters['proveedor']:
+            #
+            # Lo que se vende
+            #
+            fecha_venta = self.filter(
+                anulate=False,
+                sale__close=True,
+                sale__date_sale__range = (filters['fecha_inicio'],filters['fecha_fin'],),
+                producto__proveedor__pk=filters['proveedor'],
+            )
+        
+            se_vende = fecha_venta.annotate(
+                sub_total=ExpressionWrapper(F('price_subtotal'),output_field=FloatField()),
+                total_pagar=ExpressionWrapper(F('price_subtotal') - (F('price_purchase') * F('count')),output_field=FloatField()),
+                total_costo_pagar=ExpressionWrapper(F('count') * F('price_purchase'),output_field=FloatField())
+            ).order_by('-sale__date_sale')
+
+            total_se_vende = fecha_venta.aggregate(
+                total_de_venta=Sum(
+                    F('price_subtotal') - (F('price_purchase') * F('count')),output_field=FloatField()
+                )
+            )['total_de_venta']
+            
+            total_costo_vendido = fecha_venta.aggregate(
+                total_costo_venta=Sum(
+                    F('count') * F('price_purchase'),output_field=FloatField()
+                )
+            )['total_costo_venta']
+            
+            #
+            # Lo que se compra
+            #
+            
+            fecha_compra = Movimientos.objects.filter(
+                fecha__range=(filters['fecha_inicio'],filters['fecha_fin'],),
+                producto__proveedor__pk=filters['proveedor'],
+            ).order_by('-fecha')
+
+            se_compra = fecha_compra.annotate(
+                total_pagar=ExpressionWrapper(F('total_costo'),output_field=FloatField())
+            )
+
+            total_se_compra = fecha_compra.aggregate(
+                total_costo=Sum(
+                    F('total_costo'),output_field=FloatField()
+                )
+            )['total_costo']
+
+            return se_vende, total_se_vende, total_costo_vendido, total_se_compra, se_compra
+        else:
+            return [], 0, 0, 0, []
+
+
 class CarShopManager(models.Manager):
     """ procedimiento modelo Carrito de compras """
     
@@ -352,15 +406,17 @@ class CarShopManager(models.Manager):
         
         total = 0
         promo_10 = 0
-        if self.filter(producto__promocion='7'):
-            np = self.filter(producto__promocion='7').count()
+        productos_10 = self.filter(producto__promocion='7')
+        #
+        if productos_10:
+            np = productos_10.count()
         else:
             np = 0
 
-        if np >= 2 and self.filter(producto__promocion='7'):
-            for productos in self.filter(producto__promocion='7'):
+        if np >= 2 and productos_10:
+            for productos in productos_10:
                 promo_10 += (float(productos.subtotal()) * 0.10)
-        if self.filter(producto__promocion='7'):
+        if productos_10:
             for productos in self.all():
                 total += float(productos.subtotal())
         else:

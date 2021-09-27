@@ -1,4 +1,6 @@
+from django.db import IntegrityError
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import (
     TemplateView,
     ListView,
@@ -7,13 +9,13 @@ from django.views.generic import (
     UpdateView,
     View
 )
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from applications.ventas.models import Venta, DetalleVenta
 from applications.administracion.models import Gastos
 from applications.inventarios.models import Productos
 from applications.users.mixins import AdminPermisoMixin
 #
-from .forms import LiquidacionProviderForm, ResumenVentasForm
+from .forms import LiquidacionProviderForm, ResumenVentasForm, CompravsVendeFormulario, GastosFormulario
 #
 from .functions import detalle_resumen_ventas
 
@@ -89,6 +91,7 @@ class GastosListView(ListView):
     def get_queryset(self):
         return Gastos.objects.listar_gastos()
 
+
 class GastosDetailView(DetailView):
     model = Gastos
     template_name = "administracion/detalle_gastos.html"
@@ -97,115 +100,21 @@ class GastosDetailView(DetailView):
 
 class GastosCreateView(CreateView):
     model = Gastos
+    form_class = GastosFormulario
     template_name = "administracion/crear_gasto.html"
     success_url=reverse_lazy('administracion_app:admin-gastos')
-    fields=[
-        'mes',
-        'año',
-        'cargosBancarios',
-        'comisionTarjetaCredito',
-        'otrosBancos',
-        'salariosSueldosWeb',
-        'sueldosOficina',
-        'sueldosCorporativos',
-        'comisionesPagadas',
-        'jubilacion',
-        'utilidades',
-        'costosReclutamiento',
-        'imss',
-        'rollosImpresora',
-        'tapiceria',
-        'remodelacionOficina',
-        'predial',
-        'papeleria',
-        'intercomunicador',
-        'telefonosOficina',
-        'luz',
-        'telefono',
-        'lentes',
-        'fletes',
-        'walmart',
-        'reparacionesManteminiento',
-        'notas',
-        'agua',
-        'policia',
-        'gastosViajes',
-        'amplificadorBocinas',
-        'gastosCheques',
-        'gastosOficina',
-        'fideicomiso',
-        'contador',
-        'cometra',
-        'paletas',
-        'finiquito',
-        'honorariosConsultores',
-        'impuestoCDMX',
-        'chequesAbril',
-        'equipoComputo',
-        'mantenimientoComputo',
-        'viaticos',
-        'comidas',
-        'valoracionInmuebles',
-        'imprenta',
-        'comisionRentaLocal',
-        'impuestos',
-    ]
 
+    def form_valid(self, form):
+        try:
+            return super(GastosCreateView, self).form_valid(form)
+        except IntegrityError:
+            return HttpResponseRedirect(reverse('administracion_app:admin-gastos'))
+    
 
 class GastosUpdateView(UpdateView):
     model = Gastos
+    form_class = GastosFormulario
     template_name = "administracion/update_gasto.html"
-    fields=[
-        'mes',
-        'año',
-        'cargosBancarios',
-        'comisionTarjetaCredito',
-        'otrosBancos',
-        'salariosSueldosWeb',
-        'sueldosOficina',
-        'sueldosCorporativos',
-        'comisionesPagadas',
-        'jubilacion',
-        'utilidades',
-        'costosReclutamiento',
-        'imss',
-        'rollosImpresora',
-        'tapiceria',
-        'remodelacionOficina',
-        'predial',
-        'papeleria',
-        'intercomunicador',
-        'telefonosOficina',
-        'luz',
-        'telefono',
-        'lentes',
-        'fletes',
-        'walmart',
-        'reparacionesManteminiento',
-        'notas',
-        'agua',
-        'policia',
-        'gastosViajes',
-        'amplificadorBocinas',
-        'gastosCheques',
-        'gastosOficina',
-        'fideicomiso',
-        'contador',
-        'cometra',
-        'paletas',
-        'finiquito',
-        'honorariosConsultores',
-        'impuestoCDMX',
-        'chequesAbril',
-        'equipoComputo',
-        'mantenimientoComputo',
-        'viaticos',
-        'comidas',
-        'valoracionInmuebles',
-        'imprenta',
-        'comisionRentaLocal',
-        'impuestos',
-    ]
     success_url=reverse_lazy('administracion_app:admin-gastos')
     
 
@@ -217,11 +126,34 @@ class Informe8020ListView(ListView):
     def get_queryset(self):
         return DetalleVenta.objects.reporte8020_producto
 
-class ResultadosView(View):
-    template_name="administracion/resultados.html"
-    context_object_name='resultados'
 
+# class ResultadosView(View):
+#     template_name="administracion/resultados.html"
+#     context_object_name='resultados'
+
+#     def get_queryset(self):
+        
+#         return queryset
+
+
+class CompravsVende(ListView):
+    template_name = "administracion/reporte_compravsvende.html"
+    context_object_name = "compra_vs_vende"
+    extra_context = {'form': CompravsVendeFormulario}
+    
     def get_queryset(self):
         
-        return queryset
+        consulta, total_se_vende, total_costo_vendido, total_se_compra, se_compra = DetalleVenta.objects.compra_vs_vende(
+            fecha_inicio=self.request.GET.get("fecha_inicio", ''),
+            fecha_fin=self.request.GET.get("fecha_fin", ''),
+            proveedor=self.request.GET.get("proveedor", ''),
+        )
+        self.extra_context.update(
+            {'total_se_vende': total_se_vende,
+            'total_costo_vendido': total_costo_vendido,
+            'total_se_compra': total_se_compra,
+            'se_compra': se_compra
+            }
+        )
 
+        return consulta

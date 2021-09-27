@@ -18,7 +18,7 @@ from applications.inventarios.models import Productos
 from applications.users.models import User
 from applications.inventarios.num2word import word
 from applications.utils import render_to_pdf
-from .models import Efectivo, Venta, DetalleVenta, Carrito
+from .models import Efectivo, Venta, DetalleVenta, Carrito, PreciosFijos
 from .forms import EfectivoForm, VentaForm, VentaVoucherForm, PromocionesForm
 from .functions import procesar_venta
 from applications.caja.functions import detalle_ventas_no_cerradas
@@ -63,7 +63,7 @@ class CarShopUpdateView(View):
         if car.count > 1:
             car.count = car.count - 1
             car.save()
-        #
+        
         return HttpResponseRedirect(
             reverse(
                 'ventas_app:venta-index'
@@ -92,10 +92,10 @@ class CarShopDeleteView(DeleteView):
 class CarShopDeleteAll(View):
     
     def post(self, request, *args, **kwargs):
-        #
+        
         Carrito.objects.all().delete()
         Efectivo.objects.all().delete()
-        #
+        
         return HttpResponseRedirect(
             reverse(
                 'ventas_app:venta-index'
@@ -106,14 +106,14 @@ class ProcesoVentaSimpleView(View):
     """ Procesa una venta simple """
 
     def post(self, request, *args, **kwargs):
-        #
+        
         procesar_venta(
             self=self,
             type_invoice=Venta.SIN_COMPROBANTE,
             type_payment=Venta.EFECTIVO,
             user=self.request.user,
         )
-        #
+        
         return HttpResponseRedirect(
             reverse(
                 'ventas_app:venta-index'
@@ -127,14 +127,14 @@ class ProcesoVentaVoucherView(FormView):
     def form_valid(self, form):
         type_payment = form.cleaned_data['type_payment']
         type_invoice = form.cleaned_data['type_invoice']
-        #
+        
         venta = procesar_venta(
             self=self,
             type_invoice=type_invoice,
             type_payment=type_payment,
             user=self.request.user,
         )
-        #
+        
         if venta: 
             return HttpResponseRedirect(
                 reverse(
@@ -158,6 +158,7 @@ class VentaVoucherPdf(View):
         decimal = str(Decimal(venta.amount) % 1)[2:]
         user = str(User.objects.get(id='1')).upper()
         efectivo = Efectivo.objects.all()
+
         data = {
             'venta': venta,
             'detalle_productos': DetalleVenta.objects.filter(sale__id=self.kwargs['pk']),
@@ -168,6 +169,7 @@ class VentaVoucherPdf(View):
             'efectivo': efectivo
         }
         pdf = render_to_pdf('ventas/voucher.html', data)
+
         return HttpResponse(pdf, content_type='application/pdf')
 
 class SaleListView(ListView):
@@ -223,9 +225,9 @@ class EfectivoView(FormView):
 class EfectivoDeleteAll(View):
     
     def post(self, request, *args, **kwargs):
-        #
+        
         Efectivo.objects.all().delete()
-        #
+        
         return HttpResponseRedirect(
             reverse(
                 'ventas_app:venta-index'
@@ -235,31 +237,79 @@ class EfectivoDeleteAll(View):
 class Promociones(FormView):
     template_name = 'promociones/index_promociones.html'
     form_class = PromocionesForm
-    success_url = '.'
+    success_url = reverse_lazy('ventas_app:promociones_activas')
 
     def form_valid(self, form):
         marca = form.cleaned_data['marca']
+        genero = form.cleaned_data['genero']
+        precio = form.cleaned_data['precio_asignado']
         linea_a = form.cleaned_data['linea_a']
         linea_c = form.cleaned_data['linea_c']
         linea_r = form.cleaned_data['linea_r']
         barcode = form.cleaned_data['barcode']
+        barcode_solo = form.cleaned_data['barcode_solo']
         promocion = form.cleaned_data['promocion']
 
-        if linea_a != '':
-            Productos.objects.filter(linea_a=linea_a).update(
-                promocion=promocion
-            )
-        if linea_c != '':
-            Productos.objects.filter(linea_c=linea_c).update(
-                promocion=promocion
-            )
-        if linea_r != '':
-            Productos.objects.filter(linea_r=linea_r).update(
-                promocion=promocion
-            )
-        if barcode != '':
-            Productos.objects.filter(barcode=barcode).update(
+        #  UN SOLO PRODUCTO
+        if barcode_solo != '':
+            Productos.objects.filter(barcode=barcode_solo).update(
                 promocion=promocion
             )
         
+        #  CREAR DESCUENTO PARA UN PRODUCTO
+        if barcode and precio != '':
+            Productos.objects.filter(barcode=barcode).update(
+                promocion=promocion
+            )
+            try:
+                producto = PreciosFijos.objects.get(barcode=barcode)
+                if producto:
+                    PreciosFijos.objects.update(
+                        barcode=barcode,
+                        precio_fijo=precio
+                    )
+            except PreciosFijos.DoesNotExist:
+                PreciosFijos.objects.create(
+                    barcode=barcode,
+                    precio_fijo=precio
+                )
+        
+        # POR MARCA Y LINEA
+        # if marca and linea_a != '':
+        #     Productos.objects.filter(marca=marca, linea_a=linea_a).update(
+        #         promocion=promocion
+        #     )
+        # if marca and linea_c != '':
+        #     Productos.objects.filter(marca=marca, linea_c=linea_c).update(
+        #         promocion=promocion
+        #     )
+        # if marca and linea_r != '':
+        #     Productos.objects.filter(marca=marca, linea_r=linea_r).update(
+        #         promocion=promocion
+        #     )
+
+        # A VARIOS PRODUCTOS
+        if genero and marca and linea_a != '':
+            Productos.objects.filter(genero=genero, marca=marca, linea_a=linea_a).update(
+                promocion=promocion
+            )
+        if genero and marca and linea_c != '':
+            Productos.objects.filter(genero=genero, marca=marca, linea_c=linea_c).update(
+                promocion=promocion
+            )
+        if genero and marca and linea_r != '':
+            Productos.objects.filter(genero=genero, marca=marca, linea_r=linea_r).update(
+                promocion=promocion
+            )
+
         return super(Promociones, self).form_valid(form)
+
+class ListaPromociones(ListView):
+    template_name = 'promociones/lista_promociones.html'
+    model = Productos
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["p_activas"] = Productos.objects.promociones_activas()
+
+        return context

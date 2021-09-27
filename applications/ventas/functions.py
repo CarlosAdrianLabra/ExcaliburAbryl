@@ -2,8 +2,7 @@ from django.utils import timezone
 from django.db.models import Prefetch
 
 from applications.inventarios.models import Productos
-
-from .models import Venta, DetalleVenta, Carrito, Efectivo
+from .models import Venta, DetalleVenta, Carrito
 
 
 def procesar_venta(self, **params_venta):
@@ -11,7 +10,14 @@ def procesar_venta(self, **params_venta):
     productos_en_car = Carrito.objects.all()
     total_de_venta = Carrito.objects.total_cobrar()
     if productos_en_car.count() > 0 and Carrito.objects.filter(producto__stock__gt=0):
-        
+
+        sub_10:float = 0
+        for p in productos_en_car:
+            if p.producto.promocion=='7':
+                sub_10 += float(p.producto.precio_venta * p.count) - float(p.producto.precio_venta * p.count)*float(0.10)
+            else:
+                sub_10 += float(p.producto.precio_venta * p.count)
+
         # crea el objeto venta
         venta = Venta.objects.create(
             date_sale=timezone.now(),
@@ -24,32 +30,74 @@ def procesar_venta(self, **params_venta):
         #
         ventas_detalle = []
         productos_en_venta = []
-        for p_c in productos_en_car:
-            #
-            subtotal = ""
-            subtotal = str(p_c.subtotal())
-            #
-            venta_detalle = DetalleVenta(
-                producto=p_c.producto,
-                sale=venta,
-                count=p_c.count,
-                price_purchase=p_c.producto.precio_compra,
-                price_sale=p_c.producto.precio_venta,
-                price_subtotal=p_c.subtotal(),
-                promocion=p_c.producto.promocion,
-                discount=float(p_c.producto.precio_venta * p_c.count) - float(subtotal),
-                tax=0.16,
-            )
-            # actualizmos stok de producto en iteracion
-            producto = p_c.producto
-            producto.stock = producto.stock - p_c.count
-            producto.num_venta = producto.num_venta + p_c.count
-            #
-            ventas_detalle.append(venta_detalle)
-            productos_en_venta.append(producto)
-            #
-            venta.count = venta.count + p_c.count
-            venta.amount = total_de_venta
+
+        if sub_10 == total_de_venta:
+            for p_c in productos_en_car:
+                #
+                subtotal = ""
+                subtotal = str(p_c.subtotal())
+                #
+                if p_c.producto.promocion=='7':
+                    venta_detalle = DetalleVenta(
+                        producto=p_c.producto,
+                        sale=venta,
+                        count=p_c.count,
+                        price_purchase=p_c.producto.precio_compra,
+                        price_sale=p_c.producto.precio_venta,
+                        price_subtotal=float(p_c.producto.precio_venta * p_c.count) - float(p_c.producto.precio_venta * p_c.count)*float(0.10),
+                        promocion=p_c.producto.promocion,
+                        discount=float(p_c.producto.precio_venta * p_c.count) - float(p_c.producto.precio_venta * p_c.count) - float(p_c.producto.precio_venta * p_c.count)*float(0.10),
+                        tax=0.16,
+                    )
+                else:
+                    venta_detalle = DetalleVenta(
+                        producto=p_c.producto,
+                        sale=venta,
+                        count=p_c.count,
+                        price_purchase=p_c.producto.precio_compra,
+                        price_sale=p_c.producto.precio_venta,
+                        price_subtotal=p_c.subtotal(),
+                        promocion=p_c.producto.promocion,
+                        discount=float(p_c.producto.precio_venta * p_c.count) - float(subtotal),
+                        tax=0.16,
+                    )
+                # actualizmos stok de producto en iteracion
+                producto = p_c.producto
+                producto.stock = producto.stock - p_c.count
+                producto.num_venta = producto.num_venta + p_c.count
+                #
+                ventas_detalle.append(venta_detalle)
+                productos_en_venta.append(producto)
+                #
+                venta.count = venta.count + p_c.count
+                venta.amount = total_de_venta
+        else:
+            for p_c in productos_en_car:
+                #
+                subtotal = ""
+                subtotal = str(p_c.subtotal())
+                #
+                venta_detalle = DetalleVenta(
+                    producto=p_c.producto,
+                    sale=venta,
+                    count=p_c.count,
+                    price_purchase=p_c.producto.precio_compra,
+                    price_sale=p_c.producto.precio_venta,
+                    price_subtotal=p_c.subtotal(),
+                    promocion=p_c.producto.promocion,
+                    discount=float(p_c.producto.precio_venta * p_c.count) - float(subtotal),
+                    tax=0.16,
+                )
+                # actualizmos stok de producto en iteracion
+                producto = p_c.producto
+                producto.stock = producto.stock - p_c.count
+                producto.num_venta = producto.num_venta + p_c.count
+                #
+                ventas_detalle.append(venta_detalle)
+                productos_en_venta.append(producto)
+                #
+                venta.count = venta.count + p_c.count
+                venta.amount = total_de_venta
 
         # for p_c in productos_en_car:
         #     venta_detalle = DetalleVenta(
@@ -81,4 +129,3 @@ def procesar_venta(self, **params_venta):
         return venta
     else:
         return None
-    

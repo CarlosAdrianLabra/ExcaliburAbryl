@@ -6,47 +6,101 @@
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
+{% block enlace_asignar_promociones %}
+<a href="{% url 'ventas_app:promociones' %}" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-list-ul nav-icon"></i>
+    <p>Asignar Promociones</p>
+</a>
+{% endblock enlace_asignar_promociones %}
+{% block enlace_listar_promociones %}
+<a href="{% url 'ventas_app:promociones_activas' %}" class="nav-link">
+    <i class="fas fa-tasks nav-icon"></i>
+    <p>Promociones Activas</p>
+</a>
+{% endblock enlace_listar_promociones %}
+
 {% block content %}
 <div class="content">
-    <h2 class="text-center mt-5">PROMOCIONES</h2>
-    <form method="POST" class="m-0">{% csrf_token %}
-        <div class="row mt-5">
-            <div class="col-11 offset-1 mb-3">
-                <label>Aplicar promoción por:</label>
+    <div class="container-fluid mt-3">
+        <form method="POST" class="m-0">{% csrf_token %}
+            <!-- Card content -->
+            <div class="card">
+                <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">PROMOCIONES</h1></div>
+                <!-- Card-body -->
+                <div class="card-body">
+                    <div class="row mt-3 ml-5">
+                        <label class="text-uppercase">1 - Elige la promoción que deseas implementar:</label>
+                        <div class="col-12"><label class="ml-1 mt-2">Promociones disponibles:</label></div>
+                        <div class="col-3">{{form.promocion}}</div>
+                    </div>
+                    <div class="row mt-4 ml-5">
+                        <label class="text-uppercase">2 - Aplicar promoción:</label>
+                        <div class="col-12">
+                            <div class="card collapsed-card mt-2">
+                                <span class="card-header" data-card-widget="collapse">A UN PRODUCTO
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </span>
+                                <div class="card-body">
+                                    <label class="col-12">Ingresa la siguiente información:</label>
+                                    <label class="col-2 ml-5 float-left pt-2">Código de barras:</label>
+                                    {{form.barcode_solo}}
+                                </div>
+                            </div>
+                            <div class="card collapsed-card mt-2">
+                                <span class="card-header" data-card-widget="collapse">CREAR DESCUENTO PARA UN PRODUCTO
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </span>
+                                <div class="card-body">
+                                    <P class="col-12">Nota * DEBES SELECCIONAR LA OPCIÓN <b>Descuento establecido por tienda</b> EN EL PASO 1 PARA ACTIVAR ESTE DESCUENTO:</P>
+                                    <label class="col-12">Ingresa la siguiente información:</label>
+                                    <label class="col-2 ml-5 float-left pt-2">Código de barras:</label>
+                                    {{form.barcode}}
+                                    <label class="col-2 ml-5 float-left pt-2">Monto del descuento:</label>
+                                    {{form.precio_asignado}}
+                                </div>
+                            </div>
+                            <div class="card collapsed-card mt-2">
+                                <span class="card-header" data-card-widget="collapse">A VARIOS PRODUCTOS
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </span>
+                                <div class="card-body">
+                                    <P class="col-12">Nota * DEBES SELECCIONAR UN GÉNERO, MARCA Y UNA DE LAS TRES DIFERENTES LÍNEAS (accesorios, calzado, ropa)</P>
+                                    <label class="col-12">Ingresa la siguiente información:</label>
+                                    <label class="col-2 ml-5 float-left pt-2">Género:</label>
+                                    {{form.genero}}
+                                    <label class="col-2 ml-5 float-left pt-2">Marca:</label>
+                                    {{form.marca}}
+                                    <label class="col-2 ml-5 float-left pt-2 mt-4">Línea accesorios:</label>
+                                    {{form.linea_a}}
+                                    <label class="col-2 ml-5 float-left pt-2">Línea calzado:</label>
+                                    {{form.linea_c}}
+                                    <label class="col-2 ml-5 float-left pt-2">Línea ropa:</label>
+                                    {{form.linea_r}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./card-body -->
+                <!-- Card-footer -->
+                <div class="card-footer">
+                    <a href="/promociones" class="btn btn-default float-right mt-3 mb-3 mr-5" style="margin-left: 10px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Actualizar página</a>
+                    <button type="submit" class="btn btr2 float-right mt-3 mb-3"><i class="fas fa-percentage mr-2"></i>Aplicar promoción</button>
+                </div>
+                <!-- ./card-footer -->
             </div>
-            <div class="col-2 offset-1">
-                <label class="ml-1">Código de Barras</label>
-                {{form.barcode}}
-            </div>
-            <div class="col-2 ml-1">
-                <label class="ml-1">Marca</label>
-                {{form.marca}}
-                <label class="ml-1">Línea Accesorios</label>
-                {{form.linea_a}}
-                <label class="ml-1">Línea Calzado</label>
-                {{form.linea_c}}
-                <label class="ml-1">Línea Ropa</label>
-                {{form.linea_r}}
-            </div>
-            <div class="col-2 ml-1">
-                
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-11 offset-1 mb-3">
-                <label>Promociones disponibles:</label>
-            </div>
-            <div class="col-2 offset-1">
-                {{form.promocion}}
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-3 offset-1">
-                <button class="btn btr2 ml-1">Aplicar promoción</button>
-            </div>
-        </div>
-    </form>
+            <!-- ./card content -->
+        </form>
+    </div>
 </div>
-
-
 {% endblock content %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/select2.min.js' %}"></script>
+{% endblock extra_scripts %}

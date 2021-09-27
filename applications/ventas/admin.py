@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Venta, DetalleVenta,Efectivo
+from .models import Venta, DetalleVenta, Efectivo, PreciosFijos
 # Register your models here.
 
 class VentaAdmin(admin.ModelAdmin):
@@ -27,3 +27,10 @@ class DetalleVentaAdmin(admin.ModelAdmin):
 admin.site.register(Venta, VentaAdmin)
 #
 admin.site.register(DetalleVenta, DetalleVentaAdmin)
+
+class PreciosFijosAdmin(admin.ModelAdmin):
+    list_display = (
+        'barcode',
+        'precio_fijo'
+    )
+admin.site.register(PreciosFijos, PreciosFijosAdmin)

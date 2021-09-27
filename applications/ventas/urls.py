@@ -68,5 +68,10 @@ urlpatterns = [
         'promociones/',
         views.Promociones.as_view(),
         name='promociones',
-        ),
+    ),
+    path(
+        'promociones/activas/',
+        views.ListaPromociones.as_view(),
+        name='promociones_activas',
+    ),
 ]

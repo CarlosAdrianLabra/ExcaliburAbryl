@@ -1,0 +1,64 @@
+{% extends 'promociones/base_promociones.html' %}
+{% load static %}
+
+{% block head %}
+<title>Promociones - Activas</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block enlace_asignar_promociones %}
+<a href="{% url 'ventas_app:promociones' %}" class="nav-link">
+    <i class="fas fa-list-ul nav-icon"></i>
+    <p>Asignar Promociones</p>
+</a>
+{% endblock enlace_asignar_promociones %}
+{% block enlace_listar_promociones %}
+<a href="{% url 'ventas_app:promociones_activas' %}" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-tasks nav-icon"></i>
+    <p>Promociones Activas</p>
+</a>
+{% endblock enlace_listar_promociones %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid mt-3">
+        <!-- Card content -->
+        <div class="card">
+            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">PROMOCIONES ACTIVAS</h1></div>
+            <!-- Card-body -->
+            <!-- ./card-body -->
+            <div class="card-body">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="bg-navyr white">
+                        <th>Código de barras</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Promoción</th>
+                        <th>Precio costo</th>
+                        <th>Precio venta</th>
+                    </thead>
+                    <tbody>
+                    {% for p in p_activas %}
+                    <tr>
+                        <td>{{ p.barcode }}</td>
+                        <td>{{ p.nombre }}</td>
+                        <td>{{ p.stock }}</td>
+                        <td>{{ p.get_promocion_display }}</td>
+                        <td>$ {{ p.precio_compra | floatformat:2 }}</td>
+                        <td>$ {{ p.precio_venta | floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- Card-footer -->
+            <div class="card-footer">
+                <a href="/promociones/activas/" class="btn btn-default float-right mt-3 mb-3 mr-5" style="margin-left: 10px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Actualizar página</a>
+            </div>
+            <!-- ./card-footer -->
+        </div>
+        <!-- ./card content -->
+    </div>
+</div>
+
+{% endblock content %}

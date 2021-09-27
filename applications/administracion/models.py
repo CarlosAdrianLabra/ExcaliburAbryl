@@ -1,9 +1,9 @@
 from datetime import datetime
 from django.db import models
-from django.db.models.fields import CharField, FloatField, IntegerField
-from django.db.models import Q, Sum, F, FloatField, ExpressionWrapper
+from django.db.models.fields import FloatField
+from django.db.models import Sum, F, FloatField
 from .managers import GastosManager
-from applications.ventas.models import DetalleVenta, Venta
+from applications.ventas.models import Venta
 
 # Create your models here.
 
@@ -217,11 +217,14 @@ class Gastos(models.Model):
         return consulta
 
     def total_de_ventas(self):
-        consulta_c = self.ventas_calzado()
-        consulta_r = self.ventas_ropa()
-        consulta_a = self.ventas_accesorios()
-        #
-        consulta_final = consulta_c + consulta_r + consulta_a
+        try:
+            consulta_c = self.ventas_calzado()
+            consulta_r = self.ventas_ropa()
+            consulta_a = self.ventas_accesorios()
+            #
+            consulta_final = consulta_c + consulta_r + consulta_a
+        except TypeError:
+            consulta_final = 0
 
         return consulta_final
 
@@ -283,11 +286,15 @@ class Gastos(models.Model):
         return consulta
 
     def total_de_descuentos(self):
-        consulta_c = self.descuentos_calzado()
-        consulta_r = self.descuentos_ropa()
-        consulta_a = self.descuentos_accesorios()
-        #
-        consulta_final = consulta_c + consulta_r + consulta_a
+        try:
+            consulta_c = self.descuentos_calzado()
+            consulta_r = self.descuentos_ropa()
+            consulta_a = self.descuentos_accesorios()
+            #
+            consulta_final = consulta_c + consulta_r + consulta_a
+
+        except TypeError:
+            consulta_final = 0
 
         return consulta_final
 
@@ -366,10 +373,14 @@ class Gastos(models.Model):
         return consulta_final
 
     def ganancia_bruta(self):
-        ventas_netas = self.venta_neta_sistema()
-        costo_ventas = self.total_de_costo_ventas()
-        #
-        consulta_final = ventas_netas - costo_ventas
+        try:
+            ventas_netas = self.venta_neta_sistema()
+            costo_ventas = self.total_de_costo_ventas()
+            #
+            consulta_final = ventas_netas - costo_ventas
+
+        except TypeError:
+            consulta_final = 0
 
         return consulta_final
 

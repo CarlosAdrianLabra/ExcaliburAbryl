@@ -50,6 +50,14 @@
 			</a>
 			{% endblock enlace_8020 %}
 		</li>
+        <li class="nav-item">
+			{% block enlace_compra_vs_vende %}
+			<a href="{% url 'administracion_app:compra_vende' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Compra vs vende</p>
+			</a>
+			{% endblock enlace_compra_vs_vende %}
+		</li>
     </ul>
 </li>
 {% endblock menu_desplegable %}

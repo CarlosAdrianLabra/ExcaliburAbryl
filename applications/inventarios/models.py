@@ -156,6 +156,13 @@ class Productos(TimeStampedModel):
         ('6', '1=10%, 2=20%'),
         ('', ''),
         ('7', '2 Adidas y obtén 10%'),
+        ('', ''),
+        ('8', '- $89.00'),
+        ('9', '- $99.00'),
+        ('10', '- $199.00'),
+        ('11', '- $299.00'),
+        ('', ''),
+        ('12', 'Descuento establecido por tienda'),
     )
 
     # Atributos necesarios
@@ -176,7 +183,7 @@ class Productos(TimeStampedModel):
     linea_r = models.CharField('Línea de ropa', max_length=2, blank=True, choices=OPCIONES_LINEA_ROPA)
     color = models.CharField('Color', max_length=2, blank=True, choices=OPCIONES_COLOR)
     genero = models.CharField('Género', max_length=1, blank=True, choices=OPCIONES_GENERO)
-    promocion = models.CharField('Promociones', max_length=2, blank=True, choices=OPCION_PROMOCIONES)
+    promocion = models.CharField('Promociones', max_length=2, blank=True, choices=OPCION_PROMOCIONES, default='0')
 
     # Atributos no necesarios
     modelo = models.CharField('Modelo', max_length=15, blank=True)
@@ -210,7 +217,9 @@ class Movimientos(TimeStampedModel):
     barcode = models.CharField('Código de barras', max_length=13)
     stock_nuevo = models.IntegerField('Cantidad de productos ingresados',  default=0)
     fecha = models.DateTimeField('Fecha y hora de actualización')
-    total_costo = models.DecimalField('Costo total de productos ingresados', max_digits=6, decimal_places=2, default=0)
+    precio_costo = models.DecimalField('Precio de costo', max_digits=7, decimal_places=2, default=0)
+    total_costo = models.DecimalField('Costo total de productos ingresados', max_digits=7, decimal_places=2, default=0)
+    producto = models.ForeignKey(Productos, on_delete=models.CASCADE, verbose_name='Producto', related_name='movimientos_producto')
 
     class Meta:
         verbose_name = 'Movimientos'
@@ -219,7 +228,7 @@ class Movimientos(TimeStampedModel):
         db_table = 'Movimientos'
     
     def __str__(self):
-        return self.barcode
+        return self.producto.nombre
 
 # Funcion para optimizar el atributo IMG del modelo Productos
 def optimizar_img(sender, instance, **kwargs):
@@ -244,11 +253,17 @@ def movimientos_productos(sender, instance, **kwargs):
         precio_costo = Productos.objects.get(barcode=instance.barcode)
         costo = Decimal(stock_ingresado) * precio_costo.precio_compra
         #
+        producto_modificado = Productos.objects.get(barcode=instance.barcode)
+        producto_modificado.nombre = str(producto_modificado.nombre)
+        costo_producto = precio_costo.precio_compra
+        #
         mov = Movimientos.objects.create(
             barcode=instance.barcode,
             stock_nuevo=stock_ingresado,
             fecha=timezone.now(),
-            total_costo=costo
+            total_costo=costo,
+            producto=producto_modificado,
+            precio_costo=costo_producto
         )
         mov.save()
 
