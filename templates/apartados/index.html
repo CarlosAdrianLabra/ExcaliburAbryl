@@ -61,13 +61,13 @@
                                 <td>{{ p.producto.nombre }}</td>
                                 <td>{{ p.count }}</td>
                                 <td>$ {{ p.producto.precio_venta | floatformat:2 }}</td>
-                                
                             </tr>
-                            {% endfor %}
                             <tr>
                                 <td colspan="3" class="bg-navyr white text-right text-bold">Total a pagar</td>
-                                <td class="bg-navyr white text-bold">$ {{ total_cobrar | floatformat:2 }}</td>
+                                <td class="bg-navyr white text-bold">$ {{ p.producto.precio_venta | floatformat:2 }}</td>
                             </tr>
+                            {% endfor %}
+                            
                             </tbody>
                         </table>
                     </div>

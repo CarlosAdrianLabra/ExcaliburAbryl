@@ -47,12 +47,13 @@
             <div class="card-body">
                 <table class="table table-bordered table-striped text-center">
                     <thead class="bg-navyr white">
-                        <th>Número de apartado</th>
+                        <th># Apartado</th>
                         <th>Fecha de apartado</th>
                         <th>Código de barras</th>
                         <th>Monto pagado por el cliente</th>
                         <th>Precio a pagar</th>
-                        <th>Pagar | Cancelar</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
                     </thead>
                     <tbody>
                         {% for p in apartados_lista %}
@@ -63,12 +64,29 @@
                             <td>$ {{ p.monto_pagado | floatformat:2 }}</td>
                             <td>$ {{ p.precio_producto | floatformat:2 }}</td>
                             <td>
-                                <a type="button" class="btn btn-sm btr2" href="{% url 'apartados_app:apartados_actualizar' p.id %}">
+                                {% if p.apartado_cerrado == True and p.apartado_venta == False %}
+                                En espera, procesar venta
+                                {% elif p.apartado_cerrado == True and p.apartado_venta == True %}
+                                Venta procesada
+                                {% else %}
+                                Pendiente
+                                {% endif %}    
+                            </td>
+                            <td>
+                                {% if p.apartado_cerrado == True and p.apartado_venta == False %}
+                                <form action="{% url 'apartados_app:apartados_procesar_venta' %}" style="margin: 0px;" method="POST">{% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btr2" style="margin-left: -15px;"><i class="fas fa-dollar-sign mr-2"></i>Procesar venta</button>
+                                </form>
+                                {% elif p.apartado_cerrado == True and p.apartado_venta == True %}
+                                Venta realizada
+                                {% else %}
+                                <a type="button" class="btn btn-sm btn-primary mr-2" href="{% url 'apartados_app:apartados_actualizar' p.id %}">
                                     <span class="fas fa-file-invoice-dollar mr-2"></span>Pagar
-                                </a> | 
+                                </a>
                                 <a type="button" class="btn btn-sm btn-danger" href="#">
                                     <span class="fas fa-file-invoice-dollar mr-2"></span>Cancelar
                                 </a>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}

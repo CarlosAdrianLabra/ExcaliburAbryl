@@ -12,5 +12,8 @@ urlpatterns = [
     ),
     path(
         'apartados/actualizar/<pk>',views.ApartadosUpdateView.as_view(),name='apartados_actualizar',
-    )
+    ),
+    path(
+        'apartados/procesar_venta/',views.ApartadosProcesarVenta.as_view(),name='apartados_procesar_venta',
+    ),
 ]

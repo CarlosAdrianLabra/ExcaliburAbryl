@@ -1,5 +1,6 @@
 {% extends 'apartados/base_apartados.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
 <title>Apartados - Actualizar</title>
@@ -43,21 +44,41 @@
         <form method="POST" class="m-0">{% csrf_token %}
             <!-- Card content -->
             <div class="card">
-                <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">AGREGAR PAGO</h1></div>
+                <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">PAGAR APARTADO</h1></div>
                 <!-- Card-body -->
                 <div class="card-body">
                     <label class="col-12 mb-3">Ingresa la siguiente información:</label>
+                    <table class="table table-bordered table-striped text-center">
+                        <thead class="bg-navyr white">
+                            <th># Apartado</th>
+                            <th>Fecha</th>
+                            <th>Código de barras</th>
+                            <th>Monto pagado anteriormente</th>
+                            <th>Agregar pago</th>
+                            <th>Total a pagar</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="pt-4">{{ apartados.pk }}</td>
+                                <td class="pt-4">{{ apartados.fecha }}</td>
+                                <td class="pt-4">{{ apartados.barcode }}</td>
+                                <td class="pt-4">$ {{ apartados.monto_pagado | floatformat:2 }}</td>
+                                <td>{{form.monto_actualizar}}</td>
+                                <td class="pt-4">$ {{ apartados.precio_producto | floatformat:2 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                    <label class="col-2 ml-5 float-left pt-2">Codigo de barras:</label>
-                    {{form.barcode}}
-                    <label class="col-2 ml-5 float-left pt-2">Monto pagado:</label>
-                    {{form.monto_pagado}}
-                    <label class="col-2 ml-5 float-left pt-2">Fecha de apartado:</label>
-                    {{form.fecha}}
-                    <label class="col-2 ml-5 float-left pt-2">Total a pagar:</label>
-                    {{form.precio_producto}}
-                    <label class="col-2 ml-5 mt-4 float-left pt-2">Agregar pago:</label>
-                    {{form.monto_actualizar}}
+                    <span style="display: None;">
+                        <label class="col-2 ml-5 float-left pt-2">Codigo de barras:</label>
+                        {{form.barcode}}
+                        <label class="col-2 ml-5 float-left pt-2">Monto pagado:</label>
+                        {{form.monto_pagado}}
+                        <label class="col-2 ml-5 float-left pt-2">Fecha de apartado:</label>
+                        {{form.fecha}}
+                        <label class="col-2 ml-5 float-left pt-2">Total a pagar:</label>
+                        {{form.precio_producto}}
+                    </span>
                 </div>
                 <!-- ./card-body -->
                 <!-- Card-footer -->

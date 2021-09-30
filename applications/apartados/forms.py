@@ -27,7 +27,7 @@ class ApartadosUpdateForm(forms.ModelForm):
     monto_actualizar = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control col-9 ml-1 mb-3 mt-4 float-left text-right',
+                'class': 'form-control col text-right',
                 'placeholder': '100.00'
             }
         )
