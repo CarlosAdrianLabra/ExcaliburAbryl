@@ -27,9 +27,10 @@
                         <div class="info-box-content">
                             <span class="info-box-text ml-2">
                                 Número de ventas
+                            </span>
+                            <span class="info-box-number ml-2">{{ num_ventas }}
                                 <span class="ml-auto d-flex flex-column float-right text-muted">HOY</span>
                             </span>
-                            <span class="info-box-number ml-2">{{ num_ventas }}</span>
                         </div>
                     </div>
                 </div>
@@ -39,9 +40,10 @@
                         <div class="info-box-content">
                             <span class="info-box-text ml-2">
                                 Monto de ventas
+                            </span>
+                            <span class="info-box-number ml-2">$ {{ monto_ventas }}
                                 <span class="ml-auto d-flex flex-column float-right text-muted">HOY</span>
                             </span>
-                            <span class="info-box-number ml-2">$ {{ monto_ventas }}</span>
                         </div>
                     </div>
                 </div>
@@ -51,12 +53,15 @@
                         <div class="info-box-content">
                             <span class="info-box-text ml-2">
                                 Monto de ventas
-                                <span class="ml-auto d-flex flex-column float-right text-muted">MES ACTUAL</span>
                             </span>
                             {% if monto_ventas_mes %}
-                            <span class="info-box-number ml-2">$ {{ monto_ventas_mes }}</span>
+                            <span class="info-box-number ml-2">$ {{ monto_ventas_mes }}
+                                <span class="ml-auto d-flex flex-column float-right text-muted">MES ACTUAL</span>
+                            </span>
                             {% else %}
-                            <span class="info-box-number ml-2">$ 0</span>
+                            <span class="info-box-number ml-2">$ 0
+                                <span class="ml-auto d-flex flex-column float-right text-muted">MES ACTUAL</span>
+                            </span>
                             {% endif %}
                         </div>
                     </div>
@@ -67,9 +72,10 @@
                         <div class="info-box-content">
                             <span class="info-box-text ml-2">
                                 Monto de ventas anuladas
+                            </span>
+                            <span class="info-box-number ml-2">$ {{ monto_ventas_anuladas }}
                                 <span class="ml-auto d-flex flex-column float-right text-muted">HOY</span>
                             </span>
-                            <span class="info-box-number ml-2">$ {{ monto_ventas_anuladas }}</span>
                         </div>
                     </div>
                 </div>

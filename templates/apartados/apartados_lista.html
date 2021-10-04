@@ -75,7 +75,7 @@
                             <td>
                                 {% if p.apartado_cerrado == True and p.apartado_venta == False %}
                                 <form action="{% url 'apartados_app:apartados_procesar_venta' %}" style="margin: 0px;" method="POST">{% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btr2" style="margin-left: -15px;"><i class="fas fa-dollar-sign mr-2"></i>Procesar venta</button>
+                                    <button type="submit" class="btn btn-sm btr2"><i class="fas fa-dollar-sign mr-2"></i>Procesar venta</button>
                                 </form>
                                 {% elif p.apartado_cerrado == True and p.apartado_venta == True %}
                                 Venta realizada
@@ -83,9 +83,9 @@
                                 <a type="button" class="btn btn-sm btn-primary mr-2" href="{% url 'apartados_app:apartados_actualizar' p.id %}">
                                     <span class="fas fa-file-invoice-dollar mr-2"></span>Pagar
                                 </a>
-                                <a type="button" class="btn btn-sm btn-danger" href="#">
-                                    <span class="fas fa-file-invoice-dollar mr-2"></span>Cancelar
-                                </a>
+                                <form action="{% url 'apartados_app:apartados_cancelar_venta' p.id %}" class="m-0 float-right" method="POST">{% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger"><span class="fas fa-file-invoice-dollar mr-2"></span>Cancelar</button>
+                                </form>
                                 {% endif %}
                             </td>
                         </tr>

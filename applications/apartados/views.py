@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy, reverse
@@ -16,7 +17,7 @@ from applications.users.models import User
 from applications.ventas.models import Carrito, Venta
 from .forms import ApartadosForm, ApartadosUpdateForm
 from .models import Apartados
-from .functions import pre_apartado, procesar_venta_apartado
+from .functions import pre_apartado, procesar_venta_apartado, cancelar_venta_apartado
 
 # Create your views here.
 class CrearApartado(FormView):
@@ -82,6 +83,36 @@ class ApartadosProcesarVenta(View):
             type_invoice=Venta.APARTADO,
             type_payment=Venta.EFECTIVO,
             user=self.request.user
+        )
+        
+        return HttpResponseRedirect(
+            reverse(
+                'apartados_app:apartados_lista'
+            )
+        )
+
+
+class ApartadosCancelarVenta(View):
+
+    def post(self, request, *args, **kwargs):
+
+        try:
+            apartado = Apartados.objects.get(id=kwargs['pk'])
+            Carrito.objects.create(
+                barcode=apartado.barcode,
+                producto=Productos.objects.get(barcode=apartado.barcode),
+                count='1'
+            )
+
+        except IntegrityError:
+            pass
+        
+        cancelar_venta_apartado(
+            self=self,
+            type_invoice=Venta.APARTADO_ANULADO,
+            type_payment=Venta.EFECTIVO,
+            user=self.request.user,
+            monto_pagado=apartado.monto_pagado
         )
         
         return HttpResponseRedirect(

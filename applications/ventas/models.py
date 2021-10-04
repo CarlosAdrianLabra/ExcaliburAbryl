@@ -20,6 +20,7 @@ class Venta(TimeStampedModel):
     FACTURA = '1'
     SIN_COMPROBANTE = '2'
     APARTADO = '3'
+    APARTADO_ANULADO = '4'
     #Tipo pago constantes
     TARJETA = '0'
     EFECTIVO = '1'
@@ -29,7 +30,8 @@ class Venta(TimeStampedModel):
     TIPO_INVOICE_CHOICES = [
         (SIN_COMPROBANTE, 'Sin Factura'),
         (FACTURA, 'Factura'),
-        (APARTADO,'Apartado')
+        (APARTADO, 'Apartado'),
+        (APARTADO_ANULADO, 'Apartado. No se termino de pagar')
     ]
 
     TIPO_PAYMENT_CHOICES = [
