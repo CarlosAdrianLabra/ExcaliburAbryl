@@ -19,4 +19,6 @@ urlpatterns = [
     path(
         'apartados/cancelar_venta/<pk>',views.ApartadosCancelarVenta.as_view(),name='apartados_cancelar_venta',
     ),
+    path(
+        'apartados/eliminar_venta/<pk>/', views.ApartadosEliminarVenta.as_view(),name='apartados_eliminar_venta',),
 ]

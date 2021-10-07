@@ -122,6 +122,7 @@ def cancelar_venta_apartado(self, **params_apartado):
         # actualizamos la venta del inventario
         producto = p_c.producto
         producto.num_venta = producto.num_venta + p_c.count
+        producto.stock = producto.stock + p_c.count
         #
         ventas_detalle.append(venta_detalle)
         productos_en_venta.append(producto)
@@ -133,9 +134,29 @@ def cancelar_venta_apartado(self, **params_apartado):
 
         DetalleVenta.objects.bulk_create(ventas_detalle)
         # actualizamos la venta
-        Productos.objects.bulk_update(productos_en_venta, ['num_venta'])
+        Productos.objects.bulk_update(productos_en_venta, ['stock', 'num_venta'])
         # completada la venta, eliminamos productos del carrito
         productos_en_car.delete()
         Apartados.objects.filter(apartado_cerrado=False, apartado_venta=False).update(apartado_cerrado=True, apartado_venta=True)
 
         return venta
+
+
+def eliminar_venta_apartado(self, **params_apartado):
+    # recupera la lista de productos en carrito
+    productos_en_car = Carrito.objects.all()
+
+    productos_en_venta = []
+
+    for p_c in productos_en_car:
+        # actualizamos la venta del inventario
+        producto = p_c.producto
+        producto.stock = producto.stock + p_c.count
+        #
+        productos_en_venta.append(producto)
+        #
+        Productos.objects.bulk_update(productos_en_venta, ['stock'])
+        # completada la venta, eliminamos productos del carrito
+        productos_en_car.delete()
+
+        return productos_en_car

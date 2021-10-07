@@ -7,7 +7,7 @@ class filtros(models.Manager):
     def filtros_calzado(self, **filters):
 
         consulta = self.filter(
-            Q(barcode__icontains=filters['filtro']) | Q(nombre__icontains=filters['filtro']) | Q(marca__nombre__icontains=filters['filtro']) | Q(proveedor__nombre__icontains=filters['filtro'])
+            Q(barcode__icontains=filters['filtro']) | Q(nombre__icontains=filters['filtro']) | Q(marca__nombre__icontains=filters['filtro']) | Q(proveedor__nombre__icontains=filters['filtro']) | Q(modelo__icontains=filters['filtro'])
         ).filter(
             tipo='100' # 100 - CALZADO
         ).filter(
@@ -19,7 +19,7 @@ class filtros(models.Manager):
     def filtros_ropa(self, **filters):
 
         consulta = self.filter(
-            Q(barcode__icontains=filters['filtro']) | Q(nombre__icontains=filters['filtro']) | Q(marca__nombre__icontains=filters['filtro']) | Q(proveedor__nombre__icontains=filters['filtro'])
+            Q(barcode__icontains=filters['filtro']) | Q(nombre__icontains=filters['filtro']) | Q(marca__nombre__icontains=filters['filtro']) | Q(proveedor__nombre__icontains=filters['filtro']) | Q(modelo__icontains=filters['filtro'])
         ).filter(
             tipo='200' # 200 - ROPA
         ).filter(
@@ -31,7 +31,7 @@ class filtros(models.Manager):
     def filtros_accesorios(self, **filters):
 
         consulta = self.filter(
-            Q(barcode__icontains=filters['filtro']) | Q(nombre__icontains=filters['filtro']) | Q(marca__nombre__icontains=filters['filtro']) | Q(proveedor__nombre__icontains=filters['filtro'])
+            Q(barcode__icontains=filters['filtro']) | Q(nombre__icontains=filters['filtro']) | Q(marca__nombre__icontains=filters['filtro']) | Q(proveedor__nombre__icontains=filters['filtro']) | Q(modelo__icontains=filters['filtro'])
         ).filter(
             tipo='300' # 300 - ACCESORIOS
         ).filter(

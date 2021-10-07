@@ -17,7 +17,7 @@ from applications.users.models import User
 from applications.ventas.models import Carrito, Venta
 from .forms import ApartadosForm, ApartadosUpdateForm
 from .models import Apartados
-from .functions import pre_apartado, procesar_venta_apartado, cancelar_venta_apartado
+from .functions import pre_apartado, procesar_venta_apartado, cancelar_venta_apartado, eliminar_venta_apartado
 
 # Create your views here.
 class CrearApartado(FormView):
@@ -45,6 +45,7 @@ class CrearApartado(FormView):
 
         else:
             return HttpResponseRedirect(reverse('ventas_app:venta-index'))
+
 
 class ApartadosLista(ListView):
     template_name = 'apartados/apartados_lista.html'
@@ -120,3 +121,31 @@ class ApartadosCancelarVenta(View):
                 'apartados_app:apartados_lista'
             )
         )
+
+
+class ApartadosEliminarVenta(DeleteView):
+    model = Apartados
+    success_url = reverse_lazy('apartados_app:apartados_lista')
+
+    def delete(self, request, *args, **kwargs):
+
+        try:
+            apartado = Apartados.objects.get(id=kwargs['pk'])
+            Carrito.objects.create(
+                barcode=apartado.barcode,
+                producto=Productos.objects.get(barcode=apartado.barcode),
+                count='1'
+            )
+
+        except IntegrityError:
+            pass
+        
+        eliminar_venta_apartado(
+            self=self
+        )
+
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        
+        return HttpResponseRedirect(success_url)

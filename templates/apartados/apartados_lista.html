@@ -54,6 +54,7 @@
                         <th>Precio a pagar</th>
                         <th>Estado</th>
                         <th>Acciones</th>
+                        <th>Eliminar</th>
                     </thead>
                     <tbody>
                         {% for p in apartados_lista %}
@@ -65,11 +66,11 @@
                             <td>$ {{ p.precio_producto | floatformat:2 }}</td>
                             <td>
                                 {% if p.apartado_cerrado == True and p.apartado_venta == False %}
-                                En espera, procesar venta
+                                    En espera, procesar venta
                                 {% elif p.apartado_cerrado == True and p.apartado_venta == True %}
-                                Venta procesada
+                                    Venta procesada
                                 {% else %}
-                                Pendiente
+                                    Pendiente
                                 {% endif %}    
                             </td>
                             <td>
@@ -78,15 +79,25 @@
                                     <button type="submit" class="btn btn-sm btr2"><i class="fas fa-dollar-sign mr-2"></i>Procesar venta</button>
                                 </form>
                                 {% elif p.apartado_cerrado == True and p.apartado_venta == True %}
-                                Venta realizada
+                                    Venta realizada
                                 {% else %}
-                                <a type="button" class="btn btn-sm btn-primary mr-2" href="{% url 'apartados_app:apartados_actualizar' p.id %}">
-                                    <span class="fas fa-file-invoice-dollar mr-2"></span>Pagar
+                                <a type="button" class="btn btn-sm btr2" href="{% url 'apartados_app:apartados_actualizar' p.id %}">
+                                    <span class="fas fa-file-invoice-dollar mr-2"></span>Agregar Pago
                                 </a>
                                 <form action="{% url 'apartados_app:apartados_cancelar_venta' p.id %}" class="m-0 float-right" method="POST">{% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-danger"><span class="fas fa-file-invoice-dollar mr-2"></span>Cancelar</button>
+                                    <button type="submit" class="btn btn-sm btn-primary"><span class="fas fa-file-invoice-dollar mr-2"></span>Cancelar apartado</button>
                                 </form>
                                 {% endif %}
+                            </td>
+                            <td>
+                                {% if p.apartado_cerrado == True and p.apartado_venta == True %}
+                                    - - -
+                                {% else %}
+                                    <form action="{% url 'apartados_app:apartados_eliminar_venta' p.id %}" style="margin: 0px;" method="POST">{% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt mr-2"></i>Eliminar</button>
+                                    </form>
+                                {% endif %} 
+                                
                             </td>
                         </tr>
                         {% endfor %}
