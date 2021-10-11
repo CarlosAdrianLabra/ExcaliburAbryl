@@ -331,18 +331,50 @@ class SaleDetailManager(models.Manager):
         )
         return costo['total']
 
-    def reporte8020_producto(self):
+    def reporte8020_producto2(self,f1,f2):
+
+        cuenta=self.filter(
+            anulate=False, sale__close=True, sale__date_sale__range=(f1,f2)
+        ).aggregate(suma=Sum('count'))['suma']
+
+        #total100=cuenta.get('suma')
+        #float(total100)
+
         resultado=self.filter(
-            anulate=False, sale__close=True
+            anulate=False, sale__close=True, sale__date_sale__range=(f1,f2)
         ).values(
             'producto'
         ).annotate(
-            nombre=Upper('producto__nombre'),
-            modelo=Upper('producto__modelo'),
-            color=Upper('producto__color'),
-            num_ventas=Sum('count'),
-            total_ventas=Sum('price_subtotal')
-        ).order_by('-total_ventas')
+            nombre=Upper('producto__marca__nombre'),
+            #modelo=Upper('producto__modelo'),
+            #color=Upper('producto__color'),
+            #totaltotal=self.filter(anulate=False, sale__close=True).values('producto').annotate(Sum('count')),
+            num_ventas=ExpressionWrapper(Sum('count'),FloatField()),
+            total_ventas=Sum('price_subtotal'),
+            total_ventas_sin_iva=Sum(F('price_subtotal')-F('price_subtotal')*F('tax')),
+            participacion=ExpressionWrapper((F('num_ventas')/Sum('count')),output_field=FloatField()),
+            utilidad=ExpressionWrapper(Sum((F('price_subtotal')-F('price_subtotal')*F('tax'))-(F('producto__precio_compra')*F('count'))),output_field=FloatField()),
+            participacion_utilidad=ExpressionWrapper(F('count'),output_field=FloatField()),
+            costo_venta=ExpressionWrapper(F('producto__precio_compra')*F('count'),output_field=FloatField()),
+            precio_lleno_venta=ExpressionWrapper((F('producto__precio_compra')*F('count'))*1.65,output_field=FloatField()),
+            margen_marcado=ExpressionWrapper(((F('precio_lleno_venta')-F('costo_venta'))/F('precio_lleno_venta')),output_field=FloatField()),
+            margen_real=ExpressionWrapper((F('total_ventas_sin_iva')-F('costo_venta'))/F('total_ventas_sin_iva'),output_field=FloatField()),
+            descuentos=ExpressionWrapper(F('total_ventas_sin_iva')-F('precio_lleno_venta'),output_field=FloatField()),
+            inventario=Sum('producto__stock'),
+            inventario_costo=ExpressionWrapper(Sum('producto__stock')*F('producto__precio_compra'),output_field=FloatField()),
+            inventario_venta=ExpressionWrapper(Sum('producto__stock')*F('producto__precio_venta'),output_field=FloatField()),
+            inventario_inicial=ExpressionWrapper(F('total_ventas_sin_iva')+F('inventario_venta'),output_field=FloatField()),
+            meses_inventario_venta=ExpressionWrapper(F('total_ventas_sin_iva')/(F('inventario_venta')/1),output_field=FloatField()),
+            rotacion=ExpressionWrapper(F('total_ventas_sin_iva')/F('inventario_inicial')*100,output_field=FloatField()),
+            meses_inventario_piezas=ExpressionWrapper(F('num_ventas')/F('inventario'),output_field=FloatField()),
+            num_modelos=Count('producto__modelo'),
+            profundidad=ExpressionWrapper(F('inventario')/F('num_modelos'),FloatField())
+        ).order_by('-total_ventas','producto__marca__nombre')
+        print(cuenta)
+        print(resultado)
+        print (f1)
+        print (f2)
+
         return resultado
 
     def compra_vs_vende(self, **filters):

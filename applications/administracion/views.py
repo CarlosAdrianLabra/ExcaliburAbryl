@@ -124,16 +124,12 @@ class Informe8020ListView(ListView):
     context_object_name='informe_8020'
 
     def get_queryset(self):
-        return DetalleVenta.objects.reporte8020_producto
-
-
-# class ResultadosView(View):
-#     template_name="administracion/resultados.html"
-#     context_object_name='resultados'
-
-#     def get_queryset(self):
-        
-#         return queryset
+        f1 = self.request.GET.get("fecha1",'')
+        f2 = self.request.GET.get("fecha2",'')
+        if f1 and f2:
+            return DetalleVenta.objects.reporte8020_producto2(f1,f2)
+        else:
+            return DetalleVenta.objects.reporte8020_producto()
 
 
 class CompravsVende(ListView):
