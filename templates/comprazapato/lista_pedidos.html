@@ -35,6 +35,18 @@
                     <th>estado de la compra</th>
                     <th>acciones</th>
                 </thead>
+                <tbody>
+                    {% for pedidos in lista_pedidos %}
+                    <tr>
+                        <td>{{pedidos.id}}</td>
+                        <td>{{pedidos.monto_por_pagar}}</td>
+                        <td>{{pedidos.fecha_inicio}}</td>
+                        <td>{{pedidos.fecha_termino}}</td>
+                        <td>{{pedidos.estado_compra}}</td>
+                        <td>boton 1 | boton 2</td>
+                    </tr>    
+                    {% endfor %}
+                </tbody>
                </table>
             </div>
         </div>

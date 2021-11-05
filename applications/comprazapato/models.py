@@ -23,4 +23,4 @@ class Pedidos(models.Model):
         verbose_name_plural = 'Pedidos'
 
     def __str__(self):
-        return id + ' ' + self.fecha_inicio + ' ' + self.fecha_termino + ' ' + self.monto_por_pagar
+        return str(self.id) + ' ' + str(self.fecha_inicio) + ' ' + str(self.fecha_termino)
