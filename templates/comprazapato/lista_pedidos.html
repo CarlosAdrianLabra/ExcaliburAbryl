@@ -1,0 +1,43 @@
+{% extends 'comprazapato/base_comprazapato.html' %}
+{% load static %}
+
+{% block head %}
+<title>comprazapato</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block enlace_crear_compra %}
+<a href="{% url 'comprazapato_app:comprazapato' %}" class="nav-link" >
+    <i class="fas fa-list-ul nav-icon"></i>
+    <p>Crear compra</p>
+</a>
+{% endblock enlace_crear_compra %}
+{% block enlace_lista_pedidos %}
+<a href="{% url 'comprazapato_app:comprazapato_lista_pedidos' %}" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-truck-loading nav-icon"></i>
+    <p>Lista pedidos</p>
+</a>
+{% endblock enlace_lista_pedidos %}
+
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid mt-3">
+        <div class="card">
+            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">Lista de pedidos</h1></div>
+            <div class="card-body">
+               <table class="table table-bordered table-striped text-center">
+                <thead class="bg-navyr white">
+                    <th>id de compra</th>
+                    <th>monto</th>
+                    <th>fecha inicio</th>
+                    <th>fecha final</th>
+                    <th>estado de la compra</th>
+                    <th>acciones</th>
+                </thead>
+               </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

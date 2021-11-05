@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'applications.codigobarras',
     'applications.administracion',
     'applications.apartados',
+    'applications.comprazapato',
 
     # apps terceros
     'import_export'

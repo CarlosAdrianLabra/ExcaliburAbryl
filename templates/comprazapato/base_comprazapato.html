@@ -1,0 +1,22 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block head %}{% endblock head %}
+
+{% block sidebarlinks %}
+<!-- Sidebar links -->
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <li class="nav-item">
+        {% block enlace_crear_compra %}
+        {% endblock enlace_crear_compra %}
+    </li>
+    <li class="nav-item">
+        {% block enlace_lista_pedidos %}
+        {% endblock enlace_lista_pedidos %}
+    </li>
+
+</ul>
+<!-- ./sidebar links -->
+{% endblock sidebarlinks %}
+
+{% block extra_scripts %}{% endblock extra_scripts %}
