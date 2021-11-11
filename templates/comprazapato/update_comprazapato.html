@@ -7,7 +7,7 @@
 {% endblock head %}
 
 {% block enlace_crear_compra %}
-<a href="{% url 'comprazapato_app:comprazapato' %}" class="nav-link active" style="color: azure; background: tomato;">
+<a href="{% url 'comprazapato_app:comprazapato' %}" class="nav-link">
     <i class="fas fa-list-ul nav-icon"></i>
     <p>Crear compra</p>
 </a>
@@ -24,35 +24,45 @@
 <div class="content">
     <div class="container-fluid mt-3">
         <div class="card">
-            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">Crear nuevo pedido</h1></div>
+            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">Actualizar pedido</h1></div>
             <div class="card-body">
                 <form method="POST">{% csrf_token %}
 
 
+
                     <div class="row justify-content-md-center">
                         <div class="col-3">
-                            <label>Monto por pagar:</label>
-                            {{form.monto_por_pagar}}
+                            <label>Estado de compra:</label>
+                            {{form.estado_compra}}
                         </div>
                         <div class="col-3">
-                            <label>Fecha inicial:</label>
-                            {{form.fecha_inicio}}
+                            <label>Codigo de factura:</label>
+                            {{form.codigo_factura}}
                         </div>
                         <div class="col-3">
-                            <label>Fecha final:</label>
-                            {{form.fecha_termino}}
+                            <label>Proveedor:</label>
+                            {{form.proveedor}}
                         </div>
                     </div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-9">
+                        <label>Comentario:</label>
+                        {{form.comentario}}
+                        </div>
+                        
+                    </div>
+                    
                     <div class="row justify-content-md-center mt-4">
                         <div class="col-3">
-                            <button type="submit" class="btn col-11 btr">Crear pedido</button>
+                            <button type="submit" class="btn col-11 btr">Actualizar pedido</button>
                         </div>
                     </div>
-    
-                    <span style="display: none;">{{form.estado_compra}}</span>
-                    
-                    
-                    
+
+
+                    <span style="display: none;">{{form.monto_por_pagar}}</span>
+                    <span style="display: none;">{{form.fecha_inicio}}</span>
+                    <span style="display: none;">{{form.fecha_termino}}</span>
+
                 </form>
                 
             </div>

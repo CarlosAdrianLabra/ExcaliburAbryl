@@ -9,8 +9,8 @@ class Pedidos(models.Model):
         ('2', 'Revisado'),
         ('3', 'Defectuoso'),
     )
-    fecha_inicio = models.DateTimeField('Fecha de compra')
-    fecha_termino = models.DateTimeField('Fecha de Pago')
+    fecha_inicio = models.DateField('Fecha de compra')
+    fecha_termino = models.DateField('Fecha de Pago')
     monto_por_pagar = models.DecimalField('Monto por pagar', max_digits=10, decimal_places=2, default=0)
     estado_compra = models.CharField('Estado de compra', max_length=1, choices=OPCIONES_ESTADO, default=1)
     codigo_factura = models.CharField('Codigo de factura', max_length=20, blank=True)

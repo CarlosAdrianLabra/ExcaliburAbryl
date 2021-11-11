@@ -42,8 +42,10 @@
                         <td>{{pedidos.monto_por_pagar}}</td>
                         <td>{{pedidos.fecha_inicio}}</td>
                         <td>{{pedidos.fecha_termino}}</td>
-                        <td>{{pedidos.estado_compra}}</td>
-                        <td>boton 1 | boton 2</td>
+                        <td>{{pedidos.get_estado_compra_display}}</td>
+                        <td><a type="button" class="btn btn-sm btn-primary" href="{% url 'comprazapato_app:update-comprazapato' pedidos.id %}">
+                            <span class="fas fa-pencil-alt"></span>
+                        </a></td>
                     </tr>    
                     {% endfor %}
                 </tbody>
