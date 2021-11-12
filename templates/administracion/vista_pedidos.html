@@ -101,42 +101,66 @@
 </a>
 {% endblock enlace_usuarios %}
 
-
 {% block content %}
 <div class="content">
     <div class="container-fluid mt-3">
         <div class="card">
-            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">Lista de pedidos</h1></div>
+            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">Actualizar pedido</h1></div>
             <div class="card-body">
-               <table class="table table-bordered table-striped text-center">
-                <thead class="bg-navyr white">
-                    <th>id de compra</th>
-                    <th>monto</th>
-                    <th>fecha inicio</th>
-                    <th>fecha final</th>
-                    <th>estado de la compra</th>
-                    <th>acciones</th>
-                </thead>
-                <tbody>
-                    {% for pedidos in lista_pedidos %}
-                    <tr>
-                        <td>{{pedidos.id}}</td>
-                        <td>{{pedidos.monto_por_pagar}}</td>
-                        <td>{{pedidos.fecha_inicio}}</td>
-                        <td>{{pedidos.fecha_termino}}</td>
-                        <td>{{pedidos.get_estado_compra_display}}</td>
-                        <td><a type="button" class="btn btn-sm btn-primary" href="{% url 'administracion_app:vista-comprazapato' pedidos.id %}">
-                            <span class="fas fa-eye"></span>
-                        </a>
-                        <span> | </span>
-                        <a type="button" class="btn btn-sm btn-danger" href="{% url 'administracion_app:borrar_pedido' pedidos.id %}">
-                            <span class="fas fa-trash-alt"></span>
-                        </a>
-                    </td>
-                    </tr>    
-                    {% endfor %}
-                </tbody>
-               </table>
+                <form method="POST">{% csrf_token %}
+                    <div class="row justify-content-md-center">
+                        <div class="col-3">
+                            <label>Monto por pagar:</label>
+                            {{form.monto_por_pagar}}
+                        </div>
+                        <div class="col-3">
+                            <label>Fecha inicio:</label>
+                            {{form.fecha_inicio}}
+                        </div>
+                        <div class="col-3">
+                            <label>Fecha termino:</label>
+                            {{form.fecha_termino}}
+                        </div>
+                    </div>
+
+
+
+                    <div class="row justify-content-md-center">
+                        <div class="col-3">
+                            <label>Estado de compra:</label>
+                            {{form.estado_compra}}
+                        </div>
+                        <div class="col-3">
+                            <label>Codigo de factura:</label>
+                            {{form.codigo_factura}}
+                        </div>
+                        <div class="col-3">
+                            <label>Proveedor:</label>
+                            {{form.proveedor}}
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-9">
+                        <label>Comentario:</label>
+                        {{form.comentario}}
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- <div class="row justify-content-md-center mt-4">
+                        <div class="col-3">
+                            <button type="submit" class="btn col-11 btr">Actualizar pedido</button>
+                        </div>
+                    </div> -->
+
+                </form>
+
+                <div class="row justify-content-md-center mt-4">
+                    <div class="col-3">
+                        <a type="button" class="btn col-11 btr" href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" >Regresar</a>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>

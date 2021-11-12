@@ -7,7 +7,8 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    View
+    View,
+    DeleteView
 )
 from django.urls import reverse_lazy, reverse
 from applications.ventas.models import Venta, DetalleVenta
@@ -15,8 +16,9 @@ from applications.administracion.models import Gastos
 from applications.inventarios.models import Productos
 from applications.comprazapato.models import Pedidos
 from applications.users.mixins import AdminPermisoMixin
+from applications.comprazapato.forms import pedidosForm
 #
-from .forms import LiquidacionProviderForm, ResumenVentasForm, CompravsVendeFormulario, GastosFormulario
+from .forms import LiquidacionProviderForm, ResumenVentasForm, CompravsVendeFormulario, GastosFormulario, pedidosadminForm
 #
 from .functions import detalle_resumen_ventas
 
@@ -159,3 +161,14 @@ class listaPedidos(ListView):
     template_name = 'administracion/lista_pedidos.html'
     model = Pedidos
     context_object_name = "lista_pedidos"
+
+class vistaZapatoUpdateView(UpdateView):
+    model = Pedidos
+    form_class = pedidosadminForm
+    template_name = "administracion/vista_pedidos.html"
+    success_url=reverse_lazy('administracion_app:vista-comprazapato')
+
+class listaPedidosDeleteView(DeleteView):
+    template_name = "administracion/vista_pedidos_delete.html"
+    model = Pedidos
+    success_url = reverse_lazy('administracion_app:comprazapato_lista_pedidos')

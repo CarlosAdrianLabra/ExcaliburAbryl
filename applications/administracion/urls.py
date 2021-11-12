@@ -65,4 +65,14 @@ urlpatterns = [
         views.listaPedidos.as_view(), 
         name='comprazapato_lista_pedidos'),
 
+    path(
+        'panel/reporte/vista_pedido/<pk>',
+        views.vistaZapatoUpdateView.as_view(), 
+        name='vista-comprazapato'),
+    
+    path(
+        'panel/reporte/borrar_pedido/<pk>/', 
+        views.listaPedidosDeleteView.as_view(),
+        name='borrar_pedido'),
+
 ]

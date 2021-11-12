@@ -1,6 +1,7 @@
 from django import forms
 from applications.inventarios.models import Proveedor
 from .models import Gastos
+from applications.comprazapato.models import Pedidos
 
 
 class LiquidacionProviderForm(forms.Form):
@@ -105,3 +106,50 @@ class CompravsVendeFormulario(forms.Form):
             },
         )
     )
+
+class pedidosadminForm(forms.ModelForm):
+
+    class Meta:
+        model = Pedidos
+        fields = (
+             '__all__'
+        )
+        
+        widgets = {
+            'monto_por_pagar': forms.NumberInput(attrs={
+                'class': 'form-control mb-3',
+                'readonly':'readonly',
+                
+            }),
+            'fecha_inicio': forms.TextInput(attrs={
+                    'class': 'form-control mb-3',
+                    'type': 'date',
+                    'readonly':'readonly',
+            }),
+            'fecha_termino': forms.TextInput(attrs={
+                    'class': 'form-control mb-3',
+                    'type': 'date',
+                    'readonly':'readonly',
+            }),
+            'estado_compra':forms.Select(attrs={
+                'class': 'form-control mb-3',
+                'readonly':'readonly',
+                
+            }),
+            'codigo_factura':forms.TextInput(attrs={
+                'class': 'form-control mb-3',
+                'type': 'text',
+                'readonly':'readonly',
+            }),
+            'proveedor':forms.TextInput(attrs={
+                'class': 'form-control mb-3',
+                'readonly':'readonly',
+                
+            }),
+            'comentario':forms.Textarea(attrs={
+                'class': 'form-control mb-3',
+                'readonly':'readonly',
+                
+            }),
+
+        }
