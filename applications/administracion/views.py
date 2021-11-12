@@ -13,6 +13,7 @@ from django.urls import reverse_lazy, reverse
 from applications.ventas.models import Venta, DetalleVenta
 from applications.administracion.models import Gastos
 from applications.inventarios.models import Productos
+from applications.comprazapato.models import Pedidos
 from applications.users.mixins import AdminPermisoMixin
 #
 from .forms import LiquidacionProviderForm, ResumenVentasForm, CompravsVendeFormulario, GastosFormulario
@@ -153,3 +154,8 @@ class CompravsVende(ListView):
         )
 
         return consulta
+
+class listaPedidos(ListView):
+    template_name = 'administracion/lista_pedidos.html'
+    model = Pedidos
+    context_object_name = "lista_pedidos"

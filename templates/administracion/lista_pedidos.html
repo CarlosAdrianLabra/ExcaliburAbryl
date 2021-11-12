@@ -13,7 +13,7 @@
 </a>
 {% endblock enlace_info_general %}
 {% block menu_desplegable %}
-<li class="nav-item">
+<li class="nav-item menu-open">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
     </a>
@@ -60,7 +60,7 @@
 		</li>
         <li class="nav-item">
 			{% block enlace_comprazapatos_lista_pedidos %}
-			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link">
+			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link active" style="color: azure; background: tomato;">
 				<i class="fas fa-calendar-day nav-icon ml-4"></i>
 				<p>Lista Pedidos</p>
 			</a>
@@ -101,21 +101,39 @@
 </a>
 {% endblock enlace_usuarios %}
 
-{% block content %}
-<div class="content" style="padding: 70px 0; text-align: center;">
-    <div class="container-fluid" style="padding: 70px 0; text-align: center;">
-        <!--Row content -->
-        <div class="row" style="padding: 70px 0; text-align: center;">
-            <div class="col-12" style="padding: 70px 0; text-align: center;">
-                <div class="callout bg-navy color-palette">
-                <h2>Bienvenido al Sistema:</h2>
-                <h1>{{user}}</h1>
-                </div>
-                
 
+{% block content %}
+<div class="content">
+    <div class="container-fluid mt-3">
+        <div class="card">
+            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">Lista de pedidos</h1></div>
+            <div class="card-body">
+               <table class="table table-bordered table-striped text-center">
+                <thead class="bg-navyr white">
+                    <th>id de compra</th>
+                    <th>monto</th>
+                    <th>fecha inicio</th>
+                    <th>fecha final</th>
+                    <th>estado de la compra</th>
+                    <!--<th>acciones</th>-->
+                </thead>
+                <tbody>
+                    {% for pedidos in lista_pedidos %}
+                    <tr>
+                        <td>{{pedidos.id}}</td>
+                        <td>{{pedidos.monto_por_pagar}}</td>
+                        <td>{{pedidos.fecha_inicio}}</td>
+                        <td>{{pedidos.fecha_termino}}</td>
+                        <td>{{pedidos.get_estado_compra_display}}</td>
+                        <!-- <td><a type="button" class="btn btn-sm btn-primary" href="{% url 'comprazapato_app:update-comprazapato' pedidos.id %}">
+                            <span class="fas fa-pencil-alt"></span>
+                        </a></td> -->
+                    </tr>    
+                    {% endfor %}
+                </tbody>
+               </table>
             </div>
         </div>
     </div>
 </div>
 {% endblock content %}
-    

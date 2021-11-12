@@ -60,5 +60,9 @@ urlpatterns = [
         views.CompravsVende.as_view(),
         name='compra_vende',
     ),
+    path(
+        'panel/reporte/lista_pedidos/', 
+        views.listaPedidos.as_view(), 
+        name='comprazapato_lista_pedidos'),
 
 ]
