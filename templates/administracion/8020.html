@@ -105,33 +105,80 @@
                     </div>
 					
 					<form method="GET">{% csrf_token %}
-						<input type="date" id="fecha1" name="fecha1">
-						<input type='date' id="fecha2" name="fecha2">
-						<button type="submit">Consultar</button>
+						<div class="row mt-4">
+							<div class="col-md-3 offset-md-1">
+								<input type="date" id="fecha1" name="fecha1" class="form-control">
+							</div>
+							<div class="col-md-3 ml-2">
+								<input type='date' id="fecha2" name="fecha2" class="form-control">
+							</div>
+							<div class="col-md-3 ml-2">
+								<button type="submit" class="btn btr"><i class="fas fa-search mr-2"></i>Consultar</button>
+							</div>
+						</div>
+						
+						
+						
 					</form> 
                     <!-- Card body -->
-                    <div class="card-body">
-                        <table class="table table-bordered table-striped text-center">
-                            <thead class="bg-navyr white">
-								<th>Nombre del producto</th>
-								<th>Modelo</th>
-								<th>Color</th>
-								<th>Cantidad de ventas</th>
-								<th>Monto total de ventas</th>
-                            </thead>
-                            <tbody>
-								{% for i_8020 in informe_8020 %}
-								<tr>
-									<td>{{ i_8020.nombre }}</td>
-									<td>{{ i_8020.modelo }}</td>
-									<td>{{ i_8020.color }}</td>
-									<td>{{ i_8020.num_ventas }}</td>
-									<td>$ {{ i_8020.total_ventas | floatformat:2 }}</td>
-								</tr>
-								{% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+					<div class="col-md-10 offset-md-1">
+						<div class="card-body  table-responsive p-0" style="height: 440px;">
+							<table class="table table-bordered table-striped text-center  text-nowrap">
+								<thead class="bg-navyr white">
+									<th>Marca</th>
+									<th>Piezas</th>
+									<th>Venta C/iva</th>
+									<th>Venta S/iva</th>
+									<th>Participación</th>
+									<th>Inventario Inicial en piezas</th>
+									<th>Inventario Inicial en venta</th>
+									<th>Utilidad</th>
+									<th>Participación en Utilidad</th>
+									<th>Costo de venta</th>
+									<th>Precio lleno de venta</th>
+									<th>Margen marcado</th>
+									<th>Margen real</th>
+									<th>Descuentos</th>
+									<th>Inventario piezas</th>
+									<th>Inventario a costo</th>
+									<th>Inventario a venta</th>
+									<th>Rotación</th>
+									<th>Meses de inventario a venta</th>
+									<th>Meses de inventario a piezas</th>
+									<th># de modelos</th>
+									<th>Profundidad de inventario</th>
+								</thead>
+								<tbody>
+									{% for i_8020 in informe_8020 %}
+									<tr>
+										<td>{{ i_8020.nombre }}</td>
+										<td>{{ i_8020.piezas }}</td>
+										<td>{{ i_8020.total_ventas }}</td>
+										<td>{{ i_8020.total_ventas_sin_iva }}</td>
+										<td>{{ i_8020.participacion }}</td>
+										<td>{{ i_8020.inventario_inicial_piezas }}</td>
+										<td>{{ i_8020.inventario_inicial_venta }}</td>
+										<td>{{ i_8020.utilidad }}</td>
+										<td>{{ i_8020.participacion_utilidad }}</td>
+										<td>{{ i_8020.costo_venta }}</td>
+										<td>{{ i_8020.precio_lleno_venta }}</td>
+										<td>{{ i_8020.margen_marcado }}</td>
+										<td>{{ i_8020.margen_real }}</td>
+										<td>{{ i_8020.descuentos }}</td>
+										<td>{{ i_8020.inventario }}</td>
+										<td>{{ i_8020.inventario_costo }}</td>
+										<td>{{ i_8020.inventario_venta }}</td>
+										<td>{{ i_8020.rotacion }}</td>
+										<td>{{ i_8020.meses_inventario_venta }}</td>
+										<td>{{ i_8020.meses_inventario_piezas }}</td>
+										<td>{{ i_8020.num_modelos }}</td>
+										<td>{{ i_8020.profundidad }}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
                     <!-- ./card body -->
 
                 </div>

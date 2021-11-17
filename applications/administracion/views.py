@@ -132,7 +132,7 @@ class Informe8020ListView(ListView):
         if f1 and f2:
             return DetalleVenta.objects.reporte8020_producto2(f1,f2)
         else:
-            return DetalleVenta.objects.reporte8020_producto()
+            return []
 
 
 class CompravsVende(ListView):

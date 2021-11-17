@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.db import models
 from applications.inventarios.models import Productos, Movimientos
-from django.db.models import Q, Sum, F, FloatField, ExpressionWrapper, manager
+from django.db.models import Q, Sum, F, FloatField, IntegerField, ExpressionWrapper, Count
 from django.db.models.functions import Upper
 
 class SaleManager(models.Manager):
@@ -333,12 +333,12 @@ class SaleDetailManager(models.Manager):
 
     def reporte8020_producto2(self,f1,f2):
 
-        cuenta=self.filter(
-            anulate=False, sale__close=True, sale__date_sale__range=(f1,f2)
-        ).aggregate(suma=Sum('count'))['suma']
+        # cuenta=self.filter(
+        #     anulate=False, sale__close=True, sale__date_sale__range=(f1,f2)
+        # ).aggregate(suma=Sum('count'))['suma']
 
-        #total100=cuenta.get('suma')
-        #float(total100)
+        # total100=cuenta.get('suma')
+        # float(total100)
 
         resultado=self.filter(
             anulate=False, sale__close=True, sale__date_sale__range=(f1,f2)
@@ -346,9 +346,12 @@ class SaleDetailManager(models.Manager):
             'producto'
         ).annotate(
             nombre=Upper('producto__marca__nombre'),
-            #modelo=Upper('producto__modelo'),
-            #color=Upper('producto__color'),
-            #totaltotal=self.filter(anulate=False, sale__close=True).values('producto').annotate(Sum('count')),
+            piezas=ExpressionWrapper(F('producto__num_venta'),output_field=IntegerField()),
+            inventario_inicial_piezas=ExpressionWrapper(F('producto__stock')+F('producto__num_venta'),output_field=IntegerField()),
+            inventario_inicial_venta=ExpressionWrapper(Sum(F('price_subtotal')-F('price_subtotal')*F('tax'))+Sum('producto__stock')*F('producto__precio_venta'),output_field=FloatField()),
+            # modelo=Upper('producto__modelo'),
+            # color=Upper('producto__color'),
+            # totaltotal=self.filter(anulate=False, sale__close=True).values('producto').annotate(Sum('count')),
             num_ventas=ExpressionWrapper(Sum('count'),FloatField()),
             total_ventas=Sum('price_subtotal'),
             total_ventas_sin_iva=Sum(F('price_subtotal')-F('price_subtotal')*F('tax')),
@@ -370,10 +373,8 @@ class SaleDetailManager(models.Manager):
             num_modelos=Count('producto__modelo'),
             profundidad=ExpressionWrapper(F('inventario')/F('num_modelos'),FloatField())
         ).order_by('-total_ventas','producto__marca__nombre')
-        print(cuenta)
-        print(resultado)
-        print (f1)
-        print (f2)
+        # print(cuenta)
+        # print(resultado)
 
         return resultado
 
