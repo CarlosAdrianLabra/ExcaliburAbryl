@@ -23,7 +23,7 @@ from .forms import LiquidacionProviderForm, ResumenVentasForm, CompravsVendeForm
 from .functions import detalle_resumen_ventas
 
 
-class PanelHomeView(TemplateView):
+class PanelHomeView(AdminPermisoMixin, TemplateView):
     template_name = "administracion/index.html"
 
 
@@ -43,7 +43,7 @@ class PanelAdminView(AdminPermisoMixin, TemplateView):
         return context
     
 
-class ReporteAdmin(ListView):
+class ReporteAdmin(AdminPermisoMixin, ListView):
     template_name = "administracion/reporte_admin.html"
     context_object_name = "resumen_ventas_mes"
 
@@ -56,7 +56,7 @@ class ReporteAdmin(ListView):
         return DetalleVenta.objects.resumen_ventas_mes()
 
 
-class ReporteLiquidacion(ListView):
+class ReporteLiquidacion(AdminPermisoMixin, ListView):
     template_name = "administracion/reporte_liquidacion.html"
     context_object_name = "ventas_liquidacion"
     extra_context = {'form': LiquidacionProviderForm}
@@ -86,7 +86,7 @@ class ReporteResumenVentas(AdminPermisoMixin, ListView):
         return lista_ventas
     
 
-class GastosListView(ListView):
+class GastosListView(AdminPermisoMixin, ListView):
     model = Gastos
     template_name = "administracion/lista_gastos.html"
     context_object_name = "lista_gastos"
@@ -95,13 +95,13 @@ class GastosListView(ListView):
         return Gastos.objects.listar_gastos()
 
 
-class GastosDetailView(DetailView):
+class GastosDetailView(AdminPermisoMixin, DetailView):
     model = Gastos
     template_name = "administracion/detalle_gastos.html"
     context_object_name = "detalle_gastos"
 
 
-class GastosCreateView(CreateView):
+class GastosCreateView(AdminPermisoMixin, CreateView):
     model = Gastos
     form_class = GastosFormulario
     template_name = "administracion/crear_gasto.html"
@@ -114,14 +114,14 @@ class GastosCreateView(CreateView):
             return HttpResponseRedirect(reverse('administracion_app:admin-gastos'))
     
 
-class GastosUpdateView(UpdateView):
+class GastosUpdateView(AdminPermisoMixin, UpdateView):
     model = Gastos
     form_class = GastosFormulario
     template_name = "administracion/update_gasto.html"
     success_url=reverse_lazy('administracion_app:admin-gastos')
     
 
-class Informe8020ListView(ListView):
+class Informe8020ListView(AdminPermisoMixin, ListView):
     model = DetalleVenta
     template_name = "administracion/8020.html"
     context_object_name='informe_8020'
@@ -135,7 +135,7 @@ class Informe8020ListView(ListView):
             return []
 
 
-class CompravsVende(ListView):
+class CompravsVende(AdminPermisoMixin, ListView):
     template_name = "administracion/reporte_compravsvende.html"
     context_object_name = "compra_vs_vende"
     extra_context = {'form': CompravsVendeFormulario}
@@ -157,18 +157,18 @@ class CompravsVende(ListView):
 
         return consulta
 
-class listaPedidos(ListView):
+class listaPedidos(AdminPermisoMixin, ListView):
     template_name = 'administracion/lista_pedidos.html'
     model = Pedidos
     context_object_name = "lista_pedidos"
 
-class vistaZapatoUpdateView(UpdateView):
+class vistaZapatoUpdateView(AdminPermisoMixin, UpdateView):
     model = Pedidos
     form_class = pedidosadminForm
     template_name = "administracion/vista_pedidos.html"
     success_url=reverse_lazy('administracion_app:vista-comprazapato')
 
-class listaPedidosDeleteView(DeleteView):
+class listaPedidosDeleteView(AdminPermisoMixin, DeleteView):
     template_name = "administracion/vista_pedidos_delete.html"
     model = Pedidos
     success_url = reverse_lazy('administracion_app:comprazapato_lista_pedidos')
