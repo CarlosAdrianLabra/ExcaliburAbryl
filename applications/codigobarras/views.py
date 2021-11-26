@@ -8,11 +8,11 @@ from django.views.generic import (
 from applications.inventarios.models import Productos
 from applications.utils import render_to_pdf
 from django.http import JsonResponse, HttpResponse
-
+from applications.users.mixins import CodigodebarrasPermisoMixin
 # Create your views here.
 
 
-class codigobarrasview(ListView):
+class codigobarrasview(CodigodebarrasPermisoMixin,ListView):
     template_name = "codigobarras/Tabla_barras.html"
     paginate_by = '10'
     context_object_name = 'Barras'
@@ -25,7 +25,7 @@ class codigobarrasview(ListView):
         )
         return queryset
 
-class BarrasPDF(View):
+class BarrasPDF(CodigodebarrasPermisoMixin,View):
 
     def get(self, request, *args, **kwargs):
         productos = Productos.objects.get(barcode=self.kwargs['pk'])

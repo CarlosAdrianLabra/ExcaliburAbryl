@@ -18,9 +18,9 @@ from applications.ventas.models import Carrito, Venta
 from .forms import ApartadosForm, ApartadosUpdateForm
 from .models import Apartados
 from .functions import pre_apartado, procesar_venta_apartado, cancelar_venta_apartado, eliminar_venta_apartado
-
+from applications.users.mixins import PuntodeventaPermisoMixin
 # Create your views here.
-class CrearApartado(FormView):
+class CrearApartado(PuntodeventaPermisoMixin,FormView):
     template_name = 'apartados/index.html'
     form_class = ApartadosForm
     success_url = reverse_lazy('ventas_app:venta-index')
@@ -47,13 +47,13 @@ class CrearApartado(FormView):
             return HttpResponseRedirect(reverse('ventas_app:venta-index'))
 
 
-class ApartadosLista(ListView):
+class ApartadosLista(PuntodeventaPermisoMixin,ListView):
     template_name = 'apartados/apartados_lista.html'
     model = Apartados
     context_object_name = "apartados_lista"
     
 
-class ApartadosUpdateView(UpdateView):
+class ApartadosUpdateView(PuntodeventaPermisoMixin,UpdateView):
     template_name = "apartados/apartados_update.html"
     form_class = ApartadosUpdateForm
     model = Apartados
@@ -75,7 +75,7 @@ class ApartadosUpdateView(UpdateView):
         return super(ApartadosUpdateView, self).form_valid(form)
 
 
-class ApartadosProcesarVenta(View):
+class ApartadosProcesarVenta(PuntodeventaPermisoMixin,View):
 
     def post(self, request, *args, **kwargs):
         
@@ -93,7 +93,7 @@ class ApartadosProcesarVenta(View):
         )
 
 
-class ApartadosCancelarVenta(View):
+class ApartadosCancelarVenta(PuntodeventaPermisoMixin,View):
 
     def post(self, request, *args, **kwargs):
 
@@ -123,7 +123,7 @@ class ApartadosCancelarVenta(View):
         )
 
 
-class ApartadosEliminarVenta(DeleteView):
+class ApartadosEliminarVenta(PuntodeventaPermisoMixin,DeleteView):
     model = Apartados
     success_url = reverse_lazy('apartados_app:apartados_lista')
 

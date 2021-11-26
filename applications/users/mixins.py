@@ -12,28 +12,6 @@ def check_user_role(role, user_role):
     else:
         return False
 
-class AlmacenPermisionMixin(LoginRequiredMixin):
-    login_url=reverse_lazy('users_app:user-login')
-
-    def dispatch(self, request, *args,**kwargs):
-        if not request.user.is_authenticated:
-            return self.handle_no_permission()
-        if not check_user_role(request.user.role, User.ALMACEN):
-            return HttpResponseRedirect(reverse('users_app:user-login'))
-
-        return super().dispatch(request,*args,**kwargs)
-
-class VentasPermisoMixin(LoginRequiredMixin):
-    login_url=reverse_lazy('users_app:user-login')
-    
-    def dispatch(self, request, *args,**kwargs):
-        if not request.user.is_authenticated:
-            return self.handle_no_permission()
-        if not check_user_role(request.user.role, User.VENTAS):
-            return HttpResponseRedirect(reverse('users_app:user-login'))
-
-        return super().dispatch(request,*args,**kwargs)
-
 class AdminPermisoMixin(LoginRequiredMixin):
     login_url=reverse_lazy('users_app:user-login')
     
@@ -41,6 +19,61 @@ class AdminPermisoMixin(LoginRequiredMixin):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
         if not check_user_role(request.user.role, User.ADMINISTRADOR):
+            return HttpResponseRedirect(reverse('users_app:user-login'))
+
+        return super().dispatch(request,*args,**kwargs)
+
+class InventarioPermisionMixin(LoginRequiredMixin):
+    login_url=reverse_lazy('users_app:user-login')
+
+    def dispatch(self, request, *args,**kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+        if not check_user_role(request.user.role, User.INVENTARIO):
+            return HttpResponseRedirect(reverse('users_app:user-login'))
+
+        return super().dispatch(request,*args,**kwargs)
+
+class PuntodeventaPermisoMixin(LoginRequiredMixin):
+    login_url=reverse_lazy('users_app:user-login')
+    
+    def dispatch(self, request, *args,**kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+        if not check_user_role(request.user.role, User.PUNTODEVENTA):
+            return HttpResponseRedirect(reverse('users_app:user-login'))
+
+        return super().dispatch(request,*args,**kwargs)
+
+class CodigodebarrasPermisoMixin(LoginRequiredMixin):
+    login_url=reverse_lazy('users_app:user-login')
+    
+    def dispatch(self, request, *args,**kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+        if not check_user_role(request.user.role, User.CODIGODEBARRAS):
+            return HttpResponseRedirect(reverse('users_app:user-login'))
+
+        return super().dispatch(request,*args,**kwargs)
+
+class PromocionesPermisoMixin(LoginRequiredMixin):
+    login_url=reverse_lazy('users_app:user-login')
+    
+    def dispatch(self, request, *args,**kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+        if not check_user_role(request.user.role, User.PROMOCIONES):
+            return HttpResponseRedirect(reverse('users_app:user-login'))
+
+        return super().dispatch(request,*args,**kwargs)
+
+class CompradezapatoPermisoMixin(LoginRequiredMixin):
+    login_url=reverse_lazy('users_app:user-login')
+    
+    def dispatch(self, request, *args,**kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+        if not check_user_role(request.user.role, User.COMPRADEZAPATO):
             return HttpResponseRedirect(reverse('users_app:user-login'))
 
         return super().dispatch(request,*args,**kwargs)

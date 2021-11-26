@@ -13,7 +13,7 @@ from bootstrap_modal_forms.generic import (
 )
 from applications.utils import render_to_pdf
 from applications.ventas.models import DetalleVenta
-from applications.users.mixins import AlmacenPermisionMixin
+from applications.users.mixins import InventarioPermisionMixin
 from django.views.generic import (
     TemplateView,
     ListView,
@@ -38,12 +38,12 @@ from .models import (
     ********************        ********************
 """
 
-class IndexMarca(AlmacenPermisionMixin, ListView):
+class IndexMarca(InventarioPermisionMixin, ListView):
     template_name = 'inventarios/registros/marcas/index_marcas.html'
     model = Marca
     context_object_name = 'marcas'
 
-class CrearMarcaVista(AlmacenPermisionMixin, View):
+class CrearMarcaVista(InventarioPermisionMixin, View):
     def  get(self, request):
         nombre1 = request.GET.get('nombre', None)
 
@@ -58,7 +58,7 @@ class CrearMarcaVista(AlmacenPermisionMixin, View):
         }
         return JsonResponse(data)
 
-class ActualizarMarcaVista(AlmacenPermisionMixin, View):
+class ActualizarMarcaVista(InventarioPermisionMixin, View):
     def  get(self, request):
         id1 = request.GET.get('id', None)
         nombre1 = request.GET.get('nombre', None)
@@ -74,7 +74,7 @@ class ActualizarMarcaVista(AlmacenPermisionMixin, View):
         }
         return JsonResponse(data)
 
-class EliminarMarcaVista(AlmacenPermisionMixin, View):
+class EliminarMarcaVista(InventarioPermisionMixin, View):
     def  get(self, request):
         id1 = request.GET.get('id', None)
         Marca.objects.get(id=id1).delete()
@@ -89,12 +89,12 @@ class EliminarMarcaVista(AlmacenPermisionMixin, View):
     ********************            ********************
 """
 
-class IndexProveedor(AlmacenPermisionMixin, ListView):
+class IndexProveedor(InventarioPermisionMixin, ListView):
     template_name = 'inventarios/registros/proveedores/index_proveedores.html'
     model = Proveedor
     context_object_name = 'proveedores'
 
-class CrearProveedorVista(AlmacenPermisionMixin, View):
+class CrearProveedorVista(InventarioPermisionMixin, View):
     def get(self, request):
         nombre1 = request.GET.get('nombre', None)
         correo1 = request.GET.get('correo', None)
@@ -124,7 +124,7 @@ class CrearProveedorVista(AlmacenPermisionMixin, View):
         }
         return JsonResponse(data)
 
-class ActualizarProveedorVista(AlmacenPermisionMixin, View):
+class ActualizarProveedorVista(InventarioPermisionMixin, View):
     def get(self, request):
         id1 = request.GET.get('id', None)
         nombre1 = request.GET.get('nombre', None)
@@ -155,7 +155,7 @@ class ActualizarProveedorVista(AlmacenPermisionMixin, View):
         }
         return JsonResponse(data)
 
-class EliminarProveedorVista(AlmacenPermisionMixin, View):
+class EliminarProveedorVista(InventarioPermisionMixin, View):
     def get(self, request):
         id1 = request.GET.get('id', None)
         Proveedor.objects.get(id=id1).delete()
@@ -167,7 +167,7 @@ class EliminarProveedorVista(AlmacenPermisionMixin, View):
 """ **************************************** INVENTARIO **************************************** """
 
 # Index inventario
-class IndexInventario(AlmacenPermisionMixin, TemplateView):
+class IndexInventario(InventarioPermisionMixin, TemplateView):
     template_name = 'inventarios/a_rchivos_base/a_index_inventarios.html'
 
     def get_context_data(self, **kwargs):
@@ -210,7 +210,7 @@ class IndexInventario(AlmacenPermisionMixin, TemplateView):
         return context
 
 # Código de barras a PDF
-class CodigoPdf(AlmacenPermisionMixin, View):
+class CodigoPdf(InventarioPermisionMixin, View):
     def get(self, request, *args, **kwargs):
         productos = Productos.objects.all()
         data = {
@@ -229,7 +229,7 @@ class CodigoPdf(AlmacenPermisionMixin, View):
 """
 
 # Index calzado
-class IndexCalzado(AlmacenPermisionMixin, generic.ListView):
+class IndexCalzado(InventarioPermisionMixin, generic.ListView):
     template_name = 'inventarios/almacen_1/calzado/index_calzado.html'
     paginate_by = 10
     context_object_name = 'producto_calzado'
@@ -242,14 +242,14 @@ class IndexCalzado(AlmacenPermisionMixin, generic.ListView):
         return queryset
 
 # Crear producto de calzado
-class CrearCalzadoVista(AlmacenPermisionMixin, BSModalCreateView):
+class CrearCalzadoVista(InventarioPermisionMixin, BSModalCreateView):
     template_name = 'inventarios/almacen_1/calzado/accion_crear_calzado.html'
     form_class = CalzadoFormulario
     success_message = '¡Mensaje: El producto fue creado exitosamente!'
     success_url = reverse_lazy('index_calzado')
 
 # Actualizar producto de calzado
-class ActualizarCalzadoVista(AlmacenPermisionMixin, BSModalUpdateView):
+class ActualizarCalzadoVista(InventarioPermisionMixin, BSModalUpdateView):
     template_name = 'inventarios/almacen_1/calzado/accion_actualizar_calzado.html'
     model = Productos
     form_class = CalzadoFormulario
@@ -257,14 +257,14 @@ class ActualizarCalzadoVista(AlmacenPermisionMixin, BSModalUpdateView):
     success_url = reverse_lazy('index_calzado')
 
 # Eliminar producto de calzado
-class EliminarCalzadoVista(AlmacenPermisionMixin, BSModalDeleteView):
+class EliminarCalzadoVista(InventarioPermisionMixin, BSModalDeleteView):
     template_name = 'inventarios/almacen_1/calzado/accion_eliminar_calzado.html'
     model = Productos
     success_message = '¡Mensaje: El producto fue eliminado exitosamente!'
     success_url = reverse_lazy('index_calzado')
 
 # Ver registro completo del producto calzado
-class LeerCalzadoVista(AlmacenPermisionMixin, BSModalReadView):
+class LeerCalzadoVista(InventarioPermisionMixin, BSModalReadView):
     template_name = 'inventarios/almacen_1/calzado/accion_leer_calzado.html'
     model = Productos
 
@@ -295,7 +295,7 @@ def producto_calzado(request):
 """
 
 # Index ropa
-class IndexRopa(AlmacenPermisionMixin, generic.ListView):
+class IndexRopa(InventarioPermisionMixin, generic.ListView):
     template_name = 'inventarios/almacen_1/ropa/index_ropa.html'
     paginate_by = 10
     context_object_name = 'producto_ropa'
@@ -308,14 +308,14 @@ class IndexRopa(AlmacenPermisionMixin, generic.ListView):
         return queryset
 
 # Crear producto de ropa
-class CrearRopaVista(AlmacenPermisionMixin, BSModalCreateView):
+class CrearRopaVista(InventarioPermisionMixin, BSModalCreateView):
     template_name = 'inventarios/almacen_1/ropa/accion_crear_ropa.html'
     form_class = RopaFormulario
     success_message = '¡Mensaje: El producto fue creado exitosamente!'
     success_url = reverse_lazy('index_ropa')
 
 # Actualizar producto de ropa
-class ActualizarRopaVista(AlmacenPermisionMixin, BSModalUpdateView):
+class ActualizarRopaVista(InventarioPermisionMixin, BSModalUpdateView):
     template_name = 'inventarios/almacen_1/ropa/accion_actualizar_ropa.html'
     model = Productos
     form_class = RopaFormulario
@@ -323,14 +323,14 @@ class ActualizarRopaVista(AlmacenPermisionMixin, BSModalUpdateView):
     success_url = reverse_lazy('index_ropa')
 
 # Eliminar producto de ropa
-class EliminarRopaVista(AlmacenPermisionMixin, BSModalDeleteView):
+class EliminarRopaVista(InventarioPermisionMixin, BSModalDeleteView):
     template_name = 'inventarios/almacen_1/ropa/accion_eliminar_ropa.html'
     model = Productos
     success_message = '¡Mensaje: El producto fue eliminado exitosamente!'
     success_url = reverse_lazy('index_ropa')
 
 # Ver registro completo del producto ropa
-class LeerRopaVista(AlmacenPermisionMixin, BSModalReadView):
+class LeerRopaVista(InventarioPermisionMixin, BSModalReadView):
     template_name = 'inventarios/almacen_1/ropa/accion_leer_ropa.html'
     model = Productos
 
@@ -361,7 +361,7 @@ def producto_ropa(request):
 """
 
 # Index accesorios
-class IndexAccesorios(AlmacenPermisionMixin, generic.ListView):
+class IndexAccesorios(InventarioPermisionMixin, generic.ListView):
     template_name = 'inventarios/almacen_1/accesorios/index_accesorios.html'
     paginate_by = 10
     context_object_name = 'producto_accesorios'
@@ -374,14 +374,14 @@ class IndexAccesorios(AlmacenPermisionMixin, generic.ListView):
         return queryset
 
 # Crear producto de accesorios
-class CrearAccesoriosVista(AlmacenPermisionMixin, BSModalCreateView):
+class CrearAccesoriosVista(InventarioPermisionMixin, BSModalCreateView):
     template_name = 'inventarios/almacen_1/accesorios/accion_crear_accesorios.html'
     form_class = AccesoriosFormulario
     success_message = '¡Mensaje: El producto fue creado exitosamente!'
     success_url = reverse_lazy('index_accesorios')
 
 # Actualizar producto de accesorios
-class ActualizarAccesoriosVista(AlmacenPermisionMixin, BSModalUpdateView):
+class ActualizarAccesoriosVista(InventarioPermisionMixin, BSModalUpdateView):
     template_name = 'inventarios/almacen_1/accesorios/accion_actualizar_accesorios.html'
     model = Productos
     form_class = AccesoriosFormulario
@@ -389,14 +389,14 @@ class ActualizarAccesoriosVista(AlmacenPermisionMixin, BSModalUpdateView):
     success_url = reverse_lazy('index_accesorios')
 
 # Eliminar producto de accesorios
-class EliminarAccesoriosVista(AlmacenPermisionMixin, BSModalDeleteView):
+class EliminarAccesoriosVista(InventarioPermisionMixin, BSModalDeleteView):
     template_name = 'inventarios/almacen_1/accesorios/accion_eliminar_accesorios.html'
     model = Productos
     success_message = '¡Mensaje: El producto fue eliminado exitosamente!'
     success_url = reverse_lazy('index_accesorios')
 
 # Ver registro completo del producto accesorios
-class LeerAccesoriosVista(AlmacenPermisionMixin, BSModalReadView):
+class LeerAccesoriosVista(InventarioPermisionMixin, BSModalReadView):
     template_name = 'inventarios/almacen_1/accesorios/accion_leer_accesorios.html'
     model = Productos
 

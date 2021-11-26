@@ -22,10 +22,10 @@ from .models import Efectivo, Venta, DetalleVenta, Carrito, PreciosFijos
 from .forms import EfectivoForm, VentaForm, VentaVoucherForm, PromocionesForm
 from .functions import procesar_venta
 from applications.caja.functions import detalle_ventas_no_cerradas
-from applications.users.mixins import VentasPermisoMixin
+from applications.users.mixins import PuntodeventaPermisoMixin, PromocionesPermisoMixin
 
 # Create your views here.
-class AddCarView(VentasPermisoMixin, FormView):
+class AddCarView(PuntodeventaPermisoMixin, FormView):
     template_name = "ventas/index.html"
     form_class = VentaForm
     success_url = '.'
@@ -56,7 +56,7 @@ class AddCarView(VentasPermisoMixin, FormView):
             obj.save()
         return super(AddCarView, self).form_valid(form)
 
-class CarShopUpdateView(VentasPermisoMixin, View):
+class CarShopUpdateView(PuntodeventaPermisoMixin, View):
     """ quita en 1 la cantidad en un carshop """
 
     def post(self, request, *args, **kwargs):
@@ -71,7 +71,7 @@ class CarShopUpdateView(VentasPermisoMixin, View):
             )
         )
 
-class CarShopUpdate2View(VentasPermisoMixin, View):
+class CarShopUpdate2View(PuntodeventaPermisoMixin, View):
     """ agrega en 1 la cantidad en un carshop """
 
     def post(self, request, *args, **kwargs):
@@ -86,7 +86,7 @@ class CarShopUpdate2View(VentasPermisoMixin, View):
             )
         )
 
-class CarShopDeleteView(VentasPermisoMixin, DeleteView):
+class CarShopDeleteView(PuntodeventaPermisoMixin, DeleteView):
     model = Carrito
     success_url = reverse_lazy('ventas_app:venta-index')
 
@@ -103,7 +103,7 @@ class CarShopDeleteAll(View):
             )
         )
 
-class ProcesoVentaSimpleView(VentasPermisoMixin, View):
+class ProcesoVentaSimpleView(PuntodeventaPermisoMixin, View):
     """ Procesa una venta simple """
 
     def post(self, request, *args, **kwargs):
@@ -121,7 +121,7 @@ class ProcesoVentaSimpleView(VentasPermisoMixin, View):
             )
         )
 
-class ProcesoVentaVoucherView(VentasPermisoMixin, FormView):
+class ProcesoVentaVoucherView(PuntodeventaPermisoMixin, FormView):
     form_class = VentaVoucherForm
     success_url = '.'
     
@@ -150,7 +150,7 @@ class ProcesoVentaVoucherView(VentasPermisoMixin, FormView):
                 )
             )
 
-class VentaVoucherPdf(VentasPermisoMixin, View):
+class VentaVoucherPdf(PuntodeventaPermisoMixin, View):
     
     def get(self, request, *args, **kwargs):
         venta = Venta.objects.get(id=self.kwargs['pk'])
@@ -173,14 +173,14 @@ class VentaVoucherPdf(VentasPermisoMixin, View):
 
         return HttpResponse(pdf, content_type='application/pdf')
 
-class SaleListView(VentasPermisoMixin, ListView):
+class SaleListView(PuntodeventaPermisoMixin, ListView):
     template_name = 'ventas/ventas.html'
     context_object_name = "ventas" 
 
     def get_queryset(self):
         return Venta.objects.ventas_no_cerradas()
 
-class SaleDeleteView(VentasPermisoMixin, DeleteView):
+class SaleDeleteView(PuntodeventaPermisoMixin, DeleteView):
     template_name = "ventas/delete.html"
     model = Venta
     success_url = reverse_lazy('ventas_app:venta-list')
@@ -195,7 +195,7 @@ class SaleDeleteView(VentasPermisoMixin, DeleteView):
 
         return HttpResponseRedirect(success_url)
 
-class EfectivoView(VentasPermisoMixin, FormView):
+class EfectivoView(PuntodeventaPermisoMixin, FormView):
     form_class = EfectivoForm
     success_url = '/venta/index'
 
@@ -223,7 +223,7 @@ class EfectivoView(VentasPermisoMixin, FormView):
 
         return super(EfectivoView, self).form_valid(form)
 
-class EfectivoDeleteAll(VentasPermisoMixin, View):
+class EfectivoDeleteAll(PuntodeventaPermisoMixin, View):
     
     def post(self, request, *args, **kwargs):
         
@@ -235,7 +235,7 @@ class EfectivoDeleteAll(VentasPermisoMixin, View):
             )
         )
 
-class Promociones(VentasPermisoMixin, FormView):
+class Promociones(PromocionesPermisoMixin, FormView):
     template_name = 'promociones/index_promociones.html'
     form_class = PromocionesForm
     success_url = reverse_lazy('ventas_app:promociones_activas')
@@ -305,7 +305,7 @@ class Promociones(VentasPermisoMixin, FormView):
 
         return super(Promociones, self).form_valid(form)
 
-class ListaPromociones(VentasPermisoMixin, ListView):
+class ListaPromociones(PromocionesPermisoMixin, ListView):
     template_name = 'promociones/lista_promociones.html'
     model = Productos
 

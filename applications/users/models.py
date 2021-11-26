@@ -11,13 +11,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     #Tipo de Usuarios
 
     ADMINISTRADOR ='0'
-    ALMACEN='1'
-    VENTAS='2'
+    INVENTARIO='1'
+    PUNTODEVENTA='2'
+    CODIGODEBARRAS='3'
+    PROMOCIONES='4'
+    COMPRADEZAPATO='5'
     
     ROLE_CHOICES=[
         (ADMINISTRADOR,'Administrador'),
-        (ALMACEN,'Almacen'),
-        (VENTAS,'Ventas',)
+        (INVENTARIO,'Inventario'),
+        (PUNTODEVENTA,'Punto de venta',),
+        (CODIGODEBARRAS,'Codigo de barras'),
+        (PROMOCIONES, 'Promociones'),
+        (COMPRADEZAPATO, 'Compra de zapato')
     ]
 
     username = models.CharField(max_length=20, unique=True)

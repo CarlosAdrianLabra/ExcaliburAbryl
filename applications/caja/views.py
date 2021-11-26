@@ -11,8 +11,9 @@ from applications.ventas.models import Venta, DetalleVenta
 #
 from .models import CerrarCaja
 from .functions import detalle_ventas_no_cerradas
+from applications.users.mixins import PuntodeventaPermisoMixin
 # Create your views here.
-class ReporteCierreCajaView(TemplateView):
+class ReporteCierreCajaView(PuntodeventaPermisoMixin,TemplateView):
 
     template_name = 'caja/index.html'
 
@@ -28,7 +29,7 @@ class ReporteCierreCajaView(TemplateView):
         return context
 
 
-class ProcesoCerrarCajaView(View):
+class ProcesoCerrarCajaView(PuntodeventaPermisoMixin,View):
 
     def post(self, request, *args, **kwargs):
         # cerramos las ventas
