@@ -167,6 +167,7 @@ class Productos(TimeStampedModel):
 
     # Atributos necesarios
     barcode = models.CharField('Código de barras', max_length=13, blank=True, unique=True)
+    barcode_exterior = models.CharField('Código de barras', max_length=15, blank=True)
     nombre = models.CharField('Nombre', max_length=40)
 
     # Atributos foreignkey
@@ -184,6 +185,7 @@ class Productos(TimeStampedModel):
     color = models.CharField('Color', max_length=2, blank=True, choices=OPCIONES_COLOR)
     genero = models.CharField('Género', max_length=1, blank=True, choices=OPCIONES_GENERO)
     promocion = models.CharField('Promociones', max_length=2, blank=True, choices=OPCION_PROMOCIONES, default='0')
+    fecha_final_promocion = models.DateTimeField('Fecha final de promoción', null=True, blank=True)
 
     # Atributos no necesarios
     modelo = models.CharField('Modelo', max_length=15, blank=True)

@@ -1,4 +1,5 @@
 from decimal import Decimal
+from datetime import datetime, timedelta, date
 #
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
@@ -241,6 +242,9 @@ class Promociones(PromocionesPermisoMixin, FormView):
     success_url = reverse_lazy('ventas_app:promociones_activas')
 
     def form_valid(self, form):
+        # fecha_hoy = datetime.now()
+        # fecha_hoy = str(fecha_hoy)
+
         marca = form.cleaned_data['marca']
         genero = form.cleaned_data['genero']
         precio = form.cleaned_data['precio_asignado']
@@ -250,29 +254,39 @@ class Promociones(PromocionesPermisoMixin, FormView):
         barcode = form.cleaned_data['barcode']
         barcode_solo = form.cleaned_data['barcode_solo']
         promocion = form.cleaned_data['promocion']
+        fecha_final_promocion = form.cleaned_data['fecha_final_promocion']
+
+        # if Productos.objects.filter(fecha_final_promocion__lte=fecha_hoy):
+        #     Productos.objects.filter(fecha_final_promocion__lte=fecha_hoy).update(
+        #         promocion='0'
+        #     )
 
         #  UN SOLO PRODUCTO
         if barcode_solo != '':
             Productos.objects.filter(barcode=barcode_solo).update(
-                promocion=promocion
+                promocion=promocion,
+                fecha_final_promocion=fecha_final_promocion
             )
         
         #  CREAR DESCUENTO PARA UN PRODUCTO
         if barcode and precio != '':
             Productos.objects.filter(barcode=barcode).update(
-                promocion=promocion
+                promocion=promocion,
+                fecha_final_promocion=fecha_final_promocion
             )
             try:
                 producto = PreciosFijos.objects.get(barcode=barcode)
                 if producto:
                     PreciosFijos.objects.update(
                         barcode=barcode,
-                        precio_fijo=precio
+                        precio_fijo=precio,
+                        fecha_final_promocion=fecha_final_promocion
                     )
             except PreciosFijos.DoesNotExist:
                 PreciosFijos.objects.create(
                     barcode=barcode,
-                    precio_fijo=precio
+                    precio_fijo=precio,
+                    fecha_final_promocion=fecha_final_promocion
                 )
         
         # POR MARCA Y LINEA
@@ -292,18 +306,22 @@ class Promociones(PromocionesPermisoMixin, FormView):
         # A VARIOS PRODUCTOS
         if genero and marca and linea_a != '':
             Productos.objects.filter(genero=genero, marca=marca, linea_a=linea_a).update(
-                promocion=promocion
+                promocion=promocion,
+                fecha_final_promocion=fecha_final_promocion
             )
         if genero and marca and linea_c != '':
             Productos.objects.filter(genero=genero, marca=marca, linea_c=linea_c).update(
-                promocion=promocion
+                promocion=promocion,
+                fecha_final_promocion=fecha_final_promocion
             )
         if genero and marca and linea_r != '':
             Productos.objects.filter(genero=genero, marca=marca, linea_r=linea_r).update(
-                promocion=promocion
+                promocion=promocion,
+                fecha_final_promocion=fecha_final_promocion
             )
 
         return super(Promociones, self).form_valid(form)
+
 
 class ListaPromociones(PromocionesPermisoMixin, ListView):
     template_name = 'promociones/lista_promociones.html'

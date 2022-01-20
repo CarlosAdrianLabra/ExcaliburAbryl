@@ -161,3 +161,14 @@ class PromocionesForm(forms.Form):
             }
         )
     )
+    fecha_final_promocion = forms.DateField(
+        required=False,
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+                'class': 'form-control col-12 ml-1 mb-3',
+                
+            },
+        )
+    )

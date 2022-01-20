@@ -29,9 +29,19 @@
                 <!-- Card-body -->
                 <div class="card-body">
                     <div class="row mt-3 ml-5">
-                        <label class="text-uppercase">1 - Elige la promoción que deseas implementar:</label>
-                        <div class="col-12"><label class="ml-1 mt-2">Promociones disponibles:</label></div>
-                        <div class="col-3">{{form.promocion}}</div>
+                        <label class="text-uppercase col-12">1 - Elige la promoción y fecha que deseas implementar:</label>
+                        <div class="col-5 offset-1">
+                            <div class="col-12"><label class="ml-1 mt-2">Promociones disponibles:</label></div>
+                            <div class="col-8">{{form.promocion}}</div>
+                        </div>
+                        <div class="col-5 offset-1">
+                            <div class="col-12"><label class="ml-1 mt-2">Fecha de termino para la promoción:</label></div>
+                            <div class="col-8">{{form.fecha_final_promocion}}</div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        
                     </div>
                     <div class="row mt-4 ml-5">
                         <label class="text-uppercase">2 - Aplicar promoción:</label>

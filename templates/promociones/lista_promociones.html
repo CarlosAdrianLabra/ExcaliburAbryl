@@ -34,6 +34,7 @@
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Promoción</th>
+                        <th>Termina la promoción</th>
                         <th>Precio costo</th>
                         <th>Precio venta</th>
                     </thead>
@@ -44,6 +45,7 @@
                         <td>{{ p.nombre }}</td>
                         <td>{{ p.stock }}</td>
                         <td>{{ p.get_promocion_display }}</td>
+                        <td>{{ p.fecha_final_promocion}}</td>
                         <td>$ {{ p.precio_compra | floatformat:2 }}</td>
                         <td>$ {{ p.precio_venta | floatformat:2 }}</td>
                     </tr>

@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, date
 from applications.inventarios.views import producto_calzado
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -12,7 +13,15 @@ class PanelControlInicio(TemplateView):
         context = super().get_context_data(**kwargs)
         venta = Venta.objects.filter()
         producto = Productos.objects.filter(stock__lt=10)
-
+        #
+        fecha_hoy = datetime.now()
+        fecha_hoy = str(fecha_hoy)
+        #
+        if Productos.objects.filter(fecha_final_promocion__lte=fecha_hoy):
+            Productos.objects.filter(fecha_final_promocion__lte=fecha_hoy).update(
+                promocion='0'
+            )
+        #
         if producto:
             context['productos_por_terminarse'] = Productos.objects.productos_por_terminarse().count()
         else:

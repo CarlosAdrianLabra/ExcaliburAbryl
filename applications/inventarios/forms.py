@@ -45,6 +45,12 @@ class CalzadoFormulario(BSModalModelForm):
             ),
             'genero': forms.Select(attrs={'class': 'form-control mb-3',}),
             'promocion': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'barcode_exterior': forms.TextInput(
+                attrs={
+                    'class': 'form-control mb-3',
+                    'placeholder': '15 DIGITOS'
+                }
+            ),
         }
 
 # Formulario Ropa
@@ -89,6 +95,12 @@ class RopaFormulario(BSModalModelForm):
             ),
             'genero': forms.Select(attrs={'class': 'form-control mb-3',}),
             'promocion': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'barcode_exterior': forms.TextInput(
+                attrs={
+                    'class': 'form-control mb-3',
+                    'placeholder': '15 DIGITOS'
+                }
+            ),
         }
 
 # Formulario Accesorios
@@ -133,4 +145,10 @@ class AccesoriosFormulario(BSModalModelForm):
             ),
             'genero': forms.Select(attrs={'class': 'form-control mb-3',}),
             'promocion': forms.Select(attrs={'class': 'form-control mb-3',}),
+            'barcode_exterior': forms.TextInput(
+                attrs={
+                    'class': 'form-control mb-3',
+                    'placeholder': '15 DIGITOS'
+                }
+            ),
         }

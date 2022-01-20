@@ -19,6 +19,8 @@
                 <label>Modelo:</label>{{ form.modelo }}
                 <label><span style="color: red; font-size: small; ">* </span>Proveedor:</label>{{ form.proveedor }}
                 <label><span style="color: red; font-size: small; ">* </span>Marca:</label>{{ form.marca }}
+                <label>Código de barras exterior:</label>{{ form.barcode_exterior }}
+                
             </div>
 
             <div class="col-3 offset-1">
@@ -37,6 +39,7 @@
             </div>
         </div>
         
+        <span style="display: none;"><label>{{ form.fecha_final_promocion }}</span>
         <span style="display: none;">{{ form.tipo }}</span>
         <span style="display: none;">{{ form.almacen }}</span>
     </div>
