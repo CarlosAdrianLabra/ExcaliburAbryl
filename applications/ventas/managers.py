@@ -77,6 +77,17 @@ class SaleManager(models.Manager):
         )
         #
         return consulta['total']
+    
+    def monto_total_ventas_actual(self):
+        #
+        consulta = self.filter(
+            anulate=False,
+            date_sale__gte=str(self.ano_actual)+"-01-01"
+        ).aggregate(
+            total=Sum('amount')
+        )
+        #
+        return consulta['total']
 
     def total_ventas_no_cerradas(self):
         #
@@ -86,10 +97,30 @@ class SaleManager(models.Manager):
         #
         return consulta
 
+    def total_ventas_no_cerradas_actual(self):
+        #
+        consulta = self.filter(
+            anulate=False,
+            date_sale__gte=str(self.ano_actual)+"-01-01"
+        ).count()
+        #
+        return consulta
+
     def costo_total(self):
         #
         consulta = self.filter(
             anulate=False
+        ).aggregate(
+            #total=Sum('detail_sale__producto__precio_compra')
+            total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
+        )
+        return consulta['total']
+
+    def costo_total_actual(self):
+        #
+        consulta = self.filter(
+            anulate=False,
+            date_sale__gte=str(self.ano_actual)+"-01-01"
         ).aggregate(
             #total=Sum('detail_sale__producto__precio_compra')
             total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
@@ -220,6 +251,9 @@ class SaleManager(models.Manager):
 
 class SaleDetailManager(models.Manager):
     """ procedimiento modelo product """
+    fecha_hoy = datetime.now()
+    mes_actual = fecha_hoy.month
+    ano_actual = fecha_hoy.year
     
     def detalle_por_venta(self, id_venta):
         return self.filter(
@@ -324,6 +358,15 @@ class SaleDetailManager(models.Manager):
     
     def ganancias_totales(self):
         costo = self.filter(anulate=False, sale__close=True).aggregate(
+            total=Sum(
+                F('price_subtotal') - F('count')*F('price_purchase'),
+                output_field=FloatField()
+            )
+        )
+        return costo['total']
+    
+    def ganancias_totales_actuales(self):
+        costo = self.filter(anulate=False, sale__close=True, sale__date_sale__gte=str(self.ano_actual)+"-01-01").aggregate(
             total=Sum(
                 F('price_subtotal') - F('count')*F('price_purchase'),
                 output_field=FloatField()

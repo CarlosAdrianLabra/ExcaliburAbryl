@@ -84,7 +84,7 @@
 
             <!--Row content 2 -->
             <div class="row mt-1">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header border-0">
                             <div class="d-flex justify-content-between">
@@ -171,7 +171,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header border-0">
                             <div class="d-flex justify-content-between">
@@ -274,12 +274,13 @@
         var salesChart = new Chart($salesChart, {
             type: 'bar',
             data: {
-                labels: ['MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'],
+                labels: ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'],
                 datasets: [
                     {
                     backgroundColor: '#007bff',
                     borderColor: '#007bff',
-                    data: ['{{ventas_mayo}}', '{{ventas_junio}}', '{{ventas_julio}}', '{{ventas_agosto}}', '{{ventas_septiembre}}',
+                    data: ['{{ventas_enero}}', '{{ventas_febrero}}', '{{ventas_marzo}}', '{{ventas_abril}}', '{{ventas_mayo}}',
+                            '{{ventas_junio}}', '{{ventas_julio}}', '{{ventas_agosto}}', '{{ventas_septiembre}}',
                             '{{ventas_octubre}}', '{{ventas_noviembre}}', '{{ventas_diciembre}}']
                     },
                     
@@ -363,12 +364,13 @@
         var ventasChart = new Chart($ventasChart, {
             type: 'bar',
             data: {
-                labels: ['MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'],
+                labels: ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'],
                 datasets: [
                     {
                     backgroundColor: '#1D2535',
                     borderColor: '#1D2535',
-                    data: ['{{ventas_mayo2}}', '{{ventas_junio2}}', '{{ventas_julio2}}', '{{ventas_agosto2}}', '{{ventas_septiembre2}}',
+                    data: ['{{ventas_enero2}}', '{{ventas_febrero2}}', '{{ventas_marzo2}}', '{{ventas_abril2}}', '{{ventas_mayo2}}',
+                            '{{ventas_junio2}}', '{{ventas_julio2}}', '{{ventas_agosto2}}', '{{ventas_septiembre2}}',
                             '{{ventas_octubre2}}', '{{ventas_noviembre2}}', '{{ventas_diciembre2}}']
                     },
                     

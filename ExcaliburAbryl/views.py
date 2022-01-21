@@ -30,15 +30,15 @@ class PanelControlInicio(TemplateView):
             # Inventario
             context['num_productos'] = Productos.objects.all().count()
             # Ventas
-            context["num_ventas_total"] = Venta.objects.total_ventas_no_cerradas()
-            context["monto_total_ventas"] = Venta.objects.monto_total_ventas()
-            context["ganancias_totales"] = DetalleVenta.objects.ganancias_totales()
+            context["num_ventas_total"] = Venta.objects.total_ventas_no_cerradas_actual()
+            context["monto_total_ventas"] = Venta.objects.monto_total_ventas_actual()
+            context["ganancias_totales"] = DetalleVenta.objects.ganancias_totales_actuales()
             # Ventas titulo
             context["num_ventas"] = Venta.objects.ventas_no_cerradas().count()
             context["monto_ventas"] = Venta.objects.total_ventas_dia()
             context["monto_ventas_anuladas"] = Venta.objects.total_ventas_anuladas_dia()
             #
-            context['costo_total'] = Venta.objects.costo_total()
+            context['costo_total'] = Venta.objects.costo_total_actual()
             # Ventas Fecha
             context["ventas_enero"] = Venta.objects.v_enero()
             context["ventas_febrero"] = Venta.objects.v_febrero()

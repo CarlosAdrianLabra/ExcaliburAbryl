@@ -2,8 +2,10 @@
 {% load static %}
 
 {% block head %}
-<title>Administración</title>
+<title>Administración - 80/20</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+<link rel="stylesheet" href="{% static 'CSS/dataTables.bootstrap5.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
 {% endblock head %}
 {% block enlace_info_general %}
 <a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
@@ -48,6 +50,14 @@
 				<p>Informe 80/20</p>
 			</a>
 			{% endblock enlace_8020 %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_compra_vs_vende %}
+			<a href="{% url 'administracion_app:compra_vende' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Compra vs vende</p>
+			</a>
+			{% endblock enlace_compra_vs_vende %}
 		</li>
 		<li class="nav-item">
 			{% block enlace_comprazapatos_lista_pedidos %}
@@ -123,7 +133,7 @@
                     <!-- Card body -->
 					<div class="col-md-10 offset-md-1">
 						<div class="card-body  table-responsive p-0" style="height: 440px;">
-							<table class="table table-bordered table-striped text-center  text-nowrap">
+							<table id="export-table" class="table table-bordered table-striped text-center  text-nowrap">
 								<thead class="bg-navyr white">
 									<th>Marca</th>
 									<th>Piezas</th>
@@ -188,4 +198,42 @@
         <!-- ./row content -->
     </div>
 </div>
-{% endblock content %}   
+{% endblock content %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#export-table').DataTable({
+			responsive: "True",
+			//dom: 'Brtilp',
+			dom: 'B',
+			buttons:[
+				{
+					extend: 	'excelHtml5',
+					text: 		'<i class="fas fa-file-excel"></i>',
+					titleAttr:	'Exportar a Excel',
+					className: 	'btn btn-success mr-2 float-right'
+				},
+				{
+					extend: 	'pdfHtml5',
+					text: 		'<i class="fas fa-file-pdf"></i>',
+					titleAttr:	'Exportar a PDF',
+					className: 	'btn btn-danger'
+				},
+				// {
+				// 	extend: 	'print',
+				// 	text: 		'<i class="fa-regular fa-file"></i>',
+				// 	titleAttr:	'Imprimir',
+				// 	className: 	'btn btn-primary'
+				// },
+			]
+		});
+	});
+</script>
+<script src="{% static 'js/datatable/datatables.min.js' %}"></script>
+<script src="{% static 'js/datatable/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'js/datatable/jszip.min.js' %}"></script>
+<script src="{% static 'js/datatable/pdfmake.min.js' %}"></script>
+<script src="{% static 'js/datatable/vfs_fonts.js' %}"></script>
+<script src="{% static 'js/datatable/buttons.html5.min.js' %}"></script>
+{% endblock extra_scripts %}

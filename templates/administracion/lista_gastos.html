@@ -2,8 +2,10 @@
 {% load static %}
 
 {% block head %}
-<title>Administración</title>
+<title>Administración - Gastos</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+<link rel="stylesheet" href="{% static 'CSS/dataTables.bootstrap5.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
 {% endblock head %}
 {% block enlace_info_general %}
 <a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
@@ -114,7 +116,7 @@
 
                     <!-- Card body -->
                     <div class="card-body">
-                        <table class="table table-bordered table-striped text-center">
+                        <table id="export-table" class="table table-bordered table-striped text-center">
                             <thead class="bg-navyr white">
 								<th>#</th>
 								<th>Mes / Año</th>
@@ -156,3 +158,41 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#export-table').DataTable({
+			responsive: "True",
+			//dom: 'Brtilp',
+			dom: 'B',
+			buttons:[
+				{
+					extend: 	'excelHtml5',
+					text: 		'<i class="fas fa-file-excel"></i>',
+					titleAttr:	'Exportar a Excel',
+					className: 	'btn btn-success mr-2'
+				},
+				{
+					extend: 	'pdfHtml5',
+					text: 		'<i class="fas fa-file-pdf"></i>',
+					titleAttr:	'Exportar a PDF',
+					className: 	'btn btn-danger'
+				},
+				// {
+				// 	extend: 	'print',
+				// 	text: 		'<i class="fa-regular fa-file"></i>',
+				// 	titleAttr:	'Imprimir',
+				// 	className: 	'btn btn-primary'
+				// },
+			]
+		});
+	});
+</script>
+<script src="{% static 'js/datatable/datatables.min.js' %}"></script>
+<script src="{% static 'js/datatable/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'js/datatable/jszip.min.js' %}"></script>
+<script src="{% static 'js/datatable/pdfmake.min.js' %}"></script>
+<script src="{% static 'js/datatable/vfs_fonts.js' %}"></script>
+<script src="{% static 'js/datatable/buttons.html5.min.js' %}"></script>
+{% endblock extra_scripts %}
