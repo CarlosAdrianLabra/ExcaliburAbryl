@@ -269,7 +269,7 @@ def movimientos_productos(sender, instance, **kwargs):
         )
         mov.save()
     except Productos.DoesNotExist:
-        pass
+        return []
     else:
         return []
 
