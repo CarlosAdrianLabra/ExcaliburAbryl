@@ -3,36 +3,54 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Código de barras</title>
+    <style>
+        @media print {
+            @page {
+                size: 61mm 32mm;
+                top: 1pt;
+                left: 1pt;
+                right: 1pt;
+                bottom: 1pt;
+                width: 170pt;
+                height: 88pt; 
+                -pdf-frame-border: 1;
+            }
+        }
+    </style>
 </head>
 <body>
-    <table style="text-align: center;">
-        <thead>
-            <tr>
-                <th width="125">Códigos de Barras</th>
-                <th width="170">Nombre</th>
-            </tr>
-        </thead>
+    <table width="130" style="margin-left: 5px;">
         <tbody>
             {% for p in productos %}
             <tr>
                 <td>
-                    <p>
-                        <pdf:barcode value="{{ p.barcode }}" type="code128" humanreadable="1" />
+                    <p style="padding-top: 3px;">
+                        {% if p.linea_a %}
+                            {{p.nombre}}-{{p.modelo}}-{{p.get_linea_a_display}}-{{p.get_genero_display}}
+                        {% endif %}
+                        {% if p.linea_c %}
+                            {{p.nombre}}-{{p.modelo}}-{{p.get_linea_c_display}}-{{p.get_genero_display}}
+                        {% endif %}
+                        {% if p.linea_r %}
+                            {{p.nombre}}-{{p.modelo}}-{{p.get_linea_r_display}}-{{p.get_genero_display}}
+                        {% endif %}
+                        <br>
+                            {{p.get_color_display}}
+                        <br>
+                        {% if p.medida %}
+                            Talla de calzado: {{ p.get_medida_display }}
+                        {% endif %}
+                        {% if p.talla %}
+                            Talla de ropa: {{ p.get_talla_display }}
+                        {% endif %}
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            Sucursal: 1
                     </p>
-                </td>
-                <td style="padding: 10px 10px;">
-                    Nombre: {{ p.nombre }}<br>
-                    Precio de venta: {{ p.precio_venta }}<br>
-                    {% if p.medida %}
-                        Talla de calzado: {{ p.get_medida_display }}
-                    {% else %}
-
-                    {% endif %}
-                    {% if p.talla %}
-                        Talla de ropa: {{ p.get_talla_display }}
-                    {% else %}
-                    
-                    {% endif %}
+                    <p>
+                        <pdf:barcode value="{{ p.barcode }}" type="code128" barwidth="1" humanreadable="1"  />
+                    </p>
                 </td>
             </tr>
             {% endfor %}

@@ -1,3 +1,58 @@
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Código de barras</title>
+    <style>
+        @media print {
+            @page {
+                size: 61mm 32mm;
+                top: 1pt;
+                left: 1pt;
+                right: 1pt;
+                bottom: 1pt;
+                width: 170pt;
+                height: 88pt; 
+                -pdf-frame-border: 1;
+            }
+        }
+    </style>
+</head>
 <body>
-    <pdf:barcode value="{{ productos.barcode }}" type="code128" humanreadable="1" />
+    <table width="130" style="margin-left: 5px;">
+        <tbody>
+            <tr>
+                <td>
+                    <p style="padding-top: 3px;">
+                            {% if productos.linea_a %}
+                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_linea_a_display}}-{{productos.get_genero_display}}
+                            {% endif %}
+                            {% if productos.linea_c %}
+                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_linea_c_display}}-{{productos.get_genero_display}}
+                            {% endif %}
+                            {% if productos.linea_r %}
+                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_linea_r_display}}-{{productos.get_genero_display}}
+                            {% endif %}
+                        <br>
+                            {{productos.get_color_display}}
+                        <br>
+                            {% if productos.medida %}
+                                Talla de calzado: {{ productos.get_medida_display }}
+                            {% endif %}
+                            {% if productos.talla %}
+                                Talla de ropa: {{ productos.get_talla_display }}
+                            {% endif %}
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            Sucursal: 1
+                    </p>
+                    <p>
+                        <pdf:barcode value="{{ productos.barcode }}" type="code128" barwidth="1" humanreadable="1"  />
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
+</html>
