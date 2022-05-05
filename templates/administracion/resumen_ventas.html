@@ -64,7 +64,7 @@
 			{% block enlace_comprazapatos_lista_pedidos %}
 			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link">
 				<i class="fas fa-calendar-day nav-icon ml-4"></i>
-				<p>Lista Pedidos</p>
+				<p>Lista pedidos</p>
 			</a>
 			{% endblock enlace_comprazapatos_lista_pedidos %}
 		</li>
@@ -89,7 +89,7 @@
 			{% block enlace_lista_gastos %}
 			<a href="{% url 'administracion_app:admin-gastos' %}" class="nav-link">
 				<i class="fas fa-chart-bar nav-icon ml-4"></i>
-				<p>Ver gastos</p>
+				<p>Lista gastos</p>
 			</a>
 			{% endblock enlace_lista_gastos %}
 		</li>
@@ -121,11 +121,17 @@
                         <form method="GET">
                             <div class="row justify-content-md-center">
                                 <div class="col-3">
-                                    <label>Fecha inicial:</label>
+                                    <label>
+                                        Fecha inicial: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span style="font-size: small; color: #999;"> Hora: 00:00:00</span>
+                                    </label>
                                     {{form.date_start}}
                                 </div>
                                 <div class="col-3">
-                                    <label>Fecha final:</label>
+                                    <label>
+                                        Fecha final: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span style="font-size: small; color: #999;"> Hora: 23:59:59</span>
+                                    </label>
                                     {{form.date_end}}
                                 </div>
                             </div>
@@ -139,19 +145,19 @@
                         {% for venta in resumen_ventas %}
                         <table class="table table-dark">
                             <thead>
-                                <th style="width: 297px;">Venta N° {{venta.id}}</th>
-                                <th style="width: 361px;">Fecha: {{venta.date_sale|date:'m/d/Y P' }}</th>
-                                <th style="width: 322px;">Cantidad: {{venta.count}}</th>
+                                <th style="width: 150px;">Venta N° {{venta.id}}</th>
+                                <th style="width: 329px;">Vendedor: {{venta.user | title}}</th>
+                                <th style="width: 260px;">Fecha: {{venta.date_sale|date:'m/d/Y P' }}</th>
+                                <th style="width: 230px;">Cantidad: {{venta.count}}</th>
                                 <th style="width: 257px;">Pago: {{venta.get_type_payment_display}} / {{ venta.get_type_invoice_display }}</th>
-                                
                                 <th style="width: 190px; color: lime;">Total: $ {{ venta.amount }}</th>
                             </thead>
                         </table>
                         <table class="table table-striped mb-3">
                             <thead>
-                                <th style="width: 297px;">Producto</th>
-                                <th style="width: 361px;">Precio Venta</th>
-                                <th style="width: 322px;">Cantidad de productos</th>
+                                <th style="width: 479px;">Producto</th>
+                                <th style="width: 260px;">Precio Venta</th>
+                                <th style="width: 230px;">Cantidad de productos</th>
                                 <th style="width: 257px;">Promoción</th>
                                 <th style="width: 190px;">Sub total</th>
                             </thead>

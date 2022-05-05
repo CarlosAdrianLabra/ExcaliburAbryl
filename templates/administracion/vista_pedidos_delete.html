@@ -62,7 +62,7 @@
 			{% block enlace_comprazapatos_lista_pedidos %}
 			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link active" style="color: azure; background: tomato;">
 				<i class="fas fa-calendar-day nav-icon ml-4"></i>
-				<p>Lista Pedidos</p>
+				<p>Lista pedidos</p>
 			</a>
 			{% endblock enlace_comprazapatos_lista_pedidos %}
 		</li>
@@ -87,7 +87,7 @@
 			{% block enlace_lista_gastos %}
 			<a href="{% url 'administracion_app:admin-gastos' %}" class="nav-link">
 				<i class="fas fa-chart-bar nav-icon ml-4"></i>
-				<p>Ver gastos</p>
+				<p>Lista gastos</p>
 			</a>
 			{% endblock enlace_lista_gastos %}
 		</li>
@@ -105,7 +105,7 @@
 <div class="content">
     <div class="container-fluid mt-3">
         <div class="card">
-            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">Borrar Pedido</h1></div>
+            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">ELIMINAR PEDIDO</h1></div>
             <div class="card-body">
                 <form action="{% url 'administracion_app:borrar_pedido' pedidos.id %}" method="POST">{% csrf_token %}
                     <div class="row justify-content-md-center">
@@ -114,17 +114,20 @@
                             {{pedidos.monto_por_pagar}}
                         </div>
                         <div class="col-3">
-                            <label>Fecha inicio:</label>
+                            <label>
+                                Fecha inicio: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span style="font-size: small; color: #999;"> Hora: 00:00:00</span>
+                            </label>
                             {{pedidos.fecha_inicio}}
                         </div>
                         <div class="col-3">
-                            <label>Fecha termino:</label>
+                            <label>
+                                Fecha termino: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span style="font-size: small; color: #999;"> Hora: 23:59:59</span>
+                            </label>
                             {{pedidos.fecha_termino}}
                         </div>
                     </div>
-
-
-
                     <div class="row justify-content-md-center">
                         <div class="col-3">
                             <label>Estado de compra:</label>

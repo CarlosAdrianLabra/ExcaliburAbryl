@@ -13,43 +13,53 @@
                 bottom: 1pt;
                 width: 170pt;
                 height: 88pt; 
-                -pdf-frame-border: 1;
+                /* -pdf-frame-border: 1; */
             }
         }
     </style>
 </head>
 <body>
-    <table width="130" style="margin-left: 5px;">
+    <table width="170">
         <tbody>
             <tr>
-                <td>
-                    <p style="padding-top: 3px;">
+                <td style="margin: 0px;padding-left: 2px;padding-top: 3px;">
+                    <div>
+                        <div style="font-size: 7px;"> 
+                            Sucursal: 1
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {% now "SHORT_DATE_FORMAT" %}
+                        </div>
+                        <div style="font-size: 7px;">
                             {% if productos.linea_a %}
-                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_linea_a_display}}-{{productos.get_genero_display}}
+                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_genero_display}}-{{productos.get_linea_a_display}}
                             {% endif %}
                             {% if productos.linea_c %}
-                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_linea_c_display}}-{{productos.get_genero_display}}
+                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_genero_display}}-{{productos.get_linea_c_display}}
                             {% endif %}
                             {% if productos.linea_r %}
-                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_linea_r_display}}-{{productos.get_genero_display}}
+                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_genero_display}}-{{productos.get_linea_r_display}}
                             {% endif %}
-                        <br>
-                            {{productos.get_color_display}}
-                        <br>
-                            {% if productos.medida %}
-                                Talla de calzado: {{ productos.get_medida_display }}
-                            {% endif %}
-                            {% if productos.talla %}
-                                Talla de ropa: {{ productos.get_talla_display }}
-                            {% endif %}
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            Sucursal: 1
-                    </p>
-                    <p>
+                        </div>
+                        <div>
+                            <span style="font-size: 7px;">
+                                {% if productos.medida %}
+                                    Talla de calzado: {{ productos.get_medida_display }}
+                                {% endif %}
+                                {% if productos.talla %}
+                                    Talla de ropa: {{ productos.get_talla_display }}
+                                {% endif %}                        
+                            </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span style="font-weight: bolder;">
+                                {{productos.get_color_display}}
+                            </span>
+                        </div>
+                    </div>
+                    <div style="text-align: center;margin-top: -10px;">
                         <pdf:barcode value="{{ productos.barcode }}" type="code128" barwidth="1" humanreadable="1"  />
-                    </p>
+                    </div>
                 </td>
             </tr>
         </tbody>

@@ -65,7 +65,7 @@ class SaleManager(models.Manager):
     def ventas_en_fechas(self, date_start, date_end):
         return self.filter(
             anulate=False,
-            date_sale__range=(date_start, date_end),
+            date_sale__range=(str(date_start)+" 00:00:00.100000-0500", str(date_end)+" 23:59:59.100000-0500"),
         ).order_by('-date_sale')
 
     def monto_total_ventas(self):
@@ -326,8 +326,8 @@ class SaleDetailManager(models.Manager):
                 anulate=False,
                 sale__close=True,
                 sale__date_sale__range = (
-                    filters['date_start'],
-                    filters['date_end'],
+                    str(filters['date_start'])+" 00:00:00.100000-0500",
+                    str(filters['date_end'])+" 23:59:59.100000-0500",
                 ),
                 producto__proveedor__pk=filters['proveedor'],
             )
@@ -375,9 +375,8 @@ class SaleDetailManager(models.Manager):
         return costo['total']
 
     def reporte8020_producto2(self,f1,f2):
-
         resultado=self.filter(
-            anulate=False, sale__close=True, sale__date_sale__range=(f1,f2)
+            anulate=False, sale__close=True, sale__date_sale__range=(str(f1)+" 00:00:00.100000-0500",str(f2)+" 23:59:59.100000-0500")
         ).values(
             'producto'
         ).annotate(
@@ -418,7 +417,7 @@ class SaleDetailManager(models.Manager):
             fecha_venta = self.filter(
                 anulate=False,
                 sale__close=True,
-                sale__date_sale__range = (filters['fecha_inicio'],filters['fecha_fin'],),
+                sale__date_sale__range = (str(filters['fecha_inicio'])+" 00:00:00.100000-0500",str(filters['fecha_fin'])+" 23:59:59.100000-0500",),
                 producto__proveedor__pk=filters['proveedor'],
             )
         
@@ -445,7 +444,7 @@ class SaleDetailManager(models.Manager):
             #
             
             fecha_compra = Movimientos.objects.filter(
-                fecha__range=(filters['fecha_inicio'],filters['fecha_fin'],),
+                fecha__range=(str(filters['fecha_inicio'])+" 00:00:00.100000-0500",str(filters['fecha_fin'])+" 23:59:59.100000-0500",),
                 producto__proveedor__pk=filters['proveedor'],
             ).order_by('-fecha')
 

@@ -9,7 +9,7 @@
 {% block enlace_crear_compra %}
 <a href="{% url 'comprazapato_app:comprazapato' %}" class="nav-link active" style="color: azure; background: tomato;">
     <i class="fas fa-list-ul nav-icon"></i>
-    <p>Crear compra</p>
+    <p>Crear pedido</p>
 </a>
 {% endblock enlace_crear_compra %}
 {% block enlace_lista_pedidos %}
@@ -19,16 +19,13 @@
 </a>
 {% endblock enlace_lista_pedidos %}
 
-
 {% block content %}
 <div class="content">
     <div class="container-fluid mt-3">
         <div class="card">
-            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">Crear nuevo pedido</h1></div>
+            <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">CREAR PEDIDO</h1></div>
             <div class="card-body">
                 <form method="POST">{% csrf_token %}
-
-
                     <div class="row justify-content-md-center">
                         <div class="col-3">
                             <label>Monto por pagar:</label>
@@ -50,11 +47,7 @@
                     </div>
     
                     <span style="display: none;">{{form.estado_compra}}</span>
-                    
-                    
-                    
                 </form>
-                
             </div>
         </div>
     </div>

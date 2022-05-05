@@ -58,6 +58,14 @@
 			</a>
 			{% endblock enlace_compra_vs_vende %}
 		</li>
+        <li class="nav-item">
+			{% block enlace_comprazapatos_lista_pedidos %}
+			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Lista pedidos</p>
+			</a>
+			{% endblock enlace_comprazapatos_lista_pedidos %}
+		</li>
     </ul>
 </li>
 {% endblock menu_desplegable %}
@@ -79,7 +87,7 @@
 			{% block enlace_lista_gastos %}
 			<a href="{% url 'administracion_app:admin-gastos' %}" class="nav-link">
 				<i class="fas fa-chart-bar nav-icon ml-4"></i>
-				<p>Ver gastos</p>
+				<p>Lista gastos</p>
 			</a>
 			{% endblock enlace_lista_gastos %}
 		</li>

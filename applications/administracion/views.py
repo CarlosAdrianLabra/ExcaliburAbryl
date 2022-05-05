@@ -39,7 +39,7 @@ class PanelAdminView(AdminPermisoMixin, TemplateView):
             context["stok_cero"] = Productos.objects.productos_por_terminarse().count()
         else:
             context["stok_cero"] = 0
-        context["resumen_semana"] = DetalleVenta.objects.resumen_ventas()[:7]
+        context["resumen_semana"] = DetalleVenta.objects.resumen_ventas()[:31]
         return context
     
 

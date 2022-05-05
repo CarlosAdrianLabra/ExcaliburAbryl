@@ -64,7 +64,7 @@
 			{% block enlace_comprazapatos_lista_pedidos %}
 			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link">
 				<i class="fas fa-calendar-day nav-icon ml-4"></i>
-				<p>Lista Pedidos</p>
+				<p>Lista pedidos</p>
 			</a>
 			{% endblock enlace_comprazapatos_lista_pedidos %}
 		</li>
@@ -89,7 +89,7 @@
 			{% block enlace_lista_gastos %}
 			<a href="{% url 'administracion_app:admin-gastos' %}" class="nav-link">
 				<i class="fas fa-chart-bar nav-icon ml-4"></i>
-				<p>Ver gastos</p>
+				<p>Lista gastos</p>
 			</a>
 			{% endblock enlace_lista_gastos %}
 		</li>
@@ -128,12 +128,18 @@
                                             {{form.proveedor}}
                                         </div>
                                         <div class="col-4">
-                                            <label>Fecha inicial:</label>
+                                            <label>
+                                                Fecha inicial: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span style="font-size: small; color: #999;"> Hora: 00:00:00</span>
+                                            </label>
                                             {{form.fecha_inicio}}
                                         </div>
                                         
                                         <div class="col-4">
-                                            <label>Fecha final:</label>
+                                            <label>
+                                                Fecha final: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span style="font-size: small; color: #999;"> Hora: 23:59:59</span>
+                                            </label>
                                             {{form.fecha_fin}}
                                             <div class="mt-3">
                                                 <button type="submit" class="btn btr col-8 float-right"><i class="fas fa-search mr-2"></i>Buscar</button>
