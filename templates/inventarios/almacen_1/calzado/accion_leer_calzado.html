@@ -2,7 +2,7 @@
 {% load static %}
 
 <div class="modal-header" style="background: #1D2535; color: #fff;">
-    <h5 class="modal-title">CALZADO</h5>
+    <h5 class="modal-title">INFORMACIÓN COMPLETA - {{ productos.nombre }}</h5>
     <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times" style="color: white;"></i></button>
 </div>
 
@@ -13,14 +13,13 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-center">Nombre</th>
-                            <th class="text-center" style="width: 90px;">Modelo</th>
                             <th class="text-center" style="width: 140px;">Proveedor</th>
                             <th class="text-center" style="width: 170px;">Marca</th>
-                            <th class="text-center" style="width: 100px;">Color</th>
-                            <th class="text-center" style="width: 110px;">Género</th>
+                            <th class="text-center" style="width: 90px;">Modelo</th>
+                            <th class="text-center" style="width: 110px;">Línea</th>
+                            <th class="text-center" style="width: 90px;">Sublínea</th>
                             <th class="text-center" style="width: 70px;">Talla</th>
-                            <th class="text-center" style="width: 90px;">Línea</th>
+                            <th class="text-center" style="width: 100px;">Color</th>
                             <th class="text-center" style="width: 90px;">Promoción</th>
                             <th class="text-center" style="width: 90px;">Existencias</th>
                             <th class="text-center" style="width: 130px;">Precio venta</th>
@@ -29,14 +28,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="text-center">{{ productos.nombre }}</td>
-                            <td class="text-center">{{ productos.modelo }}</td>
                             <td class="text-center">{{ productos.proveedor }}</td>
                             <td class="text-center">{{ productos.marca }}</td>
-                            <td class="text-center">{{ productos.get_color_display }}</td>
+                            <td class="text-center">{{ productos.modelo }}</td>
                             <td class="text-center">{{ productos.get_genero_display }}</td>
-                            <td class="text-center">{{ productos.get_medida_display }}</td>
                             <td class="text-center">{{ productos.get_linea_c_display }}</td>
+                            <td class="text-center">{{ productos.get_medida_display }}</td>
+                            <td class="text-center">{{ productos.get_color_display }}</td>
                             <td class="text-center">{{ productos.get_promocion_display }}</td>
                             <td class="text-center">{{ productos.stock }}</td>
                             <td class="text-center">{{ productos.precio_venta }}</td>
@@ -89,14 +87,13 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-center">Nombre</th>
-                            <th class="text-center" style="width: 90px;">Modelo</th>
                             <th class="text-center" style="width: 140px;">Proveedor</th>
                             <th class="text-center" style="width: 170px;">Marca</th>
-                            <th class="text-center" style="width: 100px;">Color</th>
-                            <th class="text-center" style="width: 110px;">Género</th>
+                            <th class="text-center" style="width: 90px;">Modelo</th>
+                            <th class="text-center" style="width: 110px;">Línea</th>
+                            <th class="text-center" style="width: 90px;">Sublínea</th>
                             <th class="text-center" style="width: 70px;">Talla</th>
-                            <th class="text-center" style="width: 90px;">Línea</th>
+                            <th class="text-center" style="width: 100px;">Color</th>
                             <th class="text-center" style="width: 90px;">Promoción</th>
                             <th class="text-center" style="width: 90px;">Existencias</th>
                             <th class="text-center" style="width: 130px;">Precio venta</th>
@@ -105,14 +102,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="text-center">{{ productos.nombre }}</td>
-                            <td class="text-center">{{ productos.modelo }}</td>
                             <td class="text-center">{{ productos.proveedor }}</td>
                             <td class="text-center">{{ productos.marca }}</td>
-                            <td class="text-center">{{ productos.get_color_display }}</td>
+                            <td class="text-center">{{ productos.modelo }}</td>
                             <td class="text-center">{{ productos.get_genero_display }}</td>
-                            <td class="text-center">{{ productos.get_medida_display }}</td>
                             <td class="text-center">{{ productos.get_linea_c_display }}</td>
+                            <td class="text-center">{{ productos.get_medida_display }}</td>
+                            <td class="text-center">{{ productos.get_color_display }}</td>
                             <td class="text-center">{{ productos.get_promocion_display }}</td>
                             <td class="text-center">{{ productos.stock }}</td>
                             <td class="text-center">{{ productos.precio_venta }}</td>

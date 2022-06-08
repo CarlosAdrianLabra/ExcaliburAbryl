@@ -175,9 +175,7 @@ class IndexInventario(InventarioPermisionMixin, TemplateView):
         calzado = Productos.objects.filter(tipo='100')
         ropa = Productos.objects.filter(tipo='200')
         accesorios = Productos.objects.filter(tipo='300')
-
         # Calzado
-        context["calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse().count()
         if calzado:
             context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido().count()
             context["tabla_calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido()
@@ -185,9 +183,7 @@ class IndexInventario(InventarioPermisionMixin, TemplateView):
             context["calzado_mas_vendido"] = 0
 
         context["calzado_promedio"] = Productos.objects.calzado_promedio()
-        context["tabla_calzado_por_terminarse"] = Productos.objects.calzado_por_terminarse()
         # Ropa
-        context["ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse().count()
         if ropa:
             context["ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida().count()
             context["tabla_ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida()
@@ -195,9 +191,7 @@ class IndexInventario(InventarioPermisionMixin, TemplateView):
             context["ropa_mas_vendida"] = 0
 
         context["ropa_promedio"] = Productos.objects.ropa_promedio()
-        context["tabla_ropa_por_terminarse"] = Productos.objects.ropa_por_terminarse()
         # Accesorios
-        context["accesorios_por_terminarse"] = Productos.objects.accesorios_por_terminarse().count()
         if accesorios:
             context["accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos().count()
             context["tabla_accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos()
@@ -205,7 +199,6 @@ class IndexInventario(InventarioPermisionMixin, TemplateView):
             context["accesorios_mas_vendidos"] = 0
 
         context["accesorios_promedio"] = Productos.objects.accesorios_promedio()
-        context["tabla_accesorios_por_terminarse"] = Productos.objects.accesorios_por_terminarse()
         #
         return context
 
@@ -231,7 +224,7 @@ class CodigoPdf(InventarioPermisionMixin, View):
 # Index calzado
 class IndexCalzado(InventarioPermisionMixin, generic.ListView):
     template_name = 'inventarios/almacen_1/calzado/index_calzado.html'
-    paginate_by = 10
+    paginate_by = 500
     context_object_name = 'producto_calzado'
 
     def get_queryset(self):
@@ -297,7 +290,7 @@ def producto_calzado(request):
 # Index ropa
 class IndexRopa(InventarioPermisionMixin, generic.ListView):
     template_name = 'inventarios/almacen_1/ropa/index_ropa.html'
-    paginate_by = 10
+    paginate_by = 500
     context_object_name = 'producto_ropa'
 
     def get_queryset(self):
@@ -363,7 +356,7 @@ def producto_ropa(request):
 # Index accesorios
 class IndexAccesorios(InventarioPermisionMixin, generic.ListView):
     template_name = 'inventarios/almacen_1/accesorios/index_accesorios.html'
-    paginate_by = 10
+    paginate_by = 500
     context_object_name = 'producto_accesorios'
 
     def get_queryset(self):

@@ -20,8 +20,9 @@ class ProveedorAdmin(admin.ModelAdmin):
     )
 admin.site.register(Proveedor, ProveedorAdmin)
 
-class MarcaAdmin(admin.ModelAdmin):
+class MarcaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = (
+        'id',
         'nombre',
     )
 admin.site.register(Marca, MarcaAdmin)
@@ -40,6 +41,7 @@ admin.site.register(Marca, MarcaAdmin)
 
 class ProductosAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = (
+        'id',
         'barcode',
         'nombre',
         'stock',

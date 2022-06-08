@@ -22,18 +22,17 @@
                     <p style="color: red; font-size: small; ">¡Ya existe un producto con este código de barras!</p>
                 {% endfor %}
                 -->
-                <label>Nombre:</label>{{ form.nombre }}
-                <label>Modelo:</label>{{ form.modelo }}
                 <label>Proveedor:</label>{{ form.proveedor }}
                 <label>Marca:</label>{{ form.marca }}
+                <label>Modelo:</label>{{ form.modelo }}
                 <label>Código de barras exterior:</label>{{ form.barcode_exterior }}
             </div>
 
             <div class="col-3 offset-1">
-                <label>Color:</label>{{ form.color }}
-                <label>Género:</label>{{ form.genero }}
+                <label>Línea:</label>{{ form.genero }}
+                <label>Subínea:</label>{{ form.linea_c }}
                 <label>Talla:</label>{{ form.medida }}
-                <label>Línea:</label>{{ form.linea_c }}
+                <label>Color:</label>{{ form.color }}
                 <label>Promoción:</label>{{ form.promocion }}
             </div>
 
@@ -45,6 +44,9 @@
             </div>
         </div>
         
+        <span style="display: none;">
+            <input type="text" name="nombre" value="CALZADO" id="id_nombre">
+        </span>
         <span style="display: none;">{{ form.tipo }}</span>
         <span style="display: none;">{{ form.almacen }}</span>        
     </div>

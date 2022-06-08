@@ -14,8 +14,7 @@
                     <thead>
                         <tr>
                             <th style="width: 75px;">Código</th>
-                            <th style="width: 300px;">Nombre</th>
-                            <th style="width: 120px;">Marca</th>
+                            <th style="width: 300px;">Producto</th>
                             <th style="width: 90px;">Existencias</th>
                             <th style="width: 120px;">Precio de venta</th>
                         </tr>
@@ -23,8 +22,7 @@
                     <tbody>
                         <tr>
                             <td>{{ productos.barcode }}</td>
-                            <td>{{ productos.nombre }}</td>
-                            <td>{{ productos.marca }}</td>
+                            <td>{{ productos.marca }}-{{ productos.modelo }}-{{ productos.get_genero_display }}-{{ productos.get_linea_a_display }}-{{ productos.get_pieza_display }}</td>
                             <td style="color: red;">{{ productos.stock }}</td>
                             <td>{{ productos.precio_venta }}</td>
                         </tr>
@@ -38,8 +36,7 @@
                     <thead>
                         <tr>
                             <th style="width: 75px;">Código</th>
-                            <th style="width: 300px;">Nombre</th>
-                            <th style="width: 120px;">Marca</th>
+                            <th style="width: 300px;">Producto</th>
                             <th style="width: 90px;">Existencias</th>
                             <th style="width: 120px;">Precio de venta</th>
                         </tr>
@@ -47,8 +44,7 @@
                     <tbody>
                         <tr>
                             <td>{{ productos.barcode }}</td>
-                            <td>{{ productos.nombre }}</td>
-                            <td>{{ productos.marca }}</td>
+                            <td>{{ productos.marca }}-{{ productos.modelo }}-{{ productos.get_genero_display }}-{{ productos.get_linea_a_display }}-{{ productos.get_pieza_display }}</td>
                             <td>{{ productos.stock }}</td>
                             <td>{{ productos.precio_venta }}</td>
                         </tr>

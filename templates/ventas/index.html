@@ -75,7 +75,7 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 150px;">COD</th>
-                                                <th>NOMBRE</th>
+                                                <th>PRODUCTO</th>
                                                 <th style="text-align: center; width: 180px;">PROMOCION</th>
                                                 <th style="text-align: center; width: 100px;">PRECIO / U</th>
                                                 <th style="text-align: center; width: 100px;">NO. PIEZAS</th>
@@ -87,7 +87,15 @@
                                             {% for p in productos %}
                                             <tr>
                                                 <td>{{ p.barcode }}</td>
-                                                <td>{{ p.producto.nombre }}</td>
+                                                {% if p.producto.linea_a %}
+                                                <td>{{ p.producto.nombre }}-{{ p.producto.modelo }}-{{ p.producto.get_genero_display }}-{{ p.producto.get_linea_a_display }}-{{ p.producto.get_color_display }}</td>
+                                                {% endif %}
+                                                {% if p.producto.linea_c %}
+                                                <td>{{ p.producto.nombre }}-{{ p.producto.modelo }}-{{ p.producto.get_genero_display }}-{{ p.producto.get_linea_c_display }}-{{ p.producto.get_color_display }}</td>
+                                                {% endif %}
+                                                {% if p.producto.linea_r %}
+                                                <td>{{ p.producto.nombre }}-{{ p.producto.modelo }}-{{ p.producto.get_genero_display }}-{{ p.producto.get_linea_r_display }}-{{ p.producto.get_color_display }}</td>
+                                                {% endif %}
                                                 {% if p.producto.promocion != '0' %}
                                                 <td style="text-align: center;" class="bg-navyr white">{{ p.producto.get_promocion_display }}</td>
                                                 {% else %}

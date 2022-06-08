@@ -7,7 +7,7 @@ class CalzadoFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'talla', 'anular', 'linea_r', 'linea_a']
+        exclude = ['num_venta', 'talla', 'pieza', 'anular', 'linea_r', 'linea_a']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
@@ -58,7 +58,7 @@ class RopaFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'medida', 'anular', 'linea_c', 'linea_a']
+        exclude = ['num_venta', 'medida', 'pieza', 'anular', 'linea_c', 'linea_a']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
@@ -108,7 +108,7 @@ class AccesoriosFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'medida', 'anular', 'linea_c', 'linea_r']
+        exclude = ['num_venta', 'medida', 'talla', 'anular', 'linea_c', 'linea_r']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
@@ -118,7 +118,7 @@ class AccesoriosFormulario(BSModalModelForm):
                 }
             ),
             'marca': forms.Select(attrs={'class': 'form-control mb-3'}),
-            'talla': forms.Select(attrs={'class': 'form-control mb-3'}),
+            'pieza': forms.Select(attrs={'class': 'form-control mb-3'}),
             'stock': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
             'precio_venta': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
             'precio_compra': forms.NumberInput(attrs={'class': 'form-control mb-3'}),

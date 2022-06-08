@@ -15,18 +15,17 @@
 
         <div class="row">
             <div class="col-3 ml-5">
-                <label><span style="color: red; font-size: small; ">* </span>Nombre:</label>{{ form.nombre }}
-                <label>Modelo:</label>{{ form.modelo }}
                 <label><span style="color: red; font-size: small; ">* </span>Proveedor:</label>{{ form.proveedor }}
                 <label><span style="color: red; font-size: small; ">* </span>Marca:</label>{{ form.marca }}
+                <label>Modelo:</label>{{ form.modelo }}
                 <label>Código de barras exterior:</label>{{ form.barcode_exterior }}
             </div>
 
             <div class="col-3 offset-1">
-                <label><span style="color: red; font-size: small; ">* </span>Color:</label>{{ form.color }}
-                <label><span style="color: red; font-size: small; ">* </span>Género:</label>{{ form.genero }}
+                <label><span style="color: red; font-size: small; ">* </span>Línea:</label>{{ form.genero }}
+                <label><span style="color: red; font-size: small; ">* </span>Sublínea:</label>{{ form.linea_r }}
                 <label><span style="color: red; font-size: small; ">* </span>Talla:</label>{{ form.talla }}
-                <label><span style="color: red; font-size: small; ">* </span>Línea:</label>{{ form.linea_r }}
+                <label><span style="color: red; font-size: small; ">* </span>Color:</label>{{ form.color }}
                 <label><span style="color: red; font-size: small; ">* </span>Promoción:</label>{{ form.promocion }}
             </div>
 
@@ -38,7 +37,10 @@
             </div>
         </div>
 
-        <span style="display: none;"><label>{{ form.fecha_final_promocion }}</span>
+        <span style="display: none;">
+            <input type="text" name="nombre" maxlength="40" required="" id="id_nombre" value="ROPA">
+        </span>
+        <span style="display: none;">{{ form.fecha_final_promocion }}</span>
         <span style="display: none;">{{ form.tipo }}</span>
         <span style="display: none;">{{ form.almacen }}</span>
     </div>

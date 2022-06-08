@@ -265,14 +265,14 @@ class Promociones(PromocionesPermisoMixin, FormView):
         if barcode_solo != '':
             Productos.objects.filter(barcode=barcode_solo).update(
                 promocion=promocion,
-                fecha_final_promocion=fecha_final_promocion
+                fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
             )
         
         #  CREAR DESCUENTO PARA UN PRODUCTO
         if barcode and precio != '':
             Productos.objects.filter(barcode=barcode).update(
                 promocion=promocion,
-                fecha_final_promocion=fecha_final_promocion
+                fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
             )
             try:
                 producto = PreciosFijos.objects.get(barcode=barcode)
@@ -280,13 +280,13 @@ class Promociones(PromocionesPermisoMixin, FormView):
                     PreciosFijos.objects.update(
                         barcode=barcode,
                         precio_fijo=precio,
-                        fecha_final_promocion=fecha_final_promocion
+                        fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
                     )
             except PreciosFijos.DoesNotExist:
                 PreciosFijos.objects.create(
                     barcode=barcode,
                     precio_fijo=precio,
-                    fecha_final_promocion=fecha_final_promocion
+                    fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
                 )
         
         # POR MARCA Y LINEA
@@ -307,17 +307,17 @@ class Promociones(PromocionesPermisoMixin, FormView):
         if genero and marca and linea_a != '':
             Productos.objects.filter(genero=genero, marca=marca, linea_a=linea_a).update(
                 promocion=promocion,
-                fecha_final_promocion=fecha_final_promocion
+                fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
             )
         if genero and marca and linea_c != '':
             Productos.objects.filter(genero=genero, marca=marca, linea_c=linea_c).update(
                 promocion=promocion,
-                fecha_final_promocion=fecha_final_promocion
+                fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
             )
         if genero and marca and linea_r != '':
             Productos.objects.filter(genero=genero, marca=marca, linea_r=linea_r).update(
                 promocion=promocion,
-                fecha_final_promocion=fecha_final_promocion
+                fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
             )
 
         return super(Promociones, self).form_valid(form)

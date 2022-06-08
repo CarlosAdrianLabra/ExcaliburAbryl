@@ -58,7 +58,15 @@
                             {% for p in productos_pos %}
                             <tr>
                                 <td>{{ p.barcode }}</td>
-                                <td>{{ p.producto.nombre }}</td>
+                                {% if p.producto.linea_a %}
+                                <td>{{ p.producto }}-{{ p.producto.get_linea_a_display }}-{{ p.producto.get_color_display }}-{{ p.producto.get_pieza_display }}</td>
+                                {% endif %}
+                                {% if p.producto.linea_c %}
+                                <td>{{ p.producto }}-{{ p.producto.get_linea_c_display }}-{{ p.producto.get_color_display }}-{{ p.producto.get_medida_display }}</td>
+                                {% endif %}
+                                {% if p.producto.linea_r %}
+                                <td>{{ p.producto }}-{{ p.producto.get_linea_r_display }}-{{ p.producto.get_color_display }}-{{ p.producto.get_talla_display }}</td>
+                                {% endif %}
                                 <td>{{ p.count }}</td>
                                 <td>$ {{ p.producto.precio_venta | floatformat:2 }}</td>
                             </tr>

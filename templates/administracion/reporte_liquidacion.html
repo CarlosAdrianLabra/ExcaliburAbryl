@@ -176,7 +176,15 @@
                                     {% for venta in ventas_liquidacion %}
                                     <tr>
                                         <td>{{ venta.sale.date_sale }}</td>
-                                        <td>{{ venta.producto.nombre }}</td>
+                                        {% if venta.producto.linea_a %}
+                                        <td>{{ venta.producto }}-{{ venta.producto.get_linea_a_display }}-{{ venta.producto.get_color_display }}-{{ venta.producto.get_pieza_display }}</td>
+                                        {% endif %}
+                                        {% if venta.producto.linea_c %}
+                                        <td>{{ venta.producto }}-{{ venta.producto.get_linea_c_display }}-{{ venta.producto.get_color_display }}-{{ venta.producto.get_medida_display }}</td>
+                                        {% endif %}
+                                        {% if venta.producto.linea_r %}
+                                        <td>{{ venta.producto }}-{{ venta.producto.get_linea_r_display }}-{{ venta.producto.get_color_display }}-{{ venta.producto.get_talla_display }}</td>
+                                        {% endif %}
                                         <td>{{ venta.count }}</td>
                                         <td>$ {{ venta.sub_total}}</td>
                                         <td>$ {{ venta.price_purchase | floatformat:2 }}</td>

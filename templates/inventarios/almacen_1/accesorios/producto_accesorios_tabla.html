@@ -2,8 +2,7 @@
     <thead>
         <tr>
             <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
-            <th class="text-left">PRODUCTO <span style="font-size: smaller; color: #ccc;">( MARCA - MODELO - COLOR - LÍNEA )</span></th>
-            <th class="text-center">NOMBRE</th>
+            <th class="text-left">PRODUCTO <span style="font-size: smaller; color: #ccc;">( MARCA - MODELO - LÍNEA - SUBLÍNEA - COLOR )</span></th>
             <th class="text-center" style="width: 170px;">PROVEEDOR</th>
             <th class="text-center" style="width: 100px;">TALLA</th>
             <th class="text-center" style="width: 117px;">EXISTENCIAS</th>
@@ -15,10 +14,9 @@
     {% for p in producto_accesorios %}
         <tr>
             <td class="text-center">{{ p.barcode }}</td>
-            <td class="text-left">{{ p }} - {{ p.get_linea_a_display }}</td>
-            <td class="text-center">{{ p.nombre }}</td>
+            <td class="text-left">{{ p }} - {{ p.get_linea_a_display }} - {{ p.get_color_display }}</td>
             <td class="text-center">{{ p.proveedor }}</td>
-            <td class="text-center">{{ p.get_talla_display }}</td>
+            <td class="text-center">{{ p.get_pieza_display }}</td>
             <td class="text-center">{{ p.stock }}</td>
             <td class="text-center">{{ p.precio_venta }}</td>
             <td class="text-center">

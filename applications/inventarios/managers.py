@@ -47,7 +47,7 @@ class filtros(models.Manager):
     def calzado_por_terminarse(self):
         #
         consulta = self.filter(
-           stock__lt=10
+           stock__lt=2
         ).filter(
             tipo='100' # 100 - CALZADO
         )
@@ -88,7 +88,7 @@ class filtros(models.Manager):
     def ropa_por_terminarse(self):
         #
         consulta = self.filter(
-           stock__lt=10
+           stock__lt=2
         ).filter(
             tipo='200' # 200 - ROPA
         )
@@ -129,7 +129,7 @@ class filtros(models.Manager):
     def accesorios_por_terminarse(self):
         #
         consulta = self.filter(
-           stock__lt=10
+           stock__lt=2
         ).filter(
             tipo='300' # 300 - ACCESORIOS
         )

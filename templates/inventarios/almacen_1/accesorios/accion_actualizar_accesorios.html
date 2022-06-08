@@ -22,21 +22,20 @@
                     <p style="color: red; font-size: small; ">¡Ya existe un producto con este código de barras!</p>
                 {% endfor %}
                 -->
-                <label>Nombre:</label>{{ form.nombre }}
-                <label>Modelo:</label>{{ form.modelo }}
                 <label>Proveedor:</label>{{ form.proveedor }}
                 <label>Marca:</label>{{ form.marca }}
+                <label>Modelo:</label>{{ form.modelo }}
                 <label>Código de barras exterior:</label>{{ form.barcode_exterior }}
             </div>
-
+            
             <div class="col-3 offset-1">
+                <label>Línea:</label>{{ form.genero }}
+                <label>Sublínea:</label>{{ form.linea_a }}
+                <label>Talla:</label>{{ form.pieza }}
                 <label>Color:</label>{{ form.color }}
-                <label>Género:</label>{{ form.genero }}
-                <label>Talla:</label>{{ form.talla }}
-                <label>Línea:</label>{{ form.linea_a }}
                 <label>Promoción:</label>{{ form.promocion }}
             </div>
-
+            
             <div class="col-3 offset-1">
                 <label>Existencias:</label>{{ form.stock }}
                 <label>Precio de costo:</label>{{ form.precio_compra }}
@@ -45,6 +44,9 @@
             </div>
         </div>
         
+        <span style="display: none;">
+            <input type="text" name="nombre" value="ACCESORIO" id="id_nombre">
+        </span>
         <span style="display: none;">{{ form.tipo }}</span>
         <span style="display: none;">{{ form.almacen }}</span>        
     </div>
