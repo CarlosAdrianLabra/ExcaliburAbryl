@@ -131,26 +131,35 @@
                             <div class="mt-3">
                                 <!-- Botones -->
                                 {% block botones %}{% endblock botones %}
-                                <!-- ./botones -->        
+                                <!-- ./botones -->
 
                                 <!-- Pagination -->
                                 {% if request.path == request.get_full_path %}
                                     {% if is_paginated %}
                                     <nav class="float-right">
                                         <ul class="pagination">
+                                            <li class="mr-3 p-2">
+                                                <span class="">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                                            </li>
                                             {% if page_obj.has_previous %}
                                             <li class="page-item">
                                                 <a class="page-link" href="{{request.get_full_path}}?page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Anterior</a>
                                             </li>
                                             {% endif %}
-                                            
-                                            {% for pagina in paginator.page_range %}
+                                            {% for num in paginator.page_range %}
+                                                {% if page_obj.number == num %}
+                                                <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}?page={{ num }}">{{ num }}</a></li>
+                                                {% elif num > page_obj.number|add:'0' and num < page_obj.number|add:'13' %}
+                                                <li class="page-item"><a class="page-link" href="{{request.get_full_path}}?page={{ num }}">{{ num }}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <!-- {% for pagina in paginator.page_range %}
                                                 {% ifequal pagina page_obj.number  %} 
                                                 <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}?page={{pagina}}">{{ pagina }}</a></li>        
                                                 {% else %}
                                                 <li class="page-item"><a class="page-link" href="{{request.get_full_path}}?page={{pagina}}">{{ pagina }}</a></li> 
                                                 {% endifequal %}   
-                                            {% endfor %}
+                                            {% endfor %} -->
                                                 
                                             {% if page_obj.has_next %}
                                             <li class="page-item"><a class="page-link" href="{{request.get_full_path}}?page={{page_obj.next_page_number}}">Siguiente</a></li>
@@ -162,19 +171,28 @@
                                     {% if is_paginated %}
                                     <nav class="float-right">
                                         <ul class="pagination">
+                                            <li class="mr-3 p-2">
+                                                <span class="">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                                            </li>
                                             {% if page_obj.has_previous %}
                                             <li class="page-item">
                                                 <a class="page-link" href="{{request.get_full_path}}&page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Anterior</a>
                                             </li>
                                             {% endif %}
-                                            
-                                            {% for pagina in paginator.page_range %}
+                                            {% for num in page_obj.paginator.page_range %}
+                                                {% if page_obj.number == num %}
+                                                <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}&page={{ num }}">{{ num }}</a></li>
+                                                {% elif num > page_obj.number|add:'0' and num < page_obj.number|add:'13' %}
+                                                <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{ num }}">{{ num }}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <!-- {% for pagina in paginator.page_range %}
                                                 {% ifequal pagina page_obj.number  %} 
                                                 <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}&page={{pagina}}">{{ pagina }}</a></li>        
                                                 {% else %}
                                                 <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{pagina}}">{{ pagina }}</a></li> 
                                                 {% endifequal %}   
-                                            {% endfor %}
+                                            {% endfor %} -->
                                                 
                                             {% if page_obj.has_next %}
                                             <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{page_obj.next_page_number}}">Siguiente</a></li>

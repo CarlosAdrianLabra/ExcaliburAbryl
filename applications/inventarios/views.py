@@ -175,6 +175,11 @@ class IndexInventario(InventarioPermisionMixin, TemplateView):
         calzado = Productos.objects.filter(tipo='100')
         ropa = Productos.objects.filter(tipo='200')
         accesorios = Productos.objects.filter(tipo='300')
+
+        context["accesorios_cantidad"] = accesorios.count()
+        context["calzado_cantidad"] = calzado.count()
+        context["ropa_cantidad"] = ropa.count()
+
         # Calzado
         if calzado:
             context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido().count()
@@ -224,7 +229,7 @@ class CodigoPdf(InventarioPermisionMixin, View):
 # Index calzado
 class IndexCalzado(InventarioPermisionMixin, generic.ListView):
     template_name = 'inventarios/almacen_1/calzado/index_calzado.html'
-    paginate_by = 500
+    paginate_by = 100
     context_object_name = 'producto_calzado'
 
     def get_queryset(self):
@@ -290,7 +295,7 @@ def producto_calzado(request):
 # Index ropa
 class IndexRopa(InventarioPermisionMixin, generic.ListView):
     template_name = 'inventarios/almacen_1/ropa/index_ropa.html'
-    paginate_by = 500
+    paginate_by = 100
     context_object_name = 'producto_ropa'
 
     def get_queryset(self):
@@ -356,7 +361,7 @@ def producto_ropa(request):
 # Index accesorios
 class IndexAccesorios(InventarioPermisionMixin, generic.ListView):
     template_name = 'inventarios/almacen_1/accesorios/index_accesorios.html'
-    paginate_by = 500
+    paginate_by = 100
     context_object_name = 'producto_accesorios'
 
     def get_queryset(self):
