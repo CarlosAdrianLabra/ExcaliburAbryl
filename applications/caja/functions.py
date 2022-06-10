@@ -3,7 +3,7 @@ from django.db.models import Prefetch, F, FloatField, ExpressionWrapper
 #
 from applications.ventas.models import Venta, DetalleVenta
 
-def detalle_ventas_no_cerradas():
+def detalle_ventas_no_cerradas(): # Cierre de caja / Punto de venta - voucher
     # recuepramos arry de id de ventas no cerradas
     ventas = Venta.objects.ventas_no_cerradas()
     consulta = ventas.prefetch_related(

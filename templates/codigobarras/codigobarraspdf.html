@@ -46,11 +46,14 @@
                         <div>
                             <span style="font-size: 7px;">
                                 {% if productos.medida %}
-                                    Talla de calzado: {{ productos.get_medida_display }}
+                                    Talla: {{ productos.get_medida_display }}
                                 {% endif %}
                                 {% if productos.talla %}
-                                    Talla de ropa: {{ productos.get_talla_display }}
-                                {% endif %}                        
+                                    Talla: {{ productos.get_talla_display }}
+                                {% endif %}
+                                {% if productos.pieza %}
+                                    Talla: {{ productos.get_pieza_display }}
+                                {% endif %}
                             </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <span style="font-weight: bolder;">
                                 {{productos.get_color_display}}

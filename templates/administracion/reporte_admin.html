@@ -123,7 +123,11 @@
                 
                             <div class="info-box-content text-center">
                               <span class="info-box-text">Total de ventas hasta hoy</span>
+                              {% if total_ventas %}
                               <span class="info-box-number">$ {{ total_ventas }}</span>
+                              {% else %}  
+                              <span class="info-box-number">$ 0.00</span>
+                              {% endif %}
                             </div>
                           </div>
                         </div>

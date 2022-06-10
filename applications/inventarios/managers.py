@@ -167,11 +167,21 @@ class filtros(models.Manager):
     # Interface Panel de Control
     #
 
-    def productos_por_terminarse(self):
+    def productos_por_terminarse(self): # Administración - Ingresos_por_dia
         #
         consulta = self.filter(
-           stock__lt=10
+           stock__lt=2
         )
+        #
+        if consulta:
+            return consulta.count()
+        else:
+            return 0
+
+    def productos_registrados(self):
+        #
+        consulta = self.all().count()
+        #
         if consulta:
             return consulta
         else:
@@ -186,12 +196,7 @@ class filtros(models.Manager):
         consulta = self.filter(
             Q(barcode__icontains=filters['filtro']))
 
-
         return consulta
-        
-    def informe_8020_base(self):
-        resultado=self.values().annotate(sum('product_sale__price_subtotal')).groupby('nombre')
-        return self
 
     #
     # Promociones

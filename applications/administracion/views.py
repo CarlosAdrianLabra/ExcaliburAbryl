@@ -31,14 +31,10 @@ class PanelAdminView(AdminPermisoMixin, TemplateView):
     template_name = "administracion/administrador.html"
 
     def get_context_data(self, **kwargs):
-        menos = Productos.objects.filter(stock__lt=10)
         context = super().get_context_data(**kwargs)
         context["total_ventas"] = Venta.objects.total_ventas_dia()
         context["total_anulaciones"] = Venta.objects.total_ventas_anuladas_dia()
-        if menos:
-            context["stok_cero"] = Productos.objects.productos_por_terminarse().count()
-        else:
-            context["stok_cero"] = 0
+        context["stok_cero"] = Productos.objects.productos_por_terminarse()
         context["resumen_semana"] = DetalleVenta.objects.resumen_ventas()[:31]
         return context
     

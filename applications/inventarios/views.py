@@ -207,17 +207,6 @@ class IndexInventario(InventarioPermisionMixin, TemplateView):
         #
         return context
 
-# Código de barras a PDF
-class CodigoPdf(InventarioPermisionMixin, View):
-    def get(self, request, *args, **kwargs):
-        productos = Productos.objects.all()
-        data = {
-            'productos': productos
-        }
-        pdf = render_to_pdf('inventarios/a_rchivos_base/barcode.html', data)
-        
-        return HttpResponse(pdf, content_type='application/pdf')
-
 """ **************************************** ALMACEN 1 **************************************** """
 
 """

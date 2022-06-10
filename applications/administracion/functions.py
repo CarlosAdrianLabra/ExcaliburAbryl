@@ -4,9 +4,9 @@ from django.db.models import Prefetch, F, FloatField, ExpressionWrapper
 from applications.ventas.models import Venta, DetalleVenta
 
 
-def detalle_resumen_ventas(date_start, date_end):
-    # funcion que recupera ventas no anuladas en rango de fechas
-    # Y, el detalle de venta de cada venta
+def detalle_resumen_ventas(date_start, date_end): # Administración - Ventas por fecha
+    # Función que recupera ventas no anuladas en rango de fechas
+    # y el detalle de cada venta
     
     if date_start and date_end:
         ventas = Venta.objects.ventas_en_fechas(date_start, date_end)

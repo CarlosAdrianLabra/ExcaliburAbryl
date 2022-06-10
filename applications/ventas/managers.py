@@ -11,26 +11,25 @@ class SaleManager(models.Manager):
     mes_actual = fecha_hoy.month
     ano_actual = fecha_hoy.year
     
-    def ventas_no_cerradas(self):
-        # creamos rango de fecha
+    def ventas_no_cerradas(self): # Cierre de caja
         return self.filter(
             close=False,
             anulate=False
         )
     
-    def total_ventas_dia(self):
+    def total_ventas_dia(self): # Panel de control / Cierre de caja / Administración - Ingresos por día
         consulta = self.filter(
             close=False,
             anulate=False
         ).aggregate(
             total=Sum('amount')
         )
-        if consulta['total']:
+        if consulta:
             return consulta['total']
         else:
             return 0
     
-    def total_ventas_anuladas_dia(self):
+    def total_ventas_anuladas_dia(self): # Panel de control / Cierre de caja / Administración - Ingresos por día
         consulta = self.filter(
             close=False,
             anulate=True,
@@ -38,12 +37,12 @@ class SaleManager(models.Manager):
         ).aggregate(
             total=Sum('amount')
         )
-        if consulta['total']:
+        if consulta:
             return consulta['total']
         else:
             return 0
     
-    def cerrar_ventas(self):
+    def cerrar_ventas(self):  # Administración - Cierre de caja
         consulta = self.filter(
             close=False,
         )
@@ -51,34 +50,39 @@ class SaleManager(models.Manager):
         total = consulta.aggregate(
             total=Sum('amount')
         )['total']
-        cerrados = consulta.update(close=True) # devuelve numero de actualizciones
+        cerrados = consulta.update(close=True) # devuelve numero de actualizaciones
 
         return cerrados, total
     
-    def total_ventas(self):
-        return self.filter(
-            anulate=False,
-        ).aggregate(
-            total=Sum('amount')
-        )['total']
+    def total_ventas(self): # Administración - Ventas por mes
+        consulta = self.filter(
+                anulate=False,
+            ).aggregate(
+                total=Sum('amount')
+            )
+        if consulta:
+            return consulta['total']
+        else:
+            return 0
     
-    def ventas_en_fechas(self, date_start, date_end):
+    def ventas_en_fechas(self, date_start, date_end): # Administración - Ventas por fecha
         return self.filter(
             anulate=False,
             date_sale__range=(str(date_start)+" 00:00:00.100000-0500", str(date_end)+" 23:59:59.100000-0500"),
         ).order_by('-date_sale')
 
-    def monto_total_ventas(self):
-        #
-        consulta = self.filter(
-            anulate=False,
-        ).aggregate(
-            total=Sum('amount')
-        )
-        #
-        return consulta['total']
+    # FUNCIÓN REEMPLAZADA
+    # def monto_total_ventas(self):
+    #     #
+    #     consulta = self.filter(
+    #         anulate=False,
+    #     ).aggregate(
+    #         total=Sum('amount')
+    #     )
+    #     #
+    #     return consulta['total']
     
-    def monto_total_ventas_actual(self):
+    def monto_total_ventas_actual(self): # Panel de control
         #
         consulta = self.filter(
             anulate=False,
@@ -87,83 +91,140 @@ class SaleManager(models.Manager):
             total=Sum('amount')
         )
         #
-        return consulta['total']
+        if consulta:
+            return consulta['total']
+        else:
+            return 0
+    
+    def ventas_no_cerradas_panel(self): # Panel de control / Cierre de caja
+        #
+        consulta = self.filter(close=False, anulate=False)
+        #
+        if consulta:
+            return consulta.count()
+        else:
+            return 0
 
-    def total_ventas_no_cerradas(self):
-        #
-        consulta = self.filter(
-            anulate=False
-        ).count()
-        #
-        return consulta
+    # FUNCIÓN REEMPLAZADA
+    # def total_ventas_no_cerradas(self):
+    #     #
+    #     consulta = self.filter(
+    #         anulate=False
+    #     ).count()
+    #     #
+    #     return consulta
 
-    def total_ventas_no_cerradas_actual(self):
-        #
-        consulta = self.filter(
-            anulate=False,
-            date_sale__gte=str(self.ano_actual)+"-01-01"
-        ).count()
-        #
-        return consulta
+    def venta_sin_anular(self): # Panel de control
+        return self.filter(anulate=False)
 
-    def costo_total(self):
-        #
-        consulta = self.filter(
-            anulate=False
-        ).aggregate(
-            #total=Sum('detail_sale__producto__precio_compra')
-            total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
-        )
-        return consulta['total']
-
-    def costo_total_actual(self):
+    def total_ventas_no_cerradas_actual(self): # Panel de control
         #
         consulta = self.filter(
             anulate=False,
             date_sale__gte=str(self.ano_actual)+"-01-01"
+        )
+        #
+        if consulta:
+            return consulta.count()
+        else:
+            return 0
+
+    # FUNCIÓN REEMPLAZADA
+    # def costo_total(self):
+    #     #
+    #     consulta = self.filter(
+    #         anulate=False
+    #     ).aggregate(
+    #         total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
+    #     )
+    #     return consulta['total']
+
+    def costo_total_actual(self): # Panel de control
+        #
+        consulta = self.filter(
+            anulate=False,
+            date_sale__gte=str(self.ano_actual)+"-01-01"
         ).aggregate(
-            #total=Sum('detail_sale__producto__precio_compra')
             total=Sum(F('detail_sale__price_purchase')*F('detail_sale__count'),output_field=FloatField())
         )
-        return consulta['total']
+        if consulta:
+            return consulta['total']
+        else:
+            return 0
 
-    def monto_ventas_mes(self):
+    def monto_ventas_mes(self): # Panel de control
         if str(self.mes_actual) == '1':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-01-01 00:00:00.100000-0500", str(self.ano_actual)+"-01-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '2':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-02-01 00:00:00.100000-0500", str(self.ano_actual)+"-02-28 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '3':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-03-01 00:00:00.100000-0500", str(self.ano_actual)+"-03-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '4':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-04-01 00:00:00.100000-0500", str(self.ano_actual)+"-04-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '5':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-05-01 00:00:00.100000-0500", str(self.ano_actual)+"-05-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '6':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-06-01 00:00:00.100000-0500", str(self.ano_actual)+"-06-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '7':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-07-01 00:00:00.100000-0500", str(self.ano_actual)+"-07-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '8':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-08-01 00:00:00.100000-0500", str(self.ano_actual)+"-08-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '9':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-09-01 00:00:00.100000-0500", str(self.ano_actual)+"-09-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '10':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-10-01 00:00:00.100000-0500", str(self.ano_actual)+"-10-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '11':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-11-01 00:00:00.100000-0500", str(self.ano_actual)+"-11-30 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
         if str(self.mes_actual) == '12':
             consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-12-01 00:00:00.100000-0500", str(self.ano_actual)+"-12-31 23:59:59.100000-0500"]).aggregate(total=Sum('amount'))
-            return consulta['total']
+            if consulta:
+                return consulta['total']
+            else:
+                return 0
 
     def v_enero(self):
         consulta = self.filter(anulate=False).filter(date_sale__range=[str(self.ano_actual)+"-01-01 00:00:00.100000-0500", str(self.ano_actual)+"-01-31 23:59:59.100000-0500"]).count()
@@ -255,13 +316,13 @@ class SaleDetailManager(models.Manager):
     mes_actual = fecha_hoy.month
     ano_actual = fecha_hoy.year
     
-    def detalle_por_venta(self, id_venta):
-        return self.filter(
-            sale__id=id_venta
-        )
+    # No se utiliza
+    # def detalle_por_venta(self, id_venta):
+    #     return self.filter(
+    #         sale__id=id_venta
+    #     )
 
-    def ventas_mes_producto(self, id_prod):
-        # creamos rango de fecha
+    def ventas_mes_producto(self, id_prod): # Inventario - Leer Accesorios, Calzado, Ropa
         end_date = timezone.now()
         start_date = end_date - timedelta(days=30)
         
@@ -274,7 +335,7 @@ class SaleDetailManager(models.Manager):
         )
         return consulta
     
-    def restablecer_stok_num_ventas(self, id_venta):
+    def restablecer_stok_num_ventas(self, id_venta): # Cierre de caja
         prods_en_anulados = []
         for venta_detail in self.filter(sale__id=id_venta):
             #actualizmos producto
@@ -284,7 +345,7 @@ class SaleDetailManager(models.Manager):
         Productos.objects.bulk_update(prods_en_anulados, ['stock', 'num_venta'])
         return True
     
-    def resumen_ventas(self):
+    def resumen_ventas(self): # Administración - Ingresos por día
         return self.filter(
             sale__anulate=False,
             sale__close=True,
@@ -302,7 +363,7 @@ class SaleDetailManager(models.Manager):
             num_ventas=Sum('count'),
         )
     
-    def resumen_ventas_mes(self):
+    def resumen_ventas_mes(self): # Administración - Ventas por mes
         #
         return self.filter(
             sale__anulate=False
@@ -316,7 +377,7 @@ class SaleDetailManager(models.Manager):
             )
         ).order_by('-sale__date_sale__date__month')
     
-    def resumen_ventas_proveedor(self, **filters):
+    def resumen_ventas_proveedor(self, **filters): # Administración - Liquidación de proveedores
         # recibe 3 parametros en un diccionario
         # devuelve lista de ventas en rango de fechas de un proveedor
         # y, devuelve el total de ventas en rango de fechas y de proveedor
@@ -356,7 +417,7 @@ class SaleDetailManager(models.Manager):
         else:
             return [], 0
     
-    def ganancias_totales(self):
+    def ganancias_totales(self): # Panel de control PENDIENTE
         costo = self.filter(anulate=False, sale__close=True).aggregate(
             total=Sum(
                 F('price_subtotal') - F('count')*F('price_purchase'),
@@ -365,16 +426,19 @@ class SaleDetailManager(models.Manager):
         )
         return costo['total']
     
-    def ganancias_totales_actuales(self):
+    def ganancias_totales_actuales(self): # Panel de control
         costo = self.filter(anulate=False, sale__close=True, sale__date_sale__gte=str(self.ano_actual)+"-01-01").aggregate(
             total=Sum(
                 F('price_subtotal') - F('count')*F('price_purchase'),
                 output_field=FloatField()
             )
         )
-        return costo['total']
+        if costo:
+            return costo['total']
+        else:
+            return 0
 
-    def reporte8020_producto2(self,f1,f2):
+    def reporte8020_producto2(self,f1,f2): # Administración - 8020
         resultado=self.filter(
             anulate=False, sale__close=True, sale__date_sale__range=(str(f1)+" 00:00:00.100000-0500",str(f2)+" 23:59:59.100000-0500")
         ).values(
@@ -409,7 +473,7 @@ class SaleDetailManager(models.Manager):
 
         return resultado
 
-    def compra_vs_vende(self, **filters):
+    def compra_vs_vende(self, **filters): # Administración - Compra vs vende
         if filters['fecha_inicio'] and filters['fecha_fin'] and filters['proveedor']:
             #
             # Lo que se vende

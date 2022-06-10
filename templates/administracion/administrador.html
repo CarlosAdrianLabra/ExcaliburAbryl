@@ -112,8 +112,12 @@
 					<div class="col" >
 						<div class="small-box bg-green">
 							<div class="inner">
+								{% if total_ventas %}
 								<h3>$ {{ total_ventas }}</h3>
-								<p>Total ventas hoy</p>
+								{% else %}
+								<h3>$ 0.00</h3>
+								{% endif %}
+								<p>Monto total de ventas antes del cierre de caja</p>
 							</div>
 							<div class="icon"><i class="fa fa-coins"></i></div>
 						</div>
@@ -121,8 +125,12 @@
 					<div class="col">
 						<div class="small-box bg-red">
 							<div class="inner">
+								{% if total_anulaciones %}
 								<h3>${{ total_anulaciones }}</h3>
-								<p>Total anulaciones</p>
+								{% else %}
+								<h3>$ 0.00</h3>
+								{% endif %}
+								<p>Monto total de ventas anuladas antes del cierre de caja</p>
 							</div>
 							<div class="icon"><i class="fas fa-window-close"></i></div>
 						</div>
@@ -130,8 +138,12 @@
 				<div class="col">
 					<div class="small-box bg-yellow">
 						<div class="inner">
+							{% if stok_cero %}
 							<h3>{{ stok_cero }}</h3>
-							<p>Productos por terminarse (menos de 10 existencias)</p>
+							{% else %}
+							<h3>0</h3>
+							{% endif %}
+							<p>Productos por terminarse (menos de 2 existencias)</p>
 						</div>
 						<div class="icon"><i class="fas fa-box-open"></i></div>
 						</div>
