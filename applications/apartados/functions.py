@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.utils import timezone
 from django.db.models import Prefetch
 
@@ -17,8 +18,9 @@ def pre_apartado(self, **params_apartado):
             detalle_apartado = Apartados(
                 barcode = pre_apart.producto.barcode,
                 monto_pagado = params_apartado['monto_pagado'],
-                fecha=timezone.now(),
-                precio_producto=pre_apart.producto.precio_venta
+                fecha = timezone.now(),
+                precio_producto = pre_apart.producto.precio_venta,
+                cambio = Decimal(params_apartado['monto_pagado'])
             )
             producto = pre_apart.producto
             producto.stock = producto.stock - pre_apart.count

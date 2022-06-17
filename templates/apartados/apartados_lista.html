@@ -50,9 +50,10 @@
                         <th># Apartado</th>
                         <th>Fecha de apartado</th>
                         <th>Código de barras</th>
-                        <th>Monto pagado por el cliente</th>
-                        <th>Precio a pagar</th>
+                        <th>Monto pagado</th>
+                        <th>Monto a pagar</th>
                         <th>Estado</th>
+                        <th>Ticket</th>
                         <th>Acciones</th>
                         <th>Eliminar</th>
                     </thead>
@@ -74,6 +75,12 @@
                                 {% endif %}    
                             </td>
                             <td>
+                                <form action="{% url 'apartados_app:apartados_voucher' p.id %}" style="margin: 0px;" method="GET" onsubmit="target_popup(this)">{% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btr2"><i class="fas fa-print mr-2"></i>Imprimir ticket</button>
+                                </form>
+                            </td>
+                            <td>
+                                
                                 {% if p.apartado_cerrado == True and p.apartado_venta == False %}
                                 <form action="{% url 'apartados_app:apartados_procesar_venta' %}" style="margin: 0px;" method="POST">{% csrf_token %}
                                     <button type="submit" class="btn btn-sm btr2"><i class="fas fa-dollar-sign mr-2"></i>Procesar venta</button>
@@ -97,7 +104,6 @@
                                         <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt mr-2"></i>Eliminar</button>
                                     </form>
                                 {% endif %} 
-                                
                             </td>
                         </tr>
                         {% endfor %}
@@ -116,4 +122,12 @@
 </div>
 {% endblock content %}
 
-{% block extra_scripts %}{% endblock extra_scripts %}
+{% block extra_scripts %}
+<script>
+    // Ventana POP UP para ver etiquetas
+    function target_popup(form) {
+        window.open('', 'formpopup', 'width=700,height=800,resizeable,scrollbars');
+        form.target = 'formpopup';
+    }
+</script>
+{% endblock extra_scripts %}

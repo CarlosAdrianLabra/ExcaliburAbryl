@@ -1,0 +1,57 @@
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Código de barras</title>
+    <style>
+        @media print {
+            @page {
+                size: 61mm 32mm;
+                top: 1pt;
+                left: 1pt;
+                right: 1pt;
+                bottom: 1pt;
+                width: 170pt;
+                height: 88pt; 
+                /* -pdf-frame-border: 1; */
+            }
+        }
+    </style>
+</head>
+<body>
+    {% for productos in productos %}
+    <table width="170">
+        <tbody>
+            <tr>
+                <td style="margin: 0px;padding-left: 2px;padding-top: 3px;">
+                    <div>
+                        <div style="font-size: 7px;"> 
+                            Sucursal: 1
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {% now "SHORT_DATE_FORMAT" %}
+                        </div>
+                        <div style="font-size: 7px;">
+                            {{productos.nombre}}-{{productos.modelo}}-{{productos.linea}}-{{productos.sublinea}}
+                        </div>
+                        <div>
+                            <span style="font-size: 7px;">
+                                Talla: {{ productos.talla }}
+                            </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span style="font-weight: bolder;">
+                                {{productos.color}}
+                            </span>
+                        </div>
+                    </div>
+                    <div style="text-align: center;margin-top: -10px;">
+                        <pdf:barcode value="{{ productos.barcode }}" type="code128" barwidth="1" humanreadable="1"  />
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    {% endfor %}
+</body>
+</html>

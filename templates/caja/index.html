@@ -141,7 +141,7 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
                                 <div class="modal-dialog" style="max-width: 30%;" role="document">
                                     <div class="modal-content">
                                         <form action="{% url 'caja_app:caja-cerrar' %}" class="cell" method="post">{% csrf_token %}
@@ -161,14 +161,18 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="container" style="text-align: center;">
+                                                            {% if total_vendido %}
                                                             <p style="margin-top: 10px; font-size: 30px; color: green;" >$ {{ total_vendido }}</p>
+                                                            {% else %}
+                                                            <p style="margin-top: 10px; font-size: 30px; color: green;" >$ 0.00</p>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="modal-footer">
-                                                <button type="submit" class="btn btr2" style="margin-left: 312px;"><i class="fas fa-cash-register mr-2"></i>Confirmar</button>
+                                                <button type="submit" class="btn btr2"><i class="fas fa-check mr-2"></i>Confirmar</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                                             </div>
 

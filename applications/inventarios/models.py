@@ -832,7 +832,7 @@ class Productos(TimeStampedModel):
     # Atributos necesarios
     barcode = models.CharField('Código de barras', max_length=13, blank=True, unique=True)
     barcode_exterior = models.CharField('Código de barras', max_length=15, blank=True)
-    nombre = models.CharField('Nombre', max_length=40)
+    nombre = models.CharField('Nombre', max_length=30)
 
     # Atributos foreignkey
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)

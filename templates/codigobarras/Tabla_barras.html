@@ -5,86 +5,213 @@
 <title>Impresion Codigos de Barras</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
-{% block sidebarlinks %}
-{% endblock sidebarlinks %}
+
+{% block enlace_index %}
+<a href="{% url 'codigobarras_app:codigo_de_barras_index' %}" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-list-ul nav-icon"></i>
+    <p>Filtrar Etiquetas</p>
+</a>
+{% endblock enlace_index %}
+{% block enlace_lista_filtrada %}
+<a href="{% url 'codigobarras_app:productos_filtrados' %}" onclick="target_popup(this)" class="nav-link">
+    <i class="fas fa-clipboard-list nav-icon"></i>
+    <p>Ver Lista de Etiquetas</p>
+</a>
+{% endblock enlace_lista_filtrada %}
+{% block enlace_lista_filtrada_eliminada %}  
+<form action="{% url 'codigobarras_app:productos_filtrados_eliminados' %}" class="mt-5 ml-1" method="POST">{% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger mr-3"><i class="fas fa-trash mr-2"></i>Eliminar Lista de Etiquetas</button>
+</form>
+{% endblock enlace_lista_filtrada_eliminada %}
 
 {% block content %}
-
-
+<!-- Header -->
+<header>
+    <!-- Messages -->
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <div style="border-radius:0; text-align: center;" {% if message.tags %} class="alert alert-icon alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert" {% endif %}>
+                {{ message }}
+                <button style="color: #fff;" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <!-- End Messages -->
+</header>
+<!-- End Header -->
 <div class="content">
-    <div class="container-fluid">
-       
+    <div class="container-fluid">       
         <div class="row">
             <div class="col-12">
-
-                
                 <div class="card mt-3">
-                    <div class="card-header"><h1 class="card-title mt-3 ml-3 mb-3">CÓDIGO DE BARRAS</h1>
+                    <div class="card-header"><h1 class="card-title mt-3 ml-3 mb-3">CÓDIGO DE BARRAS</h1></div>
 
-
-                        <form class="card-tools" method="GET">
-                            <div class="input-group input-group-sm mt-2" style="width: 700px;">
-                                <input type="text" id="filtro" name="filtro" class="form-control float-right" placeholder="Buscar el código de barras">
-                                <div class="input-group-append mr-2">
-                                    <button type="submit" class="btn btn-default"><i class="fas fa-search mr-1"></i>Buscar</button>
-                                </div>
+                    <div class="card-body">
+                        <div class="row mt-3 ml-5">
+                            <label class="text-uppercase">1 - Filtra los productos que deseas imprimir en etiquetas:</label>
+                            <div class="col-11 offset-1">
+                                <form class="card-tools" method="GET">
+                                    <div class="input-group input-group-sm mt-2 col-10">
+                                        <label class="mr-5">Filtro:</label>
+                                        <input type="text" id="filtro" name="filtro" class="form-control float-right text-right" placeholder="Ingresar código de barras, marca, modelo o proveedor">
+                                        <div class="input-group-append mr-2">
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-search mr-1"></i>Buscar</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
-
-
-                    </div>
-
-                    
-                    <div class="container-fluid mt-3 mb-3">
-
-                        <div class="table-responsive">
-                            <table class="table table-striped text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center" style="width: 220px;">CÓDIGO DE BARRAS</th>
-                                        <th class="text-center" style="width: 170px;">NOMBRE</th>
-                                        <th class="text-center" style="width: 170px;">MARCA</th>
-                                        <th class="text-center" style="width: 170px;">MODELO</th>
-                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
-                                        <th class="text-center" style="width: 170px;">IMPRIMIR ETIQUETA </th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for a in Barras %}
-                                    <tr>
-                                        <td class="text-center">{{a.barcode}}</td>
-                                        <td class="text-center">{{a.nombre}}</td>
-                                        <td class="text-center">{{a.marca}}</td>
-                                        <td class="text-center">{{a.modelo}}</td>
-                                        <td class="text-center">{{a.proveedor}}</td>
-                                        <td class="text-center">
-                                        
-                                            <a class="btn btn-social-icon btn-outline-primary" href="{% url 'codigobarras_app:barraspdf' a.barcode %}" target="_blank"><i class="fas fa-print"></i></a>
-                                        
-                                        </td>
-
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                            <!-- <div class="col-4">
+                                <form action="{% url 'codigobarras_app:productos_filtrados_eliminados' %}" class="ml-5 mt-0 mb-0" method="POST">{% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger float-left"><i class="fas fa-trash mr-2"></i>Eliminar lista</button>
+                                </form>
+                                <a class="btn btn-outline-success float-left ml-3" href="{% url 'codigobarras_app:productos_filtrados' %}"><i class="fas fa-eye mr-2"></i>Ver lista</a>
+                            </div> -->
                         </div>
-
-            
-                            
-                            
+                        <div class="row">
+                        
+                        </div>
+                        <div class="row mt-4 ml-5">
+                            <label class="text-uppercase">2 - Agregar los productos filtrados a la lista para imprimir:</label>
+                        </div>
+                        
+                        {% if Barras %}
+                        <table class="table table-striped text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 20%;">Código de barras</th>
+                                    <th style="width: 30%;">Producto <span style="font-size: smaller; color: #bbb;">( MARCA - MODELO - LÍNEA - SUBLÍNEA - COLOR )</span></th>
+                                    <th class="text-center" style="width: 20%;">Talla</th>
+                                    <th class="text-center" style="width: 10%;">Existencias (Inventario)</th>
+                                    <th style="width: 20%;">Agregar a lista para imprimir</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for a in Barras %}
+                                <tr>
+                                    <td class="text-center">{{a.barcode}}</td>
+                                    {% if a.linea_a %}
+                                    <td>{{a.nombre}} - {{a.marca}} - {{a.modelo}} - {{a.get_genero_display}} - {{a.get_linea_a_display}}- {{a.get_color_display}}</td>
+                                    {% endif %}
+                                    {% if a.linea_c %}
+                                    <td>{{a.nombre}} - {{a.marca}} - {{a.modelo}} - {{a.get_genero_display}} - {{a.get_linea_c_display}}- {{a.get_color_display}}</td>
+                                    {% endif %}
+                                    {% if a.linea_r %}
+                                    <td>{{a.nombre}} - {{a.marca}} - {{a.modelo}} - {{a.get_genero_display}} - {{a.get_linea_r_display}}- {{a.get_color_display}}</td>
+                                    {% endif %}
+                                    {% if a.pieza %}
+                                    <td class="text-center">{{a.get_pieza_display}}</td>    
+                                    {% endif %}
+                                    {% if a.medida %}
+                                    <td class="text-center">{{a.get_medida_display}}</td>    
+                                    {% endif %}
+                                    {% if a.talla %}
+                                    <td class="text-center">{{a.get_talla_display}}</td>
+                                    {% endif %}
+                                    <td class="text-center">
+                                        {{a.stock}}
+                                    </td>
+                                    <td>
+                                        <a class="btn btr ml-5" href="{% url 'codigobarras_app:agregar_uno' a.barcode %}"><i class="fas fa-plus mr-2"></i>Agregar</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        
                     </div>
+                    <div class="card-footer">
+                        <div class="mt-3">
+                        <!-- Pagination -->
+                            
+                            {% if request.path == request.get_full_path %}
+                                {% if is_paginated %}
+                                <nav class="float-right">
+                                    <ul class="pagination">
+                                        <li class="mr-3 p-2">
+                                            <span class="">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                                        </li>
+                                        {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{request.get_full_path}}?page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Anterior</a>
+                                        </li>
+                                        {% endif %}
+                                        {% for num in paginator.page_range %}
+                                            {% if page_obj.number == num %}
+                                            <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}?page={{ num }}">{{ num }}</a></li>
+                                            {% elif num > page_obj.number|add:'0' and num < page_obj.number|add:'13' %}
+                                            <li class="page-item"><a class="page-link" href="{{request.get_full_path}}?page={{ num }}">{{ num }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                        <li class="page-item"><a class="page-link" href="{{request.get_full_path}}?page={{page_obj.next_page_number}}">Siguiente</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                                {% endif %}
+                            {% else %}
+                                {% if is_paginated %}
+                                <nav class="float-right">
+                                    <ul class="pagination">
+                                        <li class="mr-3 p-2">
+                                            <span class="">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                                        </li>
+                                        {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{request.get_full_path}}&page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Anterior</a>
+                                        </li>
+                                        {% endif %}
+                                        {% for num in page_obj.paginator.page_range %}
+                                            {% if page_obj.number == num %}
+                                            <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}&page={{ num }}">{{ num }}</a></li>
+                                            {% elif num > page_obj.number|add:'0' and num < page_obj.number|add:'13' %}
+                                            <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{ num }}">{{ num }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                        <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{page_obj.next_page_number}}">Siguiente</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                                {% endif %}
+                            {% endif %}
+                            
+                        <!-- ./pagination -->
+                        </div>
+                    </div>
+                    <!-- <div class="row text-center">
+                        <div class="col-12">
+                            {% regroup pros by modelo as modelos %}
+                            {% for m in modelos %}
+                                {{ m.grouper }}<br>
+                            {% endfor %}
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </div>
-    
     </div>
-</div> 
-
-
-
-
-
-        
+</div>   
 {% endblock content %}
-    
+
+{% block scripts %}
+<script src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+{% endblock scripts %}
+
+{% block extra_scripts %}
+<script>
+    // Efecto Fade para esconder mensaje
+    $(".alert").fadeTo(2000, 1000).slideUp(1000, function () {
+        $(".alert").slideUp(500);
+    });
+
+    // Ventana POP UP para ver etiquetas
+    function target_popup(form) {
+        window.open('', 'formpopup', 'width=500,height=800,resizeable,scrollbars');
+        form.target = 'formpopup';
+    }
+</script>
+{% endblock extra_scripts %}

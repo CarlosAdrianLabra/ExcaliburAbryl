@@ -4,6 +4,18 @@
 {% block head %}{% endblock head %}
 
 {% block sidebarlinks %}
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <li class="nav-item">
+        {% block enlace_index %}{% endblock enlace_index %}
+    </li>
+    <li class="nav-item">
+        {% block enlace_lista_filtrada %}{% endblock enlace_lista_filtrada %}
+    </li>
+    <li class="nav-item text-center">
+        {% block enlace_lista_filtrada_eliminada %}{% endblock enlace_lista_filtrada_eliminada %}
+    </li>
+</ul>
 {% endblock sidebarlinks %}
 
+{% block scripts %}{% endblock scripts %}
 {% block extra_scripts %}{% endblock extra_scripts %}

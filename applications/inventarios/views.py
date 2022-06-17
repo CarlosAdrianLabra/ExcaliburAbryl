@@ -44,43 +44,32 @@ class IndexMarca(InventarioPermisionMixin, ListView):
     context_object_name = 'marcas'
 
 class CrearMarcaVista(InventarioPermisionMixin, View):
-    def  get(self, request):
+    def get(self, request):
         nombre1 = request.GET.get('nombre', None)
-
-        obj = Marca.objects.create(
-            nombre = nombre1
-        )
-
+        obj = Marca.objects.create(nombre = nombre1)
         marca = {'id':obj.id,'nombre':obj.nombre}
+        data = {'marca': marca}
 
-        data = {
-            'marca': marca
-        }
         return JsonResponse(data)
 
 class ActualizarMarcaVista(InventarioPermisionMixin, View):
-    def  get(self, request):
+    def get(self, request):
         id1 = request.GET.get('id', None)
         nombre1 = request.GET.get('nombre', None)
-
         obj = Marca.objects.get(id=id1)
         obj.nombre = nombre1
         obj.save()
-
         marca = {'id':obj.id,'nombre':obj.nombre}
+        data = {'marca': marca}
 
-        data = {
-            'marca': marca
-        }
         return JsonResponse(data)
 
 class EliminarMarcaVista(InventarioPermisionMixin, View):
-    def  get(self, request):
+    def get(self, request):
         id1 = request.GET.get('id', None)
         Marca.objects.get(id=id1).delete()
-        data = {
-            'deleted': True
-        }
+        data = {'deleted': True}
+
         return JsonResponse(data)
 
 """
@@ -113,15 +102,12 @@ class CrearProveedorVista(InventarioPermisionMixin, View):
             nombre_banco = nombre_banco1,
             clabe = clabe1
         )
-
         proveedor = {
             'id':obj.id,'nombre':obj.nombre,'correo':obj.correo,'telefono':obj.telefono,'direccion':obj.direccion,
             'nombre_benefactor':obj.nombre_benefactor,'nombre_banco':obj.nombre_banco,'clabe':obj.clabe
         }
+        data = {'proveedor': proveedor}
 
-        data = {
-            'proveedor': proveedor
-        }
         return JsonResponse(data)
 
 class ActualizarProveedorVista(InventarioPermisionMixin, View):
@@ -149,19 +135,16 @@ class ActualizarProveedorVista(InventarioPermisionMixin, View):
             'id':obj.id,'nombre':obj.nombre,'correo':obj.correo,'telefono':obj.telefono,'direccion':obj.direccion,
             'nombre_benefactor':obj.nombre_benefactor,'nombre_banco':obj.nombre_banco,'clabe':obj.clabe
         }
+        data = {'proveedor': proveedor}
 
-        data = {
-            'proveedor': proveedor
-        }
         return JsonResponse(data)
 
 class EliminarProveedorVista(InventarioPermisionMixin, View):
     def get(self, request):
         id1 = request.GET.get('id', None)
         Proveedor.objects.get(id=id1).delete()
-        data = {
-            'deleted': True
-        }
+        data = {'deleted': True}
+
         return JsonResponse(data)
 
 """ **************************************** INVENTARIO **************************************** """
@@ -172,39 +155,19 @@ class IndexInventario(InventarioPermisionMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        calzado = Productos.objects.filter(tipo='100')
-        ropa = Productos.objects.filter(tipo='200')
-        accesorios = Productos.objects.filter(tipo='300')
-
-        context["accesorios_cantidad"] = accesorios.count()
-        context["calzado_cantidad"] = calzado.count()
-        context["ropa_cantidad"] = ropa.count()
-
         # Calzado
-        if calzado:
-            context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido().count()
-            context["tabla_calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido()
-        else:
-            context["calzado_mas_vendido"] = 0
-
-        context["calzado_promedio"] = Productos.objects.calzado_promedio()
+        context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido_c()
+        context["tabla_calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido()
+        context["calzado_cantidad"] = Productos.objects.calzado_cantidad()
         # Ropa
-        if ropa:
-            context["ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida().count()
-            context["tabla_ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida()
-        else:
-            context["ropa_mas_vendida"] = 0
-
-        context["ropa_promedio"] = Productos.objects.ropa_promedio()
+        context["ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida_c()
+        context["tabla_ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida()
+        context["ropa_cantidad"] = Productos.objects.ropa_cantidad()
         # Accesorios
-        if accesorios:
-            context["accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos().count()
-            context["tabla_accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos()
-        else:
-            context["accesorios_mas_vendidos"] = 0
+        context["accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos_c()
+        context["tabla_accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos()
+        context["accesorios_cantidad"] = Productos.objects.accesorios_cantidad()
 
-        context["accesorios_promedio"] = Productos.objects.accesorios_promedio()
-        #
         return context
 
 """ **************************************** ALMACEN 1 **************************************** """
@@ -222,10 +185,10 @@ class IndexCalzado(InventarioPermisionMixin, generic.ListView):
     context_object_name = 'producto_calzado'
 
     def get_queryset(self):
-
         queryset = Productos.objects.filtros_calzado(
             filtro = self.request.GET.get("filtro", ''),
         )
+
         return queryset
 
 # Crear producto de calzado
@@ -260,6 +223,7 @@ class LeerCalzadoVista(InventarioPermisionMixin, BSModalReadView):
         context['ventas_del_mes'] = DetalleVenta.objects.ventas_mes_producto(
             self.kwargs['pk']
         )
+
         return context
 
 # Funcion para llenar registros de la tabla de calzado
@@ -272,6 +236,7 @@ def producto_calzado(request):
             {'producto_calzado': producto_calzado},
             request=request
         )
+
         return JsonResponse(data)
 
 """
@@ -288,10 +253,10 @@ class IndexRopa(InventarioPermisionMixin, generic.ListView):
     context_object_name = 'producto_ropa'
 
     def get_queryset(self):
-
         queryset = Productos.objects.filtros_ropa(
             filtro = self.request.GET.get("filtro", ''),
         )
+
         return queryset
 
 # Crear producto de ropa
@@ -326,6 +291,7 @@ class LeerRopaVista(InventarioPermisionMixin, BSModalReadView):
         context['ventas_del_mes'] = DetalleVenta.objects.ventas_mes_producto(
             self.kwargs['pk']
         )
+
         return context
 
 # Funcion para llenar registros de la tabla de ropa
@@ -338,6 +304,7 @@ def producto_ropa(request):
             {'producto_ropa': producto_ropa},
             request=request
         )
+
         return JsonResponse(data)
 
 """
@@ -354,10 +321,10 @@ class IndexAccesorios(InventarioPermisionMixin, generic.ListView):
     context_object_name = 'producto_accesorios'
 
     def get_queryset(self):
-
         queryset = Productos.objects.filtros_accesorios(
             filtro = self.request.GET.get("filtro", ''),
         )
+
         return queryset
 
 # Crear producto de accesorios
@@ -392,6 +359,7 @@ class LeerAccesoriosVista(InventarioPermisionMixin, BSModalReadView):
         context['ventas_del_mes'] = DetalleVenta.objects.ventas_mes_producto(
             self.kwargs['pk']
         )
+
         return context
 
 # Funcion para llenar registros de la tabla de accesorios
@@ -404,6 +372,7 @@ def producto_accesorios(request):
             {'producto_accesorios': producto_accesorios},
             request=request
         )
+
         return JsonResponse(data)
 
 """ **************************************** ALMACEN 2 **************************************** """

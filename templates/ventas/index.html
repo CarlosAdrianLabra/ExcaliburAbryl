@@ -32,6 +32,28 @@
 {% endblock enlace_apartados %}    
 
 {% block content %}
+<!-- Header -->
+<header>
+    <!-- Messages -->
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <div style="border-radius:0; text-align: center;" {% if message.tags %} class="alert alert-icon alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert" {% endif %}>
+                    {{ message }}
+                    <button style="color: #fff;" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% for error in form.errors %}
+            <div style="border-radius:0; text-align: center;" class="alert alert-icon alert-info alert-dismissible fade show mb-0" role="alert">
+                ¡No se encontró el código de barras ingresado!
+                <button style="color: #fff;" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- End Messages -->
+</header>
+<!-- End Header -->
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
@@ -58,10 +80,17 @@
                                         {{ form.count }}
                                         <button type="submit" class="btn btn-default col-3">Agregar producto</button>
                                     </div>
-                                    <div class="{% if form.errors %}invalid{% endif %}"></div>
+                                    <!-- <div class="{% if form.errors %}invalid{% endif %}"></div>
                                     {% for error in form.errors %}
-                                        <p style="color: red; font-size: small; ">¡No existe el código de barras ingresado!</p>
-                                    {% endfor %}
+                                        <p style="color: red;">¡No se encontró el código de barras ingresado!</p>
+                                    {% endfor %} -->
+                                    <!-- {% if messages %}
+                                        {% for message in messages %}
+                                            <div {% if message.tags %} class="red" role="alert" {% endif %}>
+                                            {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %} -->
                                 </form>
                             </div>
                         </div>
@@ -219,7 +248,7 @@
             </div>
 
             <div class="modal-body">
-                <form action="{% url 'ventas_app:venta-voucher' %}" method="POST" target="_blank">{% csrf_token %}
+                <form action="{% url 'ventas_app:venta-voucher' %}" method="POST" onsubmit="target_popup(this)">{% csrf_token %}
                     <div class="row">
                         <label style="margin-left: 5px;">1 - SELECCIONA EL TIPO DE PAGO Y FACTURA</label>
                     </div>
@@ -229,9 +258,13 @@
                         <div class="col-6">{{ form_voucher.type_payment }}</div>
 
                         <div class="col-5 offset-1 mt-3"><label>Facturación:</label></div>                        
-                        <div class="col-6 mt-3">{{ form_voucher.type_invoice }}</div>
-
-                        <button type="submit" class="btn btr2 col-4 mt-3" style="margin-left: 312px;">Imprimir Ticket</button>
+                        <div class="col-6 mt-3">
+                            <select name="type_invoice" class="form-control" id="id_type_invoice">
+                                <option value="2">Sin Factura</option>
+                                <option value="1">Factura</option>
+                              </select>
+                        </div>
+                        <button type="submit" class="btn btr2 col-4 mt-3" style="margin-left: 312px;"><i class="fas fa-print mr-2"></i>Imprimir Ticket</button>
                     </div>
 
                     <div class="row mt-3 mb-3"><label class="col-12">2 - TERMINAR VENTA </label></div>
@@ -240,7 +273,7 @@
             
             <div class="modal-footer">
                 <form action="{% url 'ventas_app:efectivo-delete_all' %}" class="m-0" method="POST">{% csrf_token %}
-                    <button type="submit" class="btn btr2 mt-1">Terminar venta</button>
+                    <button type="submit" class="btn btr2 mt-1"><i class="fas fa-check mr-2"></i>Terminar venta</button>
                 </form>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
@@ -249,3 +282,18 @@
 </div>
 <!-- ./modal comprobante -->
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+    // Efecto Fade para esconder mensaje
+    $(".alert").fadeTo(10000, 1000).slideUp(1000, function () {
+        $(".alert").slideUp(500);
+    });
+
+    // Ventana POP UP para ver etiquetas
+    function target_popup(form) {
+        window.open('', 'formpopup', 'width=700,height=800,resizeable,scrollbars');
+        form.target = 'formpopup';
+    }
+</script>
+{% endblock extra_scripts %}

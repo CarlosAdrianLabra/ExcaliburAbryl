@@ -1,12 +1,12 @@
+from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Prefetch
-
 from applications.inventarios.models import Productos
 from .models import Venta, DetalleVenta, Carrito
 
 
 def procesar_venta(self, **params_venta):
-    # recupera la lista de productos en carrtio
+    # Recupera la lista de productos en carrtio
     productos_en_car = Carrito.objects.all()
     total_de_venta = Carrito.objects.total_cobrar()
     if productos_en_car.count() > 0 and Carrito.objects.filter(producto__stock__gt=0):
@@ -18,7 +18,7 @@ def procesar_venta(self, **params_venta):
             else:
                 sub_10 += float(p.producto.precio_venta * p.count)
 
-        # crea el objeto venta
+        # Crea el objeto venta
         venta = Venta.objects.create(
             date_sale=timezone.now(),
             count=0,
@@ -61,7 +61,7 @@ def procesar_venta(self, **params_venta):
                         discount=float(p_c.producto.precio_venta * p_c.count) - float(subtotal),
                         tax=0.16,
                     )
-                # actualizmos stok de producto en iteracion
+                # Actualizamos stock de producto en iteracion
                 producto = p_c.producto
                 producto.stock = producto.stock - p_c.count
                 producto.num_venta = producto.num_venta + p_c.count
@@ -88,7 +88,7 @@ def procesar_venta(self, **params_venta):
                     discount=float(p_c.producto.precio_venta * p_c.count) - float(subtotal),
                     tax=0.16,
                 )
-                # actualizmos stok de producto en iteracion
+                # Actualizamos stock de producto en iteracion
                 producto = p_c.producto
                 producto.stock = producto.stock - p_c.count
                 producto.num_venta = producto.num_venta + p_c.count
@@ -121,11 +121,20 @@ def procesar_venta(self, **params_venta):
         #     venta.amount = total_de_venta
 
         venta.save()
-        DetalleVenta.objects.bulk_create(ventas_detalle)
-        # actualizamos el stok
-        Productos.objects.bulk_update(productos_en_venta, ['stock', 'num_venta'])
-        # completada la venta, eliminamos productos delc arrito
-        productos_en_car.delete()
-        return venta
+        try:
+            # Actualizamos el stock
+            Productos.objects.bulk_update(productos_en_venta, ['stock', 'num_venta'])
+            DetalleVenta.objects.bulk_create(ventas_detalle)
+            # Completada la venta, eliminamos productos del carrito
+            productos_en_car.delete()
+            #
+            return venta
+
+        except Exception:
+            productos_en_car.delete()
+            venta = Venta.objects.last()
+            venta.delete()
+            return messages.add_message(self.request, messages.ERROR, '¡No se logró procesar la venta. El producto no cuenta con suficientes existencias en el inventario!')
+
     else:
         return None

@@ -1,4 +1,5 @@
 from decimal import Decimal
+from django.contrib import messages
 from datetime import datetime, timedelta, date
 #
 from django.shortcuts import render
@@ -36,7 +37,7 @@ class AddCarView(PuntodeventaPermisoMixin, FormView):
         context["productos"] = Carrito.objects.all()
         context["total_cobrar"] = Carrito.objects.total_cobrar()
         context["cambio"] = Efectivo.objects.all()
-        # formulario para venta con voucher
+        # Formulario para venta con voucher
         context['form_voucher'] = VentaVoucherForm
         context['form_efectivo'] = EfectivoForm
         return context
@@ -44,21 +45,28 @@ class AddCarView(PuntodeventaPermisoMixin, FormView):
     def form_valid(self, form):
         barcode = form.cleaned_data['barcode']
         count = form.cleaned_data['count']
-        obj, created = Carrito.objects.get_or_create(
-            barcode=barcode,
-            defaults={
-                'producto': Productos.objects.get(barcode=barcode),
-                'count': count
-            }
-        )
-        #
-        if not created:
-            obj.count = obj.count + count
-            obj.save()
+        producto = Productos.objects.get(barcode=barcode)
+        p_stock = producto.stock
+        if p_stock != 0:
+            obj, created = Carrito.objects.get_or_create(
+                barcode=barcode,
+                defaults={
+                    'producto': Productos.objects.get(barcode=barcode),
+                    'count': count
+                }
+            )
+
+            if not created:
+                obj.count = obj.count + count
+                obj.save()
+
+        else:
+            messages.add_message(self.request, messages.INFO, '¡El producto ingresado no cuenta con existencias. Revisar el inventario!')
+
         return super(AddCarView, self).form_valid(form)
+        
 
 class CarShopUpdateView(PuntodeventaPermisoMixin, View):
-    """ quita en 1 la cantidad en un carshop """
 
     def post(self, request, *args, **kwargs):
         car = Carrito.objects.get(id=self.kwargs['pk'])
@@ -66,14 +74,10 @@ class CarShopUpdateView(PuntodeventaPermisoMixin, View):
             car.count = car.count - 1
             car.save()
         
-        return HttpResponseRedirect(
-            reverse(
-                'ventas_app:venta-index'
-            )
-        )
+        return HttpResponseRedirect(reverse('ventas_app:venta-index'))
+
 
 class CarShopUpdate2View(PuntodeventaPermisoMixin, View):
-    """ agrega en 1 la cantidad en un carshop """
 
     def post(self, request, *args, **kwargs):
         car = Carrito.objects.get(id=self.kwargs['pk'])
@@ -81,34 +85,26 @@ class CarShopUpdate2View(PuntodeventaPermisoMixin, View):
             car.count = car.count + 1
             car.save()
         
-        return HttpResponseRedirect(
-            reverse(
-                'ventas_app:venta-index'
-            )
-        )
+        return HttpResponseRedirect(reverse('ventas_app:venta-index'))
+
 
 class CarShopDeleteView(PuntodeventaPermisoMixin, DeleteView):
     model = Carrito
     success_url = reverse_lazy('ventas_app:venta-index')
 
+
 class CarShopDeleteAll(View):
     
     def post(self, request, *args, **kwargs):
-        
         Carrito.objects.all().delete()
         Efectivo.objects.all().delete()
         
-        return HttpResponseRedirect(
-            reverse(
-                'ventas_app:venta-index'
-            )
-        )
+        return HttpResponseRedirect(reverse('ventas_app:venta-index'))
+
 
 class ProcesoVentaSimpleView(PuntodeventaPermisoMixin, View):
-    """ Procesa una venta simple """
 
     def post(self, request, *args, **kwargs):
-        
         procesar_venta(
             self=self,
             type_invoice=Venta.SIN_COMPROBANTE,
@@ -116,11 +112,8 @@ class ProcesoVentaSimpleView(PuntodeventaPermisoMixin, View):
             user=self.request.user,
         )
         
-        return HttpResponseRedirect(
-            reverse(
-                'ventas_app:venta-index'
-            )
-        )
+        return HttpResponseRedirect(reverse('ventas_app:venta-index'))
+
 
 class ProcesoVentaVoucherView(PuntodeventaPermisoMixin, FormView):
     form_class = VentaVoucherForm
@@ -138,18 +131,10 @@ class ProcesoVentaVoucherView(PuntodeventaPermisoMixin, FormView):
         )
         
         if venta: 
-            return HttpResponseRedirect(
-                reverse(
-                    'ventas_app:venta-voucher_pdf',
-                    kwargs={'pk': venta.pk },
-                )
-            )
+            return HttpResponseRedirect(reverse('ventas_app:venta-voucher_pdf', kwargs={'pk': venta.pk },))
         else:
-            return HttpResponseRedirect(
-                reverse(
-                    'ventas_app:venta-index'
-                )
-            )
+            return HttpResponseRedirect(reverse('ventas_app:venta-index'))
+
 
 class VentaVoucherPdf(PuntodeventaPermisoMixin, View):
     
@@ -174,12 +159,14 @@ class VentaVoucherPdf(PuntodeventaPermisoMixin, View):
 
         return HttpResponse(pdf, content_type='application/pdf')
 
+
 class SaleListView(PuntodeventaPermisoMixin, ListView):
     template_name = 'ventas/ventas.html'
     context_object_name = "ventas" 
 
     def get_queryset(self):
         return Venta.objects.ventas_no_cerradas()
+
 
 class SaleDeleteView(PuntodeventaPermisoMixin, DeleteView):
     template_name = "ventas/delete.html"
@@ -190,11 +177,12 @@ class SaleDeleteView(PuntodeventaPermisoMixin, DeleteView):
         self.object = self.get_object()
         self.object.anulate = True
         self.object.save()
-        # actualizmos el stok y ventas
+        # Actualizamos el stock y ventas
         DetalleVenta.objects.restablecer_stok_num_ventas(self.object.id)
         success_url = self.get_success_url()
 
         return HttpResponseRedirect(success_url)
+
 
 class EfectivoView(PuntodeventaPermisoMixin, FormView):
     form_class = EfectivoForm
@@ -224,17 +212,14 @@ class EfectivoView(PuntodeventaPermisoMixin, FormView):
 
         return super(EfectivoView, self).form_valid(form)
 
+
 class EfectivoDeleteAll(PuntodeventaPermisoMixin, View):
     
     def post(self, request, *args, **kwargs):
-        
         Efectivo.objects.all().delete()
         
-        return HttpResponseRedirect(
-            reverse(
-                'ventas_app:venta-index'
-            )
-        )
+        return HttpResponseRedirect(reverse('ventas_app:venta-index'))
+
 
 class Promociones(PromocionesPermisoMixin, FormView):
     template_name = 'promociones/index_promociones.html'
