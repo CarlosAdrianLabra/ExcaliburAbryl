@@ -155,17 +155,8 @@ class IndexInventario(InventarioPermisionMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Calzado
-        context["calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido_c()
-        context["tabla_calzado_mas_vendido"] = Productos.objects.calzado_mas_vendido()
         context["calzado_cantidad"] = Productos.objects.calzado_cantidad()
-        # Ropa
-        context["ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida_c()
-        context["tabla_ropa_mas_vendida"] = Productos.objects.ropa_mas_vendida()
         context["ropa_cantidad"] = Productos.objects.ropa_cantidad()
-        # Accesorios
-        context["accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos_c()
-        context["tabla_accesorios_mas_vendidos"] = Productos.objects.accesorios_mas_vendidos()
         context["accesorios_cantidad"] = Productos.objects.accesorios_cantidad()
 
         return context

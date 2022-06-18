@@ -139,13 +139,7 @@
                                 <i class="fab fa-accusoft mt-3"></i>
                             </div>
                             <div class="col-9">
-                                {% if accesorios_mas_vendidos %}
-                                <label>Más vendidos</label> - {{ accesorios_mas_vendidos }}
-                                {% else %}
-                                <label>Más vendidos</label> - 0
-                                {% endif %}
-                                <p style="font-size: small; color: #666; margin-top: -10px;">Accesorios registrados ( {{ accesorios_cantidad }} )</p>
-
+                                <label class="mt-4">Accesorios registrados</label> ( {{ accesorios_cantidad }} )
                                 <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
                             </div>
                         </div>
@@ -165,13 +159,7 @@
                                 <i class="fab fa-accusoft mt-3"></i>
                             </div>
                             <div class="col-9">
-                                {% if calzado_mas_vendido %}
-                                <label>Más vendido</label> - {{ calzado_mas_vendido }}
-                                {% else %}
-                                <label>Más vendido</label> - 0
-                                {% endif %}
-                                <p style="font-size: small; color: #666; margin-top: -10px;">Calzado registrado ( {{ calzado_cantidad }} )</p>
-
+                                <label class="mt-4">Calzado registrado</label> ( {{ calzado_cantidad }} )
                                 <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
                             </div>
                         </div>
@@ -190,13 +178,7 @@
                                 <i class="fab fa-accusoft mt-3"></i>
                             </div>
                             <div class="col-9">
-                                {% if ropa_mas_vendida %}
-                                <label>Más vendida</label> - {{ ropa_mas_vendida }}
-                                {% else %}
-                                <label>Más vendida</label> - 0
-                                {% endif %}
-                                <p style="font-size: small; color: #666; margin-top: -10px;">Ropa registrada ( {{ ropa_cantidad }} )</p>
-
+                                <label class="mt-4">Ropa registrada</label> ( {{ ropa_cantidad }} )
                                 <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
                             </div>
                         </div>
@@ -205,160 +187,121 @@
             </div>
         </div>
 
-        <div class="row mt-5">
-            <div class="col-md-10 offset-1">
-                <div class="card collapsed-card">
-                    <span class="card-header" data-card-widget="collapse">
-                        ALMACEN 1 - ACCESORIOS
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
-                        </div>
-                    </span>
+        <div class="row justify-content-center" style="margin-top: 35px;">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-secondary">
+                        ALMACEN 2 - ACCESORIOS
+                    </div>
                     <div class="card-body">
-                        <h5 style="margin-left: 10px; font-weight: bold;">MÁS VENDIDOS</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
-                        {% if tabla_accesorios_mas_vendidos %}
-                        <!-- Tabla más vendido -->
-                        <div class="table-responsive p-0" style="height: 272px;">
-                            <table class="table table-striped text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
-                                        <th>PRODUCTO</th>
-                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
-                                        <th class="text-center" style="width: 117px;">EXISTENCIAS</th>
-                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
-                                        <th class="text-center" style="width: 160px;">PRECIO DE COSTO</th>
-                                        <th class="text-center red" style="width: 117px;">NO. VENTAS</th>
+                        <div class="row">
+                            <div class="col-3 text-center" style="font-size: 45px;">
+                                <i class="fab fa-accusoft mt-3 text-secondary"></i>
+                            </div>
+                            <div class="col-9">
+                                <label class="mt-4 text-secondary">Accesorios registrados</label> ( 0 )
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for p in tabla_accesorios_mas_vendidos %}
-                                    <tr>
-                                        <td class="text-center">{{ p.barcode }}</td>
-                                        <td>{{ p.marca.nombre }} - {{ p.modelo }} - {{ p.get_color_display}} - {{ p.get_medida_display}}</td>
-                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
-                                        <td class="text-center">{{ p.stock }}</td>
-                                        <td class="text-center">{{ p.precio_venta }}</td>
-                                        <td class="text-center">{{ p.precio_compra }}</td>
-                                        <td class="text-center red">{{ p.num_venta }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+            <div class="col-md-3" style="margin-left: 64px;">
+                <div class="card">
+                    <div class="card-header bg-secondary">
+                        ALMACEN 2 - CALZADO
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3 text-center" style="font-size: 45px;">
+                                <i class="fab fa-accusoft mt-3 text-secondary"></i>
+                            </div>
+                            <div class="col-9">
+                                <label class="mt-4 text-secondary">Calzado registrado</label> ( 0 )
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+                            </div>
                         </div>
-                        <!-- ./tabla más vendido -->
-                        {% else %}
-                        <div class="text-center">
-                            Sin resultados
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3" style="margin-left: 64px;">
+                <div class="card">
+                    <div class="card-header bg-secondary">
+                        ALMACEN 2 - ROPA
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3 text-center" style="font-size: 45px;">
+                                <i class="fab fa-accusoft mt-3 text-secondary"></i>
+                            </div>
+                            <div class="col-9">
+                                <label class="mt-4 text-secondary">Ropa registrada</label> ( 0 )
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+                            </div>
                         </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-10 offset-1">
-                <div class="card collapsed-card">
-                    <span class="card-header" data-card-widget="collapse">
-                        ALMACEN 1 - CALZADO
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
-                        </div>
-                    </span>
+        <div class="row justify-content-center" style="margin-top: 35px;">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-secondary">
+                        ALMACEN 3 - ACCESORIOS
+                    </div>
                     <div class="card-body">
-                        <h5 style="margin-left: 10px; font-weight: bold;">MÁS VENDIDO</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
-                        {% if tabla_calzado_mas_vendido %}
-                        <!-- Tabla más vendido -->
-                        <div class="table-responsive p-0" style="height: 272px;">
-                            <table class="table table-striped text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
-                                        <th>PRODUCTO</th>
-                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
-                                        <th class="text-center" style="width: 117px;">EXISTENCIAS</th>
-                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
-                                        <th class="text-center" style="width: 160px;">PRECIO DE COSTO</th>
-                                        <th class="text-center red" style="width: 117px;">NO. VENTAS</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for p in tabla_calzado_mas_vendido %}
-                                    <tr>
-                                        <td class="text-center">{{ p.barcode }}</td>
-                                        <td>{{ p.marca.nombre }} - {{ p.modelo }} - {{ p.get_color_display}} - {{ p.get_medida_display}}</td>
-                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
-                                        <td class="text-center">{{ p.stock }}</td>
-                                        <td class="text-center">{{ p.precio_venta }}</td>
-                                        <td class="text-center">{{ p.precio_compra }}</td>
-                                        <td class="text-center red">{{ p.num_venta }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                        <div class="row">
+                            <div class="col-3 text-center" style="font-size: 45px;">
+                                <i class="fab fa-accusoft mt-3 text-secondary"></i>
+                            </div>
+                            <div class="col-9">
+                                <label class="mt-4 text-secondary">Accesorios registrados</label> ( 0 )
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+                            </div>
                         </div>
-                        <!-- ./tabla más vendido -->
-                        {% else %}
-                        <div class="text-center">
-                            Sin resultados
-                        </div>
-                        {% endif %}
+                        
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-10 offset-1">
-                <div class="card collapsed-card">
-                    <span class="card-header" data-card-widget="collapse">
-                        ALMACEN 1 - ROPA
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" style="margin-top: 1px;" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
-                        </div>
-                    </span>
+            <div class="col-md-3" style="margin-left: 64px;">
+                <div class="card">
+                    <div class="card-header bg-secondary">
+                        ALMACEN 3 - CALZADO
+                    </div>
                     <div class="card-body">
-                        <h5 style="margin-left: 10px; font-weight: bold;">MÁS VENDIDA</h5><hr style="max-width: 78%; border: 2px solid #000; margin-top: -20px; margin-left: 215px;">
-                        {% if tabla_ropa_mas_vendida %}
-                        <!-- Tabla más vendido -->
-                        <div class="table-responsive p-0" style="height: 272px;">
-                            <table class="table table-striped text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center" style="width: 163px;">CÓDIGO DE BARRAS</th>
-                                        <th>PRODUCTO</th>
-                                        <th class="text-center" style="width: 170px;">PROVEEDOR</th>
-                                        <th class="text-center" style="width: 117px;">EXISTENCIAS</th>
-                                        <th class="text-center" style="width: 150px;">PRECIO DE VENTA</th>
-                                        <th class="text-center" style="width: 160px;">PRECIO DE COSTO</th>
-                                        <th class="text-center red" style="width: 117px;">NO. VENTAS</th>
+                        <div class="row">
+                            <div class="col-3 text-center" style="font-size: 45px;">
+                                <i class="fab fa-accusoft mt-3 text-secondary"></i>
+                            </div>
+                            <div class="col-9">
+                                <label class="mt-4 text-secondary">Calzado registrado</label> ( 0 )
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for p in tabla_ropa_mas_vendida %}
-                                    <tr>
-                                        <td class="text-center">{{ p.barcode }}</td>
-                                        <td>{{ p.marca.nombre }} - {{ p.modelo }} - {{ p.get_color_display}} - {{ p.get_medida_display}}</td>
-                                        <td class="text-center">{{ p.proveedor.nombre }}</td>
-                                        <td class="text-center">{{ p.stock }}</td>
-                                        <td class="text-center">{{ p.precio_venta }}</td>
-                                        <td class="text-center">{{ p.precio_compra }}</td>
-                                        <td class="text-center red">{{ p.num_venta }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+            <div class="col-md-3" style="margin-left: 64px;">
+                <div class="card">
+                    <div class="card-header bg-secondary">
+                        ALMACEN 3 - ROPA
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3 text-center" style="font-size: 45px;">
+                                <i class="fab fa-accusoft mt-3 text-secondary"></i>
+                            </div>
+                            <div class="col-9">
+                                <label class="mt-4 text-secondary">Ropa registrada</label> ( 0 )
+                                <hr style="float: left; width: 80%; border: 1px solid #bbb; margin-top: -5px;">
+                            </div>
                         </div>
-                        <!-- ./tabla más vendido -->
-                        {% else %}
-                        <div class="text-center">
-                            Sin resultados
-                        </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -367,7 +310,3 @@
 </section>
 <!-- /.main content -->
 {% endblock content %}
-
-{% block scripts %}
-<script src="{% static 'js/select2.min.js' %}"></script>
-{% endblock scripts %}
