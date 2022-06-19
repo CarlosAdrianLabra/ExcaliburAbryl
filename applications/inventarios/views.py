@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 from applications.ventas.managers import SaleDetailManager
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
@@ -233,19 +234,20 @@ def producto_calzado(request):
 
 # Exportar inventario de calzado
 def export_calzado_csv(request):
+    fecha_hoy = datetime.now()
+    dia = fecha_hoy.day
+    mes = fecha_hoy.month
+    ano = fecha_hoy.year
+    
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="inventario_calzado.csv"'
+    response['Content-Disposition'] = f'attachment; filename="inventario_calzado({dia}-{mes}-{ano}).csv"'
 
     writer = csv.writer(response)
     writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
-    list = {}
 
     calzado = Productos.objects.filter(tipo='100')
-    for i,c in enumerate(calzado):
-        list[i] = c.barcode, c.proveedor.nombre ,c.marca.nombre, c.modelo, c.get_genero_display(), c.get_linea_c_display(), c.get_color_display(), c.get_medida_display(), c.stock, str(c.precio_compra), str(c.precio_venta)
-
-    for i,c in enumerate(list):
-        writer.writerow({list[i][0]:'Barcode', list[i][1]:'Proveedor', list[i][2]:'Marca', list[i][3]:'Modelo', list[i][4]:'Linea', list[i][5]:'Sublinea', list[i][6]:'Color', list[i][7]:'Talla', list[i][8]:'Existencias', list[i][9]:'Precio Costo', list[i][10]:'Precio Venta'})
+    for c in calzado:
+        writer.writerow([c.barcode, c.proveedor, c.marca,  c.modelo, c.get_genero_display(), c.get_linea_c_display(), c.get_color_display(), c.get_medida_display(), c.stock, c.precio_compra, c.precio_venta,])
 
     return response
 
@@ -319,19 +321,19 @@ def producto_ropa(request):
 
 # Exportar inventario de ropa
 def export_ropa_csv(request):
+    fecha_hoy = datetime.now()
+    dia = fecha_hoy.day
+    mes = fecha_hoy.month
+    ano = fecha_hoy.year
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="inventario_ropa.csv"'
+    response['Content-Disposition'] = f'attachment; filename="inventario_ropa({dia}-{mes}-{ano}).csv"'
 
     writer = csv.writer(response)
     writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
-    list = {}
 
     ropa = Productos.objects.filter(tipo='200')
-    for i,c in enumerate(ropa):
-        list[i] = c.barcode, c.proveedor.nombre ,c.marca.nombre, c.modelo, c.get_genero_display(), c.get_linea_r_display(), c.get_color_display(), c.get_talla_display(), c.stock, str(c.precio_compra), str(c.precio_venta)
-
-    for i,c in enumerate(list):
-        writer.writerow({list[i][0]:'Barcode', list[i][1]:'Proveedor', list[i][2]:'Marca', list[i][3]:'Modelo', list[i][4]:'Linea', list[i][5]:'Sublinea', list[i][6]:'Color', list[i][7]:'Talla', list[i][8]:'Existencias', list[i][9]:'Precio Costo', list[i][10]:'Precio Venta'})
+    for r in ropa:
+        writer.writerow([r.barcode, r.proveedor, r.marca,  r.modelo, r.get_genero_display(), r.get_linea_r_display(), r.get_color_display(), r.get_talla_display(), r.stock, r.precio_compra, r.precio_venta,])
 
     return response
 
@@ -405,19 +407,20 @@ def producto_accesorios(request):
 
 # Exportar inventario de accesorios
 def export_accesorios_csv(request):
+    fecha_hoy = datetime.now()
+    dia = fecha_hoy.day
+    mes = fecha_hoy.month
+    ano = fecha_hoy.year
+    
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="inventario_accesorios.csv"'
+    response['Content-Disposition'] = f'attachment; filename="inventario_accesorios({dia}-{mes}-{ano}).csv"'
 
     writer = csv.writer(response)
     writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
-    list = {}
 
     accesorios = Productos.objects.filter(tipo='300')
-    for i,c in enumerate(accesorios):
-        list[i] = c.barcode, c.proveedor.nombre ,c.marca.nombre, c.modelo, c.get_genero_display(), c.get_linea_a_display(), c.get_color_display(), c.get_pieza_display(), c.stock, str(c.precio_compra), str(c.precio_venta)
-
-    for i,c in enumerate(list):
-        writer.writerow({list[i][0]:'Barcode', list[i][1]:'Proveedor', list[i][2]:'Marca', list[i][3]:'Modelo', list[i][4]:'Linea', list[i][5]:'Sublinea', list[i][6]:'Color', list[i][7]:'Talla', list[i][8]:'Existencias', list[i][9]:'Precio Costo', list[i][10]:'Precio Venta'})
+    for a in accesorios:
+        writer.writerow([a.barcode, a.proveedor, a.marca,  a.modelo, a.get_genero_display(), a.get_linea_a_display(), a.get_color_display(), a.get_pieza_display(), a.stock, a.precio_compra, a.precio_venta,])
 
     return response
 

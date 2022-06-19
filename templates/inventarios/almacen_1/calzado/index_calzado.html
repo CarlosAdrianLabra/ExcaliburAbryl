@@ -46,7 +46,7 @@
 {% block botones %}
 <button id="crear-calzado" class="btn btn-primary" style="margin-left: 25px;" type="button" name="button"><I class="fa fa-plus mr-2"></I>Registrar calzado</button>
 <a href="/almacen_1/productos/calzado" class="btn btn-default" style="margin-left: 10px;" type="button" name="button"><I class="fa fa-undo-alt mr-2"></I>Actualizar página</a>
-<!-- <a class="btn bg-success float-right mr-5" href="{% url 'export_csv_calzado' %}"><i class="fas fa-file-excel mr-2"></i>Exportar inventario</a> -->
+<a class="btn bg-success ml-4" href="{% url 'export_csv_calzado' %}"><i class="fas fa-file-excel mr-2"></i>Exportar inventario</a>
 {% endblock botones %}
 
 {% block extra_scripts %}
