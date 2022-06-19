@@ -1,3 +1,4 @@
+import csv
 from applications.ventas.managers import SaleDetailManager
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
@@ -230,6 +231,24 @@ def producto_calzado(request):
 
         return JsonResponse(data)
 
+# Exportar inventario de calzado
+def export_calzado_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="inventario_calzado.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
+    list = {}
+
+    calzado = Productos.objects.filter(tipo='100')
+    for i,c in enumerate(calzado):
+        list[i] = c.barcode, c.proveedor.nombre ,c.marca.nombre, c.modelo, c.get_genero_display(), c.get_linea_c_display(), c.get_color_display(), c.get_medida_display(), c.stock, str(c.precio_compra), str(c.precio_venta)
+
+    for i,c in enumerate(list):
+        writer.writerow({list[i][0]:'Barcode', list[i][1]:'Proveedor', list[i][2]:'Marca', list[i][3]:'Modelo', list[i][4]:'Linea', list[i][5]:'Sublinea', list[i][6]:'Color', list[i][7]:'Talla', list[i][8]:'Existencias', list[i][9]:'Precio Costo', list[i][10]:'Precio Venta'})
+
+    return response
+
 """
     ********************    ********************
                         ROPA
@@ -298,6 +317,24 @@ def producto_ropa(request):
 
         return JsonResponse(data)
 
+# Exportar inventario de ropa
+def export_ropa_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="inventario_ropa.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
+    list = {}
+
+    ropa = Productos.objects.filter(tipo='200')
+    for i,c in enumerate(ropa):
+        list[i] = c.barcode, c.proveedor.nombre ,c.marca.nombre, c.modelo, c.get_genero_display(), c.get_linea_r_display(), c.get_color_display(), c.get_talla_display(), c.stock, str(c.precio_compra), str(c.precio_venta)
+
+    for i,c in enumerate(list):
+        writer.writerow({list[i][0]:'Barcode', list[i][1]:'Proveedor', list[i][2]:'Marca', list[i][3]:'Modelo', list[i][4]:'Linea', list[i][5]:'Sublinea', list[i][6]:'Color', list[i][7]:'Talla', list[i][8]:'Existencias', list[i][9]:'Precio Costo', list[i][10]:'Precio Venta'})
+
+    return response
+
 """
     ********************          ********************
                         ACCESORIOS
@@ -365,5 +402,23 @@ def producto_accesorios(request):
         )
 
         return JsonResponse(data)
+
+# Exportar inventario de accesorios
+def export_accesorios_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="inventario_accesorios.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
+    list = {}
+
+    accesorios = Productos.objects.filter(tipo='300')
+    for i,c in enumerate(accesorios):
+        list[i] = c.barcode, c.proveedor.nombre ,c.marca.nombre, c.modelo, c.get_genero_display(), c.get_linea_a_display(), c.get_color_display(), c.get_pieza_display(), c.stock, str(c.precio_compra), str(c.precio_venta)
+
+    for i,c in enumerate(list):
+        writer.writerow({list[i][0]:'Barcode', list[i][1]:'Proveedor', list[i][2]:'Marca', list[i][3]:'Modelo', list[i][4]:'Linea', list[i][5]:'Sublinea', list[i][6]:'Color', list[i][7]:'Talla', list[i][8]:'Existencias', list[i][9]:'Precio Costo', list[i][10]:'Precio Venta'})
+
+    return response
 
 """ **************************************** ALMACEN 2 **************************************** """
