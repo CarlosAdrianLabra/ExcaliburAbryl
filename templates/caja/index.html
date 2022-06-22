@@ -95,37 +95,48 @@
                                     <table class="table table-dark">
                                         <thead>
                                             <tr>
-                                                <th style="width: 297px;">N° {{venta.id}}</th>
-                                                <th style="width: 361px;">Tipo de pago: {{venta.get_type_payment_display}}</th>
-                                                <th style="width: 322px;">Tipo de comprobante: {{ venta.get_type_invoice_display }}</th>
-                                                <th style="width: 257px;">Cantidad de productos: {{venta.count}}</th>
+                                                <th style="width: 479px;">Venta N° {{venta.id}} - Cajero: {{venta.user | title}}</th>
+                                                <th style="width: 260px;">Fecha: {{venta.date_sale|date:'m/d/Y P' }}</th>
+                                                <th style="width: 230px;">Cantidad: {{venta.count}}</th>
+                                                <th style="width: 257px;">Pago: {{venta.get_type_payment_display}} / {{ venta.get_type_invoice_display }}</th>
                                                 <th style="width: 190px; color: lime;">Total: ${{ venta.amount }}</th>
                                             </tr>
                                         </thead>
                                     </table>
                                     <table class="table table-striped" style="margin-top: -15px; margin-bottom: 50px;">
                                         <thead>
-                                            <th style="width: 297px;">Producto</th>
-                                            <th style="width: 361px;">Precio Venta</th>
-                                            <th style="width: 322px;">Cantidad de cada producto</th>
+                                            <th style="width: 479px;">Producto</th>
+                                            <th style="width: 260px;">Precio Venta</th>
+                                            <th style="width: 230px;">Cantidad de productos</th>
                                             <th style="width: 257px;">Promoción</th>
                                             <th style="width: 190px;">Sub total</th>
                                         </thead>
                                         <tbody>
                                             {% for detalle in venta.detail_sale.all %}
                                             <tr>
-                                                <td>{{ detalle.producto.nombre }}</td>
+                                                <td>
+                                                    {% if detalle.producto.linea_a %}
+                                                    {{ detalle.producto.barcode }} - {{ detalle.producto }} - {{ detalle.producto.get_linea_a_display }} - {{ detalle.producto.get_color_display }} - {{ detalle.producto.get_pieza_display }}
+                                                    {% endif %}
+                                                    {% if detalle.producto.linea_c %}
+                                                    {{ detalle.producto.barcode }} - {{ detalle.producto }} - {{ detalle.producto.get_linea_c_display }} - {{ detalle.producto.get_color_display }} - {{ detalle.producto.get_medida_display }}
+                                                    {% endif %}
+                                                    {% if detalle.producto.linea_r %}
+                                                    {{ detalle.producto.barcode }} - {{ detalle.producto }} - {{ detalle.producto.get_linea_r_display }} - {{ detalle.producto.get_color_display }} - {{ detalle.producto.get_talla_display }}
+                                                    {% endif %}
+                                                </td>
                                                 <td>$ {{ detalle.price_sale }}</td>
                                                 <td>{{ detalle.count }}</td>
-                                                {% if detalle.promocion == '0' %}<td>Sin promoción</td>{% endif %}
-                                                {% if detalle.promocion == '1' %}<td>10 %</td>{% endif %}
-                                                {% if detalle.promocion == '2' %}<td>20 %</td>{% endif %}
-                                                {% if detalle.promocion == '3' %}<td>30 %</td>{% endif %}
-                                                {% if detalle.promocion == '4' %}<td>2 x 1</td>{% endif %}
-                                                {% if detalle.promocion == '5' %}<td>3 x 2</td>{% endif %}
-                                                {% if detalle.promocion == '6' %}<td>1=10%, 2=20%</td>{% endif %}
-                                                {% if detalle.promocion == '7' %}<td>2 Adidas y obtén 10%</td>{% endif %}
-                                                <!-- <td>{{ detalle.promocion }}</td> -->
+                                                <td>
+                                                    {% if detalle.promocion == '0' %}Sin promoción{% endif %}
+                                                    {% if detalle.promocion == '1' %}10 %{% endif %}
+                                                    {% if detalle.promocion == '2' %}20 %{% endif %}
+                                                    {% if detalle.promocion == '3' %}30 %{% endif %}
+                                                    {% if detalle.promocion == '4' %}2 x 1{% endif %}
+                                                    {% if detalle.promocion == '5' %}3 x 2{% endif %}
+                                                    {% if detalle.promocion == '6' %}1=10%, 2=20%{% endif %}
+                                                    {% if detalle.promocion == '7' %}2 Adidas y obtén 10%{% endif %}
+                                                </td>
                                                 <td>$ {{ detalle.price_subtotal }}</td>
                                             </tr>
                                             {% endfor %}

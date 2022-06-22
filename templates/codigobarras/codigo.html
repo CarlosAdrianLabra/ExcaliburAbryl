@@ -26,7 +26,7 @@
                 <td style="margin: 0px;padding-left: 2px;padding-top: 3px;">
                     <div>
                         <div style="font-size: 7px;"> 
-                            Sucursal: 1
+                            Sucursal: 2
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -34,13 +34,13 @@
                             {% now "SHORT_DATE_FORMAT" %}
                         </div>
                         <div style="font-size: 7px;">
-                            {{productos.nombre}}-{{productos.modelo}}-{{productos.linea}}-{{productos.sublinea}}
+                            {{productos.nombre}}-<span style="font-size: 16px; font-weight: bolder;">{{productos.modelo}}</span>-{{productos.linea}}-{{productos.sublinea}}
                         </div>
                         <div>
-                            <span style="font-size: 7px;">
+                            <span style="font-size: 8px;">
                                 Talla: {{ productos.talla }}
                             </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <span style="font-weight: bolder;">
+                            <span style="font-size: 11px; font-weight: bolder;">
                                 {{productos.color}}
                             </span>
                         </div>
