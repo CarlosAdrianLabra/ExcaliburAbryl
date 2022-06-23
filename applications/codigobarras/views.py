@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+from django.utils import timezone
 from django.shortcuts import render
 from django.contrib import messages
 from django.views.generic import (
@@ -20,11 +22,19 @@ class codigobarrasview(CodigodebarrasPermisoMixin,ListView):
     model= Productos
 
     def get_queryset(self, *args):
+        fecha_fin = timezone.now()
+        fecha_inicio = fecha_fin - timedelta(days=7)
+        ultimos = self.request.GET.get("ver_ultimos",),
+        print(ultimos)
         barcode = str(*args)
 
         if barcode:
             queryset = Productos.objects.filtros_para_etiqueta(
                 filtro = barcode,
+            )
+        elif str(ultimos) == '(\'si\',)':
+            queryset = Productos.objects.filter(
+                modified__range = (fecha_inicio, fecha_fin) 
             )
         else:
             queryset = Productos.objects.filtros_para_etiqueta(
@@ -89,7 +99,7 @@ class AgregarUnoVista(View):
             )
         create.save()
 
-        messages.add_message(self.request, messages.SUCCESS, '¡Se ha agregado el producto a la lista de etiquetas!')
+        messages.add_message(self.request, messages.SUCCESS, '¡Etiqueta agregada!')
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
@@ -98,7 +108,7 @@ class EliminarEtiquetaVista(View):
     
     def post(self, request, *args, **kwargs):
         Etiqueta.objects.all().delete()
-        messages.add_message(self.request, messages.SUCCESS, '¡Se ha eliminado la lista de etiquetas!')
+        messages.add_message(self.request, messages.SUCCESS, '¡Se han eliminado las etiquetas!')
         
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
