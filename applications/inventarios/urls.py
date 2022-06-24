@@ -29,6 +29,7 @@ urlpatterns = [
     # URL para FUNCION producto_calzado
     path('producto_calzado/', views.producto_calzado, name='producto_calzado'),
     path('producto_calzado/export_csv/', views.export_calzado_csv, name='export_csv_calzado'),
+    path('producto_calzado/export_csv_stock/', views.export_calzado_csv_stock, name='export_csv_calzado_stock'),
 
     # Index ropa
     path('almacen_1/productos/ropa/', views.IndexRopa.as_view(), name='index_ropa'),
@@ -40,6 +41,7 @@ urlpatterns = [
     # URL para FUNCION producto_calzado
     path('producto_ropa/', views.producto_ropa, name='producto_ropa'),
     path('producto_ropa/export_csv/', views.export_ropa_csv, name='export_csv_ropa'),
+    path('producto_ropa/export_csv_stock/', views.export_ropa_csv_stock, name='export_csv_ropa_stock'),
 
     # Index accesorios
     path('almacen_1/productos/accesorios/', views.IndexAccesorios.as_view(), name='index_accesorios'),
@@ -51,4 +53,5 @@ urlpatterns = [
     # URL para FUNCION producto_accesorios
     path('producto_accesorios/', views.producto_accesorios, name='producto_accesorios'),
     path('producto_accesorios/export_csv/', views.export_accesorios_csv, name='export_csv_accesorios'),
+    path('producto_accesorios/export_csv_stock/', views.export_accesorios_csv_stock, name='export_csv_accesorios_stock'),
 ]

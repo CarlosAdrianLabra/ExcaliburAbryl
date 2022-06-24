@@ -146,7 +146,7 @@
                         <table id="export-table" class="table table-dark">
                             <thead>
                                 <tr>
-                                    <th style="width: 479px;">Venta N° {{venta.id}} - Cajero: {{venta.user | title}}</th>
+                                    <th style="width: 479px;">Venta N° {{venta.id}} - Cajero: {{venta.user.nombres | title}} {{venta.user.apellidos | title}}</th>
                                     <th style="width: 260px;">Fecha: {{venta.date_sale|date:'m/d/Y P' }}</th>
                                     <th style="width: 230px;">Cantidad: {{venta.count}}</th>
                                     <th style="width: 257px;">Pago: {{venta.get_type_payment_display}} / {{ venta.get_type_invoice_display }}</th>

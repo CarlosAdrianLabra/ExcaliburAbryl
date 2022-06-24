@@ -19,7 +19,8 @@ class AdminPermisoMixin(LoginRequiredMixin):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
         if not check_user_role(request.user.role, User.ADMINISTRADOR):
-            return HttpResponseRedirect(reverse('users_app:user-login'))
+            pagina_anterior = request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found')
+            return HttpResponseRedirect(reverse('users_app:redireccionar'), {"pagina":pagina_anterior})
 
         return super().dispatch(request,*args,**kwargs)
 
@@ -30,7 +31,8 @@ class InventarioPermisionMixin(LoginRequiredMixin):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
         if not check_user_role(request.user.role, User.INVENTARIO):
-            return HttpResponseRedirect(reverse('users_app:user-login'))
+            pagina_anterior = request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found')
+            return HttpResponseRedirect(reverse('users_app:redireccionar'), {"pagina":pagina_anterior})
 
         return super().dispatch(request,*args,**kwargs)
 
@@ -41,7 +43,8 @@ class PuntodeventaPermisoMixin(LoginRequiredMixin):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
         if not check_user_role(request.user.role, User.PUNTODEVENTA):
-            return HttpResponseRedirect(reverse('users_app:user-login'))
+            pagina_anterior = request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found')
+            return HttpResponseRedirect(reverse('users_app:redireccionar'), {"pagina":pagina_anterior})
 
         return super().dispatch(request,*args,**kwargs)
 
@@ -52,7 +55,8 @@ class CodigodebarrasPermisoMixin(LoginRequiredMixin):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
         if not check_user_role(request.user.role, User.CODIGODEBARRAS):
-            return HttpResponseRedirect(reverse('users_app:user-login'))
+            pagina_anterior = request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found')
+            return HttpResponseRedirect(reverse('users_app:redireccionar'), {"pagina":pagina_anterior})
 
         return super().dispatch(request,*args,**kwargs)
 
@@ -63,7 +67,8 @@ class PromocionesPermisoMixin(LoginRequiredMixin):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
         if not check_user_role(request.user.role, User.PROMOCIONES):
-            return HttpResponseRedirect(reverse('users_app:user-login'))
+            pagina_anterior = request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found')
+            return HttpResponseRedirect(reverse('users_app:redireccionar'), {"pagina":pagina_anterior})
 
         return super().dispatch(request,*args,**kwargs)
 
@@ -74,6 +79,7 @@ class CompradezapatoPermisoMixin(LoginRequiredMixin):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
         if not check_user_role(request.user.role, User.COMPRADEZAPATO):
-            return HttpResponseRedirect(reverse('users_app:user-login'))
+            pagina_anterior = request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found')
+            return HttpResponseRedirect(reverse('users_app:redireccionar'), {"pagina":pagina_anterior})
 
         return super().dispatch(request,*args,**kwargs)

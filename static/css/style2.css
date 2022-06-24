@@ -74,6 +74,15 @@
         background: #1D2535;
         border-color: #1D2535;
     }
+
+    .btrr {
+        color: #E9C26F;
+        border-color: #E9C26F;
+    }    
+    .btrr:hover {
+        color: #e9c26fb9;
+        border-color: #e9c26fb9;
+    }
     
     .btr2 {
         color: azure;

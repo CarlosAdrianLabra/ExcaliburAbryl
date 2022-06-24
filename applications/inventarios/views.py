@@ -232,7 +232,7 @@ def producto_calzado(request):
 
         return JsonResponse(data)
 
-# Exportar inventario de calzado
+# Exportar inventario de calzado completo
 def export_calzado_csv(request):
     fecha_hoy = datetime.now()
     dia = fecha_hoy.day
@@ -240,12 +240,31 @@ def export_calzado_csv(request):
     ano = fecha_hoy.year
     
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename="inventario_calzado({dia}-{mes}-{ano}).csv"'
+    response['Content-Disposition'] = f'attachment; filename="inventario calzado completo ({dia}-{mes}-{ano}).csv"'
 
     writer = csv.writer(response)
     writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
 
     calzado = Productos.objects.filter(tipo='100')
+    for c in calzado:
+        writer.writerow([c.barcode, c.proveedor, c.marca,  c.modelo, c.get_genero_display(), c.get_linea_c_display(), c.get_color_display(), c.get_medida_display(), c.stock, c.precio_compra, c.precio_venta,])
+
+    return response
+
+# Exportar inventario de calzado con stock
+def export_calzado_csv_stock(request):
+    fecha_hoy = datetime.now()
+    dia = fecha_hoy.day
+    mes = fecha_hoy.month
+    ano = fecha_hoy.year
+    
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="inventario calzado con stock ({dia}-{mes}-{ano}).csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
+
+    calzado = Productos.objects.filter(tipo='100', stock__gt=0)
     for c in calzado:
         writer.writerow([c.barcode, c.proveedor, c.marca,  c.modelo, c.get_genero_display(), c.get_linea_c_display(), c.get_color_display(), c.get_medida_display(), c.stock, c.precio_compra, c.precio_venta,])
 
@@ -319,19 +338,37 @@ def producto_ropa(request):
 
         return JsonResponse(data)
 
-# Exportar inventario de ropa
+# Exportar inventario de ropa completo
 def export_ropa_csv(request):
     fecha_hoy = datetime.now()
     dia = fecha_hoy.day
     mes = fecha_hoy.month
     ano = fecha_hoy.year
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename="inventario_ropa({dia}-{mes}-{ano}).csv"'
+    response['Content-Disposition'] = f'attachment; filename="inventario ropa completo ({dia}-{mes}-{ano}).csv"'
 
     writer = csv.writer(response)
     writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
 
     ropa = Productos.objects.filter(tipo='200')
+    for r in ropa:
+        writer.writerow([r.barcode, r.proveedor, r.marca,  r.modelo, r.get_genero_display(), r.get_linea_r_display(), r.get_color_display(), r.get_talla_display(), r.stock, r.precio_compra, r.precio_venta,])
+
+    return response
+
+# Exportar inventario de ropa con stock
+def export_ropa_csv_stock(request):
+    fecha_hoy = datetime.now()
+    dia = fecha_hoy.day
+    mes = fecha_hoy.month
+    ano = fecha_hoy.year
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="inventario ropa con stock ({dia}-{mes}-{ano}).csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
+
+    ropa = Productos.objects.filter(tipo='200', stock__gt=0)
     for r in ropa:
         writer.writerow([r.barcode, r.proveedor, r.marca,  r.modelo, r.get_genero_display(), r.get_linea_r_display(), r.get_color_display(), r.get_talla_display(), r.stock, r.precio_compra, r.precio_venta,])
 
@@ -405,7 +442,7 @@ def producto_accesorios(request):
 
         return JsonResponse(data)
 
-# Exportar inventario de accesorios
+# Exportar inventario de accesorios completo
 def export_accesorios_csv(request):
     fecha_hoy = datetime.now()
     dia = fecha_hoy.day
@@ -413,12 +450,31 @@ def export_accesorios_csv(request):
     ano = fecha_hoy.year
     
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename="inventario_accesorios({dia}-{mes}-{ano}).csv"'
+    response['Content-Disposition'] = f'attachment; filename="inventario accesorios completo ({dia}-{mes}-{ano}).csv"'
 
     writer = csv.writer(response)
     writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
 
     accesorios = Productos.objects.filter(tipo='300')
+    for a in accesorios:
+        writer.writerow([a.barcode, a.proveedor, a.marca,  a.modelo, a.get_genero_display(), a.get_linea_a_display(), a.get_color_display(), a.get_pieza_display(), a.stock, a.precio_compra, a.precio_venta,])
+
+    return response
+
+# Exportar inventario de accesorios con stock
+def export_accesorios_csv_stock(request):
+    fecha_hoy = datetime.now()
+    dia = fecha_hoy.day
+    mes = fecha_hoy.month
+    ano = fecha_hoy.year
+    
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="inventario accesorios con stock ({dia}-{mes}-{ano}).csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Barcode', 'Proveedor', 'Marca', 'Modelo', 'Linea', 'Sublinea', 'Color', 'Talla', 'Existencias', 'Precio Costo', 'Precio Venta'])
+
+    accesorios = Productos.objects.filter(tipo='300', stock__gt=0)
     for a in accesorios:
         writer.writerow([a.barcode, a.proveedor, a.marca,  a.modelo, a.get_genero_display(), a.get_linea_a_display(), a.get_color_display(), a.get_pieza_display(), a.stock, a.precio_compra, a.precio_venta,])
 

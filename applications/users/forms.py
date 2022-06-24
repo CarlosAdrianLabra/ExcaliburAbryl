@@ -35,7 +35,7 @@ class UserRegisterForm(forms.ModelForm):
             'username':forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Usuario'
+                    'placeholder': 'Nombre para iniciar sesión'
                 }
             ),
             'email':forms.EmailInput(
@@ -47,7 +47,7 @@ class UserRegisterForm(forms.ModelForm):
             'nombres':forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Nombres'
+                    'placeholder': 'Nombre(s)'
                 }
             ),
             'apellidos':forms.TextInput(

@@ -143,7 +143,7 @@ class VentaVoucherPdf(PuntodeventaPermisoMixin, View):
         variable = detalle_ventas_no_cerradas()
         num2word = word(int(venta.amount))
         decimal = str(Decimal(venta.amount) % 1)[2:]
-        user = str(request.user).upper()
+        user = str(request.user.nombres) + ' ' + str(request.user.apellidos)
         efectivo = Efectivo.objects.all()
 
         data = {

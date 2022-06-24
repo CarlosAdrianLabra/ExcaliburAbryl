@@ -166,7 +166,7 @@ class ApartadoVoucherPdf(View):
         producto = Productos.objects.get(barcode=apartado.barcode)
         num2word = word(int(apartado.precio_producto))
         decimal = str(Decimal(apartado.precio_producto) % 1)[2:]
-        user = str(request.user).upper()
+        user = str(request.user.nombres) + ' ' + str(request.user.apellidos)
         efectivo = apartado.monto_pagado
 
         data = {

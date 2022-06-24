@@ -18,37 +18,41 @@
     <body class="hold-transition login-page">
         <div class="register-box">
             <div class="card card-outline card-primary">
-                <div class="card-header text-center mt-3">
-                    <img src="{% static 'img/pagina_inicio/logo_abryl.png' %}" height="140"><br>
-                    <!-- <span class="h1"><b>Admin</b>LTE</span> -->
-                </div>
+
                 <div class="card-body">
                     <p class="login-box-msg">REGISTRAR CUENTA</p>
-
-                    <form method="POST" class="col-12">{% csrf_token %}
+                    <img src="{% static 'img/divider.png' %} " height="25">
+                    <form method="POST" class="col-12 mt-3">{% csrf_token %}
                         <div class="input-group mb-3">
-                            {{ form.username }}
+                            <span style="color:red; font-weight: bolder; margin-left: -13px; margin-right: 5px;">*</span>{{ form.username }}
                             <div class="input-group-append"><div class="input-group-text"><i class="fas fa-user"></i></div></div>
                         </div>
-                        <!-- <div class="input-group mb-3">
+                        <div class="input-group mb-3">
                             {{ form.nombres }}
                             <div class="input-group-append"><div class="input-group-text"><i class="fas fa-user"></i></div></div>
                         </div>
                         <div class="input-group mb-3">
                             {{ form.apellidos }}
                             <div class="input-group-append"><div class="input-group-text"><i class="fas fa-user"></i></div></div>
-                        </div> -->
+                        </div>
                         <div class="input-group mb-3">
-                            {{ form.email }}
+                            <span style="color:red; font-weight: bolder; margin-left: -13px; margin-right: 5px;">*</span>{{ form.email }}
                             <div class="input-group-append"><div class="input-group-text"><i class="fas fa-envelope-square"></i></div></div>
                         </div>
                         <div class="input-group mb-3">
-                            {{ form.password1 }}
+                            {{ form.role }}
+                            <div class="input-group-append"><div class="input-group-text"><i class="fas fa-envelope-square"></i></div></div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span style="color:red; font-weight: bolder; margin-left: -13px; margin-right: 5px;">*</span>{{ form.password1 }}
                             <div class="input-group-append"><div class="input-group-text"><i class="fas fa-lock"></i></div></div>
                         </div>
                         <div class="input-group mb-3">
-                            {{ form.password2 }}
+                            <span style="color:red; font-weight: bolder; margin-left: -13px; margin-right: 5px;">*</span>{{ form.password2 }}
                             <div class="input-group-append"><div class="input-group-text"><i class="fas fa-lock"></i></div></div>
+                        </div>
+                        <div class="row" style="color: #888;font-size: small;">
+                            Los campos con <span style="color:red;font-weight: bolder;margin: 0px 5px 0px 5px;">*</span> son necesarios 
                         </div>
                         <div class="row">
                             <div class="col-4 offset-8">

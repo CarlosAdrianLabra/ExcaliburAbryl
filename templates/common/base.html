@@ -76,17 +76,17 @@
                 </span>
                 
                 <!-- Usuario -->
-                {% if request.user.is_authenticated %}
+                {% if request.user.is_authenticated and request.user.role == '0' %}
                 <div class="brand-link2">
                     <a href="/admin" target="_blank">
-                        <i class="fas fa-external-link-alt mr-2"></i>Administrador {{ request.user.username }}
+                        <i class="fas fa-external-link-alt mr-2"></i>Administrador {{ request.user.nombres }}
                     </a>
                 </div>
                 {% else %}
-                <div class="brand-link3">
-                    <a href="/admin" target="_blank">
-                        <i class="fas fa-external-link-alt mr-1"></i> Iniciar sesion
-                    </a>
+                <div class="brand-link3 pl-4">
+                    <span class="white">
+                        <i class="fas fa-user mr-1"></i> {{ request.user.nombres }} {{ request.user.apellidos }} 
+                    </span>
                 </div>
                 {% endif %}
 
