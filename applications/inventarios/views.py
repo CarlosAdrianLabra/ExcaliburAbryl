@@ -521,7 +521,7 @@ def importar(request, file):
     # Marca
     if file.tipo == '1':
         lista = []
-        with open(f"http://165.227.76.32/media/{file}", "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             info = list(csv.reader(archivo, delimiter=","))
             for posicion in info[1:]:
                 lista.append(Marca(id=posicion[0],nombre=posicion[1],))
@@ -532,7 +532,7 @@ def importar(request, file):
     # Accesorios
     if file.tipo == '3':
         lista = []
-        with open(f"http://165.227.76.32/media/{file}", "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             info = list(csv.reader(archivo, delimiter=","))
             for posicion in info[1:]:
                 lista.append(Productos(
@@ -550,7 +550,7 @@ def importar(request, file):
     # Calzado
     if file.tipo == '4':
         lista = []
-        with open(f"http://165.227.76.32/media/{file}", "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             info = list(csv.reader(archivo, delimiter=","))
             for posicion in info[1:]:
                 lista.append(Productos(
@@ -568,7 +568,7 @@ def importar(request, file):
     # Ropa
     if file.tipo == '5':
         lista = []
-        with open(f"http://165.227.76.32/media/{file}", "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             info = list(csv.reader(archivo, delimiter=","))
             for posicion in info[1:]:
                 lista.append(Productos(
