@@ -7,7 +7,6 @@ from django.urls import reverse_lazy,reverse
 from .models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .mixins import AdminPermisoMixin
 
 # Create your views here.
 class UserRegisterView(FormView):
@@ -68,7 +67,7 @@ class UpdatePasswordView(LoginRequiredMixin, FormView):
 
         return super(UpdatePasswordView, self).form_valid(form)
 
-class UserUpdateView(AdminPermisoMixin, UpdateView):
+class UserUpdateView(UpdateView):
     model = User
     template_name = "users/updateuser.html"
     fields = ['username','email','nombres','apellidos','role','is_staff','is_active']

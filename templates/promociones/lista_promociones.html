@@ -31,7 +31,10 @@
                 <table class="table table-bordered table-striped text-center">
                     <thead class="bg-navyr white">
                         <th>Código de barras</th>
-                        <th>Producto</th>
+                        <th>
+                            Producto<br>
+                            <span style="font-size: small; color: #ccc;">Marca-Modelo-Línea-Sublínea-Talla</span>
+                        </th>
                         <th>Cantidad</th>
                         <th>Promoción</th>
                         <th>Termina la promoción</th>
@@ -42,7 +45,17 @@
                     {% for p in p_activas %}
                     <tr>
                         <td>{{ p.barcode }}</td>
-                        <td>{{ p.nombre }}</td>
+                        <td>
+                            {% if p.linea_a %}
+                            {{ p }} - {{ p.get_linea_a_display }} - {{ p.get_pieza_display}}
+                            {% endif %}
+                            {% if p.linea_c %}
+                            {{ p }} - {{ p.get_linea_c_display }} - {{ p.get_medida_display }}
+                            {% endif %}
+                            {% if p.linea_r %}
+                            {{ p }} - {{ p.get_linea_r_display }} - {{ p.get_talla_display}}
+                            {% endif %}
+                        </td>
                         <td>{{ p.stock }}</td>
                         <td>{{ p.get_promocion_display }}</td>
                         <td>{{ p.fecha_final_promocion}}</td>

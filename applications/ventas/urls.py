@@ -74,4 +74,9 @@ urlpatterns = [
         views.ListaPromociones.as_view(),
         name='promociones_activas',
     ),
+    path(
+        'promocion/familiar/',
+        views.PromocionFamiliar.as_view(),
+        name='promocion_familiar',
+    ),
 ]

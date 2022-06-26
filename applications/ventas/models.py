@@ -118,7 +118,7 @@ class Carrito(TimeStampedModel):
         if promocion == '2':
             return cant_x_venta - (cant_x_venta * 0.20)
         
-        if promocion == '3':
+        if promocion == '3' or promocion == '13':
             return cant_x_venta - (cant_x_venta * 0.30)
         
         if promocion == '4' and self.count == 2:

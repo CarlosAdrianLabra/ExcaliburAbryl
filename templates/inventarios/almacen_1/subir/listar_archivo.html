@@ -1,0 +1,49 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Archivos - Lista</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block sidebarlinks %}
+<!-- Sidebar links -->
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+</ul>
+<!-- ./sidebar links -->
+{% endblock sidebarlinks %}
+
+{% block content %}
+    <div style="margin: 100px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Archivo</th>
+                    <th>Fecha de subida</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in archivo %}
+                <tr>
+                    <td>{{ a.id }}</td>
+                    <td>{{ a.archivo }}</td>
+                    <td>{{ a.fecha }}</td>
+                    <td>{{ a.get_tipo_display }}</td>
+                    <td>
+                        <form action="{% url 'aplicar_archivo' a.id %}" class="m-0" method="GET">{% csrf_token %}
+                            <button class="btn btr" type="submit">Subir archivo al inventario</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> <br><br>
+        <a class="btn btr" href="http://165.227.76.32/inventario/subir_archivo/">Crear de archivos</a>
+    </div>
+{% endblock content %}
+
+{% block scripts %}{% endblock scripts %}
+{% block extra_scripts %}{% endblock extra_scripts %}

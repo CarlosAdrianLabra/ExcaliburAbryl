@@ -125,6 +125,14 @@ class PromocionesForm(forms.Form):
             }
         )
     )
+    modelo = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control col-9 ml-1 mb-3 float-left',
+            }
+        )
+    )
     precio_asignado = forms.CharField(
         required=False,
         widget=forms.TextInput(

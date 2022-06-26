@@ -1,10 +1,11 @@
 import csv
 from datetime import datetime
+from distutils import archive_util
 from applications.ventas.managers import SaleDetailManager
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.db.models import Q
 from bootstrap_modal_forms.generic import (
@@ -19,17 +20,20 @@ from applications.users.mixins import InventarioPermisionMixin
 from django.views.generic import (
     TemplateView,
     ListView,
-    View
+    View,
+    CreateView
 )
 from .forms import (
     CalzadoFormulario,
     RopaFormulario,
-    AccesoriosFormulario
+    AccesoriosFormulario,
+    ArchivoForm
 )
 from .models import (
     Productos,
     Marca,
-    Proveedor
+    Proveedor,
+    ArchivoSubido
 )
 
 """ **************************************** REGISTROS **************************************** """
@@ -479,5 +483,104 @@ def export_accesorios_csv_stock(request):
         writer.writerow([a.barcode, a.proveedor, a.marca,  a.modelo, a.get_genero_display(), a.get_linea_a_display(), a.get_color_display(), a.get_pieza_display(), a.stock, a.precio_compra, a.precio_venta,])
 
     return response
+
+
+"""
+    ********************              ********************
+                        SUBIR ARCHIVOS
+    ********************              ********************
+
+"""
+
+class SubirArchivo(CreateView):
+    template_name = "inventarios/almacen_1/subir/crear_archivo.html"
+    model = ArchivoSubido
+    form_class = ArchivoForm
+    success_url = '.'
+
+    def form_valid(self, form):
+        form.save()
+        return super(SubirArchivo, self).form_valid(form)
+
+
+class ListarArchivo(ListView):
+    template_name = 'inventarios/almacen_1/subir/listar_archivo.html'
+    model = ArchivoSubido
+    context_object_name = "archivo"
+
+
+class SubirArchivoInventario(View):
+    def get(self, request, *args, **kwargs):
+        archivo = ArchivoSubido.objects.get(id=self.kwargs['pk'])
+        importar(request, archivo)
+        
+        return HttpResponseRedirect(reverse_lazy('lista_archivos'))
+
+
+def importar(request, file):
+    # Marca
+    if file.tipo == '1':
+        lista = []
+        with open(f"http://165.227.76.32/media/{file}", "r") as archivo:
+            info = list(csv.reader(archivo, delimiter=","))
+            for posicion in info[1:]:
+                lista.append(Marca(id=posicion[0],nombre=posicion[1],))
+
+        if len(lista) > 0:
+            Marca.objects.bulk_create(lista)
+
+    # Accesorios
+    if file.tipo == '3':
+        lista = []
+        with open(f"http://165.227.76.32/media/{file}", "r") as archivo:
+            info = list(csv.reader(archivo, delimiter=","))
+            for posicion in info[1:]:
+                lista.append(Productos(
+                    id=posicion[0],barcode=posicion[1],nombre=posicion[2],
+                    marca=Marca.objects.get(id=posicion[3]),proveedor=Proveedor.objects.get(id=posicion[4]),
+                    tipo=posicion[5],almacen=posicion[6],pieza=posicion[7],linea_a=posicion[8],color=posicion[9],
+                    genero=posicion[10],promocion=posicion[11],modelo=posicion[12],stock=posicion[13],
+                    precio_compra=posicion[14],precio_venta=posicion[15],num_venta=posicion[16],
+                    )
+                )
+        if len(lista) > 0:
+            Productos.objects.bulk_create(lista)
+
+
+    # Calzado
+    if file.tipo == '4':
+        lista = []
+        with open(f"http://165.227.76.32/media/{file}", "r") as archivo:
+            info = list(csv.reader(archivo, delimiter=","))
+            for posicion in info[1:]:
+                lista.append(Productos(
+                    id=posicion[0],barcode=posicion[1],nombre=posicion[2],
+                    marca=Marca.objects.get(id=posicion[3]),proveedor=Proveedor.objects.get(id=posicion[4]),
+                    tipo=posicion[5],almacen=posicion[6],medida=posicion[7],linea_c=posicion[8],color=posicion[9],
+                    genero=posicion[10],promocion=posicion[11],modelo=posicion[12],stock=posicion[13],
+                    precio_compra=posicion[14],precio_venta=posicion[15],num_venta=posicion[16],
+                    )
+                )
+        if len(lista) > 0:
+            Productos.objects.bulk_create(lista)
+
+
+    # Ropa
+    if file.tipo == '5':
+        lista = []
+        with open(f"http://165.227.76.32/media/{file}", "r") as archivo:
+            info = list(csv.reader(archivo, delimiter=","))
+            for posicion in info[1:]:
+                lista.append(Productos(
+                    id=posicion[0],barcode=posicion[1],nombre=posicion[2],
+                    marca=Marca.objects.get(id=posicion[3]),proveedor=Proveedor.objects.get(id=posicion[4]),
+                    tipo=posicion[5],almacen=posicion[6],talla=posicion[7],linea_r=posicion[8],color=posicion[9],
+                    genero=posicion[10],promocion=posicion[11],modelo=posicion[12],stock=posicion[13],
+                    precio_compra=posicion[14],precio_venta=posicion[15],num_venta=posicion[16],
+                    )
+                )
+        if len(lista) > 0:
+            Productos.objects.bulk_create(lista)
+
 
 """ **************************************** ALMACEN 2 **************************************** """

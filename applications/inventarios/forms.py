@@ -1,6 +1,6 @@
 from django import forms
 from bootstrap_modal_forms.forms import BSModalModelForm
-from .models import Productos
+from .models import Productos, ArchivoSubido
 
 # Formulario calzado
 class CalzadoFormulario(BSModalModelForm):
@@ -151,4 +151,15 @@ class AccesoriosFormulario(BSModalModelForm):
                     'placeholder': '15 DIGITOS'
                 }
             ),
+        }
+
+
+class ArchivoForm(forms.ModelForm):
+    class Meta:
+        model = ArchivoSubido
+        fields = ('__all__')
+
+        widgets = {
+            'archivo': forms.FileInput(attrs={'class': 'form-control'}),
+            'tipo': forms.Select(attrs={'class': 'form-control',}),
         }

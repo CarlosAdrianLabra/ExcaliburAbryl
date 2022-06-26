@@ -54,4 +54,9 @@ urlpatterns = [
     path('producto_accesorios/', views.producto_accesorios, name='producto_accesorios'),
     path('producto_accesorios/export_csv/', views.export_accesorios_csv, name='export_csv_accesorios'),
     path('producto_accesorios/export_csv_stock/', views.export_accesorios_csv_stock, name='export_csv_accesorios_stock'),
+
+    # Subir archivo
+    path('inventario/subir_archivo/', views.SubirArchivo.as_view(), name='subir_archivo'),
+    path('inventario/lista_archivos/', views.ListarArchivo.as_view(), name='lista_archivos'),
+    path('inventario/subir_archivo/<pk>/', views.SubirArchivoInventario.as_view(), name='aplicar_archivo'),
 ]

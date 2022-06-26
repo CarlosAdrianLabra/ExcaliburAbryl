@@ -136,6 +136,12 @@
                                                     {% if detalle.promocion == '5' %}3 x 2{% endif %}
                                                     {% if detalle.promocion == '6' %}1=10%, 2=20%{% endif %}
                                                     {% if detalle.promocion == '7' %}2 Adidas y obtén 10%{% endif %}
+                                                    {% if detalle.promocion == '8' %}- $89.00{% endif %}
+                                                    {% if detalle.promocion == '9' %}- $99.00{% endif %}
+                                                    {% if detalle.promocion == '10' %}- $199.00{% endif %}
+                                                    {% if detalle.promocion == '11' %}- $299.00{% endif %}
+                                                    {% if detalle.promocion == '12' %}Descuento establecido por tienda{% endif %}
+                                                    {% if detalle.promocion == '13' %}Descuento familiar 30%{% endif %}
                                                 </td>
                                                 <td>$ {{ detalle.price_subtotal }}</td>
                                             </tr>

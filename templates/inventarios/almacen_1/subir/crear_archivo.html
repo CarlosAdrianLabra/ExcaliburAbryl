@@ -1,0 +1,28 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Archivos - Subir</title>
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+{% endblock head %}
+
+{% block sidebarlinks %}
+<!-- Sidebar links -->
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+</ul>
+<!-- ./sidebar links -->
+{% endblock sidebarlinks %}
+
+{% block content %}
+<div style="margin: 100px;">
+    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btr" type="submit">Subir archivo</button>
+    </form>
+    <br><br><br><br>
+    <a class="btn btr" href="http://165.227.76.32/inventario/lista_archivos/">Ir a lista de archivos</a>
+</div>
+{% endblock content %}
+
+{% block scripts %}{% endblock scripts %}
+{% block extra_scripts %}{% endblock extra_scripts %}

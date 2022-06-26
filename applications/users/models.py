@@ -32,6 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     role= models.CharField(max_length=1,
         choices=ROLE_CHOICES,
         blank=True,
+        default=ADMINISTRADOR
         )
 
     USERNAME_FIELD = 'username'

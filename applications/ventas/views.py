@@ -1,6 +1,7 @@
 from decimal import Decimal
+from datetime import datetime, timedelta
+from django.utils import timezone
 from django.contrib import messages
-from datetime import datetime, timedelta, date
 #
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
@@ -33,6 +34,11 @@ class AddCarView(PuntodeventaPermisoMixin, FormView):
     success_url = '.'
 
     def get_context_data(self, **kwargs):
+        fecha_hoy = datetime.now()
+        fecha_hoy = str(fecha_hoy)
+        if Productos.objects.filter(fecha_final_promocion__lte=fecha_hoy):
+            Productos.objects.filter(fecha_final_promocion__lte=fecha_hoy).update(promocion='0')
+        #
         context = super().get_context_data(**kwargs)
         context["productos"] = Carrito.objects.all()
         context["total_cobrar"] = Carrito.objects.total_cobrar()
@@ -227,10 +233,8 @@ class Promociones(PromocionesPermisoMixin, FormView):
     success_url = reverse_lazy('ventas_app:promociones_activas')
 
     def form_valid(self, form):
-        # fecha_hoy = datetime.now()
-        # fecha_hoy = str(fecha_hoy)
-
         marca = form.cleaned_data['marca']
+        modelo = form.cleaned_data['modelo']
         genero = form.cleaned_data['genero']
         precio = form.cleaned_data['precio_asignado']
         linea_a = form.cleaned_data['linea_a']
@@ -240,11 +244,6 @@ class Promociones(PromocionesPermisoMixin, FormView):
         barcode_solo = form.cleaned_data['barcode_solo']
         promocion = form.cleaned_data['promocion']
         fecha_final_promocion = form.cleaned_data['fecha_final_promocion']
-
-        # if Productos.objects.filter(fecha_final_promocion__lte=fecha_hoy):
-        #     Productos.objects.filter(fecha_final_promocion__lte=fecha_hoy).update(
-        #         promocion='0'
-        #     )
 
         #  UN SOLO PRODUCTO
         if barcode_solo != '':
@@ -273,34 +272,20 @@ class Promociones(PromocionesPermisoMixin, FormView):
                     precio_fijo=precio,
                     fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
                 )
-        
-        # POR MARCA Y LINEA
-        # if marca and linea_a != '':
-        #     Productos.objects.filter(marca=marca, linea_a=linea_a).update(
-        #         promocion=promocion
-        #     )
-        # if marca and linea_c != '':
-        #     Productos.objects.filter(marca=marca, linea_c=linea_c).update(
-        #         promocion=promocion
-        #     )
-        # if marca and linea_r != '':
-        #     Productos.objects.filter(marca=marca, linea_r=linea_r).update(
-        #         promocion=promocion
-        #     )
 
         # A VARIOS PRODUCTOS
-        if genero and marca and linea_a != '':
-            Productos.objects.filter(genero=genero, marca=marca, linea_a=linea_a).update(
+        if genero and marca and modelo and linea_a != '':
+            Productos.objects.filter(genero=genero, marca=marca, modelo=modelo, linea_a=linea_a, stock__gt=0).update(
                 promocion=promocion,
                 fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
             )
-        if genero and marca and linea_c != '':
-            Productos.objects.filter(genero=genero, marca=marca, linea_c=linea_c).update(
+        if genero and marca and modelo and linea_c != '':
+            Productos.objects.filter(genero=genero, marca=marca, modelo=modelo, linea_c=linea_c, stock__gt=0).update(
                 promocion=promocion,
                 fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
             )
-        if genero and marca and linea_r != '':
-            Productos.objects.filter(genero=genero, marca=marca, linea_r=linea_r).update(
+        if genero and marca and modelo and linea_r != '':
+            Productos.objects.filter(genero=genero, marca=marca, modelo=modelo, linea_r=linea_r, stock__gt=0).update(
                 promocion=promocion,
                 fecha_final_promocion=str(fecha_final_promocion)+" 23:59:59.100000-0500"
             )
@@ -317,3 +302,19 @@ class ListaPromociones(PromocionesPermisoMixin, ListView):
         context["p_activas"] = Productos.objects.promociones_activas()
 
         return context
+
+
+class PromocionFamiliar(PuntodeventaPermisoMixin, View):
+    
+    def get(self, request, *args, **kwargs):
+        end_date = timezone.now()
+        fecha_final_promocion = end_date + timedelta(minutes=5)
+        promocion_familiar = self.request.GET.get("promocion",)
+        producto = Carrito.objects.all()
+
+        for p in producto:
+            producto = p.barcode
+            if producto:
+                Productos.objects.filter(barcode=producto).update(promocion=promocion_familiar, fecha_final_promocion=fecha_final_promocion)
+        
+        return HttpResponseRedirect(reverse('ventas_app:venta-index'))
