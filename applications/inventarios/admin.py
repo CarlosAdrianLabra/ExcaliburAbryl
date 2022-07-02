@@ -44,7 +44,6 @@ class ProductosAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = (
         'id',
         'barcode',
-        'nombre',
         'stock',
         'precio_compra',
         'precio_venta',
@@ -52,6 +51,7 @@ class ProductosAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'almacen',
     )
     resource_class = ProductosRecursos
+    exclude = ('id',)
 
 admin.site.register(Productos, ProductosAdmin)
 

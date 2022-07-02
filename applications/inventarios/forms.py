@@ -160,6 +160,6 @@ class ArchivoForm(forms.ModelForm):
         fields = ('__all__')
 
         widgets = {
-            'archivo': forms.FileInput(attrs={'class': 'form-control'}),
+            'archivo': forms.FileInput(attrs={'class': 'form-control-file'}),
             'tipo': forms.Select(attrs={'class': 'form-control',}),
         }

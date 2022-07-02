@@ -114,7 +114,7 @@ class ApartadosCancelarVenta(PuntodeventaPermisoMixin,View):
             )
 
         except IntegrityError:
-            pass
+            return []
         
         cancelar_venta_apartado(
             self=self,
@@ -146,7 +146,7 @@ class ApartadosEliminarVenta(PuntodeventaPermisoMixin,DeleteView):
             )
 
         except IntegrityError:
-            pass
+            return []
         
         eliminar_venta_apartado(
             self=self
