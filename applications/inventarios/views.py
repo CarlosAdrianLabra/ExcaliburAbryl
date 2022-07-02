@@ -531,7 +531,7 @@ def actualizar_stock(request, file):
     if file.tipo == '1':
         lista = []
 
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media{file}', "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             info = list(csv.reader(archivo, delimiter=","))
             for linea in info[1:]:
                 lista.append(
@@ -555,7 +555,7 @@ def actualizar_stock(request, file):
         dic_stock = {}
         dic_no_creados = {}
         dic_actualizados = {}
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media{file}', "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             producto = Productos.objects.all().latest('id')
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
@@ -613,7 +613,7 @@ def actualizar_stock(request, file):
     elif file.tipo == '3':
         lista = []
         dic_archivo = {}
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media{file}', "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             if Productos.objects.all():
                 producto = Productos.objects.all().latest('id')
                 barcode = int(producto.barcode)
@@ -648,7 +648,7 @@ def actualizar_stock(request, file):
         dic_stock = {}
         dic_no_creados = {}
         dic_actualizados = {}
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media{file}', "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             producto = Productos.objects.all().latest('id')
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
@@ -704,7 +704,7 @@ def actualizar_stock(request, file):
     elif file.tipo == '4':
         lista = []
         dic_archivo = {}
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media{file}', "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             if Productos.objects.all():
                 producto = Productos.objects.all().latest('id')
                 barcode = int(producto.barcode)
@@ -739,7 +739,7 @@ def actualizar_stock(request, file):
         dic_stock = {}
         dic_no_creados = {}
         dic_actualizados = {}
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media{file}', "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             producto = Productos.objects.all().latest('id')
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
@@ -795,7 +795,7 @@ def actualizar_stock(request, file):
     elif file.tipo == '5':
         lista = []
         dic_archivo = {}
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media{file}', "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             if Productos.objects.all():
                 producto = Productos.objects.all().latest('id')
                 barcode = int(producto.barcode)
