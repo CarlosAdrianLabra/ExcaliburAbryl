@@ -1,10 +1,8 @@
 import csv
 from datetime import datetime
-from distutils import archive_util
-from applications.ventas.managers import SaleDetailManager
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
-from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.db.models import Q
@@ -192,7 +190,7 @@ class IndexCalzado(InventarioPermisionMixin, generic.ListView):
 class CrearCalzadoVista(InventarioPermisionMixin, BSModalCreateView):
     template_name = 'inventarios/almacen_1/calzado/accion_crear_calzado.html'
     form_class = CalzadoFormulario
-    success_message = '¡Mensaje: El producto fue creado exitosamente!'
+    success_message = '¡El producto fue creado exitosamente!'
     success_url = reverse_lazy('index_calzado')
 
 # Actualizar producto de calzado
@@ -200,14 +198,14 @@ class ActualizarCalzadoVista(InventarioPermisionMixin, BSModalUpdateView):
     template_name = 'inventarios/almacen_1/calzado/accion_actualizar_calzado.html'
     model = Productos
     form_class = CalzadoFormulario
-    success_message = '¡Mensaje: El producto fue actualizado exitosamente!'
+    success_message = '¡El producto fue actualizado exitosamente!'
     success_url = reverse_lazy('index_calzado')
 
 # Eliminar producto de calzado
 class EliminarCalzadoVista(InventarioPermisionMixin, BSModalDeleteView):
     template_name = 'inventarios/almacen_1/calzado/accion_eliminar_calzado.html'
     model = Productos
-    success_message = '¡Mensaje: El producto fue eliminado exitosamente!'
+    success_message = '¡El producto fue eliminado exitosamente!'
     success_url = reverse_lazy('index_calzado')
 
 # Ver registro completo del producto calzado
@@ -298,7 +296,7 @@ class IndexRopa(InventarioPermisionMixin, generic.ListView):
 class CrearRopaVista(InventarioPermisionMixin, BSModalCreateView):
     template_name = 'inventarios/almacen_1/ropa/accion_crear_ropa.html'
     form_class = RopaFormulario
-    success_message = '¡Mensaje: El producto fue creado exitosamente!'
+    success_message = '¡El producto fue creado exitosamente!'
     success_url = reverse_lazy('index_ropa')
 
 # Actualizar producto de ropa
@@ -306,14 +304,14 @@ class ActualizarRopaVista(InventarioPermisionMixin, BSModalUpdateView):
     template_name = 'inventarios/almacen_1/ropa/accion_actualizar_ropa.html'
     model = Productos
     form_class = RopaFormulario
-    success_message = '¡Mensaje: El producto fue actualizado exitosamente!'
+    success_message = '¡El producto fue actualizado exitosamente!'
     success_url = reverse_lazy('index_ropa')
 
 # Eliminar producto de ropa
 class EliminarRopaVista(InventarioPermisionMixin, BSModalDeleteView):
     template_name = 'inventarios/almacen_1/ropa/accion_eliminar_ropa.html'
     model = Productos
-    success_message = '¡Mensaje: El producto fue eliminado exitosamente!'
+    success_message = '¡El producto fue eliminado exitosamente!'
     success_url = reverse_lazy('index_ropa')
 
 # Ver registro completo del producto ropa
@@ -402,7 +400,7 @@ class IndexAccesorios(InventarioPermisionMixin, generic.ListView):
 class CrearAccesoriosVista(InventarioPermisionMixin, BSModalCreateView):
     template_name = 'inventarios/almacen_1/accesorios/accion_crear_accesorios.html'
     form_class = AccesoriosFormulario
-    success_message = '¡Mensaje: El producto fue creado exitosamente!'
+    success_message = '¡El producto fue creado exitosamente!'
     success_url = reverse_lazy('index_accesorios')
 
 # Actualizar producto de accesorios
@@ -410,14 +408,14 @@ class ActualizarAccesoriosVista(InventarioPermisionMixin, BSModalUpdateView):
     template_name = 'inventarios/almacen_1/accesorios/accion_actualizar_accesorios.html'
     model = Productos
     form_class = AccesoriosFormulario
-    success_message = '¡Mensaje: El producto fue actualizado exitosamente!'
+    success_message = '¡El producto fue actualizado exitosamente!'
     success_url = reverse_lazy('index_accesorios')
 
 # Eliminar producto de accesorios
 class EliminarAccesoriosVista(InventarioPermisionMixin, BSModalDeleteView):
     template_name = 'inventarios/almacen_1/accesorios/accion_eliminar_accesorios.html'
     model = Productos
-    success_message = '¡Mensaje: El producto fue eliminado exitosamente!'
+    success_message = '¡El producto fue eliminado exitosamente!'
     success_url = reverse_lazy('index_accesorios')
 
 # Ver registro completo del producto accesorios
@@ -496,91 +494,504 @@ class SubirArchivo(CreateView):
     template_name = "inventarios/almacen_1/subir/crear_archivo.html"
     model = ArchivoSubido
     form_class = ArchivoForm
-    success_url = '.'
+    success_url = reverse_lazy('lista_archivos')
 
     def form_valid(self, form):
         form.save()
         return super(SubirArchivo, self).form_valid(form)
-
 
 class ListarArchivo(ListView):
     template_name = 'inventarios/almacen_1/subir/listar_archivo.html'
     model = ArchivoSubido
     context_object_name = "archivo"
 
+    def get_queryset(self):
+        queryset = super(ListarArchivo, self).get_queryset()
+        queryset = ArchivoSubido.objects.all().order_by('-id')
+        return queryset
 
-class SubirArchivoInventario(View):
+class ActualizarArchivo(View):
     def get(self, request, *args, **kwargs):
         archivo = ArchivoSubido.objects.get(id=self.kwargs['pk'])
-        importar(request, archivo)
+        actualizar_stock(request, archivo)
+        messages.add_message(request, messages.SUCCESS , '¡Cambios realizados exitosamente!', extra_tags='cambios_realizados')
         
         return HttpResponseRedirect(reverse_lazy('lista_archivos'))
 
+class EliminarArchivo(View):
+    def post(self, request, *args, **kwargs):
+        archivo = ArchivoSubido.objects.get(id=self.kwargs['pk'])
+        archivo.delete()
+        messages.add_message(request, messages.SUCCESS , '¡Archivo eliminado exitosamente!', extra_tags='eliminar')
+        
+        return HttpResponseRedirect(reverse_lazy('lista_archivos'))
 
-def importar(request, file):
+def actualizar_stock(request, file):
     # Marca
     if file.tipo == '1':
         lista = []
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
-            info = list(csv.reader(archivo, delimiter=","))
-            for posicion in info[1:]:
-                lista.append(Marca(id=posicion[0],nombre=posicion[1],))
 
+        with open(f'D:/proyecto/ExcaliburAbryl/media/{file}', "r") as archivo:
+            info = list(csv.reader(archivo, delimiter=","))
+            for linea in info[1:]:
+                lista.append(
+                    Marca(
+                        nombre=linea[1],
+                    )
+                )
         if len(lista) > 0:
             Marca.objects.bulk_create(lista)
 
     # Accesorios
-    if file.tipo == '3':
+    elif file.tipo == '3' and Productos.objects.filter(tipo='300'):
+        dic_modelo = {}
+        producto = Productos.objects.filter(tipo='300')
+        for i, p in enumerate(producto):
+            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.get_linea_a_display())+','+str(p.get_color_display())+','+str(p.get_pieza_display())+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
+        # for renglon in dic_modelo:
+        #     print(dic_modelo[renglon])
+    
+        dic_archivo = {}
+        dic_stock = {}
+        dic_no_creados = {}
+        dic_actualizados = {}
+        with open(f'D:/proyecto/ExcaliburAbryl/media/{file}', "r") as archivo:
+            producto = Productos.objects.all().latest('id')
+            barcode = int(producto.barcode)
+            renglon_archivo = archivo.readlines()
+            for i, renglon in enumerate(renglon_archivo[1:]):
+                r = renglon.strip()
+                dic_archivo[i] = r
+                dic_stock[i] = r
+            # for renglon in dic_archivo:
+            #     print(dic_archivo[renglon])
+
+            rep = 0
+            var = 0
+            for x, i in enumerate(dic_archivo):
+                for j in dic_modelo:
+                    modelo = str(dic_modelo[j]).split(',')
+                    archivo = str(dic_archivo[i]).split(',')
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])})
+
+                    if str(dic_archivo[i]) == str(dic_modelo[j]):
+                        archivo_stock = str(dic_stock[i]).split(',')
+                        producto = Productos.objects.get(barcode=j)
+                        Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
+                        dic_actualizados[i] = dic_archivo[i]
+                        var = x + 1
+                    else:
+                        rep = x + 1
+
+                if rep != var:
+                    if var == 0:
+                        rep = x - 1
+                    else:
+                        rep = x + 1
+
+                    dic_no_creados[i] = dic_stock[i]
+                    lista = []
+                    pieza, sublinea, color, linea = get_datos_accesorios(request, dic_no_creados,i)
+                    barcode = barcode + 1
+                    datos = str(dic_no_creados[i]).split(',')
+
+                    lista.append(Productos(
+                            barcode=barcode,nombre="ACCESORIOS",marca=Marca.objects.get(nombre=datos[0]),
+                            modelo=datos[1],genero=linea,linea_a=sublinea,color=color,pieza=pieza,stock=datos[6],
+                            precio_compra=datos[7],precio_venta=datos[8],proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),
+                            tipo="300",almacen="1000",promocion="0",num_venta="0",
+                        )
+                    )
+                    if len(lista) > 0:
+                        Productos.objects.bulk_create(lista)
+
+        if len(dic_actualizados) > 0:
+            producto_actualizado(request, dic_actualizados)
+        if len(dic_no_creados) > 0:
+            producto_no_encontrado(request, dic_no_creados)
+
+    elif file.tipo == '3':
         lista = []
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
-            info = list(csv.reader(archivo, delimiter=","))
-            for posicion in info[1:]:
+        dic_archivo = {}
+        with open(f'D:/proyecto/ExcaliburAbryl/media/{file}', "r") as archivo:
+            if Productos.objects.all():
+                producto = Productos.objects.all().latest('id')
+                barcode = int(producto.barcode)
+            else:
+                barcode = 1000100000000
+            renglon_archivo = archivo.readlines()
+            for i, renglon in enumerate(renglon_archivo[1:]):
+                r = renglon.strip()
+                dic_archivo[i] = r
+                barcode = barcode + 1
+                pieza, sublinea, color, linea = get_datos_accesorios_nuevo(request, dic_archivo,i)
+                datos = str(dic_archivo[i]).split(',')
+
                 lista.append(Productos(
-                    id=posicion[0],barcode=posicion[1],nombre=posicion[2],
-                    marca=Marca.objects.get(id=posicion[3]),proveedor=Proveedor.objects.get(id=posicion[4]),
-                    tipo=posicion[5],almacen=posicion[6],pieza=posicion[7],linea_a=posicion[8],color=posicion[9],
-                    genero=posicion[10],promocion=posicion[11],modelo=posicion[12],stock=posicion[13],
-                    precio_compra=posicion[14],precio_venta=posicion[15],num_venta=posicion[16],
+                    barcode=barcode,nombre="ACCESORIOS",
+                    marca=Marca.objects.get(nombre=datos[0]),modelo=datos[1],genero=linea,linea_a=sublinea,
+                    color=color,pieza=pieza,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
+                    proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="300",almacen="1000",promocion="0",
                     )
                 )
         if len(lista) > 0:
             Productos.objects.bulk_create(lista)
-
 
     # Calzado
-    if file.tipo == '4':
+    elif file.tipo == '4' and Productos.objects.filter(tipo='100'):
+        dic_modelo = {}
+        producto = Productos.objects.filter(tipo='100')
+        for i, p in enumerate(producto):
+            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.get_linea_c_display())+','+str(p.get_color_display())+','+str(p.get_medida_display())+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
+    
+        dic_archivo = {}
+        dic_stock = {}
+        dic_no_creados = {}
+        dic_actualizados = {}
+        with open(f'D:/proyecto/ExcaliburAbryl/media/{file}', "r") as archivo:
+            producto = Productos.objects.all().latest('id')
+            barcode = int(producto.barcode)
+            renglon_archivo = archivo.readlines()
+            for i, renglon in enumerate(renglon_archivo[1:]):
+                r = renglon.strip()
+                dic_archivo[i] = r
+                dic_stock[i] = r
+
+            rep = 0
+            var = 0
+            for x, i in enumerate(dic_archivo):
+                for j in dic_modelo:
+                    modelo = str(dic_modelo[j]).split(',')
+                    archivo = str(dic_archivo[i]).split(',')
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])})
+
+                    if str(dic_archivo[i]) == str(dic_modelo[j]):
+                        archivo_stock = str(dic_stock[i]).split(',')
+                        producto = Productos.objects.get(barcode=j)
+                        Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
+                        dic_actualizados[i] = dic_archivo[i]
+                        var = x + 1
+                    else:
+                        rep = x + 1
+
+                if rep != var:
+                    if var == 0:
+                        rep = x - 1
+                    else:
+                        rep = x + 1
+
+                    dic_no_creados[i] = dic_stock[i]
+                    lista = []
+                    medida, sublinea, color, linea = get_datos_calzado(request, dic_no_creados,i)
+                    barcode = barcode + 1
+                    datos = str(dic_no_creados[i]).split(',')
+
+                    lista.append(Productos(
+                            barcode=barcode,nombre="CALZADO",marca=Marca.objects.get(nombre=datos[0]),
+                            modelo=datos[1],genero=linea,linea_c=sublinea,color=color,medida=medida,stock=datos[6],
+                            precio_compra=datos[7],precio_venta=datos[8],proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),
+                            tipo="100",almacen="1000",promocion="0",num_venta="0",
+                        )
+                    )
+                    if len(lista) > 0:
+                        Productos.objects.bulk_create(lista)
+
+        if len(dic_actualizados) > 0:
+            producto_actualizado(request, dic_actualizados)
+        if len(dic_no_creados) > 0:
+            producto_no_encontrado(request, dic_no_creados)
+
+    elif file.tipo == '4':
         lista = []
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
-            info = list(csv.reader(archivo, delimiter=","))
-            for posicion in info[1:]:
+        dic_archivo = {}
+        with open(f'D:/proyecto/ExcaliburAbryl/media/{file}', "r") as archivo:
+            if Productos.objects.all():
+                producto = Productos.objects.all().latest('id')
+                barcode = int(producto.barcode)
+            else:
+                barcode = 1000100000000
+            renglon_archivo = archivo.readlines()
+            for i, renglon in enumerate(renglon_archivo[1:]):
+                r = renglon.strip()
+                dic_archivo[i] = r
+                barcode = barcode + 1
+                medida, sublinea, color, linea = get_datos_calzado_nuevo(request, dic_archivo,i)
+                datos = str(dic_archivo[i]).split(',')
+
                 lista.append(Productos(
-                    id=posicion[0],barcode=posicion[1],nombre=posicion[2],
-                    marca=Marca.objects.get(id=posicion[3]),proveedor=Proveedor.objects.get(id=posicion[4]),
-                    tipo=posicion[5],almacen=posicion[6],medida=posicion[7],linea_c=posicion[8],color=posicion[9],
-                    genero=posicion[10],promocion=posicion[11],modelo=posicion[12],stock=posicion[13],
-                    precio_compra=posicion[14],precio_venta=posicion[15],num_venta=posicion[16],
+                    barcode=barcode,nombre="CALZADO",
+                    marca=Marca.objects.get(nombre=datos[0]),modelo=datos[1],genero=linea,linea_c=sublinea,
+                    color=color,medida=medida,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
+                    proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="100",almacen="1000",promocion="0",
                     )
                 )
         if len(lista) > 0:
             Productos.objects.bulk_create(lista)
-
 
     # Ropa
-    if file.tipo == '5':
+    elif file.tipo == '5' and Productos.objects.filter(tipo='200'):
+        dic_modelo = {}
+        producto = Productos.objects.filter(tipo='200')
+        for i, p in enumerate(producto):
+            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.get_linea_r_display())+','+str(p.get_color_display())+','+str(p.get_talla_display())+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
+    
+        dic_archivo = {}
+        dic_stock = {}
+        dic_no_creados = {}
+        dic_actualizados = {}
+        with open(f'D:/proyecto/ExcaliburAbryl/media/{file}', "r") as archivo:
+            producto = Productos.objects.all().latest('id')
+            barcode = int(producto.barcode)
+            renglon_archivo = archivo.readlines()
+            for i, renglon in enumerate(renglon_archivo[1:]):
+                r = renglon.strip()
+                dic_archivo[i] = r
+                dic_stock[i] = r
+
+            rep = 0
+            var = 0
+            for x, i in enumerate(dic_archivo):
+                for j in dic_modelo:
+                    modelo = str(dic_modelo[j]).split(',')
+                    archivo = str(dic_archivo[i]).split(',')
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])})
+
+                    if str(dic_archivo[i]) == str(dic_modelo[j]):
+                        archivo_stock = str(dic_stock[i]).split(',')
+                        producto = Productos.objects.get(barcode=j)
+                        Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
+                        dic_actualizados[i] = dic_archivo[i]
+                        var = x + 1
+                    else:
+                        rep = x + 1
+
+                if rep != var:
+                    if var == 0:
+                        rep = x - 1
+                    else:
+                        rep = x + 1
+
+                    dic_no_creados[i] = dic_stock[i]
+                    lista = []
+                    talla, sublinea, color, linea = get_datos_ropa(request, dic_no_creados,i)
+                    barcode = barcode + 1
+                    datos = str(dic_no_creados[i]).split(',')
+
+                    lista.append(Productos(
+                            barcode=barcode,nombre="ROPA",marca=Marca.objects.get(nombre=datos[0]),
+                            modelo=datos[1],genero=linea,linea_r=sublinea,color=color,talla=talla,stock=datos[6],
+                            precio_compra=datos[7],precio_venta=datos[8],proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),
+                            tipo="200",almacen="1000",promocion="0",num_venta="0",
+                        )
+                    )
+                    if len(lista) > 0:
+                        Productos.objects.bulk_create(lista)
+
+        if len(dic_actualizados) > 0:
+            producto_actualizado(request, dic_actualizados)
+        if len(dic_no_creados) > 0:
+            producto_no_encontrado(request, dic_no_creados)
+
+    elif file.tipo == '5':
         lista = []
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
-            info = list(csv.reader(archivo, delimiter=","))
-            for posicion in info[1:]:
+        dic_archivo = {}
+        with open(f'D:/proyecto/ExcaliburAbryl/media/{file}', "r") as archivo:
+            if Productos.objects.all():
+                producto = Productos.objects.all().latest('id')
+                barcode = int(producto.barcode)
+            else:
+                barcode = 1000100000000
+            renglon_archivo = archivo.readlines()
+            for i, renglon in enumerate(renglon_archivo[1:]):
+                r = renglon.strip()
+                dic_archivo[i] = r
+                barcode = barcode + 1
+                talla, sublinea, color, linea = get_datos_ropa_nuevo(request, dic_archivo,i)
+                datos = str(dic_archivo[i]).split(',')
+
                 lista.append(Productos(
-                    id=posicion[0],barcode=posicion[1],nombre=posicion[2],
-                    marca=Marca.objects.get(id=posicion[3]),proveedor=Proveedor.objects.get(id=posicion[4]),
-                    tipo=posicion[5],almacen=posicion[6],talla=posicion[7],linea_r=posicion[8],color=posicion[9],
-                    genero=posicion[10],promocion=posicion[11],modelo=posicion[12],stock=posicion[13],
-                    precio_compra=posicion[14],precio_venta=posicion[15],num_venta=posicion[16],
+                    barcode=barcode,nombre="ROPA",
+                    marca=Marca.objects.get(nombre=datos[0]),modelo=datos[1],genero=linea,linea_r=sublinea,
+                    color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
+                    proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="200",almacen="1000",promocion="0",
                     )
                 )
         if len(lista) > 0:
             Productos.objects.bulk_create(lista)
+
+def producto_actualizado(request, dic_actualizados):
+    for i in dic_actualizados:
+        datos = str(dic_actualizados[i]).split(',')
+        archivo = str(datos[0])+' - '+str(datos[1])+' - '+str(datos[2])+' - '+str(datos[3])+' - '+str(datos[4])+' - '+str(datos[5])+' - '+str(datos[6])+' - '+str(datos[7])+' - '+str(datos[8])
+        messages.add_message(request, messages.SUCCESS, archivo, extra_tags='actualizados')
+
+def producto_no_encontrado(request, dic_no_creados):
+    for i in dic_no_creados:
+        datos = str(dic_no_creados[i]).split(',')
+        archivo = str(datos[0])+' - '+str(datos[1])+' - '+str(datos[2])+' - '+str(datos[3])+' - '+str(datos[4])+' - '+str(datos[5])+' - '+str(datos[6])+' - '+str(datos[7])+' - '+str(datos[8])
+        messages.add_message(request, messages.INFO, archivo, extra_tags='creados')
+
+def get_datos_accesorios(request, dic, i):
+    datos = str(dic[i]).split(',')
+
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_PIEZA)
+    num_1 = Productos.objects.filter(pieza=opciones[f'{datos[5]}']).earliest('id')
+    pieza = num_1.pieza
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_LINEA_ACCESORIOS)
+    num_2 = Productos.objects.filter(linea_a=opciones[f'{datos[3]}']).earliest('id')
+    sublinea = num_2.linea_a
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_COLOR)
+    num_3 = Productos.objects.filter(color=opciones[f'{datos[4]}']).earliest('id')
+    color = num_3.color
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_GENERO)
+    num_3 = Productos.objects.filter(genero=opciones[f'{datos[2]}']).earliest('id')
+    linea = num_3.genero
+
+    return pieza, sublinea, color, linea
+
+def get_datos_calzado(request, dic, i):
+    datos = str(dic[i]).split(',')
+
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_MEDIDA)
+    num_1 = Productos.objects.filter(medida=opciones[f'{datos[5]}']).earliest('id')
+    medida = num_1.medida
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_LINEA_CALZADO)
+    num_2 = Productos.objects.filter(linea_c=opciones[f'{datos[3]}']).earliest('id')
+    sublinea = num_2.linea_c
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_COLOR)
+    num_3 = Productos.objects.filter(color=opciones[f'{datos[4]}']).earliest('id')
+    color = num_3.color
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_GENERO)
+    num_3 = Productos.objects.filter(genero=opciones[f'{datos[2]}']).earliest('id')
+    linea = num_3.genero
+
+    return medida, sublinea, color, linea
+
+def get_datos_ropa(request, dic, i):
+    datos = str(dic[i]).split(',')
+
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_TALLA)
+    num_1 = Productos.objects.filter(talla=opciones[f'{datos[5]}']).earliest('id')
+    talla = num_1.talla
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_LINEA_ROPA)
+    num_2 = Productos.objects.filter(linea_r=opciones[f'{datos[3]}']).earliest('id')
+    sublinea = num_2.linea_r
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_COLOR)
+    num_3 = Productos.objects.filter(color=opciones[f'{datos[4]}']).earliest('id')
+    color = num_3.color
+    opciones = dict((v, k) for k, v in Productos.OPCIONES_GENERO)
+    num_3 = Productos.objects.filter(genero=opciones[f'{datos[2]}']).earliest('id')
+    linea = num_3.genero
+
+    return talla, sublinea, color, linea
+
+def get_datos_accesorios_nuevo(request, dic, i):
+    dt = {}
+    dl = {}
+    ds = {}
+    dc = {}
+    pieza = 0
+    sublinea = 0
+    color = 0
+    linea = 0
+    datos = str(dic[i]).split(',')
+    for k, v in Productos.OPCIONES_PIEZA:
+        dt[k] = v
+    for k, v in dt.items():
+        if str(datos[5]) == str(dt[k]):
+            pieza = k
+
+    for k, v in Productos.OPCIONES_LINEA_ACCESORIOS:
+        ds[k] = v
+    for k, v in ds.items():
+        if str(datos[3]) == str(ds[k]):
+            sublinea = k
+    
+    for k, v in Productos.OPCIONES_COLOR:
+        dc[k] = v
+    for k, v in dc.items():
+        if str(datos[4]) == str(dc[k]):
+            color = k
+
+    for k, v in Productos.OPCIONES_GENERO:
+        dl[k] = v
+    for k, v in dl.items():
+        if str(datos[2]) == str(dl[k]):
+            linea = k
+
+    return pieza, sublinea, color, linea
+
+def get_datos_calzado_nuevo(request, dic, i):
+    dt = {}
+    dl = {}
+    ds = {}
+    dc = {}
+    medida = 0
+    sublinea = 0
+    color = 0
+    linea = 0
+    datos = str(dic[i]).split(',')
+    for k, v in Productos.OPCIONES_MEDIDA:
+        dt[k] = v
+    for k, v in dt.items():
+        if str(datos[5]) == str(dt[k]):
+            medida = k
+
+    for k, v in Productos.OPCIONES_LINEA_CALZADO:
+        ds[k] = v
+    for k, v in ds.items():
+        if str(datos[3]) == str(ds[k]):
+            sublinea = k
+    
+    for k, v in Productos.OPCIONES_COLOR:
+        dc[k] = v
+    for k, v in dc.items():
+        if str(datos[4]) == str(dc[k]):
+            color = k
+
+    for k, v in Productos.OPCIONES_GENERO:
+        dl[k] = v
+    for k, v in dl.items():
+        if str(datos[2]) == str(dl[k]):
+            linea = k
+
+    return medida, sublinea, color, linea
+
+def get_datos_ropa_nuevo(request, dic, i):
+    dt = {}
+    dl = {}
+    ds = {}
+    dc = {}
+    talla = 0
+    sublinea = 0
+    color = 0
+    linea = 0
+    datos = str(dic[i]).split(',')
+    for k, v in Productos.OPCIONES_TALLA:
+        dt[k] = v
+    for k, v in dt.items():
+        if str(datos[5]) == str(dt[k]):
+            talla = k
+
+    for k, v in Productos.OPCIONES_LINEA_ROPA:
+        ds[k] = v
+    for k, v in ds.items():
+        if str(datos[3]) == str(ds[k]):
+            sublinea = k
+    
+    for k, v in Productos.OPCIONES_COLOR:
+        dc[k] = v
+    for k, v in dc.items():
+        if str(datos[4]) == str(dc[k]):
+            color = k
+
+    for k, v in Productos.OPCIONES_GENERO:
+        dl[k] = v
+    for k, v in dl.items():
+        if str(datos[2]) == str(dl[k]):
+            linea = k
+
+    return talla, sublinea, color, linea
 
 
 """ **************************************** ALMACEN 2 **************************************** """

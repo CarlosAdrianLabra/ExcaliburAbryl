@@ -1,28 +1,55 @@
-{% extends 'common/base.html' %}
+{% extends 'inventarios/a_rchivos_base/base_subir.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
 <title>Archivos - Subir</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
-{% block sidebarlinks %}
-<!-- Sidebar links -->
-<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-</ul>
-<!-- ./sidebar links -->
-{% endblock sidebarlinks %}
+{% block enlace_archivos_subir %}
+<a href="/inventario/subir_archivo/" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-upload nav-icon ml-4"></i>
+    <p>Subir archivos</p>
+</a>
+{% endblock enlace_archivos_subir %}
+{% block enlace_archivos_lista %}
+<a href="/inventario/lista_archivos/" class="nav-link">
+    <i class="fas fa-clipboard-list nav-icon ml-4"></i>
+    <p>Lista archivos</p>
+</a>
+{% endblock enlace_archivos_lista %}
 
 {% block content %}
-<div style="margin: 100px;">
-    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-        {{form.as_p}}
-        <button class="btn btr" type="submit">Subir archivo</button>
-    </form>
-    <br><br><br><br>
-    <a class="btn btr" href="/inventario/lista_archivos/">Ir a lista de archivos</a>
-</div>
+<section class="content mt-4">
+    <div class="container-fluid">
+        <h3 class="mb-3 text-center">SUBIR ARCHIVOS AL SISTEMA</h3>
+        <div style="margin: 50px 0px 0px 100px;">
+            <form class="mb-5" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <div class="row">
+                    <label class="col-2">Seleccionar archivo:</label>
+                    {{form.archivo | add_class:"col-4"}}
+                </div>
+                <div class="row mt-4">
+                    <label class="col-2">Tipo de archivo:</label>
+                    <span style="margin-left: 7px;">
+                        <!-- {{form.tipo | add_class:"col-12"}} -->
+                        <select name="tipo" class="form-control col-12" id="id_tipo">
+                            <option value="" selected="">---------</option>
+                            <option value="1">Marca</option>
+                            <option value="3">Accesorios</option>
+                            <option value="4">Calzado</option>
+                            <option value="5">Ropa</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="row mt-5" style="padding-left: 203px;">
+                    <button class="btn btr" type="submit"><i class="fas fa-upload mr-2"></i>Subir archivo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock content %}
 
-{% block scripts %}{% endblock scripts %}
 {% block extra_scripts %}{% endblock extra_scripts %}

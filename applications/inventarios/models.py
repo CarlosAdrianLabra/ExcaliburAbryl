@@ -497,8 +497,8 @@ class Productos(TimeStampedModel):
         ('1', 'CABALLERO'),
         ('2', 'DAMA'),
         ('3', 'JOVEN'),
-        ('4', 'NIÑA'),
-        ('5', 'NIÑO'),
+        ('4', 'NINA'),
+        ('5', 'NINO'),
         ('6', 'UNISEX'),
         ('7', 'VARIOS'),
     )
@@ -589,9 +589,9 @@ class Productos(TimeStampedModel):
         ('82', 'CHOCOLATE'),
         ('83', 'CIELO'),
         ('84', 'CLAY'),
-        ('85', 'COGÑAC'),
+        ('85', 'COGNAC'),
         ('86', 'CORAL'),
-        ('87', 'COÑAC'),
+        ('87', 'CONAC'),
         ('88', 'CRISTAL/PLATA'),
         ('89', 'CUADRI/ROJO'),
         ('90', 'CUADROS/ROJO/AZUL'),
@@ -856,7 +856,7 @@ class Productos(TimeStampedModel):
     # Atributos no necesarios
     modelo = models.CharField('Modelo', max_length=25, blank=True)
     stock = models.PositiveIntegerField('Existencias', default=0)
-    precio_compra = models.DecimalField('Precio de compra', max_digits=7, decimal_places=2, default=0)
+    precio_compra = models.DecimalField('Precio de costo', max_digits=7, decimal_places=2, default=0)
     precio_venta = models.DecimalField('Precio de venta', max_digits=7, decimal_places=2, default=0)
     num_venta = models.PositiveIntegerField('Número de ventas', default=0)
     anular = models.BooleanField('Anular Producto', default=False)
@@ -996,3 +996,7 @@ class ArchivoSubido(models.Model):
 
     def __str__(self):
         return str(self.archivo)
+
+    def delete(self, *args, **kwargs):
+        self.archivo.delete()
+        super().delete(*args, **kwargs)

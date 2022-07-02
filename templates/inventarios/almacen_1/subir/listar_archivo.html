@@ -1,49 +1,136 @@
-{% extends 'common/base.html' %}
+{% extends 'inventarios/a_rchivos_base/base_subir.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
 <title>Archivos - Lista</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
-{% block sidebarlinks %}
-<!-- Sidebar links -->
-<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-</ul>
-<!-- ./sidebar links -->
-{% endblock sidebarlinks %}
+{% block enlace_archivos_subir %}
+<a href="/inventario/subir_archivo/" class="nav-link">
+    <i class="fas fa-upload nav-icon ml-4"></i>
+    <p>Subir archivos</p>
+</a>
+{% endblock enlace_archivos_subir %}
+{% block enlace_archivos_lista %}
+<a href="/inventario/lista_archivos/" class="nav-link active" style="color: azure; background: tomato;">
+    <i class="fas fa-clipboard-list nav-icon ml-4"></i>
+    <p>Lista archivos</p>
+</a>
+{% endblock enlace_archivos_lista %}
 
 {% block content %}
-    <div style="margin: 100px;">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Archivo</th>
-                    <th>Fecha de subida</th>
-                    <th>Tipo</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for a in archivo %}
-                <tr>
-                    <td>{{ a.id }}</td>
-                    <td>{{ a.archivo }}</td>
-                    <td>{{ a.fecha }}</td>
-                    <td>{{ a.get_tipo_display }}</td>
-                    <td>
-                        <form action="{% url 'aplicar_archivo' a.id %}" class="m-0" method="GET">{% csrf_token %}
-                            <button class="btn btr" type="submit">Subir archivo al inventario</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table> <br><br>
-        <a class="btn btr" href="/inventario/subir_archivo/">Crear de archivos</a>
+<!-- Header -->
+<header>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+            {% if "cambios_realizados" in message.tags or "eliminar" in message.tags %}
+                <div style="border-radius:0; text-align: center;" {% if message.tags %} class="alert alert-icon alert-{{ message.tags }} alert-dismissible fade show mb-0 bg-success" role="alert" {% endif %}>
+                {{ message }}
+                <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
+</header>
+<!-- End Header -->
+
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <!-- Card -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h1 class="card-title mt-3 mb-3 ml-3">LISTA DE ARCHIVOS</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive p-0" style="height: 336px;">
+                            <table class="table table-striped text-nowrap">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th class="text-left">Archivo</th>
+                                        <th>Fecha de subida</th>
+                                        <th>Tipo</th>
+                                        <th>Crear y/o Actualizar</th>
+                                        <th>Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    {% for a in archivo %}
+                                    <tr>
+                                        <td>{{ a.id }}</td>
+                                        <td class="text-left">{{ a.archivo }}</td>
+                                        <td>{{ a.fecha }}</td>
+                                        <td>{{ a.get_tipo_display }}</td>
+                                        <td>
+                                            <form action="{% url 'aplicar_archivo' a.id %}" class="m-0" method="GET">{% csrf_token %}
+                                                <button class="btn btn-sm btr" type="submit"><i class="fas fa-chevron-up mr-2"></i>Aplicar cambios</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="{% url 'eliminar_archivo' a.id %}" class="m-0" method="POST">{% csrf_token %}
+                                                <button class="btn btn-sm btr" type="submit"><i class="fas fa-trash mr-2"></i>Eliminar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% if "eliminar" in message.tags %}
+                        {% else %}
+                            <div class="row justify-content-center mt-3">
+                                {% if messages %}
+                                <div class="col-12 text-center mb-2">
+                                    <label>Los siguientes productos fueron actualizados en el sistema:</label>
+                                </div>
+                                    {% for message in messages %}
+                                        {%if "actualizados" in message.tags %}
+                                        <div style="width: 900px; text-align: left;">
+                                            {{ message }}
+                                        </div>
+                                        {%endif%}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="row justify-content-center mt-3">
+                                {% if messages %}
+                                <div class="col-12 text-center mb-2">
+                                    <label>Los siguientes productos no se encontraron en el sistema. Y fueron creados:</label>
+                                </div>
+                                    {% for message in messages %}
+                                        {%if "creados" in message.tags %}
+                                        <div style="width: 900px; text-align: left;">
+                                            {{ message }}
+                                        </div>
+                                        {%endif%}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer pr-5">
+                        <a class="btn btn-default mt-3 ml-5 float-right mr-2" href="."><i class="fas fa-undo-alt mr-2"></i>Actualizar página</a>
+                    </div>
+                </div>
+                <!-- ./End Card -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.main content -->
 {% endblock content %}
 
-{% block scripts %}{% endblock scripts %}
-{% block extra_scripts %}{% endblock extra_scripts %}
+{% block extra_scripts %}
+<script>
+    $(".alert").fadeTo(3500, 1000).slideUp(1000, function () {
+        $(".alert").slideUp(500);
+    });
+</script>
+{% endblock extra_scripts %}

@@ -1,0 +1,135 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block head %}{% endblock head %}
+
+{% block sidebarlinks %}
+<!-- Sidebar links -->
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    
+    <li class="nav-item">
+        <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-registered"></i><p>REGISTRAR<i class="fas fa-angle-left right"></i></p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="/marca" class="nav-link">
+                    <i class="fas fa-copyright nav-icon ml-4"></i>
+                    <p>Marcas</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/proveedor" class="nav-link">
+                    <i class="fas fa-truck-moving nav-icon ml-4"></i>
+                    <p>Proveedores</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="nav-item menu-open">
+        <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-boxes"></i><p>ALMACENES<i class="fas fa-angle-left right"></i></p>
+        </a>
+    
+        <ul class="nav nav-treeview">
+            <li class="nav-item menu-open">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-boxes"></i><p>ALMACEN - 1<i class="fas fa-angle-left right"></i></p>
+                </a>
+    
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/almacen_1/productos/accesorios/" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Accesorios</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/almacen_1/productos/calzado/" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Calzado</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/almacen_1/productos/ropa" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Ropa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        {% block enlace_archivos_subir %}{% endblock enlace_archivos_subir %}
+                    </li>
+                    <li class="nav-item">
+                        {% block enlace_archivos_lista %}{% endblock enlace_archivos_lista %}
+                    </li>
+                </ul>
+            </li>
+    
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-boxes"></i><p>ALMACEN - 2<i class="fas fa-angle-left right"></i></p>
+                </a>
+                
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Accesorios</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Calzado</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Ropa</p>
+                        </a>
+                    </li>                   
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-boxes"></i><p>ALMACEN - 3<i class="fas fa-angle-left right"></i></p>
+                </a>
+                
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Accesorios</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Calzado</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dolly-flatbed nav-icon ml-4"></i>
+                            <p>Ropa</p>
+                        </a>
+                    </li>                   
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+<!-- ./sidebar links -->
+{% endblock sidebarlinks %}
+
+{% block content %}{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+{% endblock scripts %}
+
+{% block extra_scripts %}{% endblock extra_scripts %}

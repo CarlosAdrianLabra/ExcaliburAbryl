@@ -58,5 +58,6 @@ urlpatterns = [
     # Subir archivo
     path('inventario/subir_archivo/', views.SubirArchivo.as_view(), name='subir_archivo'),
     path('inventario/lista_archivos/', views.ListarArchivo.as_view(), name='lista_archivos'),
-    path('inventario/subir_archivo/<pk>/', views.SubirArchivoInventario.as_view(), name='aplicar_archivo'),
+    path('inventario/subir_archivo/<pk>/', views.ActualizarArchivo.as_view(), name='aplicar_archivo'),
+    path('inventario/eliminar_archivo/<pk>/', views.EliminarArchivo.as_view(), name='eliminar_archivo'),
 ]
