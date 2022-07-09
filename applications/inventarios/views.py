@@ -657,64 +657,64 @@ def actualizar_stock(request, file):
             Productos.objects.bulk_create(lista)
 
     # Calzado
-    elif file.tipo == '4' and Productos.objects.filter(tipo='100'):
-        dic_modelo = {}
-        producto = Productos.objects.filter(tipo='100')
-        for p in producto:
-            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
+    # elif file.tipo == '4' and Productos.objects.filter(tipo='100'):
+    #     dic_modelo = {}
+    #     producto = Productos.objects.filter(tipo='100')
+    #     for p in producto:
+    #         dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
     
-        dic_archivo = {}
-        dic_stock = {}
-        dic_no_creados = {}
-        dic_actualizados = {}
-        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
-            producto = Productos.objects.all().latest('id')
-            barcode = int(producto.barcode)
-            renglon_archivo = archivo.readlines()
-            lista = []
-            for i, renglon in enumerate(renglon_archivo[1:]):
-                r = renglon.strip()
-                dic_archivo[i] = r
-                dic_stock[i] = r
+    #     dic_archivo = {}
+    #     dic_stock = {}
+    #     dic_no_creados = {}
+    #     dic_actualizados = {}
+    #     with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
+    #         producto = Productos.objects.all().latest('id')
+    #         barcode = int(producto.barcode)
+    #         renglon_archivo = archivo.readlines()
+    #         lista = []
+    #         for i, renglon in enumerate(renglon_archivo[1:]):
+    #             r = renglon.strip()
+    #             dic_archivo[i] = r
+    #             dic_stock[i] = r
 
-            for i in dic_archivo:
-                for j in dic_modelo:
-                    modelo = str(dic_modelo[j]).split(',')
-                    archivo = str(dic_archivo[i]).split(',')
-                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])})
+    #         for i in dic_archivo:
+    #             for j in dic_modelo:
+    #                 modelo = str(dic_modelo[j]).split(',')
+    #                 archivo = str(dic_archivo[i]).split(',')
+    #                 dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])})
 
-                    if str(dic_archivo[i]) == str(dic_modelo[j]):
-                        archivo_stock = str(dic_stock[i]).split(',')
-                        producto = Productos.objects.get(barcode=j)
-                        Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
-                        dic_actualizados[i] = dic_archivo[i]
-                        break
-                else:
-                    dic_no_creados[i] = dic_stock[i]
-                    linea = get_datos_calzado_nuevo(request, dic_no_creados, i)
-                    barcode = barcode + 1
-                    datos = str(dic_no_creados[i]).split(',')
-                    color, created = Color.objects.get_or_create(nombre=datos[4])
-                    if created: color.save()
-                    talla, created = Talla.objects.get_or_create(nombre=datos[5])
-                    if created: talla.save()
-                    sublinea, created = Sublinea.objects.get_or_create(nombre=datos[3])
-                    if created: sublinea.save()
-                    marca, created = Marca.objects.get_or_create(nombre=datos[0])
-                    if created: marca.save()
+    #                 if str(dic_archivo[i]) == str(dic_modelo[j]):
+    #                     archivo_stock = str(dic_stock[i]).split(',')
+    #                     producto = Productos.objects.get(barcode=j)
+    #                     Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
+    #                     dic_actualizados[i] = dic_archivo[i]
+    #                     break
+    #             else:
+    #                 dic_no_creados[i] = dic_stock[i]
+    #                 linea = get_datos_calzado_nuevo(request, dic_no_creados, i)
+    #                 barcode = barcode + 1
+    #                 datos = str(dic_no_creados[i]).split(',')
+    #                 color, created = Color.objects.get_or_create(nombre=datos[4])
+    #                 if created: color.save()
+    #                 talla, created = Talla.objects.get_or_create(nombre=datos[5])
+    #                 if created: talla.save()
+    #                 sublinea, created = Sublinea.objects.get_or_create(nombre=datos[3])
+    #                 if created: sublinea.save()
+    #                 marca, created = Marca.objects.get_or_create(nombre=datos[0])
+    #                 if created: marca.save()
 
-                    lista.append(Productos(
-                        barcode=barcode,nombre="CALZADO",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
-                        color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],
-                        proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="100",almacen="1000",promocion="0",num_venta="0",
-                        )
-                    )
-        if len(lista) > 0:
-            Productos.objects.bulk_create(lista)
-        if len(dic_actualizados) > 0:
-            producto_actualizado(request, dic_actualizados)
-        if len(dic_no_creados) > 0:
-            producto_no_encontrado(request, dic_no_creados)
+    #                 lista.append(Productos(
+    #                     barcode=barcode,nombre="CALZADO",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
+    #                     color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],
+    #                     proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="100",almacen="1000",promocion="0",num_venta="0",
+    #                     )
+    #                 )
+    #     if len(lista) > 0:
+    #         Productos.objects.bulk_create(lista)
+    #     if len(dic_actualizados) > 0:
+    #         producto_actualizado(request, dic_actualizados)
+    #     if len(dic_no_creados) > 0:
+    #         producto_no_encontrado(request, dic_no_creados)
 
     elif file.tipo == '4':
         lista = []
