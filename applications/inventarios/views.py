@@ -31,7 +31,10 @@ from .models import (
     Productos,
     Marca,
     Proveedor,
-    ArchivoSubido
+    ArchivoSubido,
+    Color,
+    Talla,
+    Sublinea
 )
 
 """ **************************************** REGISTROS **************************************** """
@@ -249,7 +252,7 @@ def export_calzado_csv(request):
 
     calzado = Productos.objects.filter(tipo='100')
     for c in calzado:
-        writer.writerow([c.barcode, c.proveedor, c.marca,  c.modelo, c.get_genero_display(), c.get_linea_c_display(), c.get_color_display(), c.get_medida_display(), c.stock, c.precio_compra, c.precio_venta,])
+        writer.writerow([c.barcode, c.proveedor, c.marca,  c.modelo, c.get_genero_display(), c.sublinea, c.color, c.talla, c.stock, c.precio_compra, c.precio_venta,])
 
     return response
 
@@ -268,7 +271,7 @@ def export_calzado_csv_stock(request):
 
     calzado = Productos.objects.filter(tipo='100', stock__gt=0)
     for c in calzado:
-        writer.writerow([c.barcode, c.proveedor, c.marca,  c.modelo, c.get_genero_display(), c.get_linea_c_display(), c.get_color_display(), c.get_medida_display(), c.stock, c.precio_compra, c.precio_venta,])
+        writer.writerow([c.barcode, c.proveedor, c.marca,  c.modelo, c.get_genero_display(), c.sublinea, c.color, c.talla, c.stock, c.precio_compra, c.precio_venta,])
 
     return response
 
@@ -354,7 +357,7 @@ def export_ropa_csv(request):
 
     ropa = Productos.objects.filter(tipo='200')
     for r in ropa:
-        writer.writerow([r.barcode, r.proveedor, r.marca,  r.modelo, r.get_genero_display(), r.get_linea_r_display(), r.get_color_display(), r.get_talla_display(), r.stock, r.precio_compra, r.precio_venta,])
+        writer.writerow([r.barcode, r.proveedor, r.marca,  r.modelo, r.get_genero_display(), r.sublinea, r.color, r.talla, r.stock, r.precio_compra, r.precio_venta,])
 
     return response
 
@@ -372,7 +375,7 @@ def export_ropa_csv_stock(request):
 
     ropa = Productos.objects.filter(tipo='200', stock__gt=0)
     for r in ropa:
-        writer.writerow([r.barcode, r.proveedor, r.marca,  r.modelo, r.get_genero_display(), r.get_linea_r_display(), r.get_color_display(), r.get_talla_display(), r.stock, r.precio_compra, r.precio_venta,])
+        writer.writerow([r.barcode, r.proveedor, r.marca,  r.modelo, r.get_genero_display(), r.sublinea, r.color, r.talla, r.stock, r.precio_compra, r.precio_venta,])
 
     return response
 
@@ -459,7 +462,7 @@ def export_accesorios_csv(request):
 
     accesorios = Productos.objects.filter(tipo='300')
     for a in accesorios:
-        writer.writerow([a.barcode, a.proveedor, a.marca,  a.modelo, a.get_genero_display(), a.get_linea_a_display(), a.get_color_display(), a.get_pieza_display(), a.stock, a.precio_compra, a.precio_venta,])
+        writer.writerow([a.barcode, a.proveedor, a.marca,  a.modelo, a.get_genero_display(), a.sublinea, a.color, a.talla, a.stock, a.precio_compra, a.precio_venta,])
 
     return response
 
@@ -478,7 +481,7 @@ def export_accesorios_csv_stock(request):
 
     accesorios = Productos.objects.filter(tipo='300', stock__gt=0)
     for a in accesorios:
-        writer.writerow([a.barcode, a.proveedor, a.marca,  a.modelo, a.get_genero_display(), a.get_linea_a_display(), a.get_color_display(), a.get_pieza_display(), a.stock, a.precio_compra, a.precio_venta,])
+        writer.writerow([a.barcode, a.proveedor, a.marca,  a.modelo, a.get_genero_display(), a.sublinea, a.color, a.talla, a.stock, a.precio_compra, a.precio_venta,])
 
     return response
 
@@ -530,26 +533,41 @@ def actualizar_stock(request, file):
     # Marca
     if file.tipo == '1':
         lista = []
-
         with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             info = list(csv.reader(archivo, delimiter=","))
-            for linea in info[1:]:
-                lista.append(
-                    Marca(
-                        nombre=linea[1],
-                    )
-                )
-        if len(lista) > 0:
-            Marca.objects.bulk_create(lista)
+            for linea in info[1:]: lista.append(Marca(nombre=linea[1],))
+        if len(lista) > 0: Marca.objects.bulk_create(lista)
+    
+    # Color
+    if file.tipo == '6':
+        lista = []
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
+            info = list(csv.reader(archivo, delimiter=","))
+            for linea in info[1:]: lista.append(Color(nombre=linea[1],))
+        if len(lista) > 0: Color.objects.bulk_create(lista)
+
+    # Talla
+    if file.tipo == '7':
+        lista = []
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
+            info = list(csv.reader(archivo, delimiter=","))
+            for linea in info[1:]: lista.append(Talla(nombre=linea[1],))
+        if len(lista) > 0: Talla.objects.bulk_create(lista)
+
+    # Sublinea
+    if file.tipo == '8':
+        lista = []
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
+            info = list(csv.reader(archivo, delimiter=","))
+            for linea in info[1:]: lista.append(Sublinea(nombre=linea[1],))
+        if len(lista) > 0: Sublinea.objects.bulk_create(lista)
 
     # Accesorios
     elif file.tipo == '3' and Productos.objects.filter(tipo='300'):
         dic_modelo = {}
         producto = Productos.objects.filter(tipo='300')
-        for i, p in enumerate(producto):
-            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.get_linea_a_display())+','+str(p.get_color_display())+','+str(p.get_pieza_display())+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
-        # for renglon in dic_modelo:
-        #     print(dic_modelo[renglon])
+        for p in producto:
+            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
     
         dic_archivo = {}
         dic_stock = {}
@@ -559,16 +577,13 @@ def actualizar_stock(request, file):
             producto = Productos.objects.all().latest('id')
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
+            lista = []
             for i, renglon in enumerate(renglon_archivo[1:]):
                 r = renglon.strip()
                 dic_archivo[i] = r
                 dic_stock[i] = r
-            # for renglon in dic_archivo:
-            #     print(dic_archivo[renglon])
 
-            rep = 0
-            var = 0
-            for x, i in enumerate(dic_archivo):
+            for i in dic_archivo:
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
                     archivo = str(dic_archivo[i]).split(',')
@@ -579,32 +594,29 @@ def actualizar_stock(request, file):
                         producto = Productos.objects.get(barcode=j)
                         Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
                         dic_actualizados[i] = dic_archivo[i]
-                        var = x + 1
-                    else:
-                        rep = x + 1
-
-                if rep != var:
-                    if var == 0:
-                        rep = x - 1
-                    else:
-                        rep = x + 1
-
+                        break
+                else:
                     dic_no_creados[i] = dic_stock[i]
-                    lista = []
-                    pieza, sublinea, color, linea = get_datos_accesorios(request, dic_no_creados,i)
+                    linea = get_datos_accesorios_nuevo(request, dic_no_creados, i)
                     barcode = barcode + 1
                     datos = str(dic_no_creados[i]).split(',')
+                    color, created = Color.objects.get_or_create(nombre=datos[4])
+                    if created: color.save()
+                    talla, created = Talla.objects.get_or_create(nombre=datos[5])
+                    if created: talla.save()
+                    sublinea, created = Sublinea.objects.get_or_create(nombre=datos[3])
+                    if created: sublinea.save()
+                    marca, created = Marca.objects.get_or_create(nombre=datos[0])
+                    if created: marca.save()
 
                     lista.append(Productos(
-                            barcode=barcode,nombre="ACCESORIOS",marca=Marca.objects.get(nombre=datos[0]),
-                            modelo=datos[1],genero=linea,linea_a=sublinea,color=color,pieza=pieza,stock=datos[6],
-                            precio_compra=datos[7],precio_venta=datos[8],proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),
-                            tipo="300",almacen="1000",promocion="0",num_venta="0",
+                        barcode=barcode,nombre="ACCESORIOS",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
+                        color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],
+                        proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="300",almacen="1000",promocion="0",num_venta="0",
                         )
                     )
-                    if len(lista) > 0:
-                        Productos.objects.bulk_create(lista)
-
+        if len(lista) > 0:
+            Productos.objects.bulk_create(lista)
         if len(dic_actualizados) > 0:
             producto_actualizado(request, dic_actualizados)
         if len(dic_no_creados) > 0:
@@ -624,13 +636,20 @@ def actualizar_stock(request, file):
                 r = renglon.strip()
                 dic_archivo[i] = r
                 barcode = barcode + 1
-                pieza, sublinea, color, linea = get_datos_accesorios_nuevo(request, dic_archivo,i)
+                linea = get_datos_accesorios_nuevo(request, dic_archivo, i)
                 datos = str(dic_archivo[i]).split(',')
+                color, created = Color.objects.get_or_create(nombre=datos[4])
+                if created: color.save()
+                talla, created = Talla.objects.get_or_create(nombre=datos[5])
+                if created: talla.save()
+                sublinea, created = Sublinea.objects.get_or_create(nombre=datos[3])
+                if created: sublinea.save()
+                marca, created = Marca.objects.get_or_create(nombre=datos[0])
+                if created: marca.save()
 
                 lista.append(Productos(
-                    barcode=barcode,nombre="ACCESORIOS",
-                    marca=Marca.objects.get(nombre=datos[0]),modelo=datos[1],genero=linea,linea_a=sublinea,
-                    color=color,pieza=pieza,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
+                    barcode=barcode,nombre="ACCESORIOS",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
+                    color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
                     proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="300",almacen="1000",promocion="0",
                     )
                 )
@@ -641,8 +660,8 @@ def actualizar_stock(request, file):
     elif file.tipo == '4' and Productos.objects.filter(tipo='100'):
         dic_modelo = {}
         producto = Productos.objects.filter(tipo='100')
-        for i, p in enumerate(producto):
-            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.get_linea_c_display())+','+str(p.get_color_display())+','+str(p.get_medida_display())+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
+        for p in producto:
+            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
     
         dic_archivo = {}
         dic_stock = {}
@@ -652,14 +671,13 @@ def actualizar_stock(request, file):
             producto = Productos.objects.all().latest('id')
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
+            lista = []
             for i, renglon in enumerate(renglon_archivo[1:]):
                 r = renglon.strip()
                 dic_archivo[i] = r
                 dic_stock[i] = r
 
-            rep = 0
-            var = 0
-            for x, i in enumerate(dic_archivo):
+            for i in dic_archivo:
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
                     archivo = str(dic_archivo[i]).split(',')
@@ -670,32 +688,29 @@ def actualizar_stock(request, file):
                         producto = Productos.objects.get(barcode=j)
                         Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
                         dic_actualizados[i] = dic_archivo[i]
-                        var = x + 1
-                    else:
-                        rep = x + 1
-
-                if rep != var:
-                    if var == 0:
-                        rep = x - 1
-                    else:
-                        rep = x + 1
-
+                        break
+                else:
                     dic_no_creados[i] = dic_stock[i]
-                    lista = []
-                    medida, sublinea, color, linea = get_datos_calzado(request, dic_no_creados,i)
+                    linea = get_datos_calzado_nuevo(request, dic_no_creados, i)
                     barcode = barcode + 1
                     datos = str(dic_no_creados[i]).split(',')
+                    color, created = Color.objects.get_or_create(nombre=datos[4])
+                    if created: color.save()
+                    talla, created = Talla.objects.get_or_create(nombre=datos[5])
+                    if created: talla.save()
+                    sublinea, created = Sublinea.objects.get_or_create(nombre=datos[3])
+                    if created: sublinea.save()
+                    marca, created = Marca.objects.get_or_create(nombre=datos[0])
+                    if created: marca.save()
 
                     lista.append(Productos(
-                            barcode=barcode,nombre="CALZADO",marca=Marca.objects.get(nombre=datos[0]),
-                            modelo=datos[1],genero=linea,linea_c=sublinea,color=color,medida=medida,stock=datos[6],
-                            precio_compra=datos[7],precio_venta=datos[8],proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),
-                            tipo="100",almacen="1000",promocion="0",num_venta="0",
+                        barcode=barcode,nombre="CALZADO",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
+                        color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],
+                        proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="100",almacen="1000",promocion="0",num_venta="0",
                         )
                     )
-                    if len(lista) > 0:
-                        Productos.objects.bulk_create(lista)
-
+        if len(lista) > 0:
+            Productos.objects.bulk_create(lista)
         if len(dic_actualizados) > 0:
             producto_actualizado(request, dic_actualizados)
         if len(dic_no_creados) > 0:
@@ -704,6 +719,7 @@ def actualizar_stock(request, file):
     elif file.tipo == '4':
         lista = []
         dic_archivo = {}
+        
         with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             if Productos.objects.all():
                 producto = Productos.objects.all().latest('id')
@@ -715,13 +731,20 @@ def actualizar_stock(request, file):
                 r = renglon.strip()
                 dic_archivo[i] = r
                 barcode = barcode + 1
-                medida, sublinea, color, linea = get_datos_calzado_nuevo(request, dic_archivo,i)
+                linea = get_datos_calzado_nuevo(request, dic_archivo, i)
                 datos = str(dic_archivo[i]).split(',')
+                color, created = Color.objects.get_or_create(nombre=datos[4])
+                if created: color.save()
+                talla, created = Talla.objects.get_or_create(nombre=datos[5])
+                if created: talla.save()
+                sublinea, created = Sublinea.objects.get_or_create(nombre=datos[3])
+                if created: sublinea.save()
+                marca, created = Marca.objects.get_or_create(nombre=datos[0])
+                if created: marca.save()
 
                 lista.append(Productos(
-                    barcode=barcode,nombre="CALZADO",
-                    marca=Marca.objects.get(nombre=datos[0]),modelo=datos[1],genero=linea,linea_c=sublinea,
-                    color=color,medida=medida,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
+                    barcode=barcode,nombre="CALZADO",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
+                    color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
                     proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="100",almacen="1000",promocion="0",
                     )
                 )
@@ -732,8 +755,8 @@ def actualizar_stock(request, file):
     elif file.tipo == '5' and Productos.objects.filter(tipo='200'):
         dic_modelo = {}
         producto = Productos.objects.filter(tipo='200')
-        for i, p in enumerate(producto):
-            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.get_linea_r_display())+','+str(p.get_color_display())+','+str(p.get_talla_display())+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
+        for p in producto:
+            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
     
         dic_archivo = {}
         dic_stock = {}
@@ -743,14 +766,13 @@ def actualizar_stock(request, file):
             producto = Productos.objects.all().latest('id')
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
+            lista = []
             for i, renglon in enumerate(renglon_archivo[1:]):
                 r = renglon.strip()
                 dic_archivo[i] = r
                 dic_stock[i] = r
 
-            rep = 0
-            var = 0
-            for x, i in enumerate(dic_archivo):
+            for i in dic_archivo:
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
                     archivo = str(dic_archivo[i]).split(',')
@@ -761,32 +783,29 @@ def actualizar_stock(request, file):
                         producto = Productos.objects.get(barcode=j)
                         Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
                         dic_actualizados[i] = dic_archivo[i]
-                        var = x + 1
-                    else:
-                        rep = x + 1
-
-                if rep != var:
-                    if var == 0:
-                        rep = x - 1
-                    else:
-                        rep = x + 1
-
+                        break
+                else:
                     dic_no_creados[i] = dic_stock[i]
-                    lista = []
-                    talla, sublinea, color, linea = get_datos_ropa(request, dic_no_creados,i)
+                    linea = get_datos_ropa_nuevo(request, dic_no_creados, i)
                     barcode = barcode + 1
                     datos = str(dic_no_creados[i]).split(',')
+                    color, created = Color.objects.get_or_create(nombre=datos[4])
+                    if created: color.save()
+                    talla, created = Talla.objects.get_or_create(nombre=datos[5])
+                    if created: talla.save()
+                    sublinea, created = Sublinea.objects.get_or_create(nombre=datos[3])
+                    if created: sublinea.save()
+                    marca, created = Marca.objects.get_or_create(nombre=datos[0])
+                    if created: marca.save()
 
                     lista.append(Productos(
-                            barcode=barcode,nombre="ROPA",marca=Marca.objects.get(nombre=datos[0]),
-                            modelo=datos[1],genero=linea,linea_r=sublinea,color=color,talla=talla,stock=datos[6],
-                            precio_compra=datos[7],precio_venta=datos[8],proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),
-                            tipo="200",almacen="1000",promocion="0",num_venta="0",
+                        barcode=barcode,nombre="ROPA",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
+                        color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],
+                        proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="200",almacen="1000",promocion="0",num_venta="0",
                         )
                     )
-                    if len(lista) > 0:
-                        Productos.objects.bulk_create(lista)
-
+        if len(lista) > 0:
+            Productos.objects.bulk_create(lista)
         if len(dic_actualizados) > 0:
             producto_actualizado(request, dic_actualizados)
         if len(dic_no_creados) > 0:
@@ -806,12 +825,19 @@ def actualizar_stock(request, file):
                 r = renglon.strip()
                 dic_archivo[i] = r
                 barcode = barcode + 1
-                talla, sublinea, color, linea = get_datos_ropa_nuevo(request, dic_archivo,i)
+                linea = get_datos_ropa_nuevo(request, dic_archivo, i)
                 datos = str(dic_archivo[i]).split(',')
+                color, created = Color.objects.get_or_create(nombre=datos[4])
+                if created: color.save()
+                talla, created = Talla.objects.get_or_create(nombre=datos[5])
+                if created: talla.save()
+                sublinea, created = Sublinea.objects.get_or_create(nombre=datos[3])
+                if created: sublinea.save()
+                marca, created = Marca.objects.get_or_create(nombre=datos[0])
+                if created: marca.save()
 
                 lista.append(Productos(
-                    barcode=barcode,nombre="ROPA",
-                    marca=Marca.objects.get(nombre=datos[0]),modelo=datos[1],genero=linea,linea_r=sublinea,
+                    barcode=barcode,nombre="ROPA",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
                     color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
                     proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="200",almacen="1000",promocion="0",
                     )
@@ -831,167 +857,46 @@ def producto_no_encontrado(request, dic_no_creados):
         archivo = str(datos[0])+' - '+str(datos[1])+' - '+str(datos[2])+' - '+str(datos[3])+' - '+str(datos[4])+' - '+str(datos[5])+' - '+str(datos[6])+' - '+str(datos[7])+' - '+str(datos[8])
         messages.add_message(request, messages.INFO, archivo, extra_tags='creados')
 
-def get_datos_accesorios(request, dic, i):
-    datos = str(dic[i]).split(',')
-
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_PIEZA)
-    num_1 = Productos.objects.filter(pieza=opciones[f'{datos[5]}']).earliest('id')
-    pieza = num_1.pieza
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_LINEA_ACCESORIOS)
-    num_2 = Productos.objects.filter(linea_a=opciones[f'{datos[3]}']).earliest('id')
-    sublinea = num_2.linea_a
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_COLOR)
-    num_3 = Productos.objects.filter(color=opciones[f'{datos[4]}']).earliest('id')
-    color = num_3.color
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_GENERO)
-    num_3 = Productos.objects.filter(genero=opciones[f'{datos[2]}']).earliest('id')
-    linea = num_3.genero
-
-    return pieza, sublinea, color, linea
-
-def get_datos_calzado(request, dic, i):
-    datos = str(dic[i]).split(',')
-
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_MEDIDA)
-    num_1 = Productos.objects.filter(medida=opciones[f'{datos[5]}']).earliest('id')
-    medida = num_1.medida
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_LINEA_CALZADO)
-    num_2 = Productos.objects.filter(linea_c=opciones[f'{datos[3]}']).earliest('id')
-    sublinea = num_2.linea_c
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_COLOR)
-    num_3 = Productos.objects.filter(color=opciones[f'{datos[4]}']).earliest('id')
-    color = num_3.color
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_GENERO)
-    num_3 = Productos.objects.filter(genero=opciones[f'{datos[2]}']).earliest('id')
-    linea = num_3.genero
-
-    return medida, sublinea, color, linea
-
-def get_datos_ropa(request, dic, i):
-    datos = str(dic[i]).split(',')
-
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_TALLA)
-    num_1 = Productos.objects.filter(talla=opciones[f'{datos[5]}']).earliest('id')
-    talla = num_1.talla
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_LINEA_ROPA)
-    num_2 = Productos.objects.filter(linea_r=opciones[f'{datos[3]}']).earliest('id')
-    sublinea = num_2.linea_r
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_COLOR)
-    num_3 = Productos.objects.filter(color=opciones[f'{datos[4]}']).earliest('id')
-    color = num_3.color
-    opciones = dict((v, k) for k, v in Productos.OPCIONES_GENERO)
-    num_3 = Productos.objects.filter(genero=opciones[f'{datos[2]}']).earliest('id')
-    linea = num_3.genero
-
-    return talla, sublinea, color, linea
-
 def get_datos_accesorios_nuevo(request, dic, i):
-    dt = {}
     dl = {}
-    ds = {}
-    dc = {}
-    pieza = 0
-    sublinea = 0
-    color = 0
     linea = 0
     datos = str(dic[i]).split(',')
-    for k, v in Productos.OPCIONES_PIEZA:
-        dt[k] = v
-    for k, v in dt.items():
-        if str(datos[5]) == str(dt[k]):
-            pieza = k
-
-    for k, v in Productos.OPCIONES_LINEA_ACCESORIOS:
-        ds[k] = v
-    for k, v in ds.items():
-        if str(datos[3]) == str(ds[k]):
-            sublinea = k
-    
-    for k, v in Productos.OPCIONES_COLOR:
-        dc[k] = v
-    for k, v in dc.items():
-        if str(datos[4]) == str(dc[k]):
-            color = k
 
     for k, v in Productos.OPCIONES_GENERO:
         dl[k] = v
     for k, v in dl.items():
         if str(datos[2]) == str(dl[k]):
             linea = k
+            break
 
-    return pieza, sublinea, color, linea
+    return linea
 
 def get_datos_calzado_nuevo(request, dic, i):
-    dt = {}
     dl = {}
-    ds = {}
-    dc = {}
-    medida = 0
-    sublinea = 0
-    color = 0
     linea = 0
     datos = str(dic[i]).split(',')
-    for k, v in Productos.OPCIONES_MEDIDA:
-        dt[k] = v
-    for k, v in dt.items():
-        if str(datos[5]) == str(dt[k]):
-            medida = k
-
-    for k, v in Productos.OPCIONES_LINEA_CALZADO:
-        ds[k] = v
-    for k, v in ds.items():
-        if str(datos[3]) == str(ds[k]):
-            sublinea = k
-    
-    for k, v in Productos.OPCIONES_COLOR:
-        dc[k] = v
-    for k, v in dc.items():
-        if str(datos[4]) == str(dc[k]):
-            color = k
 
     for k, v in Productos.OPCIONES_GENERO:
         dl[k] = v
     for k, v in dl.items():
         if str(datos[2]) == str(dl[k]):
             linea = k
+            break
 
-    return medida, sublinea, color, linea
+    return linea
 
 def get_datos_ropa_nuevo(request, dic, i):
-    dt = {}
     dl = {}
-    ds = {}
-    dc = {}
-    talla = 0
-    sublinea = 0
-    color = 0
     linea = 0
     datos = str(dic[i]).split(',')
-    for k, v in Productos.OPCIONES_TALLA:
-        dt[k] = v
-    for k, v in dt.items():
-        if str(datos[5]) == str(dt[k]):
-            talla = k
-
-    for k, v in Productos.OPCIONES_LINEA_ROPA:
-        ds[k] = v
-    for k, v in ds.items():
-        if str(datos[3]) == str(ds[k]):
-            sublinea = k
-    
-    for k, v in Productos.OPCIONES_COLOR:
-        dc[k] = v
-    for k, v in dc.items():
-        if str(datos[4]) == str(dc[k]):
-            color = k
 
     for k, v in Productos.OPCIONES_GENERO:
         dl[k] = v
     for k, v in dl.items():
         if str(datos[2]) == str(dl[k]):
             linea = k
+            break
 
-    return talla, sublinea, color, linea
-
+    return linea
 
 """ **************************************** ALMACEN 2 **************************************** """

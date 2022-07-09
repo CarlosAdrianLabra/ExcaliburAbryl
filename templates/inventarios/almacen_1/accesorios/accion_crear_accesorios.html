@@ -32,51 +32,72 @@
                     <option value="4">UNISEX</option>
                     <option value="5">VARIOS</option>
                 </select>
-                <label><span style="color: red; font-size: small; ">* </span>Sublínea:</label>{{ form.linea_a }}
+                <label><span style="color: red; font-size: small; ">* </span>Sublínea:</label>{{ form.sublinea }}
                 <label><span style="color: red; font-size: small; ">* </span>Talla:</label>
-                <select id="id_pieza" name="pieza" class="form-control mb-3">
+                <select id="id_talla" name="talla" class="form-control mb-3">
                     <option value="" selected="">---------</option>
-                    <option value="1" data-chained="1">26</option>
-                    <option value="2" data-chained="1">26.5</option>
-                    <option value="3" data-chained="1">27</option>
-                    <option value="4" data-chained="1">27.5</option>
-                    <option value="5" data-chained="1">28</option>
-                    <option value="6" data-chained="1">28.5</option>
-                    <option value="7" data-chained="1">29</option>
-                    <option value="8" data-chained="1">29.5</option>
-                    <option value="9" data-chained="1">30</option>
-                    <option value="10" data-chained="1">XCH</option>
-                    <option value="11" data-chained="1">CH</option>
-                    <option value="12" data-chained="1">M</option>
-                    <option value="13" data-chained="1">G</option>
-                    <option value="14" data-chained="1">XG</option>
-                    <option value="15" data-chained="2">PZA</option>
-                    <option value="16" data-chained="2">21</option>
-                    <option value="17" data-chained="2">22</option>
-                    <option value="18" data-chained="2">23</option>
-                    <option value="19" data-chained="2">24</option>
-                    <option value="20" data-chained="2">25</option>
-                    <option value="21" data-chained="2">XCH</option>
-                    <option value="22" data-chained="2">CH</option>
-                    <option value="23" data-chained="2">M</option>
-                    <option value="24" data-chained="2">G</option>
-                    <option value="25" data-chained="2">XG</option>
-                    <option value="26" data-chained="3">15</option>
-                    <option value="27" data-chained="3">15.5</option>
-                    <option value="28" data-chained="3">16</option>
-                    <option value="29" data-chained="3">16.5</option>
-                    <option value="30" data-chained="3">17</option>
-                    <option value="31" data-chained="3">17.5</option>
-                    <option value="32" data-chained="3">18</option>
-                    <option value="33" data-chained="3">18.5</option>
-                    <option value="34" data-chained="3">19</option>
-                    <option value="35" data-chained="3">19.5</option>
-                    <option value="36" data-chained="3">20</option>
-                    <option value="37" data-chained="3">20.5</option>
-                    <option value="38" data-chained="3">21</option>
-                    <option value="39" data-chained="3">21.5</option>
-                    <option value="40" data-chained="4">PZA</option>
-                    <option value="41" data-chained="5">PZA</option>
+                    <option value="38" data-chained="1">26</option>
+                    <option value="39" data-chained="1">26.5</option>
+                    <option value="40" data-chained="1">27</option>
+                    <option value="41" data-chained="1">27.5</option>
+                    <option value="42" data-chained="1">28</option>
+                    <option value="43" data-chained="1">28.5</option>
+                    <option value="44" data-chained="1">29</option>
+                    <option value="45" data-chained="1">29.5</option>
+                    <option value="46" data-chained="1">30</option>
+                    <option value="60" data-chained="1">PZA</option>
+                    <option value="61" data-chained="1">XCH</option>
+                    <option value="62" data-chained="1">CH</option>
+                    <option value="63" data-chained="1">M</option>
+                    <option value="64" data-chained="1">G</option>
+                    <option value="65" data-chained="1">XG</option>
+
+                    <option value="28" data-chained="2">21</option>
+                    <option value="30" data-chained="2">22</option>
+                    <option value="32" data-chained="2">23</option>
+                    <option value="34" data-chained="2">24</option>
+                    <option value="36" data-chained="2">25</option>
+                    <option value="60" data-chained="2">PZA</option>
+                    <option value="61" data-chained="2">XCH</option>
+                    <option value="62" data-chained="2">CH</option>
+                    <option value="63" data-chained="2">M</option>
+                    <option value="64" data-chained="2">G</option>
+                    <option value="65" data-chained="2">XG</option>
+
+                    <option value="16" data-chained="3">15</option>
+                    <option value="17" data-chained="3">15.5</option>
+                    <option value="18" data-chained="3">16</option>
+                    <option value="19" data-chained="3">16.5</option>
+                    <option value="20" data-chained="3">17</option>
+                    <option value="21" data-chained="3">17.5</option>
+                    <option value="22" data-chained="3">18</option>
+                    <option value="23" data-chained="3">18.5</option>
+                    <option value="24" data-chained="3">19</option>
+                    <option value="25" data-chained="3">19.5</option>
+                    <option value="26" data-chained="3">20</option>
+                    <option value="27" data-chained="3">20.5</option>
+                    <option value="28" data-chained="3">21</option>
+                    <option value="29" data-chained="3">21.5</option>
+                    <option value="60" data-chained="3">PZA</option>
+                    <option value="61" data-chained="3">XCH</option>
+                    <option value="62" data-chained="3">CH</option>
+                    <option value="63" data-chained="3">M</option>
+                    <option value="64" data-chained="3">G</option>
+                    <option value="65" data-chained="3">XG</option>
+
+                    <option value="60" data-chained="4">PZA</option>
+                    <option value="61" data-chained="4">XCH</option>
+                    <option value="62" data-chained="4">CH</option>
+                    <option value="63" data-chained="4">M</option>
+                    <option value="64" data-chained="4">G</option>
+                    <option value="65" data-chained="4">XG</option>
+
+                    <option value="60" data-chained="5">PZA</option>
+                    <option value="61" data-chained="5">XCH</option>
+                    <option value="62" data-chained="5">CH</option>
+                    <option value="63" data-chained="5">M</option>
+                    <option value="64" data-chained="5">G</option>
+                    <option value="65" data-chained="5">XG</option>
                 </select>
                 <label><span style="color: red; font-size: small; ">* </span>Color:</label>{{ form.color }}
                 <label><span style="color: red; font-size: small; ">* </span>Promoción:</label>{{ form.promocion }}
@@ -109,6 +130,6 @@
 <script src="{% static 'js/zepto-selector.js' %}"></script>
 <script>
 $(function(){
-    $("#id_pieza").chained("#id_genero");
+    $("#id_talla").chained("#id_genero");
 });
 </script>

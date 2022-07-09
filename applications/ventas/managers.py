@@ -427,7 +427,7 @@ class SaleDetailManager(models.Manager):
         return costo['total']
     
     def ganancias_totales_actuales(self): # Panel de control
-        costo = self.filter(anulate=False, sale__close=True, sale__date_sale__gte=str(self.ano_actual)+"-01-01").aggregate(
+        costo = self.filter(sale__anulate=False, sale__close=True, sale__date_sale__gte=str(self.ano_actual)+"-01-01").aggregate(
             total=Sum(
                 F('price_subtotal') - F('count')*F('price_purchase'),
                 output_field=FloatField()

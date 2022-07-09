@@ -32,7 +32,35 @@
                         <label class="text-uppercase col-12">1 - Elige la promoción y fecha que deseas implementar:</label>
                         <div class="col-5 offset-1">
                             <div class="col-12"><label class="ml-1 mt-2">Promociones disponibles:</label></div>
-                            <div class="col-8">{{form.promocion}}</div>
+                            <div class="col-8"><!-- {{form.promocion}} -->
+                                <select name="promocion" class="form-control col-12 ml-1 mb-3" required="" id="id_promocion">
+                                    <option value="" selected="">---------</option>
+                                    <optgroup label="Crear descuento para un producto">
+                                        <option value="12">Descuento establecido por tienda</option>
+                                    </optgroup>
+                                    <optgroup>
+                                        <option value="1">10 %</option>
+                                        <option value="2">20 %</option>
+                                        <option value="3">30 %</option>
+                                    </optgroup>
+                                    <optgroup>
+                                        <option value="4">2 x 1</option>
+                                        <option value="5">3 x 2</option>
+                                    </optgroup>
+                                    <optgroup>
+                                        <option value="6">1=10%, 2=20%</option>
+                                    </optgroup>
+                                    <optgroup>
+                                        <option value="7">2 Adidas y obtén 10%</option>
+                                    </optgroup>
+                                    <optgroup>
+                                        <option value="8">- $89.00</option>
+                                        <option value="9">- $99.00</option>
+                                        <option value="10">- $199.00</option>
+                                        <option value="11">- $299.00</option>
+                                    </optgroup>
+                                  </select>
+                            </div>
                         </div>
                         <div class="col-5 offset-1">
                             <div class="col-12">
@@ -84,7 +112,7 @@
                                     </div>
                                 </span>
                                 <div class="card-body">
-                                    <P class="col-12">Nota * DEBES SELECCIONAR UN GÉNERO, MARCA Y UNA DE LAS TRES DIFERENTES LÍNEAS (accesorios, calzado, ropa)</P>
+                                    <P class="col-12">Nota * DEBES SELECCIONAR MARCA, MODELO LÍNEA Y SUBLÍNEA</P>
                                     <label class="col-12">Ingresa la siguiente información:</label>
                                     <label class="col-2 ml-5 float-left pt-2">Marca:</label>
                                     {{form.marca}}
@@ -92,12 +120,8 @@
                                     {{form.modelo}}
                                     <label class="col-2 ml-5 float-left pt-2">Línea:</label>
                                     {{form.genero}}
-                                    <label class="col-2 ml-5 float-left pt-2 mt-4">Subínea accesorios:</label>
-                                    {{form.linea_a}}
-                                    <label class="col-2 ml-5 float-left pt-2">Sublínea calzado:</label>
-                                    {{form.linea_c}}
-                                    <label class="col-2 ml-5 float-left pt-2">Sublínea ropa:</label>
-                                    {{form.linea_r}}
+                                    <label class="col-2 ml-5 float-left pt-2">Sublínea:</label>
+                                    {{form.sublinea}}
                                 </div>
                             </div>
                         </div>

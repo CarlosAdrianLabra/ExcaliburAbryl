@@ -1,7 +1,7 @@
 from django import forms
 from applications.inventarios.models import Marca
 from .models import Venta
-from applications.inventarios.models import Productos
+from applications.inventarios.models import Productos, Sublinea
 
 class VentaForm(forms.Form):
     barcode= forms.CharField(
@@ -79,39 +79,20 @@ class EfectivoForm(forms.Form):
     )
 
 class PromocionesForm(forms.Form):
-    
-    linea_a = forms.ChoiceField(
-        required=False,
-        choices=Productos.OPCIONES_LINEA_ACCESORIOS,
-        widget=forms.Select(
-            attrs = {
-                'class': 'form-control col-9 ml-1 mb-3 float-left mt-4',
-            }
-        )
-    )
-    linea_c = forms.ChoiceField(
-        required=False,
-        choices=Productos.OPCIONES_LINEA_CALZADO,
-        widget=forms.Select(
-            attrs = {
-                'class': 'form-control col-9 ml-1 mb-3 float-left',
-            }
-        )
-    )
-    linea_r = forms.ChoiceField(
-        required=False,
-        choices=Productos.OPCIONES_LINEA_ROPA,
-        widget=forms.Select(
-            attrs = {
-                'class': 'form-control col-9 ml-1 mb-3 float-left',
-            }
-        )
-    )
     genero = forms.ChoiceField(
         required=False,
         choices=Productos.OPCIONES_GENERO,
         widget=forms.Select(
             attrs = {
+                'class': 'form-control col-9 ml-1 mb-3 float-left',
+            }
+        )
+    )
+    sublinea = forms.ModelChoiceField(
+        required=False,
+        queryset=Sublinea.objects.all(),
+        widget=forms.Select(
+            attrs={
                 'class': 'form-control col-9 ml-1 mb-3 float-left',
             }
         )
@@ -161,7 +142,7 @@ class PromocionesForm(forms.Form):
         )
     )
     promocion = forms.ChoiceField(
-        required=False,
+        required=True,
         choices=Productos.OPCION_PROMOCIONES,
         widget=forms.Select(
             attrs = {
@@ -170,7 +151,7 @@ class PromocionesForm(forms.Form):
         )
     )
     fecha_final_promocion = forms.DateField(
-        required=False,
+        required=True,
         widget=forms.DateInput(
             format='%Y-%m-%d',
             attrs={

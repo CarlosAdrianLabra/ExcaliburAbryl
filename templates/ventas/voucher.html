@@ -58,15 +58,7 @@
                         <tbody>
                             {% for producto in detalle_productos %}
                             <tr><td colspan="4">
-                                {% if producto.producto.linea_a %}
-                                {{ producto.producto }} - {{ producto.producto.get_linea_a_display }} - {{ producto.producto.get_color_display }} - {{ producto.producto.get_pieza_display }}
-                                {% endif %}
-                                {% if producto.producto.linea_c %}
-                                {{ producto.producto }} - {{ producto.producto.get_linea_c_display }} - {{ producto.producto.get_color_display }} - {{ producto.producto.get_medida_display }}
-                                {% endif %}
-                                {% if producto.producto.linea_r %}
-                                {{ producto.producto }} - {{ producto.producto.get_linea_r_display }} - {{ producto.producto.get_color_display }} - {{ producto.producto.get_talla_display }}
-                                {% endif %}
+                                {{ producto.producto }} - {{ producto.producto.sublinea }} - {{ producto.producto.color }} - {{ producto.producto.talla }}
                             </td></tr>
                             <tr>
                                 <td style="text-align: center;">{{ producto.count }}</td>

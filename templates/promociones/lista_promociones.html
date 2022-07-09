@@ -40,27 +40,23 @@
                         <th>Termina la promoción</th>
                         <th>Precio costo</th>
                         <th>Precio venta</th>
+                        <th>Eliminar promoción</th>
                     </thead>
                     <tbody>
                     {% for p in p_activas %}
                     <tr>
                         <td>{{ p.barcode }}</td>
-                        <td>
-                            {% if p.linea_a %}
-                            {{ p }} - {{ p.get_linea_a_display }} - {{ p.get_pieza_display}}
-                            {% endif %}
-                            {% if p.linea_c %}
-                            {{ p }} - {{ p.get_linea_c_display }} - {{ p.get_medida_display }}
-                            {% endif %}
-                            {% if p.linea_r %}
-                            {{ p }} - {{ p.get_linea_r_display }} - {{ p.get_talla_display}}
-                            {% endif %}
-                        </td>
+                        <td>{{ p }} - {{ p.sublinea }} - {{ p.talla}}</td>
                         <td>{{ p.stock }}</td>
                         <td>{{ p.get_promocion_display }}</td>
                         <td>{{ p.fecha_final_promocion}}</td>
                         <td>$ {{ p.precio_compra | floatformat:2 }}</td>
                         <td>$ {{ p.precio_venta | floatformat:2 }}</td>
+                        <td>
+                            <form action="{% url 'ventas_app:promociones_eliminar' p.pk %}" method="POST" class="m-0">{% csrf_token %}
+                                <button type="submit" class="btn btn-sm btr"><i class="fas fa-trash mr-2"></i>Eliminar</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                     </tbody>

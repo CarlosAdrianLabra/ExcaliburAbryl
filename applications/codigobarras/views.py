@@ -85,12 +85,7 @@ class AgregarUnoVista(View):
         
         for q in queryset:
             cont += 1
-            if q.pieza:
-                resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.get_linea_a_display(), q.get_pieza_display(), q.get_color_display()
-            if q.medida:
-                resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.get_linea_c_display(), q.get_medida_display(), q.get_color_display()
-            if q.talla:
-                resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.get_linea_r_display(), q.get_talla_display(), q.get_color_display()
+            resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.sublinea.nombre, q.talla.nombre, q.color.nombre
 
         for key in resultado:
             create = Etiqueta.objects.create(
@@ -124,11 +119,11 @@ class EliminarEtiquetaVista(View):
 #             for q in queryset:
 #                 cont += 1
 #                 if q.pieza:
-#                     resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.get_linea_a_display(), q.get_pieza_display(), q.get_color_display()
+#                     resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.get_linea_a_display(), q.get_pieza_display(), q.color.nombre()
 #                 if q.medida:
-#                     resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.get_linea_c_display(), q.get_medida_display(), q.get_color_display()
+#                     resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.get_linea_c_display(), q.get_medida_display(), q.color.nombre()
 #                 if q.talla:
-#                     resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.get_linea_r_display(), q.get_talla_display(), q.get_color_display()
+#                     resultado[cont] = q.barcode, q.nombre, q.marca.nombre, q.modelo, q.get_genero_display(), q.get_linea_r_display(), q.get_talla_display(), q.color.nombre()
 
 #             for key in resultado:
 #                 create = Etiqueta.objects.create(

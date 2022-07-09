@@ -116,15 +116,7 @@
                                             {% for p in productos %}
                                             <tr>
                                                 <td>{{ p.barcode }}</td>
-                                                {% if p.producto.linea_a %}
-                                                <td>{{ p.producto.nombre }}-{{ p.producto.modelo }}-{{ p.producto.get_genero_display }}-{{ p.producto.get_linea_a_display }}-{{ p.producto.get_color_display }}</td>
-                                                {% endif %}
-                                                {% if p.producto.linea_c %}
-                                                <td>{{ p.producto.nombre }}-{{ p.producto.modelo }}-{{ p.producto.get_genero_display }}-{{ p.producto.get_linea_c_display }}-{{ p.producto.get_color_display }}</td>
-                                                {% endif %}
-                                                {% if p.producto.linea_r %}
-                                                <td>{{ p.producto.nombre }}-{{ p.producto.modelo }}-{{ p.producto.get_genero_display }}-{{ p.producto.get_linea_r_display }}-{{ p.producto.get_color_display }}</td>
-                                                {% endif %}
+                                                <td>{{ p.producto.nombre }}-{{ p.producto.modelo }}-{{ p.producto.get_genero_display }}-{{ p.producto.sublinea }}-{{ p.producto.color }}</td>
                                                 {% if p.producto.promocion != '0' %}
                                                 <td style="text-align: center;" class="bg-navyr white">{{ p.producto.get_promocion_display }}</td>
                                                 {% else %}
@@ -208,19 +200,21 @@
                                 </form>
                             </div>
 
+                            <div class="offset-md-5">
+                                <button type="button" class="btn btr pl-5 pr-5" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-dollar-sign mr-2"></i>Realizar Venta</button>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
                             <div class="offset-md-1">
                                 <a type="button" href="/apartados" class="btn btr"><i class="fas fa-tag mr-2"></i>Apartar productos</a>
                             </div>
-
+                        </div>
+                        <div class="row mb-4">
                             <div class="offset-md-1">
                                 <form action="{% url 'ventas_app:promocion_familiar' %}" method="GET" class="m-0">
                                     <span style="display: none;"><input type="text" id="promocion" name="promocion" value="13"></span>
                                     <button type="submit" class="btn btr"><i class="fas fa-tag mr-2"></i>Descuento familiar</button>
                                 </form>
-                            </div>
-
-                            <div class="offset-md-1">
-                                <button type="button" class="btn btr pl-5 pr-5" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-dollar-sign mr-2"></i>Realizar Venta</button>
                             </div>
                         </div>
                         <!-- ./row acciones de pagos -->

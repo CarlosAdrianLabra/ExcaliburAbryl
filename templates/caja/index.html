@@ -115,15 +115,7 @@
                                             {% for detalle in venta.detail_sale.all %}
                                             <tr>
                                                 <td>
-                                                    {% if detalle.producto.linea_a %}
-                                                    {{ detalle.producto.barcode }} - {{ detalle.producto }} - {{ detalle.producto.get_linea_a_display }} - {{ detalle.producto.get_color_display }} - {{ detalle.producto.get_pieza_display }}
-                                                    {% endif %}
-                                                    {% if detalle.producto.linea_c %}
-                                                    {{ detalle.producto.barcode }} - {{ detalle.producto }} - {{ detalle.producto.get_linea_c_display }} - {{ detalle.producto.get_color_display }} - {{ detalle.producto.get_medida_display }}
-                                                    {% endif %}
-                                                    {% if detalle.producto.linea_r %}
-                                                    {{ detalle.producto.barcode }} - {{ detalle.producto }} - {{ detalle.producto.get_linea_r_display }} - {{ detalle.producto.get_color_display }} - {{ detalle.producto.get_talla_display }}
-                                                    {% endif %}
+                                                    {{ detalle.producto.barcode }} - {{ detalle.producto }} - {{ detalle.producto.sublinea }} - {{ detalle.producto.color }} - {{ detalle.producto.talla }}
                                                 </td>
                                                 <td>$ {{ detalle.price_sale }}</td>
                                                 <td>{{ detalle.count }}</td>

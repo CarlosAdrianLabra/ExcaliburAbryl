@@ -79,4 +79,9 @@ urlpatterns = [
         views.PromocionFamiliar.as_view(),
         name='promocion_familiar',
     ),
+    path(
+        'promociones/eliminar/<pk>',
+        views.EliminaPromociones.as_view(),
+        name='promociones_eliminar',
+    ),
 ]

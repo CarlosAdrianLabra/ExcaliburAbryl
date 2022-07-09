@@ -14,9 +14,9 @@
     {% for p in producto_calzado %}
         <tr>
             <td class="text-center">{{ p.barcode }}</td>
-            <td class="text-left">{{ p }} - {{ p.get_linea_c_display }} - {{ p.get_color_display }}</td>
+            <td class="text-left">{{ p }} - {{ p.sublinea }} - {{ p.color }}</td>
             <td class="text-center">{{ p.proveedor }}</td>
-            <td class="text-center">{{ p.get_medida_display }}</td>
+            <td class="text-center">{{ p.talla }}</td>
             <td class="text-center">{{ p.stock }}</td>
             <td class="text-center">{{ p.precio_venta }}</td>
             <td class="text-center">

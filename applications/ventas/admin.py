@@ -13,24 +13,25 @@ class VentaAdmin(admin.ModelAdmin):
     )
     list_filter = ('type_invoice', 'type_payment', 'anulate', 'user', )
 
-
-class DetalleVentaAdmin(admin.ModelAdmin):
-    list_display = (
-        'producto',
-        'sale',
-        'count',
-        'anulate',
-    )
-    search_fields = ('product__name',)
-
-
 admin.site.register(Venta, VentaAdmin)
-#
-admin.site.register(DetalleVenta, DetalleVentaAdmin)
 
-class PreciosFijosAdmin(admin.ModelAdmin):
-    list_display = (
-        'barcode',
-        'precio_fijo'
-    )
-admin.site.register(PreciosFijos, PreciosFijosAdmin)
+# class DetalleVentaAdmin(admin.ModelAdmin):
+#     list_display = (
+#         'producto',
+#         'sale',
+#         'count',
+#         'anulate',
+#     )
+#     search_fields = ('product__name',)
+
+
+
+#
+# admin.site.register(DetalleVenta, DetalleVentaAdmin)
+
+# class PreciosFijosAdmin(admin.ModelAdmin):
+#     list_display = (
+#         'barcode',
+#         'precio_fijo'
+#     )
+# admin.site.register(PreciosFijos, PreciosFijosAdmin)

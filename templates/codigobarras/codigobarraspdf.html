@@ -33,30 +33,13 @@
                             {% now "SHORT_DATE_FORMAT" %}
                         </div>
                         <div style="font-size: 7px;">
-                            {% if productos.linea_a %}
-                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_genero_display}}-{{productos.get_linea_a_display}}
-                            {% endif %}
-                            {% if productos.linea_c %}
-                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_genero_display}}-{{productos.get_linea_c_display}}
-                            {% endif %}
-                            {% if productos.linea_r %}
-                                {{productos.nombre}}-{{productos.modelo}}-{{productos.get_genero_display}}-{{productos.get_linea_r_display}}
-                            {% endif %}
+                            {{productos.nombre}}-{{productos.modelo}}-{{productos.get_genero_display}}-{{productos.sublinea}}
                         </div>
                         <div>
-                            <span style="font-size: 7px;">
-                                {% if productos.medida %}
-                                    Talla: {{ productos.get_medida_display }}
-                                {% endif %}
-                                {% if productos.talla %}
-                                    Talla: {{ productos.get_talla_display }}
-                                {% endif %}
-                                {% if productos.pieza %}
-                                    Talla: {{ productos.get_pieza_display }}
-                                {% endif %}
-                            </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span style="font-size: 7px;">Talla: {{ productos.talla }}</span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <span style="font-weight: bolder;">
-                                {{productos.get_color_display}}
+                                {{productos.color}}
                             </span>
                         </div>
                     </div>

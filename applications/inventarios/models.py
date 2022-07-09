@@ -32,7 +32,7 @@ class Proveedor(TimeStampedModel):
     def __str__(self):
         return self.nombre
 
-# Modelo de marcas
+# Modelo de marca
 class Marca(TimeStampedModel):
 
     nombre = models.CharField('Nombre', max_length=50, blank=True)
@@ -45,6 +45,55 @@ class Marca(TimeStampedModel):
     def save(self, *args, **kwargs):
         self.nombre = self.nombre.upper()
         return super(Marca, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.nombre
+
+# Modelo de color
+class Color(models.Model):
+    nombre = models.CharField('Color', max_length=35, blank=True)
+
+    class Meta:
+        verbose_name = 'Color'
+        verbose_name_plural = 'Colores'
+        db_table = 'Color'
+        ordering = ['nombre']
+
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        return super(Color, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.nombre
+
+# Modelo de talla
+class Talla(models.Model):
+    nombre = models.CharField('Talla', max_length=10, blank=True)
+
+    class Meta:
+        verbose_name = 'Talla'
+        verbose_name_plural = 'Tallas'
+        db_table = 'Talla'
+
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        return super(Talla, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.nombre
+
+# Modelo de sublinea
+class Sublinea(models.Model):
+    nombre = models.CharField('Sublinea', max_length=30, blank=True)
+
+    class Meta:
+        verbose_name = 'Sublinea'
+        verbose_name_plural = 'Sublineas'
+        db_table = 'Sublinea'
+
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        return super(Sublinea, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.nombre
@@ -838,17 +887,20 @@ class Productos(TimeStampedModel):
     # Atributos foreignkey
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
-    
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    talla = models.ForeignKey(Talla, on_delete=models.CASCADE)
+    sublinea = models.ForeignKey(Sublinea, on_delete=models.CASCADE)
+
     # Atributos de opciones
     tipo = models.CharField('Tipo de producto', max_length=3, choices=OPCIONES_TIPO_PRODUCTO)
     almacen = models.CharField('Almacén', max_length=4, choices=OPCIONES_ALMACEN)
-    talla = models.CharField('Talla', max_length=3, blank=True, choices=OPCIONES_TALLA)
+    # talla = models.CharField('Talla', max_length=3, blank=True, choices=OPCIONES_TALLA)
     medida = models.CharField('Medida', max_length=3, blank=True, choices=OPCIONES_MEDIDA)
     pieza = models.CharField('Pieza', max_length=2, blank=True, choices=OPCIONES_PIEZA)
     linea_a = models.CharField('Línea de accesorios', max_length=2, blank=True, choices=OPCIONES_LINEA_ACCESORIOS)
     linea_c = models.CharField('Línea de calzado', max_length=2, blank=True, choices=OPCIONES_LINEA_CALZADO)
     linea_r = models.CharField('Línea de ropa', max_length=2, blank=True, choices=OPCIONES_LINEA_ROPA)
-    color = models.CharField('Color', max_length=3, blank=True, choices=OPCIONES_COLOR)
+    # color = models.CharField('Color', max_length=3, blank=True, choices=OPCIONES_COLOR)
     genero = models.CharField('Género', max_length=1, blank=True, choices=OPCIONES_GENERO)
     promocion = models.CharField('Promociones', max_length=2, blank=True, choices=OPCION_PROMOCIONES, default='0')
     fecha_final_promocion = models.DateTimeField('Fecha final de promoción', null=True, blank=True)
@@ -983,6 +1035,9 @@ class ArchivoSubido(models.Model):
         ('3', 'Accesorios'),
         ('4', 'Calzado'),
         ('5', 'Ropa'),
+        ('6', 'Color'),
+        ('7', 'Talla'),
+        ('8', 'Sublinea')
     )
 
     archivo = models.FileField('Archivo', upload_to='archivos/')

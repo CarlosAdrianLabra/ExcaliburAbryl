@@ -57,15 +57,7 @@
                         </thead>
                         <tbody>
                             <tr><td colspan="4">
-                                {% if producto.linea_a %}
-                                {{ producto }} - {{ producto.get_linea_a_display }} - {{ producto.get_color_display }} - {{ producto.get_pieza_display }}
-                                {% endif %}
-                                {% if producto.linea_c %}
-                                {{ producto }} - {{ producto.get_linea_c_display }} - {{ producto.get_color_display }} - {{ producto.get_medida_display }}
-                                {% endif %}
-                                {% if producto.linea_r %}
-                                {{ producto }} - {{ producto.get_linea_r_display }} - {{ producto.get_color_display }} - {{ producto.get_talla_display }}
-                                {% endif %}
+                                {{ producto }} - {{ producto.sublinea }} - {{ producto.color }} - {{ producto.talla }}
                             </td></tr>
                             <tr>
                                 <td style="text-align: center;">1</td>
