@@ -7,7 +7,7 @@ class CalzadoFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'medida', 'pieza', 'anular', 'linea_r', 'linea_a', 'linea_c']
+        exclude = ['num_venta', 'anular']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
@@ -58,7 +58,7 @@ class RopaFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'medida', 'pieza', 'anular', 'linea_c', 'linea_a', 'linea_r']
+        exclude = ['num_venta', 'anular']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),
@@ -108,7 +108,7 @@ class AccesoriosFormulario(BSModalModelForm):
 
     class Meta:
         model = Productos
-        exclude = ['num_venta', 'medida', 'pieza', 'anular', 'linea_c', 'linea_r', 'linea_a']
+        exclude = ['num_venta', 'anular']
 
         widgets = {
             'barcode': forms.NumberInput(attrs={'class': 'form-control mb-3'}),

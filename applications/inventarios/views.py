@@ -564,11 +564,7 @@ def actualizar_stock(request, file):
 
     # Accesorios
     elif file.tipo == '3' and Productos.objects.filter(tipo='300'):
-        dic_modelo = {}
-        producto = Productos.objects.filter(tipo='300')
-        for p in producto:
-            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
-    
+        dic_modelo = {}    
         dic_archivo = {}
         dic_stock = {}
         dic_no_creados = {}
@@ -578,10 +574,21 @@ def actualizar_stock(request, file):
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
             lista = []
+            marcas = []
             for i, renglon in enumerate(renglon_archivo[1:]):
                 r = renglon.strip()
                 dic_archivo[i] = r
                 dic_stock[i] = r
+            
+            for i in dic_archivo:
+                archivo = str(dic_archivo[i]).split(',')
+                if str(archivo[0]) not in marcas:
+                    marcas.append(archivo[0])
+            
+            for i in marcas:
+                producto = Productos.objects.filter(tipo='300', marca__nombre=i)
+                for p in producto:
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
 
             for i in dic_archivo:
                 for j in dic_modelo:
@@ -658,11 +665,7 @@ def actualizar_stock(request, file):
 
     # Calzado
     elif file.tipo == '4' and Productos.objects.filter(tipo='100'):
-        dic_modelo = {}
-        producto = Productos.objects.filter(tipo='100')
-        for p in producto:
-            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
-    
+        dic_modelo = {}    
         dic_archivo = {}
         dic_stock = {}
         dic_no_creados = {}
@@ -672,10 +675,21 @@ def actualizar_stock(request, file):
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
             lista = []
+            marcas = []
             for i, renglon in enumerate(renglon_archivo[1:]):
                 r = renglon.strip()
                 dic_archivo[i] = r
                 dic_stock[i] = r
+
+            for i in dic_archivo:
+                archivo = str(dic_archivo[i]).split(',')
+                if str(archivo[0]) not in marcas:
+                    marcas.append(archivo[0])
+            
+            for i in marcas:
+                producto = Productos.objects.filter(tipo='100', marca__nombre=i)
+                for p in producto:
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
 
             for i in dic_archivo:
                 for j in dic_modelo:
@@ -753,11 +767,7 @@ def actualizar_stock(request, file):
 
     # Ropa
     elif file.tipo == '5' and Productos.objects.filter(tipo='200'):
-        dic_modelo = {}
-        producto = Productos.objects.filter(tipo='200')
-        for p in producto:
-            dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
-    
+        dic_modelo = {}    
         dic_archivo = {}
         dic_stock = {}
         dic_no_creados = {}
@@ -767,10 +777,21 @@ def actualizar_stock(request, file):
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
             lista = []
+            marcas = []
             for i, renglon in enumerate(renglon_archivo[1:]):
                 r = renglon.strip()
                 dic_archivo[i] = r
                 dic_stock[i] = r
+
+            for i in dic_archivo:
+                archivo = str(dic_archivo[i]).split(',')
+                if str(archivo[0]) not in marcas:
+                    marcas.append(archivo[0])
+            
+            for i in marcas:
+                producto = Productos.objects.filter(tipo='200', marca__nombre=i)
+                for p in producto:
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
 
             for i in dic_archivo:
                 for j in dic_modelo:
