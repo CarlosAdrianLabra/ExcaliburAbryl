@@ -588,13 +588,13 @@ def actualizar_stock(request, file):
             for i in marcas:
                 producto = Productos.objects.filter(tipo='300', marca__nombre=i)
                 for p in producto:
-                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
 
             for i in dic_archivo:
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
                     archivo = str(dic_archivo[i]).split(',')
-                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])})
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])})
 
                     if str(dic_archivo[i]) == str(dic_modelo[j]):
                         archivo_stock = str(dic_stock[i]).split(',')
@@ -615,11 +615,13 @@ def actualizar_stock(request, file):
                     if created: sublinea.save()
                     marca, created = Marca.objects.get_or_create(nombre=datos[0])
                     if created: marca.save()
+                    proveedor, created = Proveedor.objects.get_or_create(nombre=datos[9])
+                    if created: proveedor.save()
 
                     lista.append(Productos(
                         barcode=barcode,nombre="ACCESORIOS",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
                         color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],
-                        proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="300",almacen="1000",promocion="0",num_venta="0",
+                        proveedor=proveedor,tipo="300",almacen="1000",promocion="0",num_venta="0",
                         )
                     )
         if len(lista) > 0:
@@ -653,11 +655,13 @@ def actualizar_stock(request, file):
                 if created: sublinea.save()
                 marca, created = Marca.objects.get_or_create(nombre=datos[0])
                 if created: marca.save()
+                proveedor, created = Proveedor.objects.get_or_create(nombre=datos[9])
+                if created: proveedor.save()
 
                 lista.append(Productos(
                     barcode=barcode,nombre="ACCESORIOS",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
                     color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
-                    proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="300",almacen="1000",promocion="0",
+                    proveedor=proveedor,tipo="300",almacen="1000",promocion="0",
                     )
                 )
         if len(lista) > 0:
@@ -665,7 +669,7 @@ def actualizar_stock(request, file):
 
     # Calzado
     elif file.tipo == '4' and Productos.objects.filter(tipo='100'):
-        dic_modelo = {}    
+        dic_modelo = {}
         dic_archivo = {}
         dic_stock = {}
         dic_no_creados = {}
@@ -689,13 +693,13 @@ def actualizar_stock(request, file):
             for i in marcas:
                 producto = Productos.objects.filter(tipo='100', marca__nombre=i)
                 for p in producto:
-                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
 
             for i in dic_archivo:
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
                     archivo = str(dic_archivo[i]).split(',')
-                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])})
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])})
 
                     if str(dic_archivo[i]) == str(dic_modelo[j]):
                         archivo_stock = str(dic_stock[i]).split(',')
@@ -716,11 +720,13 @@ def actualizar_stock(request, file):
                     if created: sublinea.save()
                     marca, created = Marca.objects.get_or_create(nombre=datos[0])
                     if created: marca.save()
+                    proveedor, created = Proveedor.objects.get_or_create(nombre=datos[9])
+                    if created: proveedor.save()
 
                     lista.append(Productos(
                         barcode=barcode,nombre="CALZADO",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
                         color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],
-                        proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="100",almacen="1000",promocion="0",num_venta="0",
+                        proveedor=proveedor,tipo="100",almacen="1000",promocion="0",num_venta="0",
                         )
                     )
         if len(lista) > 0:
@@ -755,11 +761,13 @@ def actualizar_stock(request, file):
                 if created: sublinea.save()
                 marca, created = Marca.objects.get_or_create(nombre=datos[0])
                 if created: marca.save()
+                proveedor, created = Proveedor.objects.get_or_create(nombre=datos[9])
+                if created: proveedor.save()
 
                 lista.append(Productos(
                     barcode=barcode,nombre="CALZADO",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
                     color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
-                    proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="100",almacen="1000",promocion="0",
+                    proveedor=proveedor,tipo="100",almacen="1000",promocion="0",
                     )
                 )
         if len(lista) > 0:
@@ -791,13 +799,13 @@ def actualizar_stock(request, file):
             for i in marcas:
                 producto = Productos.objects.filter(tipo='200', marca__nombre=i)
                 for p in producto:
-                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
 
             for i in dic_archivo:
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
                     archivo = str(dic_archivo[i]).split(',')
-                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])})
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])})
 
                     if str(dic_archivo[i]) == str(dic_modelo[j]):
                         archivo_stock = str(dic_stock[i]).split(',')
@@ -818,11 +826,13 @@ def actualizar_stock(request, file):
                     if created: sublinea.save()
                     marca, created = Marca.objects.get_or_create(nombre=datos[0])
                     if created: marca.save()
+                    proveedor, created = Proveedor.objects.get_or_create(nombre=datos[9])
+                    if created: proveedor.save()
 
                     lista.append(Productos(
                         barcode=barcode,nombre="ROPA",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
                         color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],
-                        proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="200",almacen="1000",promocion="0",num_venta="0",
+                        proveedor=proveedor,tipo="200",almacen="1000",promocion="0",num_venta="0",
                         )
                     )
         if len(lista) > 0:
@@ -856,11 +866,13 @@ def actualizar_stock(request, file):
                 if created: sublinea.save()
                 marca, created = Marca.objects.get_or_create(nombre=datos[0])
                 if created: marca.save()
+                proveedor, created = Proveedor.objects.get_or_create(nombre=datos[9])
+                if created: proveedor.save()
 
                 lista.append(Productos(
                     barcode=barcode,nombre="ROPA",marca=marca,modelo=datos[1],genero=linea,sublinea=sublinea,
                     color=color,talla=talla,stock=datos[6],precio_compra=datos[7],precio_venta=datos[8],num_venta="0",
-                    proveedor=Proveedor.objects.get(nombre="SIN ASIGNAR"),tipo="200",almacen="1000",promocion="0",
+                    proveedor=proveedor,tipo="200",almacen="1000",promocion="0",
                     )
                 )
         if len(lista) > 0:
