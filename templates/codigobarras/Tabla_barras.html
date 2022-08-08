@@ -19,7 +19,7 @@
 </a>
 {% endblock enlace_lista_filtrada %}
 {% block enlace_lista_filtrada_eliminada %}  
-<form action="{% url 'codigobarras_app:productos_filtrados_eliminados' %}" class="mt-5 ml-1" method="POST">{% csrf_token %}
+<form action="{% url 'codigobarras_app:productos_filtrados_eliminados' %}" class="mt-5 pt-5 ml-1" method="POST">{% csrf_token %}
     <button type="submit" class="btn btn-outline-danger mr-3"><i class="fas fa-trash mr-2"></i>Eliminar Lista de Etiquetas</button>
 </form>
 {% endblock enlace_lista_filtrada_eliminada %}

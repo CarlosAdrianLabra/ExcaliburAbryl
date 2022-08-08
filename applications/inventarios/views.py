@@ -14,6 +14,7 @@ from bootstrap_modal_forms.generic import (
 )
 from applications.utils import render_to_pdf
 from applications.ventas.models import DetalleVenta
+from applications.codigobarras.models import Etiqueta
 from applications.users.mixins import InventarioPermisionMixin
 from django.views.generic import (
     TemplateView,
@@ -574,6 +575,7 @@ def actualizar_stock(request, file):
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
             lista = []
+            lista_update = []
             marcas = []
             for i, renglon in enumerate(renglon_archivo[1:]):
                 r = renglon.strip()
@@ -594,12 +596,16 @@ def actualizar_stock(request, file):
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
                     archivo = str(dic_archivo[i]).split(',')
-                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])})
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(modelo[7])+','+str(modelo[8])+','+str(archivo[9])})
 
                     if str(dic_archivo[i]) == str(dic_modelo[j]):
                         archivo_stock = str(dic_stock[i]).split(',')
                         producto = Productos.objects.get(barcode=j)
-                        Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
+                        producto.stock = producto.stock+int(archivo_stock[6])
+                        producto.precio_compra = archivo_stock[7]
+                        producto.precio_venta = archivo_stock[8]
+                        lista_update.append(producto)
+                        # Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
                         dic_actualizados[i] = dic_archivo[i]
                         break
                 else:
@@ -624,6 +630,8 @@ def actualizar_stock(request, file):
                         proveedor=proveedor,tipo="300",almacen="1000",promocion="0",num_venta="0",
                         )
                     )
+        if len(lista_update) > 0:
+            Productos.objects.bulk_update(lista_update, ['precio_venta', 'precio_compra', 'stock'])
         if len(lista) > 0:
             Productos.objects.bulk_create(lista)
         if len(dic_actualizados) > 0:
@@ -679,6 +687,7 @@ def actualizar_stock(request, file):
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
             lista = []
+            lista_update = []
             marcas = []
             for i, renglon in enumerate(renglon_archivo[1:]):
                 r = renglon.strip()
@@ -699,12 +708,15 @@ def actualizar_stock(request, file):
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
                     archivo = str(dic_archivo[i]).split(',')
-                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])})
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(modelo[7])+','+str(modelo[8])+','+str(archivo[9])})
 
                     if str(dic_archivo[i]) == str(dic_modelo[j]):
                         archivo_stock = str(dic_stock[i]).split(',')
                         producto = Productos.objects.get(barcode=j)
-                        Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
+                        producto.stock = producto.stock+int(archivo_stock[6])
+                        producto.precio_compra = archivo_stock[7]
+                        producto.precio_venta = archivo_stock[8]
+                        lista_update.append(producto)
                         dic_actualizados[i] = dic_archivo[i]
                         break
                 else:
@@ -729,6 +741,8 @@ def actualizar_stock(request, file):
                         proveedor=proveedor,tipo="100",almacen="1000",promocion="0",num_venta="0",
                         )
                     )
+        if len(lista_update) > 0:
+            Productos.objects.bulk_update(lista_update, ['precio_venta', 'precio_compra', 'stock'])
         if len(lista) > 0:
             Productos.objects.bulk_create(lista)
         if len(dic_actualizados) > 0:
@@ -785,6 +799,7 @@ def actualizar_stock(request, file):
             barcode = int(producto.barcode)
             renglon_archivo = archivo.readlines()
             lista = []
+            lista_update = []
             marcas = []
             for i, renglon in enumerate(renglon_archivo[1:]):
                 r = renglon.strip()
@@ -805,12 +820,15 @@ def actualizar_stock(request, file):
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
                     archivo = str(dic_archivo[i]).split(',')
-                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])})
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(modelo[7])+','+str(modelo[8])+','+str(archivo[9])})
 
                     if str(dic_archivo[i]) == str(dic_modelo[j]):
                         archivo_stock = str(dic_stock[i]).split(',')
                         producto = Productos.objects.get(barcode=j)
-                        Productos.objects.filter(barcode=producto.barcode).update(stock=producto.stock+int(archivo_stock[6]))
+                        producto.stock = producto.stock+int(archivo_stock[6])
+                        producto.precio_compra = archivo_stock[7]
+                        producto.precio_venta = archivo_stock[8]
+                        lista_update.append(producto)
                         dic_actualizados[i] = dic_archivo[i]
                         break
                 else:
@@ -835,6 +853,8 @@ def actualizar_stock(request, file):
                         proveedor=proveedor,tipo="200",almacen="1000",promocion="0",num_venta="0",
                         )
                     )
+        if len(lista_update) > 0:
+            Productos.objects.bulk_update(lista_update, ['precio_venta', 'precio_compra', 'stock'])
         if len(lista) > 0:
             Productos.objects.bulk_create(lista)
         if len(dic_actualizados) > 0:
@@ -881,13 +901,13 @@ def actualizar_stock(request, file):
 def producto_actualizado(request, dic_actualizados):
     for i in dic_actualizados:
         datos = str(dic_actualizados[i]).split(',')
-        archivo = str(datos[0])+' - '+str(datos[1])+' - '+str(datos[2])+' - '+str(datos[3])+' - '+str(datos[4])+' - '+str(datos[5])+' - '+str(datos[6])+' - '+str(datos[7])+' - '+str(datos[8])
+        archivo = str(datos[0])+' - '+str(datos[1])+' - '+str(datos[2])+' - '+str(datos[3])+' - '+str(datos[4])+' - '+str(datos[5])+' - '+str(datos[6])+' - '+str(datos[7])+' - '+str(datos[8])+' - '+str(datos[9])
         messages.add_message(request, messages.SUCCESS, archivo, extra_tags='actualizados')
 
 def producto_no_encontrado(request, dic_no_creados):
     for i in dic_no_creados:
         datos = str(dic_no_creados[i]).split(',')
-        archivo = str(datos[0])+' - '+str(datos[1])+' - '+str(datos[2])+' - '+str(datos[3])+' - '+str(datos[4])+' - '+str(datos[5])+' - '+str(datos[6])+' - '+str(datos[7])+' - '+str(datos[8])
+        archivo = str(datos[0])+' - '+str(datos[1])+' - '+str(datos[2])+' - '+str(datos[3])+' - '+str(datos[4])+' - '+str(datos[5])+' - '+str(datos[6])+' - '+str(datos[7])+' - '+str(datos[8])+' - '+str(datos[9])
         messages.add_message(request, messages.INFO, archivo, extra_tags='creados')
 
 def get_datos_accesorios_nuevo(request, dic, i):
@@ -931,5 +951,71 @@ def get_datos_ropa_nuevo(request, dic, i):
             break
 
     return linea
+
+class EtiquetasArchivo(View):
+    def get(self, request, *args, **kwargs):
+        archivo = ArchivoSubido.objects.get(id=self.kwargs['pk'])
+        crear_etiquetas(request, archivo)
+        messages.add_message(request, messages.SUCCESS , '¡Etiquetas creadas exitosamente!', extra_tags='etiquetas_creadas')
+        
+        return HttpResponseRedirect(reverse_lazy('lista_archivos'))
+
+def crear_etiquetas(request, file):
+    Etiqueta.objects.all().delete()
+
+    # Calzado
+    if file.tipo == '4' and Productos.objects.filter(tipo='100'):
+        dic_modelo = {}    
+        dic_archivo = {}
+        dic_stock = {}
+        with open(f'D:/proyecto/ExcaliburAbryl/media/{file}', "r") as archivo:
+            renglon_archivo = archivo.readlines()
+            lista = []
+            marcas = []
+            for i, renglon in enumerate(renglon_archivo[1:]):
+                r = renglon.strip()
+                dic_archivo[i] = r
+                dic_stock[i] = r
+            
+            for i in dic_archivo:
+                archivo = str(dic_archivo[i]).split(',')
+                if str(archivo[0]) not in marcas:
+                    marcas.append(archivo[0])
+            
+            for i in marcas:
+                producto = Productos.objects.filter(tipo='100', marca__nombre=i)
+                for p in producto:
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
+
+            for i in dic_archivo:
+                for j in dic_modelo:
+                    modelo = str(dic_modelo[j]).split(',')
+                    archivo = str(dic_archivo[i]).split(',')
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])})
+
+                    if str(dic_archivo[i]) == str(dic_modelo[j]):
+                        archivo_stock = str(dic_stock[i]).split(',')
+                        producto = Productos.objects.get(barcode=j)
+                        modelo = str(dic_modelo[j]).split(',')
+                        
+                        for r in range(0, int(archivo_stock[6])):
+                            lista.append(Etiqueta(
+                                barcode=producto.barcode,nombre=producto.nombre,marca=producto.marca.nombre,modelo=producto.modelo,linea=producto.get_genero_display(),
+                                sublinea=producto.sublinea.nombre,color=producto.color.nombre,talla=producto.talla.nombre
+                                )
+                            )
+
+            if len(lista) > 0:
+                Etiqueta.objects.bulk_create(lista)
+                        
+class EtiquetasVista(View):
+    def get(self, request, *args, **kwargs):
+        productos = Etiqueta.objects.all()
+        data = {
+            'productos': productos
+        }
+        pdf = render_to_pdf('codigobarras/codigo.html', data)
+
+        return HttpResponse(pdf, content_type='application/pdf')
 
 """ **************************************** ALMACEN 2 **************************************** """

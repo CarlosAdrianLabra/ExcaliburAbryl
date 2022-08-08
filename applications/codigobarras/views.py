@@ -92,9 +92,11 @@ class AgregarUnoVista(View):
                 barcode=resultado[key][0],nombre=resultado[key][1],marca=resultado[key][2],modelo=resultado[key][3],
                 linea=resultado[key][4],sublinea=resultado[key][5],talla=resultado[key][6],color=resultado[key][7]
             )
-        create.save()
-
-        messages.add_message(self.request, messages.SUCCESS, '¡Etiqueta agregada!')
+        try:
+            create.save()
+            messages.add_message(self.request, messages.SUCCESS, '¡Etiqueta agregada!')
+        except UnboundLocalError:
+            messages.add_message(self.request, messages.SUCCESS, '¡No se agregó la etiqueta!')
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 

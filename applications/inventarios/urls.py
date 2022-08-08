@@ -60,4 +60,6 @@ urlpatterns = [
     path('inventario/lista_archivos/', views.ListarArchivo.as_view(), name='lista_archivos'),
     path('inventario/subir_archivo/<pk>/', views.ActualizarArchivo.as_view(), name='aplicar_archivo'),
     path('inventario/eliminar_archivo/<pk>/', views.EliminarArchivo.as_view(), name='eliminar_archivo'),
+    path('inventario/etiquetas_archivo/<pk>/', views.EtiquetasArchivo.as_view(), name='crear_etiquetas'),
+    path('inventario/etiquetas_vista/',  views.EtiquetasVista.as_view(), name='ver_etiquetas'),
 ]

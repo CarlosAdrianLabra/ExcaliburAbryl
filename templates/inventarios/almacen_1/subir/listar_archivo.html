@@ -26,7 +26,7 @@
     <div>
         {% if messages %}
             {% for message in messages %}
-            {% if "cambios_realizados" in message.tags or "eliminar" in message.tags %}
+            {% if "cambios_realizados" in message.tags or "eliminar" in message.tags or "etiquetas_creadas" in message.tags %}
                 <div style="border-radius:0; text-align: center;" {% if message.tags %} class="alert alert-icon alert-{{ message.tags }} alert-dismissible fade show mb-0 bg-success" role="alert" {% endif %}>
                 {{ message }}
                 <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -58,7 +58,8 @@
                                         <th>Fecha de subida</th>
                                         <th>Tipo</th>
                                         <th>Crear y/o Actualizar</th>
-                                        <th>Eliminar</th>
+                                        <th>Etiquetas</th>
+                                        <th>Eliminar Archivo</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -72,6 +73,12 @@
                                             <form action="{% url 'aplicar_archivo' a.id %}" class="m-0" method="GET">{% csrf_token %}
                                                 <button class="btn btn-sm btr" type="submit"><i class="fas fa-chevron-up mr-2"></i>Aplicar cambios</button>
                                             </form>
+                                        </td>
+                                        <td>
+                                            <form action="{% url 'crear_etiquetas' a.id %}" class="float-left m-0 ml-5" method="GET">{% csrf_token %}
+                                                <button class="btn btn-sm btr" type="submit"><i class="fas fa-plus mr-2"></i>Crear</button>
+                                            </form>
+                                            <a href="{% url 'ver_etiquetas' %}" onclick="target_popup(this)" class="btn btn-sm btr"><i class="fas fa-print mr-2"></i>Imprimir</a>
                                         </td>
                                         <td>
                                             <form action="{% url 'eliminar_archivo' a.id %}" class="m-0" method="POST">{% csrf_token %}
@@ -91,11 +98,11 @@
                                     <label>Los siguientes productos fueron actualizados en el sistema:</label>
                                 </div>
                                     {% for message in messages %}
-                                        {%if "actualizados" in message.tags %}
+                                        {% if "actualizados" in message.tags %}
                                         <div style="width: 900px; text-align: left;">
                                             {{ message }}
                                         </div>
-                                        {%endif%}
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             </div>
@@ -105,11 +112,11 @@
                                     <label>Los siguientes productos no se encontraron en el sistema. Y fueron creados:</label>
                                 </div>
                                     {% for message in messages %}
-                                        {%if "creados" in message.tags %}
+                                        {% if "creados" in message.tags %}
                                         <div style="width: 900px; text-align: left;">
                                             {{ message }}
                                         </div>
-                                        {%endif%}
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             </div>
@@ -132,5 +139,11 @@
     $(".alert").fadeTo(3500, 1000).slideUp(1000, function () {
         $(".alert").slideUp(500);
     });
+
+    // Ventana POP UP para ver etiquetas
+    function target_popup(form) {
+        window.open('', 'formpopup', 'width=500,height=800,resizeable,scrollbars');
+        form.target = 'formpopup';
+    }
 </script>
 {% endblock extra_scripts %}
