@@ -963,12 +963,57 @@ class EtiquetasArchivo(View):
 def crear_etiquetas(request, file):
     Etiqueta.objects.all().delete()
 
+    # Accesorios
+    if file.tipo == '3' and Productos.objects.filter(tipo='300'):
+        dic_modelo = {}    
+        dic_archivo = {}
+        dic_stock = {}
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
+            renglon_archivo = archivo.readlines()
+            lista = []
+            marcas = []
+            for i, renglon in enumerate(renglon_archivo[1:]):
+                r = renglon.strip()
+                dic_archivo[i] = r
+                dic_stock[i] = r
+            
+            for i in dic_archivo:
+                archivo = str(dic_archivo[i]).split(',')
+                if str(archivo[0]) not in marcas:
+                    marcas.append(archivo[0])
+            
+            for i in marcas:
+                producto = Productos.objects.filter(tipo='300', marca__nombre=i)
+                for p in producto:
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
+
+            for i in dic_archivo:
+                for j in dic_modelo:
+                    modelo = str(dic_modelo[j]).split(',')
+                    archivo = str(dic_archivo[i]).split(',')
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])})
+
+                    if str(dic_archivo[i]) == str(dic_modelo[j]):
+                        archivo_stock = str(dic_stock[i]).split(',')
+                        producto = Productos.objects.get(barcode=j)
+                        modelo = str(dic_modelo[j]).split(',')
+                        
+                        for r in range(0, int(archivo_stock[6])):
+                            lista.append(Etiqueta(
+                                barcode=producto.barcode,nombre=producto.nombre,marca=producto.marca.nombre,modelo=producto.modelo,linea=producto.get_genero_display(),
+                                sublinea=producto.sublinea.nombre,color=producto.color.nombre,talla=producto.talla.nombre
+                                )
+                            )
+
+            if len(lista) > 0:
+                Etiqueta.objects.bulk_create(lista)
+
     # Calzado
     if file.tipo == '4' and Productos.objects.filter(tipo='100'):
         dic_modelo = {}    
         dic_archivo = {}
         dic_stock = {}
-        with open(f'D:/proyecto/ExcaliburAbryl/media/{file}', "r") as archivo:
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
             renglon_archivo = archivo.readlines()
             lista = []
             marcas = []
@@ -1007,7 +1052,52 @@ def crear_etiquetas(request, file):
 
             if len(lista) > 0:
                 Etiqueta.objects.bulk_create(lista)
+
+    # Ropa
+    if file.tipo == '5' and Productos.objects.filter(tipo='200'):
+        dic_modelo = {}    
+        dic_archivo = {}
+        dic_stock = {}
+        with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
+            renglon_archivo = archivo.readlines()
+            lista = []
+            marcas = []
+            for i, renglon in enumerate(renglon_archivo[1:]):
+                r = renglon.strip()
+                dic_archivo[i] = r
+                dic_stock[i] = r
+            
+            for i in dic_archivo:
+                archivo = str(dic_archivo[i]).split(',')
+                if str(archivo[0]) not in marcas:
+                    marcas.append(archivo[0])
+            
+            for i in marcas:
+                producto = Productos.objects.filter(tipo='200', marca__nombre=i)
+                for p in producto:
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
+
+            for i in dic_archivo:
+                for j in dic_modelo:
+                    modelo = str(dic_modelo[j]).split(',')
+                    archivo = str(dic_archivo[i]).split(',')
+                    dic_archivo.update({i: str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(modelo[6])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])})
+
+                    if str(dic_archivo[i]) == str(dic_modelo[j]):
+                        archivo_stock = str(dic_stock[i]).split(',')
+                        producto = Productos.objects.get(barcode=j)
+                        modelo = str(dic_modelo[j]).split(',')
                         
+                        for r in range(0, int(archivo_stock[6])):
+                            lista.append(Etiqueta(
+                                barcode=producto.barcode,nombre=producto.nombre,marca=producto.marca.nombre,modelo=producto.modelo,linea=producto.get_genero_display(),
+                                sublinea=producto.sublinea.nombre,color=producto.color.nombre,talla=producto.talla.nombre
+                                )
+                            )
+
+            if len(lista) > 0:
+                Etiqueta.objects.bulk_create(lista)
+           
 class EtiquetasVista(View):
     def get(self, request, *args, **kwargs):
         productos = Etiqueta.objects.all()
