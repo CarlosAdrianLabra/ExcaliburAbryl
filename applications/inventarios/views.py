@@ -1100,12 +1100,15 @@ def crear_etiquetas(request, file):
            
 class EtiquetasVista(View):
     def get(self, request, *args, **kwargs):
+        archivo = ArchivoSubido.objects.get(id=self.kwargs['pk'])
         productos = Etiqueta.objects.all()
         data = {
             'productos': productos
         }
         pdf = render_to_pdf('codigobarras/codigo.html', data)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = f"attachment; filename=etiquetas de ({archivo}).pdf"
 
-        return HttpResponse(pdf, content_type='application/pdf')
+        return response
 
 """ **************************************** ALMACEN 2 **************************************** """
