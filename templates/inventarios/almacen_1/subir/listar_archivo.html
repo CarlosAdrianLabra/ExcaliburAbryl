@@ -78,8 +78,7 @@
                                             <form action="{% url 'crear_etiquetas' a.id %}" class="float-left m-0 ml-5" method="GET">{% csrf_token %}
                                                 <button class="btn btn-sm btr" type="submit"><i class="fas fa-plus mr-2"></i>Crear</button>
                                             </form>
-                                            <a href="{% url 'ver_etiquetas' a.id %}" class="btn btn-sm btr"><i class="fas fa-print mr-2"></i>Imprimir</a>
-                                            <!-- <a href="{% url 'ver_etiquetas' a.id %}" onclick="target_popup(this)" class="btn btn-sm btr"><i class="fas fa-print mr-2"></i>Imprimir</a> -->
+                                            <a href="{% url 'ver_etiquetas' %}" onclick="target_popup(this)" class="btn btn-sm btr"><i class="fas fa-print mr-2"></i>Imprimir</a>
                                         </td>
                                         <td>
                                             <form action="{% url 'eliminar_archivo' a.id %}" class="m-0" method="POST">{% csrf_token %}
