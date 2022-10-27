@@ -74,10 +74,14 @@ class ApartadosUpdateView(PuntodeventaPermisoMixin,UpdateView):
 
         apartados = form.save(commit=False)
         apartados.monto_pagado = float(apartados.monto_pagado) + float(monto_actualizar)
+        apartados = form.save(commit=False)
         if apartados.cambio < apartados.precio_producto:
             apartados.cambio = float(apartados.cambio) + float(monto_actualizar)
         if apartados.cambio > apartados.precio_producto:
             apartados.cambio = float(apartados.cambio) - float(apartados.precio_producto)
+        if apartados.monto_pagado == apartados.precio_producto:
+            apartados.cambio = 0.00
+        
         apartados.save()
 
         return super(ApartadosUpdateView, self).form_valid(form)
