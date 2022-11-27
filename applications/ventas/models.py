@@ -47,6 +47,7 @@ class Venta(TimeStampedModel):
     close = models.BooleanField('Venta Cerrada en Caja', default=False,)
     anulate = models.BooleanField('Venta Anulada', default=False,)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='cajero', related_name="user_venta")
+    caja = models.CharField('Numero de Caja', max_length=2, default='0')
 
     objects = SaleManager()
 

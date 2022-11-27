@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<title>Impresion Codigos de Barras</title>
+<title>Etiquetas - Códigos de darras</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
@@ -121,7 +121,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="mt-3">
-                            <a href="{% url 'codigobarras_app:codigo_de_barras_index' %}" class="btn btn-default ml-5"><I class="fa fa-undo-alt mr-2"></I>Regresar página 1</a>
+                            <a href="{% url 'codigobarras_app:codigo_de_barras_index' %}" class="btn btn-default ml-4"><I class="fa fa-undo-alt mr-2"></I>Regresar página 1</a>
                         <!-- Pagination -->
                             
                             {% if request.path == request.get_full_path %}

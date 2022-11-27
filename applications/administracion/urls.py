@@ -31,6 +31,11 @@ urlpatterns = [
         name='admin-resumen_ventas',
     ),
     path(
+        'administracion/reportes/detalle_completo/', 
+        views.ReporteDetalleCompleto.as_view(),
+        name='detalle_completo',
+    ),
+    path(
         'administracion/gastos/lista_de_gastos/', 
         views.GastosListView.as_view(),
         name='admin-gastos',

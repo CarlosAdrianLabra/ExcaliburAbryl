@@ -1,8 +1,6 @@
 from django.db import models
-from django.db.models.fields import CharField
-from django.utils import timezone
-# Create your models here.
 
+# Create your models here.
 class Pedidos(models.Model):
     OPCIONES_ESTADO = (
         ('1', 'Sin revisar'),

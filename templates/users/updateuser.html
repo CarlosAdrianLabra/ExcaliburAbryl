@@ -68,12 +68,10 @@
                         <!-- ./card body -->
                         
                         <div class="card-footer">
-                            <div class="row justify-content-center mt-3 mb-3">
-                                <div class="col-3">
-                                    <button type="submit" class="btn col-8 btr"><i class="fas fa-pen mr-2"></i>Actualizar</button>
-                                </div>
-                                <div class="col-3">
-                                    <a class="btn col-8 btr" href="{% url 'users_app:user-lista' %}"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                            <div class="col-10 offset-1">
+                                <div class="mt-3 mb-3 pr-5 float-right">
+                                    <button type="submit" class="btn btr pl-5 pr-5 mr-5"><i class="fas fa-pen mr-2"></i>Actualizar</button>
+                                    <a class="btn btr pl-5 pr-5" href="{% url 'users_app:user-lista' %}"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                                 </div>
                             </div>
                         </div>

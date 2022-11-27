@@ -18,8 +18,9 @@ from applications.users.models import User
 from applications.inventarios.num2word import word
 from applications.utils import render_to_pdf
 from applications.ventas.models import Carrito, Venta
+from applications.tezoncocaja2.models import Carritotezoncocaja2
 from .forms import ApartadosForm, ApartadosUpdateForm
-from .models import Apartados
+from .models import Apartados, CarritoApartados
 from .functions import pre_apartado, procesar_venta_apartado, cancelar_venta_apartado, eliminar_venta_apartado
 from applications.users.mixins import PuntodeventaPermisoMixin
 
@@ -31,17 +32,27 @@ class CrearApartado(PuntodeventaPermisoMixin,FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['productos_pos'] = Carrito.objects.all()
-        context['total_cobrar'] = Carrito.objects.total_cobrar()
+        caja = self.request.META.get('HTTP_REFERER')
+        caja = caja[-2:-1]
+        if caja == '1':
+            carrito = Carrito
+        elif caja == '2':
+            carrito = Carritotezoncocaja2
 
+        context['productos_pos'] = carrito.objects.all()
+        context['total_cobrar'] = carrito.objects.total_cobrar()
+        context['caja'] = caja
+        
         return context
     
     def form_valid(self, form):
         monto_pagado = form.cleaned_data['monto_pagado']
-        
+        caja = form.cleaned_data['caja']
+
         apartado = pre_apartado(
             self=self,
-            monto_pagado=monto_pagado
+            monto_pagado=monto_pagado,
+            caja=caja
         )
 
         if apartado: 
@@ -55,7 +66,7 @@ class ApartadosLista(PuntodeventaPermisoMixin,ListView):
     template_name = 'apartados/apartados_lista.html'
     model = Apartados
     context_object_name = "apartados_lista"
-    
+
 
 class ApartadosUpdateView(PuntodeventaPermisoMixin,UpdateView):
     template_name = "apartados/apartados_update.html"
@@ -90,12 +101,12 @@ class ApartadosUpdateView(PuntodeventaPermisoMixin,UpdateView):
 class ApartadosProcesarVenta(PuntodeventaPermisoMixin,View):
 
     def post(self, request, *args, **kwargs):
-        
+
         procesar_venta_apartado(
             self=self,
             type_invoice=Venta.APARTADO,
             type_payment=Venta.EFECTIVO,
-            user=self.request.user
+            user=self.request.user,
         )
         
         return HttpResponseRedirect(
@@ -111,7 +122,7 @@ class ApartadosCancelarVenta(PuntodeventaPermisoMixin,View):
 
         try:
             apartado = Apartados.objects.get(id=kwargs['pk'])
-            Carrito.objects.create(
+            CarritoApartados.objects.create(
                 barcode=apartado.barcode,
                 producto=Productos.objects.get(barcode=apartado.barcode),
                 count='1'
@@ -119,13 +130,14 @@ class ApartadosCancelarVenta(PuntodeventaPermisoMixin,View):
 
         except IntegrityError:
             return []
-        
+
         cancelar_venta_apartado(
             self=self,
             type_invoice=Venta.APARTADO_ANULADO,
             type_payment=Venta.EFECTIVO,
             user=self.request.user,
-            monto_pagado=apartado.monto_pagado
+            monto_pagado=apartado.monto_pagado,
+            producto_barcode = apartado
         )
         
         return HttpResponseRedirect(
@@ -143,7 +155,7 @@ class ApartadosEliminarVenta(PuntodeventaPermisoMixin,DeleteView):
 
         try:
             apartado = Apartados.objects.get(id=kwargs['pk'])
-            Carrito.objects.create(
+            CarritoApartados.objects.create(
                 barcode=apartado.barcode,
                 producto=Productos.objects.get(barcode=apartado.barcode),
                 count='1'
@@ -153,7 +165,8 @@ class ApartadosEliminarVenta(PuntodeventaPermisoMixin,DeleteView):
             return []
         
         eliminar_venta_apartado(
-            self=self
+            self=self,
+            producto_barcode=apartado,
         )
 
         self.object = self.get_object()

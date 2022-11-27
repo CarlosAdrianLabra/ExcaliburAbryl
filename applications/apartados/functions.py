@@ -4,12 +4,20 @@ from django.db.models import Prefetch
 
 from applications.inventarios.models import Productos
 from applications.ventas.models import Venta, DetalleVenta, Carrito
-from .models import Apartados
+from applications.tezoncocaja2.models import Carritotezoncocaja2
+from .models import Apartados, CarritoApartados
 
 def pre_apartado(self, **params_apartado):
-    productos_pos = Carrito.objects.all()
+    caja = params_apartado['caja']
+    if caja == '1':
+        carrito = Carrito
+    elif caja == '2':
+        carrito = Carritotezoncocaja2
 
-    if productos_pos.count() > 0 and Carrito.objects.filter(producto__stock__gt=0):
+
+    productos_pos = carrito.objects.all()
+
+    if productos_pos.count() > 0 and carrito.objects.filter(producto__stock__gt=0):
 
         detalle_apartados = []
         productos_apartado = []
@@ -41,7 +49,7 @@ def pre_apartado(self, **params_apartado):
 
 def procesar_venta_apartado(self, **params_apartado):
     # recupera la lista de productos en carrito
-    productos_en_car = Carrito.objects.all()
+    productos_en_car = CarritoApartados.objects.all()
 
     # crea el objeto venta
     venta = Venta.objects.create(
@@ -51,6 +59,8 @@ def procesar_venta_apartado(self, **params_apartado):
         type_invoice=params_apartado['type_invoice'],
         type_payment=params_apartado['type_payment'],
         user=params_apartado['user'],
+        caja='1',
+        close=True
     )
     #
     ventas_detalle = []
@@ -93,7 +103,8 @@ def procesar_venta_apartado(self, **params_apartado):
 
 def cancelar_venta_apartado(self, **params_apartado):
     # recupera la lista de productos en carrito
-    productos_en_car = Carrito.objects.all()
+    barcode = params_apartado['producto_barcode']
+    productos_en_car = CarritoApartados.objects.filter(barcode=barcode)
 
     # crea el objeto venta
     venta = Venta.objects.create(
@@ -103,6 +114,8 @@ def cancelar_venta_apartado(self, **params_apartado):
         type_invoice=params_apartado['type_invoice'],
         type_payment=params_apartado['type_payment'],
         user=params_apartado['user'],
+        caja='0',
+        close=True
     )
     #
     ventas_detalle = []
@@ -139,14 +152,15 @@ def cancelar_venta_apartado(self, **params_apartado):
         Productos.objects.bulk_update(productos_en_venta, ['stock', 'num_venta'])
         # completada la venta, eliminamos productos del carrito
         productos_en_car.delete()
-        Apartados.objects.filter(apartado_cerrado=False, apartado_venta=False).update(apartado_cerrado=True, apartado_venta=True)
+        Apartados.objects.filter(barcode=barcode, apartado_cerrado=False, apartado_venta=False).update(apartado_cerrado=True, apartado_venta=True)
 
         return venta
 
 
 def eliminar_venta_apartado(self, **params_apartado):
     # recupera la lista de productos en carrito
-    productos_en_car = Carrito.objects.all()
+    barcode = params_apartado['producto_barcode']
+    productos_en_car = CarritoApartados.objects.filter(barcode=barcode)
 
     productos_en_venta = []
 

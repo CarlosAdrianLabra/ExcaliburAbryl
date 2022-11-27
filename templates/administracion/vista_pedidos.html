@@ -2,47 +2,49 @@
 {% load static %}
 
 {% block head %}
-<title>Administración</title>
+<title>Administración - Detalle de pedidos</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
-{% block enlace_info_general %}
-<a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
-    <i class="fas fa-money-bill-wave nav-icon"></i>
-    <p>Informacion general</p>
-</a>
-{% endblock enlace_info_general %}
-{% block menu_desplegable %}
-<li class="nav-item menu-open">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
-    </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            {% block enlace_ventas_mes %}
-            <a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
-                <i class="fas fa-chart-bar nav-icon ml-4"></i>
-                <p>Ventas por mes</p>
-            </a>
-            {% endblock enlace_ventas_mes %}
-        </li>
-        <li class="nav-item">
-            {% block enlace_liquidacion %}
-            <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
-                <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
-                <p>Liquidacion</p>
-            </a>
-            {% endblock enlace_liquidacion %}
-        </li>
+{% block menu_desplegable_general %}
+<li class="nav-item">
+	<a href="#" class="nav-link">
+		<i class="nav-icon fas fa-clipboard"></i><p>Reportes de ventas<i class="fas fa-angle-left right"></i></p>
+	</a>
+	<ul class="nav nav-treeview">
+		<li class="nav-item">
+			{% block enlace_ventas_diarias %}
+			<a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
+				<i class="fas fa-chart-bar nav-icon ml-4"></i>
+				<p>Ultimos 31 días</p>
+			</a>
+			{% endblock enlace_ventas_diarias %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_ventas_mensualmente %}
+			<a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link">
+				<i class="fas fa-chart-bar nav-icon ml-4"></i>
+				<p>Mensualmente</p>
+			</a>
+			{% endblock enlace_ventas_mensualmente %}
+		</li>
         <li class="nav-item">
             {% block enlace_ventas_por_fecha %}
             <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
                 <i class="fas fa-calendar-day nav-icon ml-4"></i>
-                <p>Ventas por fecha</p>
+                <p>Detalle de ventas</p>
             </a>
             {% endblock enlace_ventas_por_fecha %}
         </li>
-        <li class="nav-item">
+		<li class="nav-item">
+            {% block enlace_detalle_Completo %}
+            <a href="{% url 'administracion_app:detalle_completo' %}" class="nav-link">
+                <i class="fas fa-calendar-day nav-icon ml-4"></i>
+                <p>Detalle completo</p>
+            </a>
+            {% endblock enlace_detalle_Completo %}
+        </li>
+		<li class="nav-item">
 			{% block enlace_8020 %}
 			<a href="{% url 'administracion_app:8020-base' %}" class="nav-link">
 				<i class="fas fa-calendar-day nav-icon ml-4"></i>
@@ -58,6 +60,23 @@
 			</a>
 			{% endblock enlace_compra_vs_vende %}
 		</li>
+	</ul>
+</li>
+{% endblock menu_desplegable_general %}
+{% block menu_desplegable %}
+<li class="nav-item menu-open">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-clipboard"></i><p>Otros reportes<i class="fas fa-angle-left right"></i></p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            {% block enlace_liquidacion %}
+            <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
+                <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+                <p>Liquidacion</p>
+            </a>
+            {% endblock enlace_liquidacion %}
+        </li>
         <li class="nav-item">
 			{% block enlace_comprazapatos_lista_pedidos %}
 			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link active" style="color: azure; background: tomato;">
@@ -122,7 +141,6 @@
                             {{form.fecha_termino}}
                         </div>
                     </div>
-
                     <div class="row justify-content-md-center">
                         <div class="col-3">
                             <label>Estado de compra:</label>
@@ -139,26 +157,18 @@
                     </div>
                     <div class="row justify-content-md-center">
                         <div class="col-9">
-                        <label>Comentario:</label>
-                        {{form.comentario}}
+                            <label>Comentario:</label>
+                            {{form.comentario}}
                         </div>
-                        
                     </div>
-                    
-                    <!-- <div class="row justify-content-md-center mt-4">
-                        <div class="col-3">
-                            <button type="submit" class="btn col-11 btr">Actualizar pedido</button>
-                        </div>
-                    </div> -->
-
                 </form>
-
-                <div class="row justify-content-md-center mt-4">
-                    <div class="col-3">
-                        <a type="button" class="btn col-11 btr" href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" >Regresar</a>
+            </div>
+            <div class="card-footer">
+                <div class="col-10 offset-1">
+                    <div class="mt-3 mb-3 pr-5 float-right">
+                        <a type="button" class="btn btr pl-5 pr-5" href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" ><i class="fa fa-undo-alt mr-2"></i> Regresar</a>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>

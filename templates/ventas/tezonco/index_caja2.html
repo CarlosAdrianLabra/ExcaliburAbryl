@@ -2,18 +2,18 @@
 {% load static %}
 
 {% block head %}
-<title>Punto de Venta - Caja 1</title>
+<title>Punto de Venta - Caja 2</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
 {% block enlace_punto_de_venta %}
-<a href="/punto_de_venta/caja/1" class="nav-link active" style="color: azure; background: tomato;">
+<a href="/punto_de_venta/caja/2/" class="nav-link active" style="color: azure; background: tomato;">
     <i class="fas fa-shopping-cart nav-icon"></i>
-    <p>Punto de venta - Caja 1</p>
+    <p>Punto de venta - Caja 2</p>
 </a>
 {% endblock enlace_punto_de_venta %}
 {% block enlace_ultimas_ventas %}
-<a href="/venta/ultimas-ventas" class="nav-link">
+<a href="/punto_de_venta/caja/2/ventas_del_dia" class="nav-link">
     <i class="fas fa-chart-line nav-icon"></i>
     <p>Ventas del dia</p>
 </a>
@@ -64,7 +64,7 @@
                 <!-- Card content -->
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h1 class="card-title mt-3 mb-3 ml-3">PUNTO DE VENTA - CAJA 1</h1>
+                        <h1 class="card-title mt-3 mb-3 ml-3">PUNTO DE VENTA - CAJA 2</h1>
                     </div>
 
                     <!-- Card body -->
@@ -128,17 +128,17 @@
                                                 <td>
                                                     <div class="row">
                                                         <div class="col-4">
-                                                            <form class="m-0" action="{% url 'ventas_app:carshop-update' p.id %}" method="POST">{% csrf_token %}
+                                                            <form class="m-0" action="{% url 'tezoncocaja2_app:carshop-update' p.id %}" method="POST">{% csrf_token %}
                                                                 <button type="submit" class="btn btn-block btn-xs btn-default"><i class="fas fa-minus"></i></button>
                                                             </form>
                                                         </div>
                                                         <div class="col-4">
-                                                            <form class="m-0" action="{% url 'ventas_app:carshop-update2' p.id %}" method="POST">{% csrf_token %}
+                                                            <form class="m-0" action="{% url 'tezoncocaja2_app:carshop-update2' p.id %}" method="POST">{% csrf_token %}
                                                                 <button type="submit" class="btn btn-block btn-xs btn-default"><i class="fas fa-plus"></i></button>
                                                             </form>
                                                         </div>
                                                         <div class="col-4">
-                                                            <form class="m-0" action="{% url 'ventas_app:carshop-delete' p.id %}" method="POST">{% csrf_token %}
+                                                            <form class="m-0" action="{% url 'tezoncocaja2_app:carshop-delete' p.id %}" method="POST">{% csrf_token %}
                                                                 <button type="submit" class="btn btn-block btn-xs btn-default"><i class="fas fa-times"></i></button>
                                                             </form>
                                                         </div>
@@ -170,7 +170,7 @@
                                         <thead><tr><th>CALCULAR CAMBIO</th></tr></thead>
                                     </table>
                                 </div>
-                                <form action="{% url 'ventas_app:efectivo' %}" method="POST">{% csrf_token %}
+                                <form action="{% url 'tezoncocaja2_app:efectivo_tezoncocaja2' %}" method="POST">{% csrf_token %}
                                     <div class="row">
                                         <div class="col-7 mt-3"><label>Total Venta:</label></div>
                                         <div class="col-5 mt-3"><input type="text" class="form-control text-right" value='{{total_cobrar | floatformat:2}}' disabled></div>
@@ -195,7 +195,7 @@
                         <!-- Row acciones de pago -->
                         <div class="row mb-4">
                             <div class="offset-md-1">
-                                <form action="{% url 'ventas_app:carshop-delete_all' %}" class="m-0" method="POST">{% csrf_token %}
+                                <form action="{% url 'tezoncocaja2_app:carshop-delete_all' %}" class="m-0" method="POST">{% csrf_token %}
                                     <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash mr-2"></i>Limpiar caja</button>
                                 </form>
                             </div>
@@ -211,7 +211,7 @@
                         </div>
                         <div class="row mb-4">
                             <div class="offset-md-1">
-                                <form action="{% url 'ventas_app:promocion_familiar' %}" method="GET" class="m-0">
+                                <form action="{% url 'tezoncocaja2_app:promocion_familiar' %}" method="GET" class="m-0">
                                     <span style="display: none;"><input type="text" id="promocion" name="promocion" value="13"></span>
                                     <button type="submit" class="btn btr"><i class="fas fa-tag mr-2"></i>Descuento familiar</button>
                                 </form>
@@ -243,7 +243,7 @@
             </div>
 
             <div class="modal-body">
-                <form action="{% url 'ventas_app:venta-voucher' %}" method="POST" onsubmit="target_popup(this)">{% csrf_token %}
+                <form action="{% url 'tezoncocaja2_app:venta-voucher-caja2' %}" method="POST" onsubmit="target_popup(this)">{% csrf_token %}
                     <div class="row">
                         <label style="margin-left: 5px;">1 - SELECCIONA EL TIPO DE PAGO Y FACTURA</label>
                     </div>
@@ -267,7 +267,7 @@
             </div>
             
             <div class="modal-footer">
-                <form action="{% url 'ventas_app:efectivo-delete_all' %}" class="m-0" method="POST">{% csrf_token %}
+                <form action="{% url 'tezoncocaja2_app:efectivo_tezoncocaja2-delete_all' %}" class="m-0" method="POST">{% csrf_token %}
                     <button type="submit" class="btn btr2 mt-1"><i class="fas fa-check mr-2"></i>Terminar venta</button>
                 </form>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

@@ -134,6 +134,7 @@ class ProcesoVentaVoucherView(PuntodeventaPermisoMixin, FormView):
             type_invoice=type_invoice,
             type_payment=type_payment,
             user=self.request.user,
+            caja=1
         )
         
         if venta: 
@@ -171,7 +172,7 @@ class SaleListView(PuntodeventaPermisoMixin, ListView):
     context_object_name = "ventas" 
 
     def get_queryset(self):
-        return Venta.objects.ventas_no_cerradas()
+        return Venta.objects.ventas_no_cerradas().filter(caja='1')
 
 
 class SaleDeleteView(PuntodeventaPermisoMixin, DeleteView):
@@ -192,7 +193,7 @@ class SaleDeleteView(PuntodeventaPermisoMixin, DeleteView):
 
 class EfectivoView(PuntodeventaPermisoMixin, FormView):
     form_class = EfectivoForm
-    success_url = '/venta/index'
+    success_url = '/punto_de_venta/caja/1'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

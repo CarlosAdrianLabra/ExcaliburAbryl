@@ -1,18 +1,11 @@
 from django import forms
-from django.db.models import fields
-from django.forms import widgets
 from .models import Pedidos
-
-
-
 
 class pedidosForm(forms.ModelForm):
 
     class Meta:
         model = Pedidos
-        fields = (
-             '__all__'
-        )
+        fields = ('__all__')
         
         widgets = {
             'monto_por_pagar': forms.NumberInput(attrs={
@@ -45,5 +38,3 @@ class pedidosForm(forms.ModelForm):
             }),
 
         }
-
-    

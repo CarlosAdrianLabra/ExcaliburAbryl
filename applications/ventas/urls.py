@@ -5,7 +5,7 @@ app_name = "ventas_app"
 
 urlpatterns = [
     path(
-        'venta/index/',
+        'punto_de_venta/caja/1/',
         views.AddCarView.as_view(),
         name='venta-index',
         ),

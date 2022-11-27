@@ -13,7 +13,7 @@
 </a>
 {% endblock enlace_crear_compra %}
 {% block enlace_lista_pedidos %}
-<a href="{% url 'comprazapato_app:comprazapato_lista_pedidos' %}" class="nav-link">
+<a href="{% url 'comprazapato_app:comprazapato_lista_pedidos' %}" class="nav-link active" style="color: azure; background: tomato;">
     <i class="fas fa-truck-loading nav-icon"></i>
     <p>Lista pedidos</p>
 </a>
@@ -23,40 +23,47 @@
 <div class="content">
     <div class="container-fluid mt-3">
         <div class="card">
+            <form method="POST" class="m-0">{% csrf_token %}
             <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">ACTUALIZAR PEDIDO</h1></div>
-            <div class="card-body">
-                <form method="POST">{% csrf_token %}
-                    <div class="row justify-content-md-center">
-                        <div class="col-3">
-                            <label>Estado de compra:</label>
-                            {{form.estado_compra}}
-                        </div>
-                        <div class="col-3">
-                            <label>Código de factura:</label>
-                            {{form.codigo_factura}}
-                        </div>
-                        <div class="col-3">
-                            <label>Proveedor:</label>
-                            {{form.proveedor}}
-                        </div>
+            <div class="card-body">                
+                <div class="row justify-content-md-center">
+                    <div class="col-3">
+                        <label>Estado de compra:</label>
+                        {{form.estado_compra}}
                     </div>
-                    <div class="row justify-content-md-center">
-                        <div class="col-9">
-                            <label>Comentario:</label>
-                            {{form.comentario}}
-                        </div>
+                    <div class="col-3">
+                        <label>Código de factura:</label>
+                        {{form.codigo_factura}}
                     </div>
-                    <div class="row justify-content-md-center mt-4">
-                        <div class="col-3">
-                            <button type="submit" class="btn col-11 btr">Actualizar pedido</button>
-                        </div>
+                    <div class="col-3">
+                        <label>Proveedor:</label>
+                        {{form.proveedor}}
                     </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-9">
+                        <label>Comentario:</label>
+                        {{form.comentario}}
+                    </div>
+                </div>
+                <!-- <div class="row justify-content-md-center mt-4">
+                    <div class="col-3">
+                        <button type="submit" class="btn col-11 btr"><i class="fas fa-pencil-alt mr-2"></i> Actualizar pedido</button>
+                    </div>
+                </div> -->
 
-                    <span style="display: none;">{{form.monto_por_pagar}}</span>
-                    <span style="display: none;">{{form.fecha_inicio}}</span>
-                    <span style="display: none;">{{form.fecha_termino}}</span>
-                </form>
+                <span style="display: none;">{{form.monto_por_pagar}}</span>
+                <span style="display: none;">{{form.fecha_inicio}}</span>
+                <span style="display: none;">{{form.fecha_termino}}</span>
             </div>
+            <div class="card-footer">
+                <div class="col-10 offset-1">
+                    <div class="mt-3 mb-3 pr-5 float-right">
+                        <button type="submit" class="btn btr pl-5 pr-5"><i class="fas fa-pencil-alt mr-2"></i> Actualizar pedido</button>
+                    </div>
+                </div>
+            </div>
+            </form>
         </div>
     </div>
 </div>

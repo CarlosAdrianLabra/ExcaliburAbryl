@@ -7,35 +7,23 @@
 {% endblock head %}
 
 {% block enlace_punto_de_venta %}
-<a href="/venta/index" class="nav-link">
+<a href="/punto_de_venta/caja/1" class="nav-link">
     <i class="fas fa-shopping-cart nav-icon"></i>
-    <p>Punto de Venta</p>
+    <p>Punto de Venta - Caja 1</p>
 </a>
 {% endblock enlace_punto_de_venta %}
-{% block enlace_ultimas_ventas %}
-<a href="/venta/ultimas-ventas" class="nav-link">
-    <i class="fas fa-chart-line nav-icon"></i>
-    <p>Ventas del dia</p>
+{% block enlace_punto_de_venta2 %}
+<a href="/punto_de_venta/caja/2" class="nav-link">
+    <i class="fas fa-shopping-cart nav-icon"></i>
+    <p>Punto de Venta - Caja 2</p>
 </a>
-{% endblock enlace_ultimas_ventas %}
-{% block enlace_cierre_caja %}
-<a href="/cierre-caja/index" class="nav-link">
-    <i class="fas fa-cash-register nav-icon"></i>
-    <p>Cierre de caja</p>
-</a>
-{% endblock enlace_cierre_caja %}
+{% endblock enlace_punto_de_venta2 %}
 {% block enlace_crear_apartados %}
-<a href="/apartados/" class="nav-link active" style="color: azure; background: tomato;">
+<a href="#" class="nav-link active" style="color: azure; background: tomato;">
     <i class="fas fa-truck-loading nav-icon"></i>
     <p>Crear apartado</p>
 </a>
 {% endblock enlace_crear_apartados %}
-{% block enlace_lista_apartados %}
-<a href="/apartados/lista/" class="nav-link">
-    <i class="fas fa-truck-loading nav-icon"></i>
-    <p>Lista apartados</p>
-</a>
-{% endblock enlace_lista_apartados %}
 
 {% block content %}
 <div class="content">
@@ -79,6 +67,7 @@
                                 <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
                             </div>
                             {{form.monto_pagado}}
+                            <span style="display: none;"><input type="text" name="caja" required="" id="id_caja" value="{{caja}}"></span>
                         </div>
                     </div>
 
@@ -94,6 +83,7 @@
             <!-- ./card content -->
         </form>
     </div>
+    
 </div>
 {% endblock content %}
 

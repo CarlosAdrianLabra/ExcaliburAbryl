@@ -7,19 +7,19 @@
 {% endblock head %}
 
 {% block enlace_punto_de_venta %}
-<a href="/punto_de_venta/caja/1" class="nav-link">
+<a href="/punto_de_venta/caja/2" class="nav-link">
     <i class="fas fa-shopping-cart nav-icon"></i>
-    <p>Punto de Venta - Caja 1</p>
+    <p>Punto de Venta - Caja 2</p>
 </a>
 {% endblock enlace_punto_de_venta %}
 {% block enlace_ultimas_ventas %}
-<a href="/venta/ultimas-ventas" class="nav-link">
+<a href="/punto_de_venta/caja/2/ventas_del_dia" class="nav-link">
     <i class="fas fa-chart-line nav-icon"></i>
     <p>Ventas del día</p>
 </a>
 {% endblock enlace_ultimas_ventas %}
 {% block enlace_cierre_caja %}
-<a href="/cierre-caja/index" class="nav-link active" style="color: azure; background: tomato;">
+<a href="/punto_de_venta/caja/2/cierre_de_caja" class="nav-link active" style="color: azure; background: tomato;">
     <i class="fas fa-cash-register nav-icon"></i>
     <p>Cierre de caja</p>
 </a>
@@ -153,7 +153,7 @@
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
                                 <div class="modal-dialog" style="max-width: 30%;" role="document">
                                     <div class="modal-content">
-                                        <form action="{% url 'caja_app:caja-cerrar' %}" class="cell" method="post">{% csrf_token %}
+                                        <form action="{% url 'caja_app:caja2-cerrar' %}" class="cell" method="post">{% csrf_token %}
 
                                             <div class="modal-header bg-navyr white">
                                                 <h5 class="modal-title" id="exampleModalLabel">CIERRE DE CAJA</h5>

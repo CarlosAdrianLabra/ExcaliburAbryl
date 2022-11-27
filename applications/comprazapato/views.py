@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, FormView, ListView, CreateView,UpdateView
+from django.views.generic import ListView, CreateView,UpdateView
 
 from applications.comprazapato.forms import pedidosForm
 from applications.comprazapato.models import Pedidos

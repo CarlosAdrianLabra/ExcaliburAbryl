@@ -3,13 +3,19 @@ from django.utils import timezone
 from django.db.models import Prefetch
 from applications.inventarios.models import Productos
 from .models import Venta, DetalleVenta, Carrito
-
+from applications.tezoncocaja2.models import Carritotezoncocaja2
 
 def procesar_venta(self, **params_venta):
     # Recupera la lista de productos en carrtio
-    productos_en_car = Carrito.objects.all()
-    total_de_venta = Carrito.objects.total_cobrar()
-    if productos_en_car.count() > 0 and Carrito.objects.filter(producto__stock__gt=0):
+    caja = params_venta['caja']
+    if caja == 1:
+        carrito = Carrito
+    elif caja == 2:
+        carrito = Carritotezoncocaja2
+
+    productos_en_car = carrito.objects.all()
+    total_de_venta = carrito.objects.total_cobrar()
+    if productos_en_car.count() > 0 and carrito.objects.filter(producto__stock__gt=0):
 
         sub_10:float = 0
         for p in productos_en_car:
@@ -26,6 +32,7 @@ def procesar_venta(self, **params_venta):
             type_invoice=params_venta['type_invoice'],
             type_payment=params_venta['type_payment'],
             user=params_venta['user'],
+            caja=caja,
         )
         #
         ventas_detalle = []
@@ -99,26 +106,6 @@ def procesar_venta(self, **params_venta):
                 venta.count = venta.count + p_c.count
                 venta.amount = total_de_venta
 
-        # for p_c in productos_en_car:
-        #     venta_detalle = DetalleVenta(
-        #         producto=p_c.producto,
-        #         sale=venta,
-        #         count=p_c.count,
-        #         price_purchase=p_c.producto.precio_compra,
-        #         price_sale=p_c.producto.precio_venta,
-        #         tax=0.16,
-        #     )
-        #     # actualizmos stok de producto en iteracion
-        #     producto = p_c.producto
-        #     producto.stock = producto.stock - p_c.count
-        #     producto.num_venta = producto.num_venta + p_c.count
-        #     #
-        #     ventas_detalle.append(venta_detalle)
-        #     productos_en_venta.append(producto)
-        #     #
-        #     venta.count = venta.count + p_c.count
-        #     #venta.amount = venta.amount + p_c.count*p_c.producto.precio_venta
-        #     venta.amount = total_de_venta
 
         venta.save()
         try:

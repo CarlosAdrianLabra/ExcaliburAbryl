@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'applications.administracion',
     'applications.apartados',
     'applications.comprazapato',
+    'applications.tezoncocaja2',
 
     # apps terceros
     'import_export'

@@ -19,6 +19,17 @@ def detalle_ventas_no_cerradas(): # Cierre de caja / Punto de venta - voucher
         )
     )
 
+    return consulta
+
+
+def detalle_ventas_no_cerradas_2(): # Cierre de caja / Punto de venta - voucher
+    # recuepramos arry de id de ventas no cerradas
+    ventas = Venta.objects.ventas_no_cerradas_2()
+    consulta = ventas.prefetch_related(
+        Prefetch(
+            'detail_sale', 
+            queryset=DetalleVenta.objects.filter(sale__id__in=ventas)
+        )
+    )
 
     return consulta
-    

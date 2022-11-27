@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<title>comprazapato</title>
+<title>Compra de zapato - Crear pedido</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 {% endblock head %}
 
@@ -23,32 +23,38 @@
 <div class="content">
     <div class="container-fluid mt-3">
         <div class="card">
+            <form method="POST" class="m-0">{% csrf_token %}
             <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">CREAR PEDIDO</h1></div>
             <div class="card-body">
-                <form method="POST">{% csrf_token %}
-                    <div class="row justify-content-md-center">
-                        <div class="col-3">
-                            <label>Monto por pagar:</label>
-                            {{form.monto_por_pagar}}
-                        </div>
-                        <div class="col-3">
-                            <label>Fecha inicial:</label>
-                            {{form.fecha_inicio}}
-                        </div>
-                        <div class="col-3">
-                            <label>Fecha final:</label>
-                            {{form.fecha_termino}}
-                        </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-3">
+                        <label>Monto por pagar:</label>
+                        {{form.monto_por_pagar}}
                     </div>
-                    <div class="row justify-content-md-center mt-4">
-                        <div class="col-3">
-                            <button type="submit" class="btn col-11 btr">Crear pedido</button>
-                        </div>
+                    <div class="col-3">
+                        <label>Fecha inicial:</label>
+                        {{form.fecha_inicio}}
                     </div>
-    
-                    <span style="display: none;">{{form.estado_compra}}</span>
-                </form>
+                    <div class="col-3">
+                        <label>Fecha final:</label>
+                        {{form.fecha_termino}}
+                    </div>
+                </div>
+                <!-- <div class="row justify-content-md-center mt-4">
+                    <div class="col-3">
+                        <button type="submit" class="btn col-11 btr"><i class="fa fa-plus mr-2"></i> Crear pedido</button>
+                    </div>
+                </div> -->
+                <span style="display: none;">{{form.estado_compra}}</span>
             </div>
+            <div class="card-footer">
+                <div class="col-10 offset-1">
+                    <div class="mt-3 mb-3 pr-5 float-right">
+                        <button type="submit" class="btn btr pl-5 pr-5"><i class="fa fa-plus mr-2"></i> Crear pedido</button>
+                    </div>
+                </div>
+            </div>
+            </form>
         </div>
     </div>
 </div>

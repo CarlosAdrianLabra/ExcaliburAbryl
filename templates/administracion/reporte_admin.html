@@ -2,32 +2,75 @@
 {% load static %}
 
 {% block head %}
-<title>Administración -  Ventas por mes</title>
+<title>Administración -  Vista general mensualmente</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 <link rel="stylesheet" href="{% static 'CSS/dataTables.bootstrap5.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
 {% endblock head %}
 
-{% block enlace_info_general %}
-<a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
-    <i class="fas fa-money-bill-wave nav-icon"></i>
-    <p>Informacion general</p>
-</a>
-{% endblock enlace_info_general %}
-{% block menu_desplegable %}
+{% block menu_desplegable_general %}
 <li class="nav-item menu-open">
+	<a href="#" class="nav-link">
+		<i class="nav-icon fas fa-clipboard"></i><p>Reportes de ventas<i class="fas fa-angle-left right"></i></p>
+	</a>
+	<ul class="nav nav-treeview">
+		<li class="nav-item">
+			{% block enlace_ventas_diarias %}
+			<a href="{% url 'administracion_app:index-admin' %}" class="nav-link">
+				<i class="fas fa-chart-bar nav-icon ml-4"></i>
+				<p>Ultimos 31 días</p>
+			</a>
+			{% endblock enlace_ventas_diarias %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_ventas_mensualmente %}
+			<a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link active" style="color: azure; background: tomato;">
+				<i class="fas fa-chart-bar nav-icon ml-4"></i>
+				<p>Mensualmente</p>
+			</a>
+			{% endblock enlace_ventas_mensualmente %}
+		</li>
+        <li class="nav-item">
+            {% block enlace_ventas_por_fecha %}
+            <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
+                <i class="fas fa-calendar-day nav-icon ml-4"></i>
+                <p>Detalle de ventas</p>
+            </a>
+            {% endblock enlace_ventas_por_fecha %}
+        </li>
+        <li class="nav-item">
+            {% block enlace_detalle_Completo %}
+            <a href="{% url 'administracion_app:detalle_completo' %}" class="nav-link">
+                <i class="fas fa-calendar-day nav-icon ml-4"></i>
+                <p>Detalle completo</p>
+            </a>
+            {% endblock enlace_detalle_Completo %}
+        </li>
+        <li class="nav-item">
+			{% block enlace_8020 %}
+			<a href="{% url 'administracion_app:8020-base' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Informe 80/20</p>
+			</a>
+			{% endblock enlace_8020 %}
+		</li>
+		<li class="nav-item">
+			{% block enlace_compra_vs_vende %}
+			<a href="{% url 'administracion_app:compra_vende' %}" class="nav-link">
+				<i class="fas fa-calendar-day nav-icon ml-4"></i>
+				<p>Compra vs vende</p>
+			</a>
+			{% endblock enlace_compra_vs_vende %}
+		</li>
+	</ul>
+</li>
+{% endblock menu_desplegable_general %}
+{% block menu_desplegable %}
+<li class="nav-item">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-clipboard"></i><p>Reportes<i class="fas fa-angle-left right"></i></p>
+        <i class="nav-icon fas fa-clipboard"></i><p>Otros reportes<i class="fas fa-angle-left right"></i></p>
     </a>
     <ul class="nav nav-treeview">
-        <li class="nav-item">
-            {% block enlace_ventas_mes %}
-            <a href="{% url 'administracion_app:admin-reporte' %}" class="nav-link active" style="color: azure; background: tomato;">
-                <i class="fas fa-chart-bar nav-icon ml-4"></i>
-                <p>Ventas por mes</p>
-            </a>
-            {% endblock enlace_ventas_mes %}
-        </li>
         <li class="nav-item">
             {% block enlace_liquidacion %}
             <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
@@ -36,30 +79,6 @@
             </a>
             {% endblock enlace_liquidacion %}
         </li>
-        <li class="nav-item">
-            {% block enlace_ventas_por_fecha %}
-            <a href="{% url 'administracion_app:admin-resumen_ventas' %}" class="nav-link">
-                <i class="fas fa-calendar-day nav-icon ml-4"></i>
-                <p>Ventas por fecha</p>
-            </a>
-            {% endblock enlace_ventas_por_fecha %}
-        </li>
-        <li class="nav-item">
-            {% block enlace_8020 %}
-            <a href="{% url 'administracion_app:8020-base' %}" class="nav-link">
-                <i class="fas fa-calendar-day nav-icon ml-4"></i>
-                <p>Informe 80/20</p>
-            </a>
-            {% endblock enlace_8020 %}
-        </li>
-        <li class="nav-item">
-			{% block enlace_compra_vs_vende %}
-			<a href="{% url 'administracion_app:compra_vende' %}" class="nav-link">
-				<i class="fas fa-calendar-day nav-icon ml-4"></i>
-				<p>Compra vs vende</p>
-			</a>
-			{% endblock enlace_compra_vs_vende %}
-		</li>
         <li class="nav-item">
 			{% block enlace_comprazapatos_lista_pedidos %}
 			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link">
@@ -112,17 +131,17 @@
                 <!-- Card content -->
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h1 class="card-title mt-3 mb-3 ml-3">REPORTE DE VENTAS POR MES</h1>
+                        <h1 class="card-title mt-3 mb-3 ml-3">VISTA GENERAL DE VENTAS MENSUALMENTE</h1>
                     </div>
 
                     <!-- Card body -->
                     <div class="card-body">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
                           <div class="info-box bg-navyr white">
                             <span class="info-box-icon bg-green"><i class="fas fa-money-bill-wave"></i></span>
                 
                             <div class="info-box-content text-center">
-                              <span class="info-box-text">Total de ventas hasta hoy</span>
+                              <span class="info-box-text">Total de ventas del presente año</span>
                               {% if total_ventas %}
                               <span class="info-box-number">$ {{ total_ventas }}</span>
                               {% else %}  
@@ -134,20 +153,28 @@
                     
                         <table id="export-table" class="table table-bordered table-striped text-center">
                             <thead class="bg-navyr white">
-                              <th>Mes</th>
-                              <th>Productos vendidos</th>
-                              <th>Monto total vendido</th>
-                              <th>Total de ganancias</th>
+                                <th>Mes</th>
+                                <th>Productos vendidos</th>
+                                <th>Precio costo</th>
+                                <th>Precio venta</th>
+                                <th>Total vendido<br>
+                                    <span style="font-size: smaller; color: #ccc;">[Precio venta - Descuentos]</span>
+                                </th>
+                                <th>Total de ganancias <br>
+                                    <span style="font-size: smaller; color: #ccc;">[Total vendido - Precio costo]</span>
+                                </th>
                             </thead>
                             <tbody>
-                              {% for venta in resumen_ventas_mes %}
-                              <tr>
-                                <td>{{ venta.sale__date_sale__date__month }} / {{venta.sale__date_sale__date__year}}</td>
-                                <td>{{ venta.cantidad_ventas }}</td>
-                                <td>$ {{ venta.total_ventas | floatformat:2 }} </td>
-                                <td>$ {{ venta.ganancia_total | floatformat:2 }} </td>
-                              </tr>
-                              {% endfor %}
+                                {% for venta in resumen_ventas_mes %}
+                                <tr>
+                                    <td>{{ venta.sale__date_sale__date__month }} / {{venta.sale__date_sale__date__year}}</td>
+                                    <td>{{ venta.cantidad_ventas }}</td>
+                                    <td>$ {{ venta.precio_costo }}</td>
+                                    <td>$ {{ venta.precio_venta }}</td>
+                                    <td>$ {{ venta.total_ventas | floatformat:2 }} </td>
+                                    <td>$ {{ venta.ganancia_total | floatformat:2 }} </td>
+                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

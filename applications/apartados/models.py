@@ -1,10 +1,10 @@
 from django.db import models
+from model_utils.models import TimeStampedModel
 from django.utils import timezone
 from django.db import IntegrityError
 from django.db.models.signals import post_save, pre_save
 from applications.inventarios.models import Productos
-from applications.ventas.models import Venta, Carrito, DetalleVenta
-from applications.users.models import User
+from .managers import CarShopManager
 
 # Create your models here.
 class Apartados(models.Model):
@@ -32,7 +32,7 @@ def completar_venta(sender, instance, **kwargs):
 
         if precio_actualizado >= precio_a_pagar:
             Apartados.objects.filter(id=instance.pk).update(apartado_cerrado=True)
-            Carrito.objects.create(
+            CarritoApartados.objects.create(
                 barcode=instance.barcode,
                 producto=Productos.objects.get(barcode=instance.barcode),
                 count='1'
@@ -42,3 +42,23 @@ def completar_venta(sender, instance, **kwargs):
         return []
 
 post_save.connect(completar_venta, sender=Apartados)
+
+class CarritoApartados(TimeStampedModel):
+    barcode = models.CharField(max_length=13, unique=True)
+    producto = models.ForeignKey(Productos, on_delete=models.CASCADE, verbose_name='producto', related_name='product_car_apartados')
+    count = models.PositiveIntegerField('Cantidad')
+
+    objects = CarShopManager()
+    
+    class Meta:
+        verbose_name = 'Carrito de apartados'
+        verbose_name_plural = 'Carrito de apartados'
+        ordering = ['-created']
+
+    def __str__(self):
+        return str(self.producto.nombre)
+
+    def subtotal(self):
+        cant_x_venta = float(self.count * self.producto.precio_venta)
+
+        return cant_x_venta

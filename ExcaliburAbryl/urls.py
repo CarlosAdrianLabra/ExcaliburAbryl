@@ -43,5 +43,7 @@ urlpatterns = [
     re_path('', include('applications.apartados.urls')),
     #URLS - APPLICATIONS.COMPRAZAPATO
     re_path('', include('applications.comprazapato.urls')),
+    #URLS - APPLICATIONS.TEZONCOCAJA2
+    re_path('', include('applications.tezoncocaja2.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

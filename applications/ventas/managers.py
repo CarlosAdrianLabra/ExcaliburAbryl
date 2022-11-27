@@ -11,63 +11,78 @@ class SaleManager(models.Manager):
     mes_actual = fecha_hoy.month
     ano_actual = fecha_hoy.year
     
+    #
+    # Tezonco Caja 1
+    #
+
     def ventas_no_cerradas(self): # Cierre de caja
-        return self.filter(
-            close=False,
-            anulate=False
-        )
+        return self.filter(close=False,anulate=False,caja='1')
     
     def total_ventas_dia(self): # Panel de control / Cierre de caja / Administración - Ingresos por día
-        consulta = self.filter(
-            close=False,
-            anulate=False
-        ).aggregate(
-            total=Sum('amount')
-        )
-        if consulta:
-            return consulta['total']
-        else:
-            return 0
+        consulta = self.filter(close=False,anulate=False,caja='1').aggregate(total=Sum('amount'))
+        if consulta: return consulta['total']
+        else: return 0
     
     def total_ventas_anuladas_dia(self): # Panel de control / Cierre de caja / Administración - Ingresos por día
-        consulta = self.filter(
-            close=False,
-            anulate=True,
-            
-        ).aggregate(
-            total=Sum('amount')
-        )
-        if consulta:
-            return consulta['total']
-        else:
-            return 0
+        consulta = self.filter(close=False,anulate=True,caja='1').aggregate(total=Sum('amount'))
+        if consulta: return consulta['total']
+        else: return 0
     
     def cerrar_ventas(self):  # Administración - Cierre de caja
-        consulta = self.filter(
-            close=False,
-        )
+        consulta = self.filter(close=False,caja='1')
         # actualizmos a cerrado
-        total = consulta.aggregate(
-            total=Sum('amount')
-        )['total']
+        total = consulta.aggregate(total=Sum('amount'))['total']
         cerrados = consulta.update(close=True) # devuelve numero de actualizaciones
 
         return cerrados, total
+
+    #
+    # Tezonco Caja 2
+    #
+
+    def ventas_no_cerradas_2(self): # Cierre de caja
+        return self.filter(close=False,anulate=False,caja='2')
     
-    def total_ventas(self): # Administración - Ventas por mes
+    def total_ventas_dia_2(self): # Panel de control / Cierre de caja / Administración - Ingresos por día
+        consulta = self.filter(close=False,anulate=False,caja='2').aggregate(total=Sum('amount'))
+        if consulta: return consulta['total']
+        else: return 0
+    
+    def total_ventas_anuladas_dia_2(self): # Panel de control / Cierre de caja / Administración - Ingresos por día
+        consulta = self.filter(close=False,anulate=True,caja='2').aggregate(total=Sum('amount'))
+        if consulta: return consulta['total']
+        else: return 0
+    
+    def cerrar_ventas_2(self):  # Administración - Cierre de caja
+        consulta = self.filter(close=False,caja='2')
+        # actualizmos a cerrado
+        total = consulta.aggregate(total=Sum('amount'))['total']
+        cerrados = consulta.update(close=True) # devuelve numero de actualizaciones
+
+        return cerrados, total
+
+    #
+    #
+    #
+
+    # EN ESPERA
+    # def total_ventas_por_dia(self): # Panel de control / Administración - Ingresos por día
+    #     consulta = self.filter(anulate=False,).aggregate(total=Sum('amount'))
+    #     if consulta: return consulta['total']
+    #     else: return 0
+
+    def total_ventas(self): # Administración - Mensualmente
         consulta = self.filter(
-                anulate=False,
-            ).aggregate(
-                total=Sum('amount')
-            )
-        if consulta:
-            return consulta['total']
-        else:
-            return 0
+                anulate=False, close=True,
+                date_sale__range=[str(self.ano_actual)+"-01-01 00:00:00.100000-0500", str(self.ano_actual)+"-12-31 23:59:59.100000-0500"],
+            ).aggregate(total=Sum('amount'))
+
+        if consulta: return consulta['total']
+        else: return 0
     
     def ventas_en_fechas(self, date_start, date_end): # Administración - Ventas por fecha
         return self.filter(
-            anulate=False,
+            anulate=False, close=True,
             date_sale__range=(str(date_start)+" 00:00:00.100000-0500", str(date_end)+" 23:59:59.100000-0500"),
         ).order_by('-date_sale')
 
@@ -327,7 +342,7 @@ class SaleDetailManager(models.Manager):
         start_date = end_date - timedelta(days=30)
         
         consulta = self.filter(
-            sale__anulate=False,
+            sale__anulate=False, sale__close=True,
             created__range=(start_date, end_date),
             producto__pk=id_prod,
         ).values('sale__date_sale__date', 'producto__nombre').annotate(
@@ -338,43 +353,35 @@ class SaleDetailManager(models.Manager):
     def restablecer_stok_num_ventas(self, id_venta): # Cierre de caja
         prods_en_anulados = []
         for venta_detail in self.filter(sale__id=id_venta):
-            #actualizmos producto
+            # Actualizamos producto
             venta_detail.producto.stock = venta_detail.producto.stock + venta_detail.count
             venta_detail.producto.num_venta = venta_detail.producto.num_venta - venta_detail.count
             prods_en_anulados.append(venta_detail.producto)
         Productos.objects.bulk_update(prods_en_anulados, ['stock', 'num_venta'])
         return True
     
-    def resumen_ventas(self): # Administración - Ingresos por día
+    def resumen_ventas(self): # Administración - Ultimos 31 días
         return self.filter(
             sale__anulate=False,
             sale__close=True,
         ).values('sale__date_sale__date').annotate(
-            total_vendido=Sum(
-                F('price_subtotal'),
-                # F('price_sale')*F('count'),
-                output_field=FloatField()
-            ),
-            total_ganancias=Sum(
-                F('price_subtotal') - F('price_purchase')*F('count'),
-                # F('price_sale')*F('count') - F('price_purchase')*F('count'),
-                output_field=FloatField()
-            ),
-            num_ventas=Sum('count'),
+            total_vendido=Sum(F('price_subtotal'),output_field=FloatField()),
+            total_ganancias=Sum(F('price_subtotal') - F('price_purchase')*F('count'),output_field=FloatField()),
+            num_productos_vendidos=Sum('count'),
+            precio_costo=Sum('price_purchase'),
+            precio_venta=Sum('price_sale'),
         )
     
-    def resumen_ventas_mes(self): # Administración - Ventas por mes
-        #
+    def resumen_ventas_mes(self): # Administración - Mensualmente
         return self.filter(
-            sale__anulate=False
+            sale__anulate=False,
+            sale__close=True,
         ).values('sale__date_sale__date__month', 'sale__date_sale__date__year').annotate(
             cantidad_ventas=Sum('count'),
             total_ventas=Sum(F('price_subtotal'), output_field=FloatField()),
-            # total_ventas=Sum(F('price_sale')*F('count'), output_field=FloatField()),
-            ganancia_total=Sum(
-                F('price_subtotal') - F('price_purchase')*F('count'),output_field=FloatField()
-                # F('price_sale')*F('count') - F('price_purchase')*F('count'),output_field=FloatField()
-            )
+            ganancia_total=Sum(F('price_subtotal') - F('price_purchase')*F('count'),output_field=FloatField()),
+            precio_costo=Sum('price_purchase'),
+            precio_venta=Sum('price_sale'),
         ).order_by('-sale__date_sale__date__month')
     
     def resumen_ventas_proveedor(self, **filters): # Administración - Liquidación de proveedores
@@ -427,7 +434,7 @@ class SaleDetailManager(models.Manager):
         return costo['total']
     
     def ganancias_totales_actuales(self): # Panel de control
-        costo = self.filter(sale__anulate=False, sale__close=True, sale__date_sale__gte=str(self.ano_actual)+"-01-01").aggregate(
+        costo = self.filter(sale__anulate=False, sale__date_sale__gte=str(self.ano_actual)+"-01-01").aggregate(
             total=Sum(
                 F('price_subtotal') - F('count')*F('price_purchase'),
                 output_field=FloatField()

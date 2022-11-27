@@ -2,7 +2,7 @@ from django import forms
 from applications.inventarios.models import Proveedor
 from .models import Gastos
 from applications.comprazapato.models import Pedidos
-
+from applications.ventas.models import Venta
 
 class LiquidacionProviderForm(forms.Form):
 
@@ -58,6 +58,63 @@ class ResumenVentasForm(forms.Form):
                 'type': 'date',
                 'class': 'form-control pull-right',
             },
+        )
+    )
+
+
+class DetalleCompletoForm(forms.Form):
+
+    CAJA_CHOICES = [
+        ('1', '1'),
+        ('2', '2'),
+        ('3', 'Todas'),
+    ]
+
+    TARJETA = '0'
+    EFECTIVO = '1'
+
+    TIPO_CHOICES = [
+        (EFECTIVO, 'Efectivo'),
+        (TARJETA, 'Tarjeta'),
+        ('3', 'Todos'),
+    ]
+
+    date_start = forms.DateField(
+        required=True,
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+                'class': 'form-control pull-right',
+            },
+        )
+    )
+    date_end = forms.DateField(
+        required=True,
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+                'class': 'form-control pull-right',
+            },
+        )
+    )
+    caja = forms.ChoiceField(
+        required=True,
+        choices=CAJA_CHOICES,
+        widget=forms.Select(
+            attrs = {
+                'class': 'form-control',
+            }
+        )
+    )
+    tipo = forms.ChoiceField(
+        required=False,
+        choices=TIPO_CHOICES,
+        widget=forms.Select(
+            attrs = {
+                'class': 'form-control',
+            }
         )
     )
 

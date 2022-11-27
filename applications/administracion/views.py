@@ -18,27 +18,27 @@ from applications.comprazapato.models import Pedidos
 from applications.users.mixins import AdminPermisoMixin
 from applications.comprazapato.forms import pedidosForm
 #
-from .forms import LiquidacionProviderForm, ResumenVentasForm, CompravsVendeFormulario, GastosFormulario, pedidosadminForm
+from .forms import LiquidacionProviderForm, ResumenVentasForm, CompravsVendeFormulario, GastosFormulario, pedidosadminForm, DetalleCompletoForm
 #
-from .functions import detalle_resumen_ventas
+from .functions import detalle_resumen_ventas, detalle_completo
 
 
 class PanelHomeView(AdminPermisoMixin, TemplateView):
     template_name = "administracion/index.html"
 
-
+# Reportes de ventas - Ultimos 31 días
 class PanelAdminView(AdminPermisoMixin, TemplateView):
     template_name = "administracion/administrador.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["total_ventas"] = Venta.objects.total_ventas_dia()
-        context["total_anulaciones"] = Venta.objects.total_ventas_anuladas_dia()
-        context["stok_cero"] = Productos.objects.productos_por_terminarse()
+        # context["total_ventas"] = Venta.objects.total_ventas_por_dia()
+        # context["total_anulaciones"] = Venta.objects.total_ventas_anuladas_dia()
+        # context["stok_cero"] = Productos.objects.productos_por_terminarse()
         context["resumen_semana"] = DetalleVenta.objects.resumen_ventas()[:31]
         return context
-    
 
+# Reportes de ventas - Mensualmente
 class ReporteAdmin(AdminPermisoMixin, ListView):
     template_name = "administracion/reporte_admin.html"
     context_object_name = "resumen_ventas_mes"
@@ -50,6 +50,36 @@ class ReporteAdmin(AdminPermisoMixin, ListView):
     
     def get_queryset(self):
         return DetalleVenta.objects.resumen_ventas_mes()
+
+# Reportes de ventas - Detalle de ventas
+class ReporteResumenVentas(AdminPermisoMixin, ListView):
+    template_name = "administracion/resumen_ventas.html"
+    context_object_name = "resumen_ventas"
+    extra_context = {'form': ResumenVentasForm}
+    
+    def get_queryset(self):
+        
+        lista_ventas = detalle_resumen_ventas(
+            self.request.GET.get("date_start", ''),
+            self.request.GET.get("date_end", ''),
+        )
+        return lista_ventas
+
+# Reportes de ventas - Detalle completo
+class ReporteDetalleCompleto(AdminPermisoMixin, ListView):
+    template_name = "administracion/detalle_completo.html"
+    context_object_name = "detalle_completo"
+    extra_context = {'form': DetalleCompletoForm}
+    
+    def get_queryset(self):
+        
+        lista_ventas = detalle_completo(
+            self.request.GET.get("date_start", ''),
+            self.request.GET.get("date_end", ''),
+            self.request.GET.get("caja", ''),
+            self.request.GET.get("tipo", ''),
+        )
+        return lista_ventas
 
 
 class ReporteLiquidacion(AdminPermisoMixin, ListView):
@@ -67,20 +97,6 @@ class ReporteLiquidacion(AdminPermisoMixin, ListView):
         self.extra_context.update({'total_ventas': total_ventas})
         return lista_ventas
 
-
-class ReporteResumenVentas(AdminPermisoMixin, ListView):
-    template_name = "administracion/resumen_ventas.html"
-    context_object_name = "resumen_ventas"
-    extra_context = {'form': ResumenVentasForm}
-    
-    def get_queryset(self):
-        
-        lista_ventas = detalle_resumen_ventas(
-            self.request.GET.get("date_start", ''),
-            self.request.GET.get("date_end", ''),
-        )
-        return lista_ventas
-    
 
 class GastosListView(AdminPermisoMixin, ListView):
     model = Gastos

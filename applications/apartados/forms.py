@@ -10,6 +10,9 @@ class ApartadosForm(forms.Form):
             }
         )
     )
+    caja = forms.CharField(
+        widget=forms.TextInput()
+    )
 
 class ApartadosUpdateForm(forms.ModelForm):
 
