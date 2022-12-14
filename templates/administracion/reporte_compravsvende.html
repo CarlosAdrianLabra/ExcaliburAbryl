@@ -139,14 +139,18 @@
                     <div class="card-body">
                         <div class="row">
                             
-                            <div class="col-6 offset-1">
+                            <div class="col-10 offset-1">
                                 <form method="GET">
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <label>Proveedor:</label>
                                             {{form.proveedor}}
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-3">
+                                            <label>Producto comprado:</label>
+                                            {{form.archivo}}
+                                        </div>
+                                        <div class="col-3">
                                             <label>
                                                 Fecha inicial: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <span style="font-size: small; color: #999;"> Hora: 00:00:00</span>
@@ -154,7 +158,7 @@
                                             {{form.fecha_inicio}}
                                         </div>
                                         
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <label>
                                                 Fecha final: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <span style="font-size: small; color: #999;"> Hora: 23:59:59</span>
@@ -168,7 +172,7 @@
                                 </form>
                             </div>
 
-                            <div class="col-3 offset-1 align-self-center">
+                            <!-- <div class="col-3 offset-1 align-self-center">
                                 <div class="info-box bg-navyr white">
                                     <span class="info-box-icon bg-primary ml-1"><i class="far fa-handshake"></i></span>
                         
@@ -178,14 +182,14 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Tabla Vendido -->
                         <div class="row mt-4 mb-3">
-                            <div class="col-12 text-center"><h5>VENTAS CERRADAS DEL SISTEMA</h5></div>
+                            <div class="col-12 text-center"><h5>VENTAS REALIZADAS {{fecha_inicio}} - {{fecha_fin}}</h5></div>
                         </div>
-                        <div class="row mt-3">
-                            <table id="export-table" class="table table-bordered table-striped text-center">
+                        <div class="row mt-3 table-responsive p-0" style="height: 300px;">
+                            <table id="export-table" class="table table-bordered table-striped text-center text-nowrap">
                                 <thead class="bg-navyr white">
                                     <th>Fecha de venta</th>
                                     <th>Código de barras</th>
@@ -195,14 +199,23 @@
                                     <th>Precio costo</th>
                                     <th>Precio venta</th>
                                     <th>Descuento</th>
-                                    <th>Subtotal</th>
-                                    <th>Total costos</th>
-                                    <th>Total ventas</th>
+                                    <th>
+                                        Total costos<br>
+                                        <span style="font-size: small; color: #ccc;">[Cantidad x Precio costo]</span>
+                                    </th>
+                                    <th>
+                                        Total venta<br>
+                                        <span style="font-size: small; color: #ccc;">[Precio venta - Descuento]</span>
+                                    </th>
+                                    <th>
+                                        Ganancia<br>
+                                        <span style="font-size: small; color: #ccc;">[Total venta - Total costo]</span>
+                                    </th>
                                 </thead>
                                 <tbody>
                                     {% for venta in compra_vs_vende %}
                                     <tr>
-                                        <td>{{ venta.sale.date_sale }}</td>
+                                        <td>{{ venta.sale.date_sale | date:"d/M/Y H:i" }}</td>
                                         <td>{{ venta.producto.barcode }}</td>
                                         <td>{{ venta.producto.nombre }}</td>
                                         <td>{{ venta.producto.marca }}</td>
@@ -210,52 +223,77 @@
                                         <td>$ {{ venta.price_purchase | floatformat:2 }}</td>
                                         <td>$ {{ venta.price_sale | floatformat:2 }}</td>
                                         <td>$ {{ venta.discount | floatformat:2 }}</td>
-                                        <td>$ {{ venta.sub_total | floatformat:2 }}</td>
                                         <td>$ {{ venta.total_costo_pagar | floatformat:2 }}</td>
+                                        <td>$ {{ venta.sub_total | floatformat:2 }}</td>
                                         <td>$ {{ venta.total_pagar | floatformat:2 }}</td>
                                     </tr>
                                     {% endfor %}
-                                    
-                                </tbody>
-                            </table>
-                            <table class="table table-bordered table-striped text-center">
-                                <tbody>
-                                    <tr>
-                                        <td class="bg-navyr" width="1010"></td>
+                                    <!-- <tr>
+                                        <td class="bg-navyr" colspan="9"></td>
                                         <td class="bg-navyr text-bold white">$ {{ total_costo_vendido | floatformat:2 }}</td>
                                         <td class="bg-navyr text-bold white">$ {{ total_se_vende | floatformat:2 }}</td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
                         <!-- ./tabla Vendido -->
 
                         <!-- Tabla Comprado -->
-                        <div class="row mt-4 mb-3">
-                            <div class="col-12 text-center"><h5>COMPRA DE STOCK NUEVO EN EL SISTEMA</h5></div>
+                        <div class="row mt-3 mb-3">
+                            <div class="col-12 text-center"><h5>PRODUCTO COMPRADO</h5></div>
                         </div>
-                        <div class="row mt-3">
-                            <table id="export-table2" class="table table-bordered table-striped text-center">
-                                <thead class="bg-navyr white">
-                                    <th>Fecha de compra de stock nuevo</th>
-                                    <th>Código de barras</th>
-                                    <th>Producto</th>
+                        <div class="row mt-0 table-responsive p-0" style="height: 400px;">
+                            <table id="export-table2" class="table table-bordered table-striped text-center text-nowrap">
+                                <thead class="bg-navyr white text-center">
+                                    <th>Fecha compra stock</th>
+                                    <th>Fecha venta stock</th>
                                     <th>Marca</th>
-                                    <th>Cantidad</th>
+                                    <th>Modelo</th>
+                                    <th>Línea</th>
+                                    <th>Sublínea</th>
+                                    <th>Color</th>
+                                    <th>Talla</th>
+                                    <th>Stock comprado</th>
+                                    <th>Stock vendido</th>
                                     <th>Precio costo</th>
-                                    <th>Total costos</th>
+                                    <th>Precio venta</th>
+                                    <th>Proveedor</th>
                                 </thead>
                                 <tbody>
-                                    {% for compra in se_compra %}
-                                    <tr>
-                                        <td>{{ compra.fecha }}</td>
-                                        <td>{{ compra.producto.barcode }}</td>
-                                        <td>{{ compra.producto.nombre }}</td>
-                                        <td>{{ compra.producto.marca }}</td>
-                                        <td>{{ compra.stock_nuevo }}</td>
+                                    {% for compra in stock_comprado %}
+                                    {% if compra.stock_comprado != 0 %}
+                                    <tr style="background: #1D2535 !important; color: lime;">
+                                        <td>{{ fecha_archivo | date:"d/M/Y" }}</td>
+                                        <td>{{ compra.fecha_venta | date:"d/M/Y" }}</td>
+                                        <td>{{ compra.marca }}</td>
+                                        <td>{{ compra.modelo }}</td>
+                                        <td>{{ compra.linea }}</td>
+                                        <td>{{ compra.sublinea }}</td>
+                                        <td>{{ compra.color }}</td>
+                                        <td>{{ compra.talla }}</td>
+                                        <td>{{ compra.stock }}</td>
+                                        <td>{{ compra.stock_comprado }}</td>
                                         <td>$ {{ compra.precio_costo }}</td>
-                                        <td>$ {{ compra.total_pagar | floatformat:2 }}</td>
+                                        <td>$ {{ compra.precio_venta }}</td>
+                                        <td>{{ compra.proveedor }}</td>
                                     </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td>{{ fecha_archivo | date:"d/M/Y" }}</td>
+                                        <td></td>
+                                        <td>{{ compra.marca }}</td>
+                                        <td>{{ compra.modelo }}</td>
+                                        <td>{{ compra.linea }}</td>
+                                        <td>{{ compra.sublinea }}</td>
+                                        <td>{{ compra.color }}</td>
+                                        <td>{{ compra.talla }}</td>
+                                        <td>{{ compra.stock }}</td>
+                                        <td></td>
+                                        <td>$ {{ compra.precio_costo }}</td>
+                                        <td>$ {{ compra.precio_venta }}</td>
+                                        <td>{{ compra.proveedor }}</td>
+                                    </tr>
+                                    {% endif %}
                                     {% endfor %}
                                     <!-- <tr>
                                         <td class="bg-navyr" colspan="6"></td>
@@ -263,17 +301,25 @@
                                     </tr> -->
                                 </tbody>
                             </table>
-                            <table class="table table-bordered table-striped text-center">
+                            <!-- <table class="table table-bordered table-striped text-center">
                                 <tbody>
                                     <tr>
                                         <td class="bg-navyr" width="1060"></td>
                                         <td class="bg-navyr text-bold white">$ {{ total_se_compra | floatformat:2 }}</td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> -->
                         </div>
                         <!-- ./tabla Comprado -->
 
+                        <div class="row mt-3 mb-3">
+                            <div class="col-12">
+                                <div style="background: linear-gradient(135deg, lime 30%, #1D2535 70%); padding:12px; display: inline-block; margin-right: 15px; vertical-align: middle;"></div>
+                                Stock vendido | {{fecha_inicio}} - {{fecha_fin}}<br>
+                                <div style="background: linear-gradient(135deg, #EEE 30%, black 70%); padding:12px; display: inline-block; margin-right: 15px; vertical-align: middle;"></div>
+                                Stock comprado | {{fecha_archivo | date:"Y-m-d"}}<br>
+                            </div>
+                        </div>
                     </div>
                     <!-- ./card body -->
                 </div>
@@ -291,7 +337,7 @@
 		$('#export-table').DataTable({
 			responsive: "true",
 			//dom: 'Brtilp',
-			dom: 'B',
+			dom: '<B><t><p>',
 			buttons:[
 				{
 					extend: 	'excelHtml5',
@@ -316,13 +362,13 @@
         $('#export-table2').DataTable({
 			responsive: "true",
 			//dom: 'Brtilp',
-			dom: 'B',
+			dom: '<B><t><p>',
 			buttons:[
 				{
 					extend: 	'excelHtml5',
 					text: 		'<i class="fas fa-file-excel"></i>',
 					titleAttr:	'Exportar a Excel',
-					className: 	'btn btn-success mr-2 float-right'
+					className: 	'btn btn-success mr-2'
 				},
 				{
 					extend: 	'pdfHtml5',

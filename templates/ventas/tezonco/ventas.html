@@ -44,47 +44,93 @@
                         <div class="card-header"><h1 class="card-title mt-3 mb-3 ml-3">VENTAS DEL DÍA</h1></div>
 
                         <!-- Card body -->
-                        <div class="container-fluid mt-4 mb-3">
-                            <div class="col">
-
-                                <table class="table table-bordered table-dark">
-                                    <thead class="text-center">
-                                        <tr>
-                                            <th width="12%">Numero de venta</th>
-                                            <th width="30%">Fecha</th>
-                                            <th width="10%">Caja</th>
-                                            <th width="16%">Cantidad productos</th>
-                                            <th width="16%">Monto total</th>
-                                            <th width="18%">Cancelar venta</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-
-                                <table class="table table-bordered table-striped" style="margin-top: -16px;">
-                                    <tbody class="text-center">
-                                        {% for venta in ventas %}
-                                        <tr>
-                                            <td width="12%">{{venta.id}}</td>
-                                            <td width="30%">{{venta.date_sale}}</td>
-                                            <td width="10%">{{venta.caja}} </td>
-                                            <td width="16%">{{venta.count}}</td>
-                                            <td width="16%">{{venta.amount}}</td>
-                                            <td width="18%">
-                                                <a href="{% url 'tezoncocaja2_app:ventas_eliminar' venta.id %}" class="red"><span>
-                                                    <i class="fas fa-window-close mr-1"></i>
-                                                    </i>Cancelar venta</span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-
-                            </div>
+                        <div class="card-body mb-3">
+                            <table class="table table-bordered table-striped">
+                                <thead class="text-center bg-navyr white">
+                                    <tr>
+                                        <th width="12%">Numero de venta</th>
+                                        <th width="30%">Fecha</th>
+                                        <th width="10%">Caja</th>
+                                        <th width="16%">Cantidad productos</th>
+                                        <th width="16%">Monto total</th>
+                                        <th width="18%">Cancelar venta</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    {% for venta in ventas %}
+                                    <tr>
+                                        <td width="12%">{{venta.id}}</td>
+                                        <td width="30%">{{venta.date_sale}}</td>
+                                        <td width="10%">{{venta.caja}} </td>
+                                        <td width="16%">{{venta.count}}</td>
+                                        <td width="16%">{{venta.amount}}</td>
+                                        <td width="18%">
+                                            <a href="{% url 'tezoncocaja2_app:ventas_eliminar' venta.id %}" class="red"><span>
+                                                <i class="fas fa-window-close mr-1"></i>
+                                                </i>Cancelar venta</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
 
+                        <!-- Card footer -->
+                        <div class="card-footer pt-3">
+                            {% if request.path == request.get_full_path %}
+                                {% if is_paginated %}
+                                <nav class="float-right">
+                                    <ul class="pagination">
+                                        <li class="mr-3 p-2">
+                                            <span class="">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                                        </li>
+                                        {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{request.get_full_path}}?page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Anterior</a>
+                                        </li>
+                                        {% endif %}
+                                        {% for num in paginator.page_range %}
+                                            {% if page_obj.number == num %}
+                                            <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}?page={{ num }}">{{ num }}</a></li>
+                                            {% elif num > page_obj.number|add:'0' and num < page_obj.number|add:'13' %}
+                                            <li class="page-item"><a class="page-link" href="{{request.get_full_path}}?page={{ num }}">{{ num }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                        <li class="page-item"><a class="page-link" href="{{request.get_full_path}}?page={{page_obj.next_page_number}}">Siguiente</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                                {% endif %}
+                            {% else %}
+                                {% if is_paginated %}
+                                <nav class="float-right">
+                                    <ul class="pagination">
+                                        <li class="mr-3 p-2">
+                                            <span class="">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                                        </li>
+                                        {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{request.get_full_path}}&page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Anterior</a>
+                                        </li>
+                                        {% endif %}
+                                        {% for num in page_obj.paginator.page_range %}
+                                            {% if page_obj.number == num %}
+                                            <li class="page-item active"><a class="page-link" href="{{request.get_full_path}}&page={{ num }}">{{ num }}</a></li>
+                                            {% elif num > page_obj.number|add:'0' and num < page_obj.number|add:'13' %}
+                                            <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{ num }}">{{ num }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                        <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{page_obj.next_page_number}}">Siguiente</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                                {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
-
                 </div>
             </div>
 

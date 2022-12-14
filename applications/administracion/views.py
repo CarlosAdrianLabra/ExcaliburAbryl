@@ -13,7 +13,7 @@ from django.views.generic import (
 from django.urls import reverse_lazy, reverse
 from applications.ventas.models import Venta, DetalleVenta
 from applications.administracion.models import Gastos
-from applications.inventarios.models import Productos
+from applications.inventarios.models import Movimientos
 from applications.comprazapato.models import Pedidos
 from applications.users.mixins import AdminPermisoMixin
 from applications.comprazapato.forms import pedidosForm
@@ -150,20 +150,25 @@ class Informe8020ListView(AdminPermisoMixin, ListView):
 class CompravsVende(AdminPermisoMixin, ListView):
     template_name = "administracion/reporte_compravsvende.html"
     context_object_name = "compra_vs_vende"
+    paginate_by = 25
     extra_context = {'form': CompravsVendeFormulario}
     
     def get_queryset(self):
-        
-        consulta, total_se_vende, total_costo_vendido, total_se_compra, se_compra = DetalleVenta.objects.compra_vs_vende(
+        fecha_inicio = self.request.GET.get("fecha_inicio",''),
+        fecha_fin = self.request.GET.get("fecha_fin",''),
+        consulta, total_se_vende, total_costo_vendido, stock_comprado, fecha_archivo = DetalleVenta.objects.compra_vs_vende(
             fecha_inicio=self.request.GET.get("fecha_inicio", ''),
             fecha_fin=self.request.GET.get("fecha_fin", ''),
             proveedor=self.request.GET.get("proveedor", ''),
+            archivo=self.request.GET.get("archivo", ''),
         )
         self.extra_context.update(
             {'total_se_vende': total_se_vende,
             'total_costo_vendido': total_costo_vendido,
-            'total_se_compra': total_se_compra,
-            'se_compra': se_compra
+            'stock_comprado': stock_comprado,
+            'fecha_archivo': fecha_archivo,
+            'fecha_inicio': fecha_inicio[0],
+            'fecha_fin': fecha_fin[0],
             }
         )
 

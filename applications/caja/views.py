@@ -20,7 +20,7 @@ class ReporteCierreCajaView(PuntodeventaPermisoMixin,TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ventas = Venta.objects.ventas_no_cerradas()
-        context["ventas_dia"] = detalle_ventas_no_cerradas()
+        context["ventas_dia"] = detalle_ventas_no_cerradas().order_by('-id')
         context['detalle'] = DetalleVenta.objects.filter(sale__id__in=ventas)
         context["total_vendido"] = Venta.objects.total_ventas_dia()
         context["total_anulado"] = Venta.objects.total_ventas_anuladas_dia()
@@ -50,7 +50,7 @@ class ReporteCierreCaja2View(PuntodeventaPermisoMixin,TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ventas = Venta.objects.ventas_no_cerradas_2()
-        context["ventas_dia"] = detalle_ventas_no_cerradas_2()
+        context["ventas_dia"] = detalle_ventas_no_cerradas_2().order_by('-id')
         context['detalle'] = DetalleVenta.objects.filter(sale__id__in=ventas)
         context["total_vendido"] = Venta.objects.total_ventas_dia_2()
         context["total_anulado"] = Venta.objects.total_ventas_anuladas_dia_2()

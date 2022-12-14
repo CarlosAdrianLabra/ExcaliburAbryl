@@ -1,5 +1,5 @@
 from django import forms
-from applications.inventarios.models import Proveedor
+from applications.inventarios.models import Proveedor, ArchivoSubido
 from .models import Gastos
 from applications.comprazapato.models import Pedidos
 from applications.ventas.models import Venta
@@ -161,6 +161,15 @@ class CompravsVendeFormulario(forms.Form):
                 'type': 'date',
                 'class': 'form-control pull-right',
             },
+        )
+    )
+    archivo = forms.ModelChoiceField(
+        required=True,
+        queryset=ArchivoSubido.objects.all(),
+        widget=forms.Select(
+            attrs = {
+                'class': 'form-control',
+            }
         )
     )
 

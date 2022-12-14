@@ -197,12 +197,18 @@ class Productos(TimeStampedModel):
 
 # Modelo de movimientos (actualizaciones de inventario)
 class Movimientos(TimeStampedModel):
-    barcode = models.CharField('Código de barras', max_length=13)
-    stock_nuevo = models.IntegerField('Cantidad de productos ingresados',  default=0)
-    fecha = models.DateTimeField('Fecha y hora de actualización')
-    precio_costo = models.DecimalField('Precio de costo', max_digits=7, decimal_places=2, default=0)
-    total_costo = models.DecimalField('Costo total de productos ingresados', max_digits=7, decimal_places=2, default=0)
-    producto = models.ForeignKey(Productos, on_delete=models.CASCADE, verbose_name='Producto', related_name='movimientos_producto')
+    marca = models.CharField('Marca', max_length=50, blank=True)
+    modelo = models.CharField('Modelo', max_length=50, blank=True)
+    linea = models.CharField('Línea', max_length=20, blank=True)
+    sublinea = models.CharField('Sublínea', max_length=30, blank=True)
+    color = models.CharField('Color', max_length=35, blank=True)
+    talla = models.CharField('Talla', max_length=10, blank=True)
+    stock = models.IntegerField('Cantidad',  default=0)
+    precio_costo = models.DecimalField('Precio costo', max_digits=7, decimal_places=2, default=0)
+    precio_venta = models.DecimalField('Precio venta', max_digits=7, decimal_places=2, default=0)
+    proveedor = models.CharField('Proveedor', max_length=50, blank=True)
+    stock_comprado = models.IntegerField('Cantidad comprada',  default=0)
+    fecha_venta = models.DateTimeField('Fecha de venta', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Movimientos'
@@ -211,7 +217,7 @@ class Movimientos(TimeStampedModel):
         db_table = 'Movimientos'
     
     def __str__(self):
-        return self.producto.nombre
+        return self.marca + self.modelo
 
 # Funcion para optimizar el atributo IMG del modelo Productos
 def optimizar_img(sender, instance, **kwargs):
@@ -222,39 +228,39 @@ def optimizar_img(sender, instance, **kwargs):
 post_save.connect(optimizar_img, sender=Productos)
 
 # Funcion para registrar los cambios del modelo Productos
-def movimientos_productos(sender, instance, **kwargs):
-    try:
-        stock_anterior = Productos.objects.get(barcode=instance.barcode)
-        stock_anterior.stock = str(stock_anterior.stock)
-        stock_anterior = int(stock_anterior.stock)
-        #
-        stock_nuevo = instance.stock
-        stock_nuevo = int(stock_nuevo)
-        #
-        stock_ingresado = stock_nuevo - stock_anterior
-        #
-        precio_costo = Productos.objects.get(barcode=instance.barcode)
-        costo = Decimal(stock_ingresado) * precio_costo.precio_compra
-        #
-        producto_modificado = Productos.objects.get(barcode=instance.barcode)
-        producto_modificado.nombre = str(producto_modificado.nombre)
-        costo_producto = precio_costo.precio_compra
-        #
-        mov = Movimientos.objects.create(
-            barcode=instance.barcode,
-            stock_nuevo=stock_ingresado,
-            fecha=timezone.now(),
-            total_costo=costo,
-            producto=producto_modificado,
-            precio_costo=costo_producto
-        )
-        mov.save()
-    except Productos.DoesNotExist:
-        return []
-    else:
-        return []
+# def movimientos_productos(sender, instance, **kwargs):
+#     try:
+#         stock_anterior = Productos.objects.get(barcode=instance.barcode)
+#         stock_anterior.stock = str(stock_anterior.stock)
+#         stock_anterior = int(stock_anterior.stock)
+#         #
+#         stock_nuevo = instance.stock
+#         stock_nuevo = int(stock_nuevo)
+#         #
+#         stock_ingresado = stock_nuevo - stock_anterior
+#         #
+#         precio_costo = Productos.objects.get(barcode=instance.barcode)
+#         costo = Decimal(stock_ingresado) * precio_costo.precio_compra
+#         #
+#         producto_modificado = Productos.objects.get(barcode=instance.barcode)
+#         producto_modificado.nombre = str(producto_modificado.nombre)
+#         costo_producto = precio_costo.precio_compra
+#         #
+#         mov = Movimientos.objects.create(
+#             barcode=instance.barcode,
+#             stock_nuevo=stock_ingresado,
+#             fecha=timezone.now(),
+#             total_costo=costo,
+#             producto=producto_modificado,
+#             precio_costo=costo_producto
+#         )
+#         mov.save()
+#     except Productos.DoesNotExist:
+#         return []
+#     else:
+#         return []
 
-pre_save.connect(movimientos_productos, sender=Productos)
+# pre_save.connect(movimientos_productos, sender=Productos)
 
 # Funcion para agregar el código de barras
 def product(sender, instance, **kwargs):

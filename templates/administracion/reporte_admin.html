@@ -155,8 +155,9 @@
                             <thead class="bg-navyr white">
                                 <th>Mes</th>
                                 <th>Productos vendidos</th>
-                                <th>Precio costo</th>
-                                <th>Precio venta</th>
+                                <th>Total precio costo</th>
+                                <th>Total precio venta</th>
+                                <th>Total descuentos</th>
                                 <th>Total vendido<br>
                                     <span style="font-size: smaller; color: #ccc;">[Precio venta - Descuentos]</span>
                                 </th>
@@ -169,8 +170,9 @@
                                 <tr>
                                     <td>{{ venta.sale__date_sale__date__month }} / {{venta.sale__date_sale__date__year}}</td>
                                     <td>{{ venta.cantidad_ventas }}</td>
-                                    <td>$ {{ venta.precio_costo }}</td>
-                                    <td>$ {{ venta.precio_venta }}</td>
+                                    <td>$ {{ venta.precio_costo | floatformat:2 }}</td>
+                                    <td>$ {{ venta.precio_venta | floatformat:2 }}</td>
+                                    <td>$ {{ venta.descuento | floatformat:2 }}</td>
                                     <td>$ {{ venta.total_ventas | floatformat:2 }} </td>
                                     <td>$ {{ venta.ganancia_total | floatformat:2 }} </td>
                                 </tr>
@@ -194,7 +196,7 @@
 		$('#export-table').DataTable({
 			responsive: "True",
 			//dom: 'Brtilp',
-			dom: 'B',
+            dom: '<B><t><p>',
 			buttons:[
 				{
 					extend: 	'excelHtml5',

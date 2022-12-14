@@ -169,10 +169,11 @@ class VentaVoucherPdf(PuntodeventaPermisoMixin, View):
 
 class SaleListView(PuntodeventaPermisoMixin, ListView):
     template_name = 'ventas/ventas.html'
-    context_object_name = "ventas" 
+    paginate_by = 20
+    context_object_name = "ventas"
 
     def get_queryset(self):
-        return Venta.objects.ventas_no_cerradas().filter(caja='1')
+        return Venta.objects.ventas_no_cerradas().filter(caja='1').order_by('-id')
 
 
 class SaleDeleteView(PuntodeventaPermisoMixin, DeleteView):

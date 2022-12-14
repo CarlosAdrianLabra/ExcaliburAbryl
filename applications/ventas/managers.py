@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.db import models
-from applications.inventarios.models import Productos, Movimientos
-from django.db.models import Q, Sum, F, FloatField, IntegerField, ExpressionWrapper, Count
+from applications.inventarios.models import Productos, Movimientos, ArchivoSubido
+from django.db.models import Sum, F, FloatField, IntegerField, ExpressionWrapper, Count, Case, When
 from django.db.models.functions import Upper
 
 class SaleManager(models.Manager):
@@ -368,8 +368,9 @@ class SaleDetailManager(models.Manager):
             total_vendido=Sum(F('price_subtotal'),output_field=FloatField()),
             total_ganancias=Sum(F('price_subtotal') - F('price_purchase')*F('count'),output_field=FloatField()),
             num_productos_vendidos=Sum('count'),
-            precio_costo=Sum('price_purchase'),
-            precio_venta=Sum('price_sale'),
+            precio_costo=Sum(F('price_purchase')*F('count'),output_field=FloatField()),
+            precio_venta=Sum(F('price_sale')*F('count'),output_field=FloatField()),
+            descuento=Sum('discount'),
         )
     
     def resumen_ventas_mes(self): # Administración - Mensualmente
@@ -380,8 +381,9 @@ class SaleDetailManager(models.Manager):
             cantidad_ventas=Sum('count'),
             total_ventas=Sum(F('price_subtotal'), output_field=FloatField()),
             ganancia_total=Sum(F('price_subtotal') - F('price_purchase')*F('count'),output_field=FloatField()),
-            precio_costo=Sum('price_purchase'),
-            precio_venta=Sum('price_sale'),
+            precio_costo=Sum(F('price_purchase')*F('count'),output_field=FloatField()),
+            precio_venta=Sum(F('price_sale')*F('count'),output_field=FloatField()),
+            descuento=Sum('discount'),
         ).order_by('-sale__date_sale__date__month')
     
     def resumen_ventas_proveedor(self, **filters): # Administración - Liquidación de proveedores
@@ -446,48 +448,55 @@ class SaleDetailManager(models.Manager):
             return 0
 
     def reporte8020_producto2(self,f1,f2): # Administración - 8020
-        resultado=self.filter(
-            anulate=False, sale__close=True, sale__date_sale__range=(str(f1)+" 00:00:00.100000-0500",str(f2)+" 23:59:59.100000-0500")
-        ).values(
-            'producto'
-        ).annotate(
-            nombre=Upper('producto__marca__nombre'),
-            piezas=ExpressionWrapper(F('producto__num_venta'),output_field=IntegerField()),
-            inventario_inicial_piezas=ExpressionWrapper(F('producto__stock')+F('producto__num_venta'),output_field=IntegerField()),
-            inventario_inicial_venta=ExpressionWrapper(Sum(F('price_subtotal')-F('price_subtotal')*F('tax'))+Sum('producto__stock')*F('price_sale'),output_field=FloatField()),
-            num_ventas=ExpressionWrapper(Sum('count'),FloatField()),
-            total_ventas=Sum('price_subtotal'),
-            total_ventas_sin_iva=Sum(F('price_subtotal')-F('price_subtotal')*F('tax')),
-            participacion=ExpressionWrapper((F('num_ventas')/Sum('count')),output_field=FloatField()),
-            utilidad=ExpressionWrapper(Sum((F('price_subtotal')-F('price_subtotal')*F('tax'))-(F('price_purchase')*F('count'))),output_field=FloatField()),
-            participacion_utilidad=ExpressionWrapper(F('count'),output_field=FloatField()),
-            costo_venta=ExpressionWrapper(F('price_purchase')*F('count'),output_field=FloatField()),
-            precio_lleno_venta=ExpressionWrapper((F('price_purchase')*F('count'))*1.65,output_field=FloatField()),
-            margen_marcado=ExpressionWrapper(((F('precio_lleno_venta')-F('costo_venta'))/F('precio_lleno_venta')),output_field=FloatField()),
-            margen_real=ExpressionWrapper((F('total_ventas_sin_iva')-F('costo_venta'))/F('total_ventas_sin_iva'),output_field=FloatField()),
-            descuentos=ExpressionWrapper(F('total_ventas_sin_iva')-F('precio_lleno_venta'),output_field=FloatField()),
-            inventario=Sum('producto__stock'),
-            inventario_costo=ExpressionWrapper(Sum('producto__stock')*F('price_purchase'),output_field=FloatField()),
-            inventario_venta=ExpressionWrapper(Sum('producto__stock')*F('price_sale'),output_field=FloatField()),
-            inventario_inicial=ExpressionWrapper(F('total_ventas_sin_iva')+F('inventario_venta'),output_field=FloatField()),
-            meses_inventario_venta=ExpressionWrapper(F('total_ventas_sin_iva')/(F('inventario_venta')/1),output_field=FloatField()),
-            rotacion=ExpressionWrapper(F('total_ventas_sin_iva')/F('inventario_inicial')*100,output_field=FloatField()),
-            meses_inventario_piezas=ExpressionWrapper(F('num_ventas')/F('inventario'),output_field=FloatField()),
-            num_modelos=Count('producto__modelo'),
-            profundidad=ExpressionWrapper(F('inventario')/F('num_modelos'),FloatField())
-        ).order_by('-total_ventas','producto__marca__nombre')
-
-
+        resultado=self.filter(anulate=False, sale__close=True, sale__date_sale__range=(str(f1)+" 00:00:00.100000-0500",str(f2)+" 23:59:59.100000-0500")
+            ).values('producto').annotate(
+                nombre=Upper('producto__marca__nombre'),
+                piezas=ExpressionWrapper(F('producto__num_venta'),output_field=IntegerField()),
+                inventario_inicial_piezas=ExpressionWrapper(F('producto__stock')+F('producto__num_venta'),output_field=IntegerField()),
+                inventario_inicial_venta=ExpressionWrapper(Sum(F('price_subtotal')-F('price_subtotal')*F('tax'))+Sum('producto__stock')*F('price_sale'),output_field=FloatField()),
+                num_ventas=ExpressionWrapper(Sum('count'),FloatField()),
+                total_ventas=Sum('price_subtotal'),
+                total_ventas_sin_iva=Sum(F('price_subtotal')-F('price_subtotal')*F('tax')),
+                participacion=ExpressionWrapper((F('num_ventas')/Sum('count')),output_field=FloatField()),
+                utilidad=ExpressionWrapper(Sum((F('price_subtotal')-F('price_subtotal')*F('tax'))-(F('price_purchase')*F('count'))),output_field=FloatField()),
+                participacion_utilidad=ExpressionWrapper(F('count'),output_field=FloatField()),
+                costo_venta=ExpressionWrapper(F('price_purchase')*F('count'),output_field=FloatField()),
+                precio_lleno_venta=ExpressionWrapper((F('price_purchase')*F('count'))*1.65,output_field=FloatField()),
+                margen_marcado=ExpressionWrapper(((F('precio_lleno_venta')-F('costo_venta'))/F('precio_lleno_venta')),output_field=FloatField()),
+                margen_real=ExpressionWrapper((F('total_ventas_sin_iva')-F('costo_venta'))/F('total_ventas_sin_iva'),output_field=FloatField()),
+                descuentos=ExpressionWrapper(F('total_ventas_sin_iva')-F('precio_lleno_venta'),output_field=FloatField()),
+                inventario=Sum('producto__stock'),
+                inventario_costo=ExpressionWrapper(Sum('producto__stock')*F('price_purchase'),output_field=FloatField()),
+                inventario_venta=ExpressionWrapper(Sum('producto__stock')*F('price_sale'),output_field=FloatField()),
+                inventario_inicial=ExpressionWrapper(F('total_ventas_sin_iva')+F('inventario_venta'),output_field=FloatField()),
+                #meses_inventario_venta=ExpressionWrapper(F('total_ventas_sin_iva')/(F('inventario_venta')/1),output_field=FloatField()),
+                meses_inventario_venta=Case(
+                    When(inventario_venta__gt=0, then=F('total_ventas_sin_iva') / F('inventario_venta')),
+                    default=0, output_field=FloatField()
+                ),
+                rotacion=ExpressionWrapper(F('total_ventas_sin_iva')/F('inventario_inicial')*100,output_field=FloatField()),
+                #meses_inventario_piezas=ExpressionWrapper(F('num_ventas')/F('inventario'), output_field=FloatField()),
+                meses_inventario_piezas=Case(
+                    When(inventario__gt=0, then=F('num_ventas') / F('inventario')),
+                    default=0, output_field=FloatField()
+                ),
+                num_modelos=Count('producto__modelo'),
+                profundidad=ExpressionWrapper(F('inventario')/F('num_modelos'),FloatField())
+            ).order_by('-total_ventas','producto__marca__nombre')
+            
         return resultado
 
     def compra_vs_vende(self, **filters): # Administración - Compra vs vende
-        if filters['fecha_inicio'] and filters['fecha_fin'] and filters['proveedor']:
+        if filters['fecha_inicio'] and filters['fecha_fin'] and filters['proveedor'] and filters['archivo']:
+            productos = Movimientos.objects.all()
+            productos.delete()
+
             #
             # Lo que se vende
             #
+
             fecha_venta = self.filter(
-                anulate=False,
-                sale__close=True,
+                anulate=False,sale__close=True,
                 sale__date_sale__range = (str(filters['fecha_inicio'])+" 00:00:00.100000-0500",str(filters['fecha_fin'])+" 23:59:59.100000-0500",),
                 producto__proveedor__pk=filters['proveedor'],
             )
@@ -498,41 +507,79 @@ class SaleDetailManager(models.Manager):
                 total_costo_pagar=ExpressionWrapper(F('count') * F('price_purchase'),output_field=FloatField())
             ).order_by('-sale__date_sale')
 
-            total_se_vende = fecha_venta.aggregate(
-                total_de_venta=Sum(
-                    F('price_subtotal') - (F('price_purchase') * F('count')),output_field=FloatField()
-                )
-            )['total_de_venta']
-            
-            total_costo_vendido = fecha_venta.aggregate(
-                total_costo_venta=Sum(
-                    F('count') * F('price_purchase'),output_field=FloatField()
-                )
-            )['total_costo_venta']
+            total_se_vende = fecha_venta.aggregate(total_de_venta=Sum(F('price_subtotal') - (F('price_purchase') * F('count')),output_field=FloatField()))['total_de_venta']
+            total_costo_vendido = fecha_venta.aggregate(total_costo_venta=Sum(F('count') * F('price_purchase'),output_field=FloatField()))['total_costo_venta']
             
             #
             # Lo que se compra
             #
+
+            archivo = filters['archivo']
+            file = ArchivoSubido.objects.get(id=archivo)
             
-            fecha_compra = Movimientos.objects.filter(
-                fecha__range=(str(filters['fecha_inicio'])+" 00:00:00.100000-0500",str(filters['fecha_fin'])+" 23:59:59.100000-0500",),
-                producto__proveedor__pk=filters['proveedor'],
-            ).order_by('-fecha')
+            fecha_archivo = file.fecha
+            dic_archivo = {}
+            dic_ventas = {}
+            dic_ventas_stock = {}
+            dic_ventas_date = {}
+            with open(f'/webapps/excalibur/ExcaliburAbryl/media/{file}', "r") as archivo:
+                renglon_archivo = archivo.readlines()
+                lista = []
+                for i, renglon in enumerate(renglon_archivo[1:]):
+                    r = renglon.strip()
+                    dic_archivo[i] = r
+                
+                for n, i in enumerate(fecha_venta):
+                    dic_ventas[n] = str(i.producto.marca)+','+str(i.producto.modelo)+','+str(i.producto.get_genero_display())+','+str(i.producto.sublinea)+','+str(i.producto.color)+','+str(i.producto.talla)+','+str(i.producto.stock)+','+str(i.producto.precio_compra)+','+str(i.producto.precio_venta)+','+str(i.producto.proveedor)
+                    dic_ventas_stock[n] = str(i.count)
+                    dic_ventas_date[n] = str(i.sale.date_sale)
+                
+                sc = 1
+                for n, i in enumerate(dic_ventas):
+                    for j in dic_archivo:
+                        vent = str(dic_ventas[i]).split(',')
+                        archivo = str(dic_archivo[j]).split(',')
+                        ventas = str(vent[0])+','+str(vent[1])+','+str(vent[2])+','+str(vent[3])+','+str(vent[4])+','+str(vent[5])+','+str(vent[7])+','+str(vent[8])+','+str(vent[9])
+                        archiv = str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])
+                        
+                        if ventas == archiv:
+                            sc = dic_ventas_stock[n]
+                            lista.append(Movimientos(
+                                marca=archivo[0],modelo=archivo[1],linea=archivo[2],sublinea=archivo[3],
+                                color=archivo[4],talla=archivo[5],stock=archivo[6],precio_costo=archivo[7],precio_venta=archivo[8],
+                                proveedor=archivo[9],stock_comprado=sc,fecha_venta=dic_ventas_date[n]
+                                )
+                            )
+                            break
+                
+                for j in dic_archivo:
+                    
+                    archivo = str(dic_archivo[j]).split(',')
 
-            se_compra = fecha_compra.annotate(
-                total_pagar=ExpressionWrapper(F('total_costo'),output_field=FloatField())
-            )
+                    lista.append(Movimientos(
+                        marca=archivo[0],modelo=archivo[1],linea=archivo[2],sublinea=archivo[3],
+                        color=archivo[4],talla=archivo[5],stock=archivo[6],precio_costo=archivo[7],precio_venta=archivo[8],
+                        proveedor=archivo[9],stock_comprado=0
+                        )
+                    )
 
-            total_se_compra = fecha_compra.aggregate(
-                total_costo=Sum(
-                    F('total_costo'),output_field=FloatField()
-                )
-            )['total_costo']
+                if len(lista) > 0:
+                    Movimientos.objects.bulk_create(lista)
 
-            return se_vende, total_se_vende, total_costo_vendido, total_se_compra, se_compra
+            stock_comprado = Movimientos.objects.order_by('-stock_comprado', 'marca')
+
+            # fecha_compra = Movimientos.objects.filter(
+            #     fecha__range=(str(filters['fecha_inicio'])+" 00:00:00.100000-0500",str(filters['fecha_fin'])+" 23:59:59.100000-0500",),
+            #     producto__proveedor__pk=filters['proveedor'],
+            # ).order_by('-fecha')
+
+            # se_compra = fecha_compra.annotate(total_pagar=ExpressionWrapper(F('total_costo'),output_field=FloatField()))
+            # total_se_compra = fecha_compra.aggregate(total_costo=Sum(F('total_costo'),output_field=FloatField()))['total_costo']
+
+            return se_vende, total_se_vende, total_costo_vendido, stock_comprado, fecha_archivo
+            
         else:
-            return [], 0, 0, 0, []
-
+            return [], 0, 0, [], []
 
 class CarShopManager(models.Manager):
     """ procedimiento modelo Carrito de compras """

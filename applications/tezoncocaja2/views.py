@@ -200,10 +200,11 @@ class PromocionFamiliarTezoncoCaja2(PuntodeventaPermisoMixin, View):
 
 class VentasListaView(PuntodeventaPermisoMixin, ListView):
     template_name = 'ventas/tezonco/ventas.html'
+    paginate_by = 20
     context_object_name = "ventas" 
 
     def get_queryset(self):
-        return Venta.objects.ventas_no_cerradas_2()
+        return Venta.objects.ventas_no_cerradas_2().order_by('-id')
 
 
 class VentasEliminarView(PuntodeventaPermisoMixin, DeleteView):

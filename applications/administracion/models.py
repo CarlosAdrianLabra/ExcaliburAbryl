@@ -364,11 +364,15 @@ class Gastos(models.Model):
         return consulta
 
     def total_de_costo_ventas(self):
-        consulta_c = self.costo_ventas_calzado()
-        consulta_r = self.costo_ventas_ropa()
-        consulta_a = self.costo_ventas_accesorios()
-        #
-        consulta_final = consulta_c + consulta_r + consulta_a
+        try:
+            consulta_c = self.costo_ventas_calzado()
+            consulta_r = self.costo_ventas_ropa()
+            consulta_a = self.costo_ventas_accesorios()
+            #
+            consulta_final = consulta_c + consulta_r + consulta_a
+            
+        except TypeError:
+            consulta_final = 0
 
         return consulta_final
 

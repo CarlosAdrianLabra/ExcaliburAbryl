@@ -4,8 +4,8 @@
 {% block head %}
 <title>Administración - Detalle completo de ventas</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
-<!-- <link rel="stylesheet" href="{% static 'CSS/dataTables.bootstrap5.min.css' %}">
-<link rel="stylesheet" href="{% static 'css/datatables.min.css' %}"> -->
+<link rel="stylesheet" href="{% static 'CSS/dataTables.bootstrap5.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
 {% endblock head %}
 
 {% block menu_desplegable_general %}
@@ -138,92 +138,93 @@
                     <!-- Card body -->
                     <div class="col-12">
                         <form method="GET" class="mt-3">
-                            <div class="row justify-content-md-center">
-                                <div class="col-2">
+                            <div class="row col-10 offset-1">
+                                <div class="col-3">
                                     <label>
                                         Fecha inicial: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <span style="font-size: small; color: #999;"> Hora: 00:00:00</span>
                                     </label>
                                     {{form.date_start}}
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <label>
                                         Fecha final: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <span style="font-size: small; color: #999;"> Hora: 23:59:59</span>
                                     </label>
                                     {{form.date_end}}
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <label>Caja:</label>
                                     {{form.caja}}
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <label>Tipo de pago:</label>
-                                    {{form.tipo}}
+                                    {{form.tipo}}<br>
+                                    <button type="submit" class="btn btr pl-5 pr-5 float-right"><i class="fas fa-search mr-2"></i>Buscar</button>
                                 </div>
                             </div>
-                            <div class="row justify-content-md-center mt-4">
+                            <!-- <div class="row justify-content-md-center mt-4">
                                 <button type="submit" class="btn btr pl-5 pr-5"><i class="fas fa-search mr-2"></i>Buscar</button>
-                            </div>
+                            </div> -->
                         </form>
                     </div>
-                    <div class="col-md-10 offset-md-1 mb-5">
-                        <div class="card-body table-responsive p-0" style="height: 440px;">
-                            <div class="row mt-4">
-                                <table class="table table-striped mb-3">
-                                    <thead class="table-dark text-center">
-                                        <tr>
-                                            <th>Venta N°</th>
-                                            <th>Fecha</th>
-                                            <th>Atendio</th>
-                                            <th>Caja</th>
-                                            <th>Tipo pago</th>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                            <th>Precio costo</th>
-                                            <th>Precio venta</th>
-                                            <th>Promoción</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for venta in detalle_completo %}
-                                        {% for detalle in venta.detail_sale.all %}
-                                        <tr>
-                                            <td class="text-center">{{venta.id}}</td>
-                                            <td>{{venta.date_sale | date:'d/m/Y P'}}</td>
-                                            <td>{{venta.user.nombres}} {{venta.user.apellidos}}</td>
-                                            <td class="text-center">{{venta.caja}}</td>
-                                            <td>{{venta.get_type_payment_display}} / {{ venta.get_type_invoice_display }}</td>
-                                            <td>
-                                                {{ detalle.producto.barcode }} - {{ detalle.producto }} - {{ detalle.producto.sublinea }} - {{ detalle.producto.color }} - {{ detalle.producto.talla }}
-                                            </td>
-                                            <td class="text-center">{{ detalle.count }}</td>
-                                            <td class="text-center">{{ detalle.price_purchase }}</td>
-                                            <td class="text-center">{{ detalle.price_sale }}</td>
-                                            <td class="text-center">
-                                                {% if detalle.promocion == '0' %}Sin promoción{% endif %}
-                                                {% if detalle.promocion == '1' %}10 %{% endif %}
-                                                {% if detalle.promocion == '2' %}20 %{% endif %}
-                                                {% if detalle.promocion == '3' %}30 %{% endif %}
-                                                {% if detalle.promocion == '4' %}2 x 1{% endif %}
-                                                {% if detalle.promocion == '5' %}3 x 2{% endif %}
-                                                {% if detalle.promocion == '6' %}1=10%, 2=20%{% endif %}
-                                                {% if detalle.promocion == '7' %}2 Adidas y obtén 10%{% endif %}
-                                                {% if detalle.promocion == '8' %}- $89.00{% endif %}
-                                                {% if detalle.promocion == '9' %}- $99.00{% endif %}
-                                                {% if detalle.promocion == '10' %}- $199.00{% endif %}
-                                                {% if detalle.promocion == '11' %}- $299.00{% endif %}
-                                                {% if detalle.promocion == '12' %}Descuento establecido por tienda{% endif %}
-                                                {% if detalle.promocion == '13' %}Descuento familiar 30%{% endif %}
-                                            </td>
-                                            <td class="text-center">{{ detalle.price_subtotal }}</td>
-                                        </tr>    
-                                        {% endfor %}
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div class="card-body">
+                        <div class="row mt-0 table-responsive p-0 mb-5" style="height: 440px;">
+                            <table id="export-table" class="table table-striped mb-3 text-nowrap">
+                                <thead class="table-dark text-center">
+                                    <tr>
+                                        <th>Venta N°</th>
+                                        <th>Fecha</th>
+                                        <th>Atendio</th>
+                                        <th>Caja</th>
+                                        <th>Tipo pago</th>
+                                        <th>Producto</th>
+                                        <th>Proveedor</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio costo</th>
+                                        <th>Precio venta</th>
+                                        <th>Promoción</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for venta in detalle_completo %}
+                                    {% for detalle in venta.detail_sale.all %}
+                                    <tr>
+                                        <td class="text-center">{{venta.id}}</td>
+                                        <td>{{venta.date_sale | date:'d/m/Y P'}}</td>
+                                        <td>{{venta.user.nombres}} {{venta.user.apellidos}}</td>
+                                        <td class="text-center">{{venta.caja}}</td>
+                                        <td>{{venta.get_type_payment_display}} / {{ venta.get_type_invoice_display }}</td>
+                                        <td>
+                                            {{ detalle.producto.barcode }} - {{ detalle.producto }} - {{ detalle.producto.sublinea }} - {{ detalle.producto.color }} - {{ detalle.producto.talla }}
+                                        </td>
+                                        <td class="text-center">{{ detalle.producto.proveedor }}</td>
+                                        <td class="text-center">{{ detalle.count }}</td>
+                                        <td class="text-center">{{ detalle.price_purchase }}</td>
+                                        <td class="text-center">{{ detalle.price_sale }}</td>
+                                        <td class="text-center">
+                                            {% if detalle.promocion == '0' %}Sin promoción{% endif %}
+                                            {% if detalle.promocion == '1' %}10 %{% endif %}
+                                            {% if detalle.promocion == '2' %}20 %{% endif %}
+                                            {% if detalle.promocion == '3' %}30 %{% endif %}
+                                            {% if detalle.promocion == '4' %}2 x 1{% endif %}
+                                            {% if detalle.promocion == '5' %}3 x 2{% endif %}
+                                            {% if detalle.promocion == '6' %}1=10%, 2=20%{% endif %}
+                                            {% if detalle.promocion == '7' %}2 Adidas y obtén 10%{% endif %}
+                                            {% if detalle.promocion == '8' %}- $89.00{% endif %}
+                                            {% if detalle.promocion == '9' %}- $99.00{% endif %}
+                                            {% if detalle.promocion == '10' %}- $199.00{% endif %}
+                                            {% if detalle.promocion == '11' %}- $299.00{% endif %}
+                                            {% if detalle.promocion == '12' %}Descuento establecido por tienda{% endif %}
+                                            {% if detalle.promocion == '13' %}Descuento familiar 30%{% endif %}
+                                        </td>
+                                        <td class="text-center">{{ detalle.price_subtotal }}</td>
+                                    </tr>    
+                                    {% endfor %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -235,12 +236,12 @@
 {% endblock content %}
 
 {% block extra_scripts %}
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	$(document).ready(function(){
 		$('#export-table').DataTable({
 			responsive: "True",
 			//dom: 'Brtilp',
-			dom: 'B',
+			dom: '<B><t><p>',
 			buttons:[
 				{
 					extend: 	'excelHtml5',
@@ -254,6 +255,11 @@
 					titleAttr:	'Exportar a PDF',
 					className: 	'btn btn-danger'
 				},
+                ],
+            pagination:[{
+                    text: 		'<i class="fas fa-file-pdf"></i>',
+                    className: 	'd-inline'
+                }
 				//{
 				//	extend: 	'print',
 				// 	text: 		'<i class="fa-regular fa-file"></i>',
@@ -269,5 +275,5 @@
 <script src="{% static 'js/datatable/jszip.min.js' %}"></script>
 <script src="{% static 'js/datatable/pdfmake.min.js' %}"></script>
 <script src="{% static 'js/datatable/vfs_fonts.js' %}"></script>
-<script src="{% static 'js/datatable/buttons.html5.min.js' %}"></script> -->
+<script src="{% static 'js/datatable/buttons.html5.min.js' %}"></script>
 {% endblock extra_scripts %}

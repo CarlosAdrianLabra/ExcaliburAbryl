@@ -181,7 +181,7 @@
                             </div>
                         </div>
 
-                        <div class="row mt-3">
+                        <div class="col-12 mt-3">
                             <table id="export-table" class="table table-bordered table-striped text-center">
                                 <thead class="bg-navyr white">
                                     <th>Fecha</th>
@@ -219,13 +219,13 @@
 		$('#export-table').DataTable({
 			responsive: "True",
 			//dom: 'Brtilp',
-			dom: 'B',
+			dom: '<B><t><p>',
 			buttons:[
 				{
 					extend: 	'excelHtml5',
 					text: 		'<i class="fas fa-file-excel"></i>',
 					titleAttr:	'Exportar a Excel',
-					className: 	'btn btn-success mr-2 float-right'
+					className: 	'btn btn-success mr-2'
 				},
 				{
 					extend: 	'pdfHtml5',
