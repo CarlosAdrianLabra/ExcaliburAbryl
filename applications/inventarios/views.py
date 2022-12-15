@@ -588,17 +588,13 @@ def actualizar_stock(request, file):
                     marcas.append(archivo[0])
             
             for i in marcas:
-                producto = Productos.objects.filter(tipo='300', marca__nombre=i)
-                if producto:
-                    for p in producto:
-                        dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
-                else:
-                    marca, created = Marca.objects.get_or_create(nombre=i)
-                    if created: marca.save()
-
-                    for p in producto:
-                        dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
-
+                marca, created = Marca.objects.get_or_create(nombre=i)
+                if created: marca.save()
+                
+                producto = Productos.objects.filter(tipo='300', marca__nombre=marca)
+                for p in producto:
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
+                
             for i in dic_archivo:
                 for j in dic_modelo:
                     modelo = str(dic_modelo[j]).split(',')
@@ -707,16 +703,12 @@ def actualizar_stock(request, file):
                     marcas.append(archivo[0])
             
             for i in marcas:
-                producto = Productos.objects.filter(tipo='100', marca__nombre=i)
-                if producto:
-                    for p in producto:
-                        dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
-                else:
-                    marca, created = Marca.objects.get_or_create(nombre=i)
-                    if created: marca.save()
+                marca, created = Marca.objects.get_or_create(nombre=i)
+                if created: marca.save()
 
-                    for p in producto:
-                        dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
+                producto = Productos.objects.filter(tipo='100', marca__nombre=marca)
+                for p in producto:
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
 
             for i in dic_archivo:
                 for j in dic_modelo:
@@ -826,16 +818,12 @@ def actualizar_stock(request, file):
                     marcas.append(archivo[0])
             
             for i in marcas:
-                producto = Productos.objects.filter(tipo='200', marca__nombre=i)
-                if producto:
-                    for p in producto:
-                        dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
-                else:
-                    marca, created = Marca.objects.get_or_create(nombre=i)
-                    if created: marca.save()
-
-                    for p in producto:
-                        dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
+                marca, created = Marca.objects.get_or_create(nombre=i)
+                if created: marca.save()
+                
+                producto = Productos.objects.filter(tipo='200', marca__nombre=marca)
+                for p in producto:
+                    dic_modelo[p.barcode] = str(p.marca)+','+str(p.modelo)+','+str(p.get_genero_display())+','+str(p.sublinea)+','+str(p.color)+','+str(p.talla)+','+str(p.stock)+','+str(p.precio_compra)+','+str(p.precio_venta)+','+str(p.proveedor)
 
             for i in dic_archivo:
                 for j in dic_modelo:
