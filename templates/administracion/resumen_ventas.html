@@ -230,6 +230,7 @@
 	$(document).ready(function(){
 		$('#export-table').DataTable({
 			responsive: "True",
+            language: {url: "{% static 'js/datatable/es-MX.json' %}"},
 			//dom: 'Brtilp',
 			dom: 'B',
 			buttons:[

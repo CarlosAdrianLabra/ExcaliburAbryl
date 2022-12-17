@@ -156,7 +156,7 @@ class CompravsVende(AdminPermisoMixin, ListView):
     def get_queryset(self):
         fecha_inicio = self.request.GET.get("fecha_inicio",''),
         fecha_fin = self.request.GET.get("fecha_fin",''),
-        consulta, total_se_vende, total_costo_vendido, stock_comprado, fecha_archivo = DetalleVenta.objects.compra_vs_vende(
+        consulta, total_se_vende, total_costo_vendido, stock_comprado, fecha_archivo, t_pcosto, t_pcosto_2, t_pventa, t_pventa_2, stock, stock_2 = DetalleVenta.objects.compra_vs_vende(
             fecha_inicio=self.request.GET.get("fecha_inicio", ''),
             fecha_fin=self.request.GET.get("fecha_fin", ''),
             proveedor=self.request.GET.get("proveedor", ''),
@@ -169,6 +169,12 @@ class CompravsVende(AdminPermisoMixin, ListView):
             'fecha_archivo': fecha_archivo,
             'fecha_inicio': fecha_inicio[0],
             'fecha_fin': fecha_fin[0],
+            't_pcosto': t_pcosto,
+            't_pcosto_2': t_pcosto_2,
+            't_pventa': t_pventa,
+            't_pventa_2': t_pventa_2,
+            'stock': stock,
+            'stock_2': stock_2,
             }
         )
 

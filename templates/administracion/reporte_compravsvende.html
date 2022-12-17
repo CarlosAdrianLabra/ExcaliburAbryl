@@ -242,7 +242,7 @@
                         <div class="row mt-3 mb-3">
                             <div class="col-12 text-center"><h5>PRODUCTO COMPRADO</h5></div>
                         </div>
-                        <div class="row mt-0 table-responsive p-0" style="height: 400px;">
+                        <div class="row mt-0 table-responsive p-0" style="height: 620px;">
                             <table id="export-table2" class="table table-bordered table-striped text-center text-nowrap">
                                 <thead class="bg-navyr white text-center">
                                     <th>Fecha compra stock</th>
@@ -313,11 +313,47 @@
                         <!-- ./tabla Comprado -->
 
                         <div class="row mt-3 mb-3">
-                            <div class="col-12">
+                            <div class="col-4">
                                 <div style="background: linear-gradient(135deg, lime 30%, #1D2535 70%); padding:12px; display: inline-block; margin-right: 15px; vertical-align: middle;"></div>
                                 Stock vendido | {{fecha_inicio}} - {{fecha_fin}}<br>
                                 <div style="background: linear-gradient(135deg, #EEE 30%, black 70%); padding:12px; display: inline-block; margin-right: 15px; vertical-align: middle;"></div>
                                 Stock comprado | {{fecha_archivo | date:"Y-m-d"}}<br>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <table class="table text-center">
+                                    <thead|>
+                                        <tr>
+                                            <th style="background: #eee;">Stock comprado</th>
+                                            <th style="background: #eee;">
+                                                Total precio costo<br>
+                                                <span style="font-size: small;">[stock comprado]</span>
+                                            </th>
+                                            <th style="background: #eee;">
+                                                Total precio venta<br>
+                                                <span style="font-size: small;">[stock comprado]</span>
+                                            </th>
+                                            <th class="bg-navyr white">Stock vendido</th>
+                                            <th class="bg-navyr white">
+                                                Total precio costo<br>
+                                                <span style="font-size: small;">[stock vendido]</span>
+                                            </th>
+                                            <th class="bg-navyr white">
+                                                Total precio venta<br>
+                                                <span style="font-size: small;">[stock vendido]</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{stock}}</td>
+                                            <td>$ {{t_pcosto | floatformat:2}}</td>
+                                            <td>$ {{t_pventa | floatformat:2}}</td>
+                                            <td>{{stock_2}}</td>
+                                            <td>$ {{t_pcosto_2 | floatformat:2}}</td>
+                                            <td>$ {{t_pventa_2 | floatformat:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -336,6 +372,7 @@
 	$(document).ready(function(){
 		$('#export-table').DataTable({
 			responsive: "true",
+            language: {url: "{% static 'js/datatable/es-MX.json' %}"},
 			//dom: 'Brtilp',
 			dom: '<B><t><p>',
 			buttons:[
@@ -361,6 +398,7 @@
 		});
         $('#export-table2').DataTable({
 			responsive: "true",
+            language: {url: "{% static 'js/datatable/es-MX.json' %}"},
 			//dom: 'Brtilp',
 			dom: '<B><t><p>',
 			buttons:[

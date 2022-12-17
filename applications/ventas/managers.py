@@ -518,6 +518,12 @@ class SaleDetailManager(models.Manager):
             file = ArchivoSubido.objects.get(id=archivo)
             
             fecha_archivo = file.fecha
+            total_pcosto_stock, total_pcosto_stock_2 = [], []
+            total_pventa_stock, total_pventa_stock_2 = [], []
+            lista_stock, lista_stock_2 = [], []
+            t_pcosto, t_pcosto_2 = 0, 0
+            t_pventa, t_pventa_2 = 0, 0
+            stock, stock_2 = 0, 0
             dic_archivo = {}
             dic_ventas = {}
             dic_ventas_stock = {}
@@ -528,6 +534,16 @@ class SaleDetailManager(models.Manager):
                 for i, renglon in enumerate(renglon_archivo[1:]):
                     r = renglon.strip()
                     dic_archivo[i] = r
+                
+                for i in dic_archivo:
+                    archivo = str(dic_archivo[i]).split(',')
+                    total_pcosto_stock.append(float(archivo[7])*float(archivo[6]))
+                    total_pventa_stock.append(float(archivo[8])*float(archivo[6]))
+                    lista_stock.append(int(archivo[6]))
+
+                t_pcosto = sum(total_pcosto_stock)
+                t_pventa = sum(total_pventa_stock)
+                stock = sum(lista_stock)
                 
                 for n, i in enumerate(fecha_venta):
                     dic_ventas[n] = str(i.producto.marca)+','+str(i.producto.modelo)+','+str(i.producto.get_genero_display())+','+str(i.producto.sublinea)+','+str(i.producto.color)+','+str(i.producto.talla)+','+str(i.producto.stock)+','+str(i.producto.precio_compra)+','+str(i.producto.precio_venta)+','+str(i.producto.proveedor)
@@ -543,6 +559,9 @@ class SaleDetailManager(models.Manager):
                         archiv = str(archivo[0])+','+str(archivo[1])+','+str(archivo[2])+','+str(archivo[3])+','+str(archivo[4])+','+str(archivo[5])+','+str(archivo[7])+','+str(archivo[8])+','+str(archivo[9])
                         
                         if ventas == archiv:
+                            total_pcosto_stock_2.append(float(archivo[7])*float(archivo[6]))
+                            total_pventa_stock_2.append(float(archivo[8])*float(archivo[6]))
+                            lista_stock_2.append(int(archivo[6]))
                             sc = dic_ventas_stock[n]
                             lista.append(Movimientos(
                                 marca=archivo[0],modelo=archivo[1],linea=archivo[2],sublinea=archivo[3],
@@ -552,6 +571,10 @@ class SaleDetailManager(models.Manager):
                             )
                             break
                 
+                t_pcosto_2 = sum(total_pcosto_stock_2)
+                t_pventa_2 = sum(total_pventa_stock_2)
+                stock_2 = sum(lista_stock_2)
+
                 for j in dic_archivo:
                     
                     archivo = str(dic_archivo[j]).split(',')
@@ -566,7 +589,7 @@ class SaleDetailManager(models.Manager):
                 if len(lista) > 0:
                     Movimientos.objects.bulk_create(lista)
 
-            stock_comprado = Movimientos.objects.order_by('-stock_comprado', 'marca')
+            stock_comprado = Movimientos.objects.order_by('fecha_venta', 'marca')
 
             # fecha_compra = Movimientos.objects.filter(
             #     fecha__range=(str(filters['fecha_inicio'])+" 00:00:00.100000-0500",str(filters['fecha_fin'])+" 23:59:59.100000-0500",),
@@ -576,10 +599,10 @@ class SaleDetailManager(models.Manager):
             # se_compra = fecha_compra.annotate(total_pagar=ExpressionWrapper(F('total_costo'),output_field=FloatField()))
             # total_se_compra = fecha_compra.aggregate(total_costo=Sum(F('total_costo'),output_field=FloatField()))['total_costo']
 
-            return se_vende, total_se_vende, total_costo_vendido, stock_comprado, fecha_archivo
+            return se_vende, total_se_vende, total_costo_vendido, stock_comprado, fecha_archivo, t_pcosto, t_pcosto_2, t_pventa, t_pventa_2, stock, stock_2
             
         else:
-            return [], 0, 0, [], []
+            return [], 0, 0, [], [], 0, 0, 0, 0, 0, 0
 
 class CarShopManager(models.Manager):
     """ procedimiento modelo Carrito de compras """
