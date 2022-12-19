@@ -2,6 +2,8 @@ import csv
 from datetime import datetime
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
+from io import BytesIO
+from xhtml2pdf import pisa
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.views import generic
@@ -1109,12 +1111,23 @@ def crear_etiquetas(request, file):
            
 class EtiquetasVista(View):
     def get(self, request, *args, **kwargs):
-        productos = Etiqueta.objects.all()
-        data = {
-            'productos': productos
-        }
-        pdf = render_to_pdf('codigobarras/codigo.html', data)
+        # productos = Etiqueta.objects.all()
+        # data = {
+        #     'productos': productos
+        # }
+        # pdf = render_to_pdf('codigobarras/codigo.html', data)
 
-        return HttpResponse(pdf, content_type='application/pdf')
+        # return HttpResponse(pdf, content_type='application/pdf')
+
+        context = {"productos" : Etiqueta.objects.all()}
+        html = render_to_string('codigobarras/codigo.html',context)
+        io_bytes = BytesIO()
+        
+        pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)
+
+        if not pdf.err:
+            return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
+        else:
+            return HttpResponse("Error while rendering PDF", status=400)
 
 """ **************************************** ALMACEN 2 **************************************** """
