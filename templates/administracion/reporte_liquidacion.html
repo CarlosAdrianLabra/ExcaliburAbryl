@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block head %}
-<title>Administración - Liquidación de proveedores</title>
+<title>Administración - Ventas por proveedores</title>
 <link rel="stylesheet" href="{% static 'css/style2.css' %}">
 <link rel="stylesheet" href="{% static 'CSS/dataTables.bootstrap5.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
 {% endblock head %}
 
 {% block menu_desplegable_general %}
-<li class="nav-item">
+<li class="nav-item menu-open">
 	<a href="#" class="nav-link">
 		<i class="nav-icon fas fa-clipboard"></i><p>Reportes de ventas<i class="fas fa-angle-left right"></i></p>
 	</a>
@@ -46,6 +46,14 @@
             </a>
             {% endblock enlace_detalle_Completo %}
         </li>
+        <li class="nav-item">
+            {% block enlace_liquidacion %}
+            <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link active" style="color: azure; background: tomato;">
+                <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+                <p>Ventas proveedores</p>
+            </a>
+            {% endblock enlace_liquidacion %}
+        </li>
 		<li class="nav-item">
 			{% block enlace_8020 %}
 			<a href="{% url 'administracion_app:8020-base' %}" class="nav-link">
@@ -66,19 +74,11 @@
 </li>
 {% endblock menu_desplegable_general %}
 {% block menu_desplegable %}
-<li class="nav-item menu-open">
+<li class="nav-item">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-clipboard"></i><p>Otros reportes<i class="fas fa-angle-left right"></i></p>
+        <i class="nav-icon fas fa-clipboard"></i><p>Pedidos de zapatos<i class="fas fa-angle-left right"></i></p>
     </a>
     <ul class="nav nav-treeview">
-        <li class="nav-item">
-            {% block enlace_liquidacion %}
-            <a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link active" style="color: azure; background: tomato;">
-                <i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
-                <p>Liquidacion</p>
-            </a>
-            {% endblock enlace_liquidacion %}
-        </li>
         <li class="nav-item">
 			{% block enlace_comprazapatos_lista_pedidos %}
 			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link">
@@ -132,14 +132,14 @@
                 <!-- Card content -->
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h1 class="card-title mt-3 mb-3 ml-3">REPORTE DE LIQUIDACIÓN DE PROVEEDORES</h1>
+                        <h1 class="card-title mt-3 mb-3 ml-3">DETALLE DE VENTAS POR PROVEEDORES</h1>
                     </div>
 
                     <!-- Card body -->
                     <div class="card-body">
                         <div class="row">
                             
-                            <div class="col-6 offset-1">
+                            <div class="col-7 offset-1">
                                 <form method="GET">
                                     <div class="row">
                                         <div class="col-4">
@@ -162,7 +162,7 @@
                                             {{form.date_end}}
 
                                             <div class="mt-3">
-                                                <button type="submit" class="btn btr col-8 float-right"><i class="fas fa-search mr-2"></i>Buscar</button>
+                                                <button type="submit" class="btn btr pl-5 pr-5 float-right"><i class="fas fa-search mr-2"></i>Buscar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -174,7 +174,7 @@
                                     <span class="info-box-icon bg-primary ml-1"><i class="far fa-handshake"></i></span>
                         
                                     <div class="info-box-content ml-1">
-                                        <span class="info-box-text">Total a Pagar</span>
+                                        <span class="info-box-text">Total de ganancias</span>
                                         <span class="info-box-number">$ {{ total_ventas | floatformat:2 }}</span>
                                     </div>
                                 </div>
@@ -185,20 +185,35 @@
                             <table id="export-table" class="table table-bordered table-striped text-center">
                                 <thead class="bg-navyr white">
                                     <th>Fecha</th>
-                                    <th>Producto</th>
+                                    <th>Proveedor</th>
+                                    <th>
+                                        Producto<br>
+                                        <span style="font-size: smaller;color: #ccc;"> [Marca - Modelo - Línea - Sublínea - Color - Talla] </span>
+                                    </th>
                                     <th>Cantidad</th>
-                                    <th>Precio Venta</th>
-                                    <th>Precio Costo</th>
-                                    <th>Total</th>
+                                    <th>Precio costo</th>
+                                    <th>Precio venta</th>
+                                    <th>Descuento</th>
+                                    <th>
+                                        Total venta<br>
+                                        <span style="font-size: smaller;color: #ccc;"> [Precio venta - Descuento] </span>
+                                    </th>
+                                    <th>
+                                        Ganancias<br>
+                                        <span style="font-size: smaller;color: #ccc;"> [Total venta - Precio costo] </span>
+                                    </th>
                                 </thead>
                                 <tbody>
                                     {% for venta in ventas_liquidacion %}
                                     <tr>
-                                        <td>{{ venta.sale.date_sale }}</td>
+                                        <td>{{ venta.sale.date_sale | date:"d/M/Y H:i" }}</td>
+                                        <td>{{ venta.producto.proveedor }}</td>
                                         <td>{{ venta.producto }}-{{ venta.producto.sublinea }}-{{ venta.producto.color }}-{{ venta.producto.talla }}</td>
                                         <td>{{ venta.count }}</td>
-                                        <td>$ {{ venta.sub_total}}</td>
                                         <td>$ {{ venta.price_purchase | floatformat:2 }}</td>
+                                        <td>$ {{ venta.price_sale | floatformat:2 }}</td>
+                                        <td>$ {{ venta.discount | floatformat:2 }}</td>
+                                        <td>$ {{ venta.sub_total | floatformat:2 }}</td>
                                         <td>$ {{ venta.total_pagar | floatformat:2 }}</td>
                                     </tr>
                                     {% endfor %}

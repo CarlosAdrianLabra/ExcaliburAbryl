@@ -409,14 +409,14 @@ class SaleDetailManager(models.Manager):
                     output_field=FloatField()
                 ),
                 total_pagar=ExpressionWrapper(
-                    F('price_subtotal') - F('price_purchase'),
+                    F('price_subtotal') - (F('price_purchase')*F('count')),
                     output_field=FloatField()
                 )
             ).order_by('sale__date_sale')
 
             total_ventas = consulta.aggregate(
                 total_venta=Sum(
-                    F('price_subtotal') - F('price_purchase'),
+                    F('price_subtotal') - (F('price_purchase')*F('count')),
                     # F('price_purchase')*F('count'),
                     output_field=FloatField()
                 )

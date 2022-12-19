@@ -47,6 +47,14 @@
             {% endblock enlace_detalle_Completo %}
         </li>
 		<li class="nav-item">
+			{% block enlace_liquidacion %}
+			<a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
+				<i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
+				<p>Ventas proveedores</p>
+			</a>
+			{% endblock enlace_liquidacion %}
+		</li>
+		<li class="nav-item">
 			{% block enlace_8020 %}
 			<a href="{% url 'administracion_app:8020-base' %}" class="nav-link">
 				<i class="fas fa-calendar-day nav-icon ml-4"></i>
@@ -68,17 +76,9 @@
 {% block menu_desplegable %}
 <li class="nav-item">
 	<a href="#" class="nav-link">
-		<i class="nav-icon fas fa-clipboard"></i><p>Otros reportes<i class="fas fa-angle-left right"></i></p>
+		<i class="nav-icon fas fa-clipboard"></i><p>Pedidos de zapatos<i class="fas fa-angle-left right"></i></p>
 	</a>
 	<ul class="nav nav-treeview">
-		<li class="nav-item">
-			{% block enlace_liquidacion %}
-			<a href="{% url 'administracion_app:admin-liquidacion' %}" class="nav-link">
-				<i class="fas fa-file-invoice-dollar nav-icon ml-4"></i>
-				<p>Liquidacion</p>
-			</a>
-			{% endblock enlace_liquidacion %}
-		</li>
 		<li class="nav-item">
 			{% block enlace_comprazapatos_lista_pedidos %}
 			<a href="{% url 'administracion_app:comprazapato_lista_pedidos' %}" class="nav-link">
