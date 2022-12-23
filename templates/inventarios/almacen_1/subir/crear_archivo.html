@@ -41,14 +41,80 @@
                             <option value="5">Ropa</option>
                         </select>
                     </span>
+                    <div class="col-4 offset-3">verificar que el formato de las columnas 
+                        <b>PRECIO_COSTO y PRECIO_VENTA</b> sean <b> VALOR NÚMERICO</b>
+                    </div>
                 </div>
-                <div class="row mt-5" style="padding-left: 203px;">
+                <div class="row mt-3" style="padding-left: 7px;">
+                    <label class="col-2">&nbsp;</label>
                     <button class="btn btr" type="submit"><i class="fas fa-upload mr-2"></i>Subir archivo</button>
                 </div>
             </form>
         </div>
-    </div>
-</section>
+        <div class="row mt-3 mb-3">
+            <div class="col-10 offset-1" style="overflow-y: scroll; height:300px;">
+                <label>CARACTERÍSTICAS DEL ARCHIVO:</label>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>* Configurar formato CSV</td>
+                            <td>
+                                <button type="button" class="btn btr2" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                    <i class="fas fa-play mr-2"></i>Ver video
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>* Los registros de la tabla deben estar ordenados de la siguiente manera</td>
+                            <td>| marca | modelo | linea | sublinea | color | talla | stock | precio_costo | precio_venta | proveedor |</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                * Los registros deben estar en <b>LETRAS MAYÚSCULAS</b> <br><br>
+                                * Reemplazar todas las letras <b>Ñ</b> por letras <b>N</b> <br><br>
+                            </td>
+                            <td><img src="{% static 'img/subir_archivos/tabla.jpg' %}" style=" max-width: 700px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: middle;">* <b>Líneas</b> registradas en el sistema</td> <br><br>
+                            <td><img src="{% static 'img/subir_archivos/linea.jpg' %}" style=" max-height: 250px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: middle;">
+                                * Se deberá cambiar el formato de texto las columnas <b>precio_costo, precio_venta</b> por un valor númerico
+                            </td>
+                            <td>
+                                <img src="{% static 'img/subir_archivos/tabla2.jpg' %}" style=" max-height: 250px; margin-right: 15px;">
+                                <img src="{% static 'img/subir_archivos/numerico.jpg' %}" style=" max-height: 200px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: middle;">* Guardar el archivo en formato <b>.CSV</b></td>
+                            <td><img src="{% static 'img/subir_archivos/guardar.jpg' %}" style=" max-height: 400px;"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" colspan="2">
+                                <h5>
+                                    Se recomienda que antes de subir un archivo, se verifique que el formato de las columnas 
+                                    <b>PRECIO_COSTO y PRECIO_VENTA</b> sean valor númerico. <br> Ya que excel cambia el formato de estas
+                                    columnas a <b>TEXTO</b> cuando se edita un archivo <b>.CSV</b>
+                                </h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <video id="reproductor" preload="none" controls><source src="{% static 'video/video_csv.mp4' %}"></video>
+                </div>
+            </div>
+        </div>
 {% endblock content %}
 
 {% block extra_scripts %}{% endblock extra_scripts %}

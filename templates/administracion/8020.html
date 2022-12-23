@@ -167,57 +167,84 @@
 					
                     <!-- Card body -->
 					<div class="card-body">
-						<div class="row mt-0 table-responsive p-0 mb-5" style="height: 440px;">
+						<div class="row mt-0 table-responsive p-0 mb-5" style="height: auto;">
 							<table id="export-table" class="table table-bordered table-striped text-center text-nowrap">
-								<thead class="bg-navyr white">
-									<th>Marca</th>
-									<th>Piezas</th>
-									<th>Venta C/iva</th>
-									<th>Venta S/iva</th>
-									<th>Participación</th>
-									<th>Inventario Inicial en piezas</th>
-									<th>Inventario Inicial en venta</th>
-									<th>Utilidad</th>
-									<th>Participación en Utilidad</th>
-									<th>Costo de venta</th>
-									<th>Precio lleno de venta</th>
-									<th>Margen marcado</th>
-									<th>Margen real</th>
-									<th>Descuentos</th>
-									<th>Inventario piezas</th>
-									<th>Inventario a costo</th>
-									<th>Inventario a venta</th>
-									<th>Rotación</th>
-									<th>Meses de inventario a venta</th>
-									<th>Meses de inventario a piezas</th>
-									<th># de modelos</th>
-									<th>Profundidad de inventario</th>
+								<thead>
+									{% for total in total.values %}
+									<tr>
+										<td></td>
+										<td>{{total.0}}</td>
+										<td>$ {{total.1 | floatformat:2}}</td>
+										<td>$ {{total.2 | floatformat:2}}</td>
+										<td colspan="2"></td>
+										<td>$ {{total.3 | floatformat:2}}</td>
+										<td>$ {{total.4 | floatformat:2}}</td>
+										<td></td>
+										<td>$ {{total.5 | floatformat:2}}</td>
+										<td>$ {{total.6 | floatformat:2}}</td>
+										<td>{{total.7 | floatformat:2}} %</td>
+										<td>{{total.8 | floatformat:2}} %</td>
+										<td>$ {{total.9 | floatformat:2}}</td>
+										<td>{{total.10}}</td>
+										<td></td>
+										<td>$ {{total.11 | floatformat:2}}</td>
+										<td>{{total.12 | floatformat:2}} %</td>
+										<td>{{total.13 | floatformat:2}}</td>
+										<td></td>
+										<td>{{total.14}}</td>
+										<td>{{total.15}}</td>
+									</tr>
+									{% endfor %}
+									<tr class="bg-navyr white">
+										<th>Marca</th>
+										<th>Piezas</th>
+										<th>Venta C/iva</th>
+										<th>Venta S/iva</th>
+										<th>Participación</th>
+										<th>Inventario Inicial en piezas</th>
+										<th>Inventario Inicial en venta</th>
+										<th>Utilidad</th>
+										<th>Participación en Utilidad</th>
+										<th>Costo de venta</th>
+										<th>Precio lleno de venta</th>
+										<th>Margen marcado</th>
+										<th>Margen real</th>
+										<th>Descuentos</th>
+										<th>Inventario piezas</th>
+										<th>Inventario a costo</th>
+										<th>Inventario a venta</th>
+										<th>Rotación</th>
+										<th>Meses de inventario a venta</th>
+										<th>Meses de inventario a piezas</th>
+										<th># de modelos</th>
+										<th>Profundidad de inventario</th>
+									</tr>
 								</thead>
 								<tbody>
-									{% for i_8020 in informe_8020 %}
+									{% for i_8020 in informe_8020.values %}
 									<tr>
-										<td>{{ i_8020.nombre }}</td>
-										<td>{{ i_8020.piezas }}</td>
-										<td>{{ i_8020.total_ventas }}</td>
-										<td>{{ i_8020.total_ventas_sin_iva }}</td>
-										<td>{{ i_8020.participacion }}</td>
-										<td>{{ i_8020.inventario_inicial_piezas }}</td>
-										<td>{{ i_8020.inventario_inicial_venta }}</td>
-										<td>{{ i_8020.utilidad }}</td>
-										<td>{{ i_8020.participacion_utilidad }}</td>
-										<td>{{ i_8020.costo_venta }}</td>
-										<td>{{ i_8020.precio_lleno_venta }}</td>
-										<td>{{ i_8020.margen_marcado }}</td>
-										<td>{{ i_8020.margen_real }}</td>
-										<td>{{ i_8020.descuentos }}</td>
-										<td>{{ i_8020.inventario }}</td>
-										<td>{{ i_8020.inventario_costo }}</td>
-										<td>{{ i_8020.inventario_venta }}</td>
-										<td>{{ i_8020.rotacion }}</td>
-										<td>{{ i_8020.meses_inventario_venta }}</td>
-										<td>{{ i_8020.meses_inventario_piezas }}</td>
-										<td>{{ i_8020.num_modelos }}</td>
-										<td>{{ i_8020.profundidad }}</td>
+										<td>{{ i_8020.0 }}</td>
+										<td>{{ i_8020.1 }}</td>
+										<td>$ {{ i_8020.2 | floatformat:2 }}</td>
+										<td>$ {{ i_8020.3 | floatformat:2 }}</td>
+										<td>{{ i_8020.4 | floatformat:2 }} %</td>
+										<td>{{ i_8020.5 }}</td>
+										<td>$ {{ i_8020.6 | floatformat:2 }}</td>
+										<td>$ {{ i_8020.7 | floatformat:2 }}</td>
+										<td>{{ i_8020.8 | floatformat:2 }} %</td>
+										<td>$ {{ i_8020.9 | floatformat:2 }}</td>
+										<td>$ {{ i_8020.10 | floatformat:2 }}</td>
+										<td>{{ i_8020.11 | floatformat:2 }} %</td>
+										<td>{{ i_8020.12 | floatformat:2 }} %</td>
+										<td>$ {{ i_8020.13 | floatformat:2 }}</td>
+										<td>{{ i_8020.14 }}</td>
+										<td>$ {{ i_8020.15 | floatformat:2 }}</td>
+										<td>$ {{ i_8020.16 | floatformat:2 }}</td>
+										<td>{{ i_8020.17 | floatformat:2 }} %</td>
+										<td>{{ i_8020.18 | floatformat:2 }}</td>
+										<td>{{ i_8020.19 | floatformat:2 }}</td>
+										<td>{{ i_8020.20 }}</td>
+										<td>{{ i_8020.21 | floatformat:2 }}</td>
 									</tr>
 									{% endfor %}
 								</tbody>
@@ -225,7 +252,6 @@
 						</div>
 					</div>
                     <!-- ./card body -->
-
                 </div>
                 <!-- ./card content -->
             </div>

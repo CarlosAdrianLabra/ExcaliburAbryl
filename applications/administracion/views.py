@@ -136,15 +136,21 @@ class GastosUpdateView(AdminPermisoMixin, UpdateView):
 class Informe8020ListView(AdminPermisoMixin, ListView):
     model = DetalleVenta
     template_name = "administracion/8020.html"
-    context_object_name='informe_8020'
-
-    def get_queryset(self):
+    
+    def get_context_data(self, **kwargs):
         f1 = self.request.GET.get("fecha1",'')
         f2 = self.request.GET.get("fecha2",'')
+        context = super().get_context_data(**kwargs)
         if f1 and f2:
-            return DetalleVenta.objects.reporte8020_producto2(f1,f2)
+            context["informe_8020"] = DetalleVenta.objects.reporte8020_producto2(f1,f2)[0]
+            context["total"] = DetalleVenta.objects.totales_8020(f1,f2)
         else:
-            return []
+            context["informe_8020"] = []
+            context["total"] = []
+        
+        return context
+
+        
 
 
 class CompravsVende(AdminPermisoMixin, ListView):
